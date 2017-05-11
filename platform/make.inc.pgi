@@ -1,0 +1,10 @@
+MAKE = make
+AR = ar
+F77 = pgf90
+F77_OPTS = 
+F90 = pgf90
+F90_OPTS = -Minform=inform -fast
+LIB_LINALG = -lblas -llapack
+LIB_FFTW3 = -lfftw3
+LIBS = $(LIB_LINALG) $(LIB_FFTW3)
+

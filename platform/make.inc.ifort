@@ -1,0 +1,25 @@
+MAKE = make
+AR = ar
+F77 = ifort
+F77_OPTS = 
+F90 = ifort
+F90_OPTS = -O2 -fpp -warn -nogen-interfaces
+#F90_OPTS = -fpp -O3 # -check uninit -xHost
+# -CB for check bound of arrays
+#F90_OPTS = -CB -warn -nogen-interfaces
+#F90_OPTS = -O3 -funroll-all-loops -vector
+
+# For 64-bit Intel, parallel
+#LIB_MKL =  -Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_intel_thread.a $(MKLROOT)/lib/intel64/libmkl_core.a -Wl,--end-group -openmp -lpthread
+
+# For 64-bit Intel, sequential
+LIB_MKL = -L$(MKLROOT)/lib/intel64/ -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+
+#LIB_FFTW3 = /home/efefer/mysoftwares/lib/libfftw3.a
+LIB_FFTW3 = -lfftw3
+
+LIB_MKL = -L/home/efefer/intel/mkl/lib/intel64/ -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+
+LIBS = $(LIB_MKL) $(LIB_FFTW3)
+
+
