@@ -22,6 +22,8 @@ SUBROUTINE calc_Ewald( )
   COMPLEX(8), ALLOCATABLE :: ctmp(:)
   REAL(8) :: E_H, E_self
  
+  CALL init_rgrid()
+
   ALLOCATE( sigma(Nspecies) )
   sigma(:) = 0.25d0   !!! DEFAULT !!!
 
@@ -115,6 +117,8 @@ SUBROUTINE calc_Ewald( )
   E_nn = E_H - E_self
 
   WRITE(*,'(/,1x,A,F18.10)') 'E_nn         = ', E_nn
+
+  CALL dealloc_realspace()
 
   DEALLOCATE( phi )
   DEALLOCATE( ctmp )
