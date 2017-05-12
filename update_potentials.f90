@@ -1,7 +1,7 @@
 SUBROUTINE update_potentials()
 
   USE m_realspace, ONLY : Npoints
-  USE m_hamiltonian, ONLY : Rhoe, V_Hartree, V_xc
+  USE m_hamiltonian, ONLY : Rhoe_R, V_Hartree, V_xc
 
   IMPLICIT NONE 
   REAL(8), ALLOCATABLE :: epsxc(:), depsxc(:)
@@ -9,12 +9,12 @@ SUBROUTINE update_potentials()
   ALLOCATE( epsxc(Npoints) )
   ALLOCATE( depsxc(Npoints) )
 
-  CALL Poisson_solve_fft( Rhoe, V_Hartree )
+  CALL Poisson_solve_fft( Rhoe_R, V_Hartree )
 
-  CALL excVWN( Npoints, Rhoe, epsxc )
-  CALL excpVWN( Npoints, Rhoe, depsxc )
+  CALL excVWN( Npoints, Rhoe_R, epsxc )
+  CALL excpVWN( Npoints, Rhoe_R, depsxc )
 
-  V_xc(:) = epsxc(:) + Rhoe(:)*depsxc(:)
+  V_xc(:) = epsxc(:) + Rhoe_R(:)*depsxc(:)
 
   DEALLOCATE( epsxc )
   DEALLOCATE( depsxc )

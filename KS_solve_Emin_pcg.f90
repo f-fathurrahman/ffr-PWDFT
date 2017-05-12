@@ -20,7 +20,6 @@
 SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
 
   USE m_constants, ONLY : ZZERO
-  USE m_realspace, ONLY : Npoints
   USE m_PWGrid, ONLY : Ngwx
   USE m_states, ONLY : Nstates, &
                        Focc, &
@@ -39,20 +38,20 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
   COMPLEX(8), ALLOCATABLE :: tv(:,:)
   REAL(8) :: alpha, beta, denum, Etot_old
   !
-  INTEGER :: iter, ist
+  INTEGER :: iter
 
   CALL info_KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
 
-  ALLOCATE( g(Npoints,Nstates) )
-  ALLOCATE( g_old(Npoints,Nstates) )
-  ALLOCATE( g_t(Npoints,Nstates) )
-  ALLOCATE( d(Npoints,Nstates) )
-  ALLOCATE( d_old(Npoints,Nstates) )
+  ALLOCATE( g(Ngwx,Nstates) )
+  ALLOCATE( g_old(Ngwx,Nstates) )
+  ALLOCATE( g_t(Ngwx,Nstates) )
+  ALLOCATE( d(Ngwx,Nstates) )
+  ALLOCATE( d_old(Ngwx,Nstates) )
 
-  ALLOCATE( Kg(Npoints,Nstates) )
-  ALLOCATE( Kg_old(Npoints,Nstates) )
+  ALLOCATE( Kg(Ngwx,Nstates) )
+  ALLOCATE( Kg_old(Ngwx,Nstates) )
 
-  ALLOCATE( tv(Npoints,Nstates) )
+  ALLOCATE( tv(Ngwx,Nstates) )
 
 
   ! Read starting eigenvectors from file
@@ -60,10 +59,11 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
     READ(112) v   ! FIXME Need to use file name
   ENDIF
 
-!  CALL calc_rhoe( v, Focc )
+  CALL calc_Rhoe_R( Focc, v )
 !  CALL update_potentials()
 !  CALL calc_betaNL_psi( Nstates, v )
   CALL calc_energies( v )
+  !CALL info_energies()
 
   Etot_old = Etot
 
@@ -82,25 +82,23 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
     ! Evaluate gradient at current trial vectors
     CALL calc_grad( Nstates, v, g )
     ! Precondition
-    DO ist = 1, Nstates
-      CALL prec_Gv2( g(:,ist), Kg(:,ist) )
-    ENDDO
+    CALL prec_Gv2( Nstates, g(:,:), Kg(:,:) )
     !
     ! set search direction
     IF( iter /= 1 ) THEN
       SELECT CASE ( CG_BETA )
       CASE(1)
         ! Fletcher-Reeves
-        beta = sum( g * Kg ) / sum( g_old * Kg_old )
+        beta = real( sum( conjg(g) * Kg ) / sum( conjg(g_old) * Kg_old ), kind=8 )
       CASE(2)
         ! Polak-Ribiere
-        beta = sum( (g-g_old)*Kg ) / sum( g_old * Kg_old )
+        beta = real( sum( conjg(g-g_old)*Kg ) / sum( conjg(g_old) * Kg_old ), kind=8 )
       CASE(3)
         ! Hestenes-Stiefel
-        beta = sum( (g-g_old)*Kg ) / sum( (g-g_old)*d_old )
+        beta = real( sum( conjg(g-g_old)*Kg ) / sum( conjg(g-g_old)*d_old ), kind=8 )
       CASE(4)
         ! Dai-Yuan
-        beta = sum( g * Kg ) / sum( (g-g_old)*d_old )
+        beta = real( sum( conjg(g) * Kg ) / sum( conjg(g-g_old)*d_old ), kind=8 )
       END SELECT 
     ENDIF
     IF( beta < 0 ) THEN 
@@ -111,28 +109,28 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
     !
     ! Evaluate gradient at trial step
     tv(:,:) = v(:,:) + alpha_t * d(:,:)
-    CALL orthonormalize( Nstates, tv )
+    CALL z_ortho_gram_schmidt( tv, Ngwx, Ngwx, Nstates )
 
-    CALL calc_rhoe( tv, Focc )
-    CALL update_potentials()  ! Now global vars on m_hamiltonian are changed
-    CALL calc_betaNL_psi( Nstates, tv )
+    CALL calc_Rhoe_R( Focc, tv )
+!    CALL update_potentials()  ! Now global vars on m_hamiltonian are changed
+!    CALL calc_betaNL_psi( Nstates, tv )
     CALL calc_grad( Nstates, tv, g_t )
     !
     ! Compute estimate of best step and update current trial vectors
-    denum = sum( (g - g_t) * d )
+    denum = real( sum( conjg(g - g_t) * d ), kind=8 )
     IF( denum /= 0.d0 ) THEN  ! FIXME: use abs ?
-      alpha = abs( alpha_t * sum( g * d )/denum )
+      alpha = abs( alpha_t * real(sum(conjg(g)*d),kind=8)/denum )
     ELSE 
       alpha = 0.d0
     ENDIF
-    !WRITE(*,*) 'iter, alpha_t, alpha, beta', iter, alpha_t, alpha, beta
+    !WRITE(*,*) 'iter, alpha, beta', iter, alpha, beta
 
     v(:,:) = v(:,:) + alpha * d(:,:)
-    CALL orthonormalize( Nstates, v )
+    CALL z_ortho_gram_schmidt( v, Ngwx, Ngwx, Nstates )
 
-    CALL calc_rhoe( v, Focc )
-    CALL update_potentials()
-    CALL calc_betaNL_psi( Nstates, v )
+    CALL calc_Rhoe_R( Focc, v )
+!    CALL update_potentials()
+!    CALL calc_betaNL_psi( Nstates, v )
     CALL calc_energies( v )
     !
     WRITE(*,'(1x,I5,F18.10,ES18.10)') iter, Etot, Etot_old-Etot
@@ -156,7 +154,7 @@ END SUBROUTINE
 
 SUBROUTINE info_KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
   USE m_options, ONLY : CG_BETA
-  USE m_LF3d, ONLY : Npoints => LF3d_Npoints
+  USE m_PWGrid, ONLY : Ngwx
   USE m_states, ONLY : Nstates
   IMPLICIT NONE 
   INTEGER :: NiterMax
@@ -165,7 +163,7 @@ SUBROUTINE info_KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
   !
   REAL(8) :: memGB
 
-  memGB = Npoints*Nstates*8d0 * 8d0 / (1024d0*1024d0*1024.d0)
+  memGB = Ngwx*Nstates*8d0 * 8d0 / (1024d0*1024d0*1024.d0)
 
   WRITE(*,*)
   WRITE(*,*) 'Minimizing KS total energy functional using PCG algorithm'

@@ -14,7 +14,7 @@ SUBROUTINE calc_grad( Ncols, psi, grad )
   ALLOCATE( Hpsi(Ngwx) )
   
   DO ic = 1,Ncols
-    CALL op_H( 1, psi(:,ic), Hpsi )
+    CALL op_H_1col( ic, psi(:,ic), Hpsi )
     grad(:,ic) = Hpsi(:)
     DO icc = 1,Ncols
       grad(:,ic) = grad(:,ic) - zdotc( Ngwx, psi(:,icc),1, Hpsi(:),1 ) * psi(:,icc)

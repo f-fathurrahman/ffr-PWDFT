@@ -54,7 +54,7 @@ PROGRAM t_poisson
   Uana = ( (1.d0/sigma1 + 1.d0/sigma2)/2.d0 - sqrt(2.d0)/sqrt(sigma1**2 + sigma2**2) )/sqrt(PI)
   WRITE(*,'(1x,A,F18.10)') 'Unum = ', Unum
   WRITE(*,'(1x,A,F18.10)') 'Uana = ', Uana
-  WRITE(*,'(1x,A,E18.10)') 'diff = ', abs(Unum-Uana)
+  WRITE(*,'(1x,A,ES18.10)') 'diff = ', abs(Unum-Uana)
 
   DEALLOCATE( rho, phi )
 

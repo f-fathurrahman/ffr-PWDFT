@@ -2,7 +2,7 @@ SUBROUTINE z_ortho_check( Npoints, Ncols, dVol, v )
   IMPLICIT NONE 
   INTEGER :: Npoints
   INTEGER :: Ncols
-  COMPLEX(8) :: dVol
+  REAL(8) :: dVol
   COMPLEX(8) :: v(Npoints,Ncols)
   !
   INTEGER :: ic

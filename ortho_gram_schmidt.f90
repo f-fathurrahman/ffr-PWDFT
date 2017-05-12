@@ -1,6 +1,6 @@
 ! real(8) version
 !--------------------------------------------------
-SUBROUTINE ortho_gram_schmidt( v, ldv, nrow, ncols )
+SUBROUTINE z_ortho_gram_schmidt( v, ldv, nrow, ncols )
 !--------------------------------------------------
   IMPLICIT NONE
   INTEGER :: ldv, nrow, ncols

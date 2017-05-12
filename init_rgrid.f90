@@ -14,7 +14,6 @@ SUBROUTINE init_rgrid()
     rgrid(1,ip) = LatVecs(1,1)*i/Ns(1) + LatVecs(2,1)*j/Ns(2) + LatVecs(3,1)*k/Ns(3)
     rgrid(2,ip) = LatVecs(1,2)*i/Ns(1) + LatVecs(2,2)*j/Ns(2) + LatVecs(3,2)*k/Ns(3)
     rgrid(3,ip) = LatVecs(1,3)*i/Ns(1) + LatVecs(2,3)*j/Ns(2) + LatVecs(3,3)*k/Ns(3)
-    !WRITE(*,*) ip, rgrid(:,ip)
   ENDDO 
   ENDDO 
   ENDDO 

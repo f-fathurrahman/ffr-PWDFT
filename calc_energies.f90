@@ -1,13 +1,15 @@
 SUBROUTINE calc_energies( psi )
-  USE m_states, ONLY : Nstates
+  USE m_states, ONLY : Nstates, Focc
   USE m_realspace, ONLY : dVol
   USE m_PWGrid, ONLY : Ngwx
-  USE m_hamiltonian, ONLY : V_ps_loc
+  USE m_hamiltonian, ONLY : V_ps_loc, Rhoe_R
   USE m_energies
   IMPLICIT NONE 
   COMPLEX(8) :: psi(Ngwx,Nstates)
   !
   COMPLEX(8), ALLOCATABLE :: Kpsi(:)
+  INTEGER :: ist
+  COMPLEX(8) :: zdotc
 
   E_total   = 0.d0
   E_kinetic = 0.d0
@@ -19,10 +21,11 @@ SUBROUTINE calc_energies( psi )
 
   DO ist = 1,Nstates
     CALL op_K( 1, psi(:,ist), Kpsi(:) )
-    E_kinetic = E_kinetic + Focc(ist) * zdotc( Ngwx, psi(:,ist),1, Kpsi(:),1 )
+    E_kinetic = E_kinetic + Focc(ist) * real( zdotc( Ngwx, psi(:,ist),1, Kpsi(:),1 ), kind=8 )
   ENDDO 
 
-  E_ps_loc = sum( Rhoe(:) * V_ps_loc(:) )*dVol
+  E_ps_loc = sum( Rhoe_R(:) * V_ps_loc(:) )*dVol
 
+  E_total = E_kinetic + E_ps_loc + E_Hartree + E_xc + E_nn
 END SUBROUTINE 
 

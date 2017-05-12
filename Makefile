@@ -13,6 +13,8 @@ m_PWGrid.f90 \
 m_states.f90 \
 m_Ps_HGH.f90 \
 m_PsPot.f90 \
+fft_param.f90 \
+fft_support.f90 \
 init_atoms_xyz.f90 \
 inv_m3x3.f90 \
 det_m3x3.f90 \
@@ -33,6 +35,7 @@ init_PsPot.f90 \
 op_K.f90 \
 m_hamiltonian.f90 \
 alloc_hamiltonian.f90 \
+dealloc_hamiltonian.f90 \
 op_V_loc.f90 \
 op_H.f90 \
 calc_grad.f90 \
@@ -42,7 +45,13 @@ update_potentials.f90 \
 LDA_VWN.f90 \
 prec_Gv2.f90 \
 ortho_gram_schmidt.f90 \
-ortho_check.f90
+ortho_check.f90 \
+calc_Rhoe_R.f90 \
+random_wfc.f90 \
+calc_energies.f90 \
+init_V_ps_loc_harmonic.f90 \
+info_energies.f90 \
+KS_solve_Emin_pcg.f90
 
 
 OBJ = $(SRC:.f90=.o) $(SRC:.f=.o)

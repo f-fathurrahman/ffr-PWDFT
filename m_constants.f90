@@ -7,4 +7,5 @@ MODULE m_constants
   !
   COMPLEX(8), PARAMETER :: ZZERO = cmplx(0.d0,0.d0,kind=8)
   COMPLEX(8), PARAMETER :: ZONE  = cmplx(1.d0,0.d0,kind=8)
+  COMPLEX(8), PARAMETER :: ZIMAG = cmplx(0.d0,1.d0,kind=8)
 END MODULE

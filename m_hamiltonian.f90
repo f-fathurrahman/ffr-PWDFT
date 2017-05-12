@@ -6,7 +6,7 @@ MODULE m_hamiltonian
   REAL(8), ALLOCATABLE :: V_Hartree(:)
   REAL(8), ALLOCATABLE :: V_xc(:)
 
-  REAL(8), ALLOCATABLE :: Rhoe(:)
+  REAL(8), ALLOCATABLE :: Rhoe_R(:)
 
   REAL(8), ALLOCATABLE :: betaNL_psi(:,:,:) ! Natoms, NbetaNL, Nstates 
 
