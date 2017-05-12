@@ -1,13 +1,29 @@
 #include platform/make.inc.ifort
 #include platform/make.inc.gfortran
-#include platform/make.inc.g95
-include platform/make.inc.pgi
+include platform/make.inc.g95
+#include platform/make.inc.pgi
 
 SRC = \
 m_constants.f90 \
 m_options.f90 \
+m_cell.f90 \
 m_atoms.f90 \
-init_atoms_xyz.f90
+m_realspace.f90 \
+m_PWGrid.f90 \
+init_atoms_xyz.f90 \
+inv_m3x3.f90 \
+det_m3x3.f90 \
+init_PWGrid.f90 \
+info_PWGrid.f90 \
+mm_to_nn.f90 \
+init_gvec.f90 \
+init_gvecw.f90 \
+dealloc_PWGrid.f90 \
+fft_fftw3.f90 \
+init_rgrid.f90 \
+dealloc_realspace.f90 \
+xsf.f90 \
+Poisson_solve_fft.f90
 
 
 OBJ = $(SRC:.f90=.o) $(SRC:.f=.o)
