@@ -1,9 +1,6 @@
 PROGRAM test_3d_harmonic
   USE m_PWGrid, ONLY : Ngwx
-  USE m_cell, ONLY : CellVolume
-  USE m_realspace, ONLY : Npoints
   USE m_states, ONLY : Focc, Nstates, v => KS_evecs
-  USE m_hamiltonian, ONLY : V_ps_loc
   USE m_constants, ONLY : ZZERO
   IMPLICIT NONE 
   REAL(8) :: LL(3,3)
@@ -24,7 +21,7 @@ PROGRAM test_3d_harmonic
   CALL random_wfc( Ngwx, Nstates, v )
   CALL z_ortho_check( Ngwx, Nstates, 1.d0, v )
   ALLOCATE( Focc(Nstates) )
-  Focc(:) = 1.d0
+  Focc(:) = 2.d0
 
   CALL alloc_hamiltonian()
 
@@ -35,8 +32,6 @@ PROGRAM test_3d_harmonic
   !
   CALL init_rgrid()
   CALL init_V_ps_loc_harmonic( omega, center )
-
-  WRITE(*,*) 'V_ps_loc: ', sum(V_ps_loc)*CellVolume/Npoints
 
   CALL KS_solve_Emin_pcg( 3.d-5, 100, .FALSE. )
 

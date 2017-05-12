@@ -60,7 +60,7 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
   ENDIF
 
   CALL calc_Rhoe_R( Focc, v )
-!  CALL update_potentials()
+  CALL update_potentials()
 !  CALL calc_betaNL_psi( Nstates, v )
   CALL calc_energies( v )
   !CALL info_energies()
@@ -112,7 +112,7 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
     CALL z_ortho_gram_schmidt( tv, Ngwx, Ngwx, Nstates )
 
     CALL calc_Rhoe_R( Focc, tv )
-!    CALL update_potentials()  ! Now global vars on m_hamiltonian are changed
+    CALL update_potentials()  ! Now global vars on m_hamiltonian are changed
 !    CALL calc_betaNL_psi( Nstates, tv )
     CALL calc_grad( Nstates, tv, g_t )
     !
@@ -129,7 +129,7 @@ SUBROUTINE KS_solve_Emin_pcg( alpha_t, NiterMax, restart )
     CALL z_ortho_gram_schmidt( v, Ngwx, Ngwx, Nstates )
 
     CALL calc_Rhoe_R( Focc, v )
-!    CALL update_potentials()
+    CALL update_potentials()
 !    CALL calc_betaNL_psi( Nstates, v )
     CALL calc_energies( v )
     !
