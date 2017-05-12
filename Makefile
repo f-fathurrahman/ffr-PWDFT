@@ -10,6 +10,9 @@ m_cell.f90 \
 m_atoms.f90 \
 m_realspace.f90 \
 m_PWGrid.f90 \
+m_states.f90 \
+m_Ps_HGH.f90 \
+m_PsPot.f90 \
 init_atoms_xyz.f90 \
 inv_m3x3.f90 \
 det_m3x3.f90 \
@@ -23,7 +26,23 @@ fft_fftw3.f90 \
 init_rgrid.f90 \
 dealloc_realspace.f90 \
 xsf.f90 \
-Poisson_solve_fft.f90
+Poisson_solve_fft.f90 \
+init_strfact.f90 \
+init_states.f90 \
+init_PsPot.f90 \
+op_K.f90 \
+m_hamiltonian.f90 \
+alloc_hamiltonian.f90 \
+op_V_loc.f90 \
+op_H.f90 \
+calc_grad.f90 \
+m_energies.f90 \
+info_energies.f90 \
+update_potentials.f90 \
+LDA_VWN.f90 \
+prec_Gv2.f90 \
+ortho_gram_schmidt.f90 \
+ortho_check.f90
 
 
 OBJ = $(SRC:.f90=.o) $(SRC:.f=.o)
