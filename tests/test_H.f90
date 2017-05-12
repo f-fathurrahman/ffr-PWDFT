@@ -35,6 +35,8 @@ PROGRAM test_3d_harmonic
 
   CALL KS_solve_Emin_pcg( 3.d-5, 100, .FALSE. )
 
+  CALL calc_Rhoe_R( Focc, v )
+  CALL calc_energies( v )
   CALL info_energies()
 
   DEALLOCATE( Focc )

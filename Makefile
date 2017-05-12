@@ -51,7 +51,9 @@ random_wfc.f90 \
 calc_energies.f90 \
 init_V_ps_loc_harmonic.f90 \
 info_energies.f90 \
-KS_solve_Emin_pcg.f90
+KS_solve_Emin_pcg.f90 \
+calc_Ewald.f90 \
+init_V_ps_loc_G.f90
 
 
 OBJ = $(SRC:.f90=.o) $(SRC:.f=.o)
