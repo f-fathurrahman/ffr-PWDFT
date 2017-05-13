@@ -39,8 +39,6 @@ PROGRAM test_3d_harmonic
   !CALL KS_solve_Emin_pcg( 3.d-5, 100, .FALSE. )
   CALL Sch_solve_diag()
 
-  CALL info_energies()
-
   DEALLOCATE( Focc )
   DEALLOCATE( v )
   CALL dealloc_realspace()
