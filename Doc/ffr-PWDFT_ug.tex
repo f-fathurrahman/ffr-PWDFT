@@ -1,0 +1,64 @@
+\documentclass[a4paper,11pt]{extarticle}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+
+%\usepackage{fontspec}
+%\defaultfontfeatures{Ligatures=TeX}
+%\setmainfont{Linux Libertine O}
+%\setmonofont{Fira Mono}
+
+\setlength{\parindent}{0cm}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{xcolor}
+
+\usepackage{minted}
+%\newminted{julia}{breaklines,fontsize=\footnotesize}
+\newminted{fortran}{breaklines}
+
+\definecolor{mintedbg}{rgb}{0.95,0.95,0.95}
+\usepackage{mdframed}
+
+\BeforeBeginEnvironment{minted}{\begin{mdframed}[backgroundcolor=mintedbg]}
+\AfterEndEnvironment{minted}{\end{mdframed}}
+
+\begin{document}
+
+\title{User Guide for {\ttfamily ffr-PWDFT}}
+\author{Fadjar Fathurrahman}
+\date{}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Welcome to {\tt ffr-PWDFT} documentation.
+
+{\tt ffr-PWDFT} is a poor man's program (or collection of subroutines, as of now)
+to carry out electronic structure calculations based on density functional theory
+and plane wave basis set.
+
+\section{Theory}
+
+Kohn-Sham equations
+
+Plane wave basis set
+
+Pseudopotential
+
+\section{Implementation}
+
+Description of unit cell and atomic structures
+
+Description of plane wave basis set: G-vectors and real space basis set
+
+\begin{fortrancode}
+PROGRAM testprog
+  IMPLICIT NONE
+END PROGRAM
+\end{fortrancode}
+
+
+\end{document}

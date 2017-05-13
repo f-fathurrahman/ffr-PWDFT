@@ -1,2 +1,2 @@
 #/bin/bash
-rm -fv *.x *.o
+rm -fv *.x *.o fort.*

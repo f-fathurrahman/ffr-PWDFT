@@ -16,8 +16,8 @@ SUBROUTINE diag_davidson( evals, V, TOLERANCE )
   ! BLAS function
   COMPLEX(8) :: ZDOTC
 
-  Z_ZERO = CMPLX(0.D0,0.D0)
-  Z_ONE = CMPLX(1.D0,0.D0)
+  Z_ZERO = CMPLX(0.D0,0.D0,kind=8)
+  Z_ONE = CMPLX(1.D0,0.D0,kind=8)
 
   ALLOCATE(RES_TOL(Nstates))
   ALLOCATE(RES_NORM(Nstates))
@@ -31,41 +31,19 @@ SUBROUTINE diag_davidson( evals, V, TOLERANCE )
   ALLOCATE(HR(Ngwx,Nstates))
   ALLOCATE(XTEMP(Ngwx,Nstates))
 
-  WRITE(*,*) 'diag_davidson pass 34'
-
-!  V(:,:) = Z_ZERO
-!  DO ist=1,Nstates
-!    V(ist,ist) = Z_ONE;
-!  ENDDO
-
-  WRITE(*,*) 'V, HV = ', sum(V), sum(HV)
   ! Apply Hamiltonian
   call op_H( Nstates, V, HV )
 
-  WRITE(*,*) 'diag_davidson pass 44'
-
   ! Calculate Rayleigh quotient
-  WRITE(*,*) 'shape(V) = ', shape(V)
-  WRITE(*,*) 'shape(HV) = ', shape(HV)
-  WRITE(*,*) 'shape(evals) = ', shape(evals)
-  WRITE(*,*) 'V, HV = ', sum(V), sum(HV)
-  !WRITE(*,*) 'V = ', V
   DO ist=1,Nstates
-    WRITE(*,*) 'ist = ', ist
     EVALS(ist) = REAL( ZDOTC(Ngwx, V(:,ist),1, HV(:,ist),1),kind=8 )
-    !WRITE(*,*) 'evals = ', evals(ist)
   ENDDO
-!  stop
-
-  WRITE(*,*) 'diag_davidson pass 52'
 
   ! Calculate matrix of residual vector
   DO ist=1,Nstates
     R(:,ist) = EVALS(ist)*V(:,ist) - HV(:,ist)
     RES_TOL(ist) = SQRT( real(ZDOTC(Ngwx, R(:,ist),1, R(:,ist),1),kind=8) )
   ENDDO
-
-  WRITE(*,*) 'diag_davidson pass 60'
 
   istep = 1
   IS_CONVERGED = .FALSE.
@@ -74,14 +52,12 @@ SUBROUTINE diag_davidson( evals, V, TOLERANCE )
   RNORM = 1.D0
 
   DO WHILE ( (istep <= MAX_DIR) .AND. (.NOT.IS_CONVERGED) )
-    WRITE(*,'(2I8,F18.10)') istep, NCONV, RNORM
+
+    WRITE(*,'(I8,F18.10)') istep, RNORM
     RES_NORM = 1.D0
 
-    ! WHERE(MACHINE_ZERO < RES_TOL) RES_NORM = 1.0_DP/RES_TOL
-    !WRITE(*,*) 'RES_NORM:'
     DO ist = 1,Nstates
       IF(MACHINE_ZERO < RES_TOL(ist)) RES_NORM(ist) = 1.D0/RES_TOL(ist)
-      !WRITE(*,*) RES_NORM(ist)
     END DO
 
     ! Scale the residual vectors
@@ -102,7 +78,7 @@ SUBROUTINE diag_davidson( evals, V, TOLERANCE )
 !| *******   <r|H|r>  |
 !|__|
 
-    call op_H(Nstates,R,HR)
+    CALL op_H(Nstates,R,HR)
 
     IF(istep == 1) THEN
       CALL ZGEMM('C','N',Nstates,Nstates,Ngwx, Z_ONE,V,Ngwx, HV,Ngwx, Z_ZERO,CMAT,Nstates)
@@ -110,7 +86,7 @@ SUBROUTINE diag_davidson( evals, V, TOLERANCE )
     ELSE
       H_MAT(1:Nstates,1:Nstates) = Z_ZERO
       DO ist = 1,Nstates
-        H_MAT(ist,ist) = CMPLX(EVALS(ist),0.D0)
+        H_MAT(ist,ist) = CMPLX(EVALS(ist),0.D0,kind=8)
       ENDDO
     ENDIF
     ! <v|H|r> --> cmat

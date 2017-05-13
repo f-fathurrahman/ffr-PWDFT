@@ -35,7 +35,6 @@ PROGRAM test_3d_harmonic
   CALL init_rgrid()
   CALL init_V_ps_loc_harmonic( omega, center )
 
-  WRITE(*,*) 'before Sch_solve_diag in main prog: sum(v) = ', sum(v)
   !CALL KS_solve_Emin_pcg( 3.d-5, 100, .FALSE. )
   CALL Sch_solve_diag()
 

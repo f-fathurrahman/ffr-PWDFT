@@ -40,11 +40,11 @@ SUBROUTINE Sch_solve_diag()
   !WRITE(*,*) 'Solving Schrodinger equation with Davidson iterative diagonalization'
   !WRITE(*,*)
 
-  CALL diag_davidson_qe( Ngwx, Ngwx, Nstates, 3*Nstates, evecs, ethr, &
-                         evals, btype, notcnv, dav_iter )
+  !CALL diag_davidson_qe( Ngwx, Ngwx, Nstates, 3*Nstates, evecs, ethr, &
+  !                       evals, btype, notcnv, dav_iter )
   
   
-  !CALL diag_davidson( evals, evecs, ethr )
+  CALL diag_davidson( evals, evecs, ethr )
 
   !CALL diag_lobpcg( Nstates, evals, evecs )
 

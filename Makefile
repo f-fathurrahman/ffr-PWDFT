@@ -1,5 +1,5 @@
-include platform/make.inc.ifort
-#include platform/make.inc.gfortran
+#include platform/make.inc.ifort
+include platform/make.inc.gfortran
 #include platform/make.inc.g95
 #include platform/make.inc.pgi
 
