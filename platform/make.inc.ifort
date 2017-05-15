@@ -2,8 +2,11 @@ MAKE = make
 AR = ar
 F77 = ifort
 F77_OPTS = 
+
 F90 = ifort
 F90_OPTS = -O2 -fpp -warn -nogen-interfaces
+#F90_OPTS = -fast -xHost -fpp
+
 #F90_OPTS = -fpp -O3 # -check uninit -xHost
 # -CB for check bound of arrays
 #F90_OPTS = -CB -warn -nogen-interfaces

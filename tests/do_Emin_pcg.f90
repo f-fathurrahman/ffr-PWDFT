@@ -12,6 +12,9 @@ PROGRAM do_Emin_pcg
   REAL(8) :: ecutwfc_Ry
   REAL(8) :: LL(3,3)
   INTEGER :: iargc  ! pgf90 
+  INTEGER :: tstart, tstop, clocks_per_second
+
+  CALL system_clock( tstart, clocks_per_second )
 
   Narg = iargc()
   IF( Narg /= 2 ) THEN 
@@ -77,6 +80,12 @@ PROGRAM do_Emin_pcg
   CALL dealloc_PWGrid()
   CALL dealloc_PsPot()
   CALL dealloc_atoms()
+
+  CALL system_clock( tstop )
+
+  WRITE(*,*)
+  WRITE(*,*) 'Total elapsed time: ', dble(tstop-tstart)/clocks_per_second, ' seconds.'
+  WRITE(*,*)
 
 END PROGRAM
 
