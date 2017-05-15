@@ -22,7 +22,8 @@ SUBROUTINE Sch_solve_diag()
   USE m_states, ONLY : Nstates, Focc, &
                        evecs => KS_evecs, &
                        evals => KS_evals
-  USE m_options, ONLY : ethr => DIAG_DAVIDSON_QE_ETHR
+  USE m_options, ONLY : ethr => DIAG_DAVIDSON_QE_ETHR, &
+                        IALG_DIAG
   USE m_PWGrid, ONLY : Ngwx
   IMPLICIT NONE
   INTEGER, ALLOCATABLE :: btype(:)
@@ -40,11 +41,15 @@ SUBROUTINE Sch_solve_diag()
   !WRITE(*,*) 'Solving Schrodinger equation with Davidson iterative diagonalization'
   !WRITE(*,*)
 
-  !CALL diag_davidson_qe( Ngwx, Ngwx, Nstates, 3*Nstates, evecs, ethr, &
-  !                       evals, btype, notcnv, dav_iter )
-  
-  
-  CALL diag_davidson( evals, evecs, ethr )
+  IF( IALG_DIAG == 1 ) THEN 
+    CALL diag_davidson_qe( Ngwx, Ngwx, Nstates, 3*Nstates, evecs, ethr, &
+                           evals, btype, notcnv, dav_iter )  
+  ELSEIF( IALG_DIAG == 2 ) THEN
+    CALL diag_davidson( evals, evecs, ethr )
+  ELSE
+    WRITE(*,*) 'Unknown IALG_DIAG: ', IALG_DIAG
+    STOP 
+  ENDIF 
 
   !CALL diag_lobpcg( Nstates, evals, evecs )
 

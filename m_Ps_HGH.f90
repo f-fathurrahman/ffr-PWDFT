@@ -231,6 +231,7 @@ CONTAINS
     DO l = 0,3
       IF( psp%Nproj_l(l) > 0 ) psp%lmax = psp%lmax + 1
     ENDDO 
+    WRITE(*,*) 'lmax = ', psp%lmax
 
     CALL find_NL_cutoff(psp)
 
@@ -409,9 +410,9 @@ CONTAINS
         WRITE(*,*) 'Nproj_l        = ', ps%Nproj_l(l)
         WRITE(*,*) 'rc             = ', ps%rc(l)
         WRITE(*,*) 'rcut_NL        = ', ps%rcut_NL(l)
-        DO i = 1, 3
+        DO i = 1, ps%Nproj_l(l)
           WRITE(*,*)
-          DO j = 1, 3
+          DO j = 1, ps%Nproj_l(l)
             WRITE(*,'(F18.10)',advance='no') ps%h(l,i,j)
           ENDDO
         ENDDO
@@ -419,6 +420,7 @@ CONTAINS
       ENDDO
 
     ENDIF
+
   END SUBROUTINE
 
 

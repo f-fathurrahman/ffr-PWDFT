@@ -10,6 +10,9 @@ MODULE m_options
   ! 4 => Dai-Yuan
 
   REAL(8) :: DIAG_DAVIDSON_QE_ETHR = 1.0d-5
+  INTEGER :: IALG_DIAG = 1
+  ! 1 => Davidson QE version
+  ! 2 => Davidson
 
   ! type of mixing to use for the potential
   integer :: mixtype

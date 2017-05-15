@@ -9,5 +9,10 @@ SUBROUTINE dealloc_PsPot()
   IF( allocated(w_NL) ) DEALLOCATE(w_NL)
   IF( allocated(betaNL) ) DEALLOCATE(betaNL)
 
+  IF( allocated(SpecNprojTot) ) DEALLOCATE(SpecNprojTot)
+
+  IF( allocated(PsPot_lll) ) DEALLOCATE(PsPot_lll)
+  IF( allocated(PsPot_ipr) ) DEALLOCATE(PsPot_ipr)
+
 END SUBROUTINE 
 

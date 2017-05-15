@@ -1,6 +1,6 @@
 #include platform/make.inc.ifort
-include platform/make.inc.gfortran
-#include platform/make.inc.g95
+#include platform/make.inc.gfortran
+include platform/make.inc.g95
 #include platform/make.inc.pgi
 
 SRC = \
@@ -61,7 +61,9 @@ dealloc_PsPot.f90 \
 Sch_solve_diag.f90 \
 diag_davidson.f90 \
 diag_davidson_qe.f90 \
-cdiaghg.f90
+cdiaghg.f90 \
+gen_ylmr2.f90 \
+mk_ffnl_gth.f90
 
 
 OBJ = $(SRC:.f90=.o) $(SRC:.f=.o)
