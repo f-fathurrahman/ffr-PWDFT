@@ -23,12 +23,16 @@ SUBROUTINE excVWN( Npts, rho, epsxc )
   !
   REAL(8), ALLOCATABLE :: rs(:), x(:), XX(:)
   ! Constants
-  REAL(8), PARAMETER :: X1 = 0.75*(3.0/(2.0*PI))**(2.0/3.0)
-  REAL(8), PARAMETER :: A = 0.0310907
-  REAL(8), PARAMETER :: x0 = -0.10498
-  REAL(8), PARAMETER :: b = 3.72744
-  REAL(8), PARAMETER :: c = 12.9352
+!  REAL(8), PARAMETER :: X1 = 0.75*(3.0/(2.0*PI))**(2.0/3.0)
+  REAL(8) :: X1
+  REAL(8), PARAMETER :: A = 0.0310907d0
+  REAL(8), PARAMETER :: x0 = -0.10498d0
+  REAL(8), PARAMETER :: b = 3.72744d0
+  REAL(8), PARAMETER :: c = 12.9352d0
   REAL(8) :: Q, XX0
+
+  X1 = 0.75d0*(3.d0/(2.d0*PI))**(2.d0/3.d0)  ! quick fix for sunf95
+
   !
   ALLOCATE( rs(Npts), x(Npts), XX(Npts) )
   !
@@ -54,13 +58,16 @@ SUBROUTINE excpVWN( Npts, rho, depsxc )
   REAL(8) :: rho(Npts)
   REAL(8) :: depsxc(Npts)
   ! Constants
-  REAL(8), PARAMETER :: X1 = 0.75d0*(3.d0/(2.d0*PI))**(2.d0/3.d0)
+!  REAL(8), PARAMETER :: X1 = 0.75d0*(3.d0/(2.d0*PI))**(2.d0/3.d0)
+  REAL(8) :: X1
   REAL(8), PARAMETER :: A = 0.0310907d0
   REAL(8), PARAMETER :: x0 = -0.10498d0
   REAL(8), PARAMETER :: b = 3.72744d0 
   REAL(8), PARAMETER :: c = 12.9352
   REAL(8) :: Q, XX0
   REAL(8), ALLOCATABLE :: rs(:), x(:), XX(:), dx(:)
+
+  X1 = 0.75d0*(3.d0/(2.d0*PI))**(2.d0/3.d0)  ! quick fix for sunf95
 
   ALLOCATE( rs(Npts), x(Npts), XX(Npts), dx(Npts) )
 

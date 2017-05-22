@@ -63,7 +63,7 @@ SUBROUTINE Sch_solve_diag()
   ENDDO
 
   ! normalize evecs properly
-  evecs(:,:) = evecs(:,:)/sqrt(dVol)
+  !evecs(:,:) = evecs(:,:)/sqrt(dVol)
 
   DEALLOCATE( btype )
 END SUBROUTINE

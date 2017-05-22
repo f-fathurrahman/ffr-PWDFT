@@ -1,0 +1,10 @@
+MAKE = make
+AR = ar
+F77 = sunf77
+F77_OPTS = -O3
+F90 = sunf95
+F90_OPTS = -fpp -fast -dalign -w4
+LIB_LINALG = -library=sunperf #-lblas -llapack
+LIB_FFTW3 = -lfftw3
+LIBS = $(LIB_LINALG) $(LIB_FFTW3)
+
