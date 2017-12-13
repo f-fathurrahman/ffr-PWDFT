@@ -2,6 +2,7 @@
 *.swo
 *~
 work/
+OLDS
 
 sandbox/
 compare_cg/
