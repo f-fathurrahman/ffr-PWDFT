@@ -1,8 +1,4 @@
-#include platform/make.inc.ifort
-#include platform/make.inc.gfortran
-#include platform/make.inc.g95
-#include platform/make.inc.pgi
-include platform/make.inc.sun
+include make.inc
 
 SRC = \
 m_constants.f90 \
