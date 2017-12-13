@@ -3,6 +3,7 @@ include make.inc
 SRC = \
 m_constants.f90 \
 m_options.f90 \
+m_xc.f90 \
 m_cell.f90 \
 m_atoms.f90 \
 m_realspace.f90 \
@@ -82,14 +83,18 @@ OBJ = $(SRC:.f90=.o) $(SRC:.f=.o)
 # supress warning
 .SUFFIXES: .o .f
 .f.o:
-	$(F90) -O3 -c $<
+	$(F77) $(F77_OPTS) -c $<
 
 
 # Targets
-lib: $(OBJ)
+lib: libxc $(OBJ)
 	ar rcs libmain.a *.o
 
+libxc:
+	cd extlibs/libxc; $(MAKE); cd ../../
+
 clean:
+	cd extlibs/libxc; $(MAKE) clean
 	rm -rf *.o *.mod libmain.a *.x
 
 
