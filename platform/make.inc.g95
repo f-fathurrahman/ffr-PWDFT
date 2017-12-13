@@ -2,10 +2,10 @@ MAKE = make
 AR   = ar
 
 F90      = g95
-F90_OPTS = -Wall -ftrace=full -cpp -O3
+F90_OPTS = -Wall -ftrace=full -cpp -O3 -fno-second-underscore
 
 F77 = g95
-F77_OPTS = -Wall -ftrace=full -cpp -O3
+F77_OPTS = -Wall -ftrace=full -cpp -O3 -fno-second-underscore
 
 LIB_LINALG = -lblas -llapack
 LIB_FFTW3  = -lfftw3
