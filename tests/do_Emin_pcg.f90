@@ -33,9 +33,6 @@ PROGRAM do_Emin_pcg
   ! Override PsPot_Dir
   PsPot_Dir = '../pseudopotentials/pade_gth/'
 
-  !Nspecies = 1
-  !ALLOCATE( PsPot_FilePath(Nspecies) )
-  !ALLOCATE( Ps_HGH_Params(Nspecies) )
   CALL init_PsPot()
 
   LL(1,:) = (/ 16.d0, 0.d0, 0.d0 /)
