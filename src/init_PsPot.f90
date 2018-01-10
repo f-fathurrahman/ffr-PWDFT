@@ -16,7 +16,7 @@ SUBROUTINE init_PsPot()
 
   DO isp = 1,Nspecies
 
-    PsPot_FilePath(isp) = trim(PsPot_Dir) // trim(SpeciesSymbols(isp)) // '.hgh'
+    PsPot_FilePath(isp) = trim(PsPot_Dir) // trim(SpeciesSymbols(isp)) // '.gth'
 
     CALL init_Ps_HGH_Params( Ps_HGH_Params(isp), PsPot_FilePath(isp) )
     
