@@ -31,8 +31,11 @@ PROGRAM do_Emin_pcg
   CALL init_atoms_xyz(filexyz)
 
   ! Override PsPot_Dir
-  PsPot_Dir = '../HGH/'
-  CALL init_PsPot()
+  PsPot_Dir = '../pseudopotentials/pade_gth/'
+
+  Nspecies = 1
+  ALLOCATE( PsPot_FilePath(Nspecies) )
+  ALLOCATE( Ps_HGH_Params(Nspecies) )
 
   LL(1,:) = (/ 16.d0, 0.d0, 0.d0 /)
   LL(2,:) = (/ 0.d0, 16.d0, 0.d0 /)
