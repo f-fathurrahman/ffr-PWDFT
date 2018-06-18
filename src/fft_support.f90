@@ -36,23 +36,10 @@ integer function good_fft_dimension (n)
   !
   IMPLICIT NONE
   INTEGER :: n, nx
-  REAL(DP) :: log2n
   !
   ! this is the default: max dimension = fft dimension
   nx = n
-  !
-#if defined(__LINUX_ESSL)
-  log2n = LOG ( dble (n) ) / LOG ( 2.0_DP )
-  ! log2n is the logarithm of n in base 2
-  IF ( ABS (NINT(log2n) - log2n) < 1.0d-8 ) nx = n + 1
-  ! if n is a power of 2 (log2n is integer) increase dimension by 1
-#elif defined(__SX6)
-  !
-  if (mod (n, 2) ==0) nx = n + 1
-  ! for nec vector machines: if n is even increase dimension by 1
-  !
-#endif
-  !
+  ! removed statements related to SX6 and ESSL
   good_fft_dimension = nx
   return
 end function good_fft_dimension

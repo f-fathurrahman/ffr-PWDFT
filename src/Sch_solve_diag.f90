@@ -18,7 +18,7 @@
 
 SUBROUTINE Sch_solve_diag()
 
-  use m_realspace, only : dVol
+!  use m_realspace, only : dVol
   USE m_states, ONLY : Nstates, Focc, &
                        evecs => KS_evecs, &
                        evals => KS_evals
