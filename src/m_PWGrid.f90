@@ -8,6 +8,7 @@ MODULE m_PWGrid
   INTEGER :: Ng
   REAL(8), ALLOCATABLE :: Gv(:,:)
   REAL(8), ALLOCATABLE :: Gv2(:)
+  INTEGER, ALLOCATABLE :: idx_g2r(:)
 
   INTEGER :: Ngwx
   INTEGER, ALLOCATABLE :: idx_gw2r(:)

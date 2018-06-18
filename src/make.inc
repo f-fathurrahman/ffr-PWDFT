@@ -1,13 +1,14 @@
 MAKE = make
-AR = ar
+AR   = ar
 
-F77 = flang -Mpreprocess
-F77_OPTS = -Wall -O3
+F90      = g95
+F90_OPTS = -Wall -ftrace=full -cpp -O3 -fno-second-underscore
 
-F90 = flang -Mpreprocess
-F90_OPTS = -Wall -O3
+F77 = g95
+F77_OPTS = -Wall -ftrace=full -cpp -O3 -fno-second-underscore
 
-LIB_LINALG = -L/home/efefer/intel/mkl/lib/intel64/ -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+LIB_LINALG = -lblas -llapack
 LIB_FFTW3  = -lfftw3
 LIB_XC     = -L/home/efefer/mysoftwares/libxc-3.0.0/lib -lxcf90 -lxc
 LIBS       = $(LIB_LINALG) $(LIB_FFTW3) $(LIB_XC)
+

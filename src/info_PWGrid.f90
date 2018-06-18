@@ -25,6 +25,7 @@ SUBROUTINE info_PWGrid()
   WRITE(*,'(1x,A,3I8)')    'Sampling point   = ', Ns(:)
   WRITE(*,'(1x,A,F18.10)') 'dVol             = ', dVol
   WRITE(*,'(1x,A,I8)')     'Npoints          = ', Npoints
+  WRITE(*,'(1x,A,I8)')     'Ng               = ', Ng
   WRITE(*,'(1x,A,I8)')     'Ngwx             = ', Ngwx
 
 END SUBROUTINE 
