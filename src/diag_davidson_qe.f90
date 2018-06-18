@@ -58,7 +58,6 @@ SUBROUTINE diag_davidson_qe( npw, npwx, nvec, nvecx, evc, ethr, &
     ! counter on the reduced basis vectors
     ! adapted npw and npwx
     ! do-loop counters
-  INTEGER :: ierr
   COMPLEX(DP), ALLOCATABLE :: hc(:,:), sc(:,:), vc(:,:)
     ! Hamiltonian on the reduced basis
     ! S matrix on the reduced basis

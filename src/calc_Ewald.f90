@@ -1,9 +1,9 @@
 SUBROUTINE calc_Ewald()
 
   USE m_constants, ONLY : PI
-  USE m_atoms, ONLY : Nion => Natoms, &
-                      ityp => atm2species, &
-                      q => AtomicValences, &
+  USE m_atoms, ONLY : Natoms, &
+                      atm2species, &
+                      AtomicValences, &
                       AtomicCoords
   USE m_cell, ONLY : LatVecs
   USE m_energies, ONLY : E_nn
@@ -20,7 +20,7 @@ SUBROUTINE calc_Ewald()
   REAL(8) :: invLatVecs(3,3)
   REAL(8), ALLOCATABLE :: tau(:,:)
 
-  ALLOCATE( tau(3,Nion) )
+  ALLOCATE( tau(3,Natoms) )
   CALL inv_m3x3(LatVecs,invLatVecs)
   tau(:,:) = matmul(invLatVecs,AtomicCoords)
 
@@ -65,10 +65,10 @@ SUBROUTINE calc_Ewald()
 
   x = 0.d0
   totalcharge = 0.d0
-  DO i = 1,nion 
-    isp = ityp(i)
-    x = x + q(isp)**2
-    totalcharge = totalcharge + q(isp)
+  DO ia = 1,Natoms
+    isp = atm2species(ia)
+    x = x + AtomicValences(isp)**2
+    totalcharge = totalcharge + AtomicValences(isp)
   ENDDO
 
   ewald = -cccc*x - 4.d0*pi*(totalcharge**2)/(volcry*eta)
@@ -80,13 +80,13 @@ SUBROUTINE calc_Ewald()
   mmm2 = nint(tmax/t2m + 1.5d0)
   mmm3 = nint(tmax/t3m + 1.5d0)
       
-  DO ia = 1,Nion
-  DO ja = 1,Nion
+  DO ia = 1,Natoms
+  DO ja = 1,Natoms
     v(:) = (tau(1,ia)-tau(1,ja))*t1(:) + (tau(2,ia)-tau(2,ja))*t2(:) &
          + (tau(3,ia)-tau(3,ja))*t3(:)
-    isp = ityp(ia)
-    jsp = ityp(ja)
-    prd = q(isp)*q(jsp)
+    isp = atm2species(ia)
+    jsp = atm2species(ja)
+    prd = AtomicValences(isp)*AtomicValences(jsp)
     DO i = -mmm1, mmm1
     DO j = -mmm2, mmm2
     DO k = -mmm3, mmm3
@@ -113,12 +113,12 @@ SUBROUTINE calc_Ewald()
       w(:) = i*g1(:) + j*g2(:) + k*g3(:)
       rmag2 = DOT_PRODUCT(w,w)
       x = con2*exp(-rmag2/eta)/rmag2
-      DO ia = 1,nion
-      DO ja = 1,nion
+      DO ia = 1,Natoms
+      DO ja = 1,Natoms
         v(:) = tau(:,ia) - tau(:,ja)
-        isp = ityp(ia)
-        jsp = ityp(ja)
-        prd = q(isp)*q(jsp)
+        isp = atm2species(ia)
+        jsp = atm2species(ja)
+        prd = AtomicValences(isp)*AtomicValences(jsp)
         arg = tpi*(i*v(1) + j*v(2) + k*v(3))
         ewald = ewald + x*prd*cos(arg)
       ENDDO 
@@ -128,10 +128,7 @@ SUBROUTINE calc_Ewald()
   ENDDO 
   ENDDO
 
-  !WRITE(*,'(1x,A,F18.10)') 'Ewald energy in Ry', ewald
-  !WRITE(*,'(1x,A,F18.10)') 'Ewald energy in Ha', ewald/2.d0
-
-  E_nn = ewald/2.d0
+  E_nn = ewald/2.d0  ! convert to Ry to Ha
 
   DEALLOCATE( tau )
 
