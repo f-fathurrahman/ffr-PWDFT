@@ -2,10 +2,9 @@ SUBROUTINE calc_Ewald()
 
   USE m_constants, ONLY : PI
   USE m_atoms, ONLY : Nion => Natoms, &
-                      ntyp => Nspecies, &
                       ityp => atm2species, &
                       q => AtomicValences, &
-                      tau => AtomicCoords
+                      AtomicCoords
   USE m_cell, ONLY : LatVecs
   USE m_energies, ONLY : E_nn
 
@@ -17,7 +16,13 @@ SUBROUTINE calc_Ewald()
   REAL(8) :: seta, rmag2, prd, on, glast2, gexp, gcut, g1m, g2m, g3m
   REAL(8) :: cccc, ewald, eta, con2, ebsl, arg
   INTEGER :: mmm1, mmm2, mmm3, i, j, k
-  INTEGER :: a, b, isp
+  INTEGER :: ia, ja, isp, jsp
+  REAL(8) :: invLatVecs(3,3)
+  REAL(8), ALLOCATABLE :: tau(:,:)
+
+  ALLOCATE( tau(3,Nion) )
+  CALL inv_m3x3(LatVecs,invLatVecs)
+  tau(:,:) = matmul(invLatVecs,AtomicCoords)
 
   t1(:) = LatVecs(:,1)
   t2(:) = LatVecs(:,2)
@@ -46,16 +51,6 @@ SUBROUTINE calc_Ewald()
   g2m = SQRT(DOT_PRODUCT(g2,g2))
   g3m = SQRT(DOT_PRODUCT(g3,g3))
 
-  !ALLOCATE( q(nion), tau(3,nion) )
-
-!  Write(6,*) 'For each ion, input q and tau (in fractional coordinates of T)'
-
-  !DO i=1,nion
-  !  READ(5,*) q(i),tau(1,i),tau(2,i),tau(3,i)
-  !ENDDO
-
-!  Write(6,*) ' Input Gcut for reciprocal lattice sum and error tolerance'
-!  Read(5,*) gcut , ebsl
   gcut = 2.d0
   ebsl = 1d-8
 
@@ -66,8 +61,6 @@ SUBROUTINE calc_Ewald()
   gexp = -log(ebsl)
   eta = glast2/gexp
 
-  WRITE(*,*) 'eta value for this calculation' , eta
-  
   cccc = sqrt(eta/pi)
 
   x = 0.d0
@@ -78,29 +71,26 @@ SUBROUTINE calc_Ewald()
     totalcharge = totalcharge + q(isp)
   ENDDO
 
-  totalcharge = sum(q) 
-  
-  WRITE(*,*) 'Total charge = ', totalcharge
-  
   ewald = -cccc*x - 4.d0*pi*(totalcharge**2)/(volcry*eta)
 
   tmax = sqrt(2.d0*gexp/eta)
   seta = sqrt(eta)/2.d0
 
-  mmm1 = tmax/t1m + 1.5d0
-  mmm2 = tmax/t2m + 1.5d0
-  mmm3 = tmax/t3m + 1.5d0  
+  mmm1 = nint(tmax/t1m + 1.5d0)
+  mmm2 = nint(tmax/t2m + 1.5d0)
+  mmm3 = nint(tmax/t3m + 1.5d0)
       
-  WRITE(*,*) 'Lattice summation indices -- ', mmm1,mmm2,mmm3
-  DO a = 1,Nion
-  DO b = 1,Nion
-    v(:) = (tau(1,a)-tau(1,b))*t1(:) + (tau(2,a)-tau(2,b))*t2(:) &
-         + (tau(3,a)-tau(3,b))*t3(:)
-    prd = q(a)*q(b)
+  DO ia = 1,Nion
+  DO ja = 1,Nion
+    v(:) = (tau(1,ia)-tau(1,ja))*t1(:) + (tau(2,ia)-tau(2,ja))*t2(:) &
+         + (tau(3,ia)-tau(3,ja))*t3(:)
+    isp = ityp(ia)
+    jsp = ityp(ja)
+    prd = q(isp)*q(jsp)
     DO i = -mmm1, mmm1
     DO j = -mmm2, mmm2
     DO k = -mmm3, mmm3
-      IF( (a.ne.b).or.((abs(i)+abs(j)+abs(k)).ne.0) ) THEN 
+      IF( (ia /= ja) .or. ( (abs(i) + abs(j) + abs(k)) /= 0) ) THEN 
         w(:) = v(:) + i*t1 + j*t2 + k*t3
         rmag2 = sqrt(DOT_PRODUCT(w,w))
         arg = rmag2*seta 
@@ -112,11 +102,10 @@ SUBROUTINE calc_Ewald()
   ENDDO 
   ENDDO 
 
-  mmm1 = gcut/g1m + 1.5d0
-  mmm2 = gcut/g2m + 1.5d0
-  mmm3 = gcut/g3m + 1.5d0
-      
-  WRITE(*,*) 'Reciprocal lattice summation indices --', mmm1,mmm2,mmm3
+  mmm1 = nint(gcut/g1m + 1.5d0)
+  mmm2 = nint(gcut/g2m + 1.5d0)
+  mmm3 = nint(gcut/g3m + 1.5d0)
+  
   DO i = -mmm1, mmm1
   DO j = -mmm2, mmm2
   DO k = -mmm3, mmm3
@@ -124,10 +113,12 @@ SUBROUTINE calc_Ewald()
       w(:) = i*g1(:) + j*g2(:) + k*g3(:)
       rmag2 = DOT_PRODUCT(w,w)
       x = con2*exp(-rmag2/eta)/rmag2
-      DO a = 1,nion
-      DO b = 1,nion
-        v(:) = tau(:,a) - tau(:,b)
-        prd = q(a)*q(b)
+      DO ia = 1,nion
+      DO ja = 1,nion
+        v(:) = tau(:,ia) - tau(:,ja)
+        isp = ityp(ia)
+        jsp = ityp(ja)
+        prd = q(isp)*q(jsp)
         arg = tpi*(i*v(1) + j*v(2) + k*v(3))
         ewald = ewald + x*prd*cos(arg)
       ENDDO 
@@ -137,9 +128,11 @@ SUBROUTINE calc_Ewald()
   ENDDO 
   ENDDO
 
-  WRITE(*,'(1x,A,F18.10)') 'Ewald energy in Ry', ewald
-  WRITE(*,'(1x,A,F18.10)') 'Ewald energy in Ha', ewald/2.d0
+  !WRITE(*,'(1x,A,F18.10)') 'Ewald energy in Ry', ewald
+  !WRITE(*,'(1x,A,F18.10)') 'Ewald energy in Ha', ewald/2.d0
 
   E_nn = ewald/2.d0
+
+  DEALLOCATE( tau )
 
 END SUBROUTINE 
