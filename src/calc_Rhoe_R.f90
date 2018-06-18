@@ -19,7 +19,7 @@ SUBROUTINE calc_Rhoe_R( Focc, psi )
   COMPLEX(8) :: psi(Ngwx,Nstates)
   REAL(8) :: Focc(Nstates)
   COMPLEX(8), ALLOCATABLE :: psiR(:,:)
-  INTEGER :: ist, igw, idxG, ip
+  INTEGER :: ist, igw, ip
 
   ALLOCATE( psiR(Npoints,Nstates) )
 
@@ -27,9 +27,9 @@ SUBROUTINE calc_Rhoe_R( Focc, psi )
 
   DO ist = 1, Nstates
     DO igw = 1,Ngwx
-      idxG = idx_gw2r(igw)
+      ip = idx_gw2r(igw)
 !!> Copy to an array which will be transformed to real space
-      psiR(idxG,ist) = psi(igw,ist)
+      psiR(ip,ist) = psi(igw,ist)
     ENDDO 
 !!> Transform to real space using inverse FFT
     CALL fft_fftw3( psiR(:,ist), Ns(1), Ns(2), Ns(3), .TRUE. )

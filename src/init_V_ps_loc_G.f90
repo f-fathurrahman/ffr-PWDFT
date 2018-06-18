@@ -9,11 +9,11 @@ SUBROUTINE init_V_ps_loc_G()
   USE m_atoms, ONLY : strf => StructureFactor, Nspecies
 
   USE m_realspace, ONLY : Npoints, Ns
-  USE m_PWGrid, ONLY : Gv2
+  USE m_PWGrid, ONLY : Gv2, Ng, idx_g2r
   USE m_cell, ONLY : CellVolume
 
   IMPLICIT NONE 
-  INTEGER :: ip, isp, Nx, Ny, Nz
+  INTEGER :: ip, isp, Nx, Ny, Nz, ig
   REAL(8) :: Gm
   COMPLEX(8), ALLOCATABLE :: ctmp(:)
 
@@ -31,9 +31,10 @@ SUBROUTINE init_V_ps_loc_G()
   DO isp = 1,Nspecies
 
     ctmp(:) = cmplx(0.d0,0.d0,kind=8)
-    DO ip = 1,Npoints
-      Gm = sqrt(Gv2(ip))
-      ctmp(ip) = hgh_eval_Vloc_G( Ps(isp), Gm ) * strf(ip,isp) / CellVolume
+    DO ig = 1,Ng
+      Gm = sqrt(Gv2(ig))
+      ip = idx_g2r(ig)
+      ctmp(ip) = hgh_eval_Vloc_G( Ps(isp), Gm ) * strf(ig,isp) / CellVolume
     ENDDO
 
     ! inverse FFT: G -> R

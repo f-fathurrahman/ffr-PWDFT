@@ -1,5 +1,6 @@
 SUBROUTINE init_gvecw()
-  USE m_PWGrid, ONLY : Ngwx, ecutwfc, Ng, Gv2, idx_gw2r, idx_g2r, Gv
+  USE m_PWGrid, ONLY : Ngwx, ecutwfc, Ng, Gv2, idx_gw2r, idx_g2r, Gv, &
+                       idx_gw2g
   IMPLICIT NONE 
   INTEGER :: ig, igw
   REAL(8) :: Gvv2
@@ -14,11 +15,13 @@ SUBROUTINE init_gvecw()
   ENDDO 
 
   ALLOCATE( idx_gw2r(Ngwx) )
+  ALLOCATE( idx_gw2g(Ngwx) )
   igw = 0
   DO ig = 1,Ng
     IF( 0.5d0*Gv2(ig) <= ecutwfc ) THEN 
       igw = igw + 1
       idx_gw2r(igw) = idx_g2r(ig)
+      idx_gw2g(igw) = ig
     ENDIF 
   ENDDO 
 

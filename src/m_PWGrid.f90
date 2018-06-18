@@ -11,6 +11,7 @@ MODULE m_PWGrid
   INTEGER, ALLOCATABLE :: idx_g2r(:)
 
   INTEGER :: Ngwx
+  INTEGER, ALLOCATABLE :: idx_gw2g(:)
   INTEGER, ALLOCATABLE :: idx_gw2r(:)
 
 END MODULE 
