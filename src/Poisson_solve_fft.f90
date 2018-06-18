@@ -16,14 +16,14 @@
 SUBROUTINE Poisson_solve_fft( rho, phi )
   USE m_constants, ONLY : PI
   USE m_realspace, ONLY : Npoints, Ns
-  USE m_PWGrid, ONLY : Gv2
+  USE m_PWGrid, ONLY : Gv2, idx_g2r, Ng
   IMPLICIT NONE
   ! Arguments
   REAL(8) :: rho(Npoints)
   REAL(8) :: phi(Npoints)
   ! Local
   COMPLEX(8), ALLOCATABLE :: tmp_fft(:)
-  INTEGER :: ip, Nx, Ny, Nz
+  INTEGER :: ip, Nx, Ny, Nz, ig
 
   ! shortcuts
   Nx = Ns(1)
@@ -38,8 +38,9 @@ SUBROUTINE Poisson_solve_fft( rho, phi )
   ! forward FFT
   CALL fft_fftw3( tmp_fft, Nx, Ny, Nz, .false. )  ! now `tmp_fft = rho(G)`
   tmp_fft(1) = (0.d0,0.d0)
-  DO ip = 2, Npoints
-    tmp_fft(ip) = 4.d0*PI*tmp_fft(ip) / Gv2(ip)
+  DO ig = 2, Ng
+    ip = idx_g2r(ig)
+    tmp_fft(ip) = 4.d0*PI*tmp_fft(ip) / Gv2(ig)
   ENDDO
   ! now `tmp_fft` = phi(G)
 

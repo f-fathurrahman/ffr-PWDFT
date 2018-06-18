@@ -33,7 +33,7 @@ SUBROUTINE init_gvec()
     !
     Gvv2 = Gvv(1)**2 + Gvv(2)**2 + Gvv(3)**2
     !
-    IF( Gvv2 <= ecutrho ) THEN 
+    IF( 0.5d0*Gvv2 <= ecutrho ) THEN 
       ig = ig + 1
       Gv(:,ig) = Gvv(:)
       Gv2(ig) = Gvv2

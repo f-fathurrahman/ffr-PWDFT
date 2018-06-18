@@ -13,7 +13,7 @@ PROGRAM t_poisson
   INTEGER :: ip
   REAL(8) :: Uana, Unum, ecutwfc_Ry
 
-  ecutwfc_Ry = 25.d0
+  ecutwfc_Ry = 30.d0
   LL(1,:) = (/ 16.d0, 0.d0, 0.d0 /)
   LL(2,:) = (/ 0.d0, 16.d0, 0.d0 /)
   LL(3,:) = (/ 0.d0, 0.d0, 16.d0 /)
