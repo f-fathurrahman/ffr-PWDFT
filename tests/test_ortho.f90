@@ -17,7 +17,8 @@ PROGRAM test_ortho
     ENDDO 
   ENDDO 
 
-  CALL z_ortho_gram_schmidt( v, Ngwx, Ngwx, Nstates )
+  !CALL z_ortho_gram_schmidt( v, Ngwx, Ngwx, Nstates )
+  CALL z_ortho_qr( v, Ngwx, Nstates )
 
   CALL z_ortho_check( Ngwx, Nstates, 1.d0, v )
 
