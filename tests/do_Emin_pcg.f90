@@ -50,7 +50,7 @@ PROGRAM do_Emin_pcg
   ! Initialize occupation numbers
   CALL init_states()
 
-  ! Structure factor, shifted to FFT grid
+  ! Structure factor
   CALL init_strfact()
 
   ! Ewald energy
