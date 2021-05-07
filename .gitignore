@@ -4,6 +4,7 @@
 work/
 OLDS
 OLD_*
+TEMP_*
 
 sandbox/
 compare_cg/
