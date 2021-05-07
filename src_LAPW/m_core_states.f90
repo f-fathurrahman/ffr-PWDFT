@@ -4,16 +4,16 @@ module m_core_states
 !     core state variables     !
 !------------------------------!
 ! occupancies for core states
-real(8), allocatable :: occcr(:,:)
+REAL(8), ALLOCATABLE :: occcr(:,:)
 ! eigenvalues for core states
-real(8), allocatable :: evalcr(:,:)
+REAL(8), ALLOCATABLE :: evalcr(:,:)
 ! radial wavefunctions for core states
-real(8), allocatable :: rwfcr(:,:,:,:)
+REAL(8), ALLOCATABLE :: rwfcr(:,:,:,:)
 ! radial charge density for core states
-real(8), allocatable :: rhocr(:,:,:)
+REAL(8), ALLOCATABLE :: rhocr(:,:,:)
 ! spincore is .true. if the core is to be treated as spin-polarised
 logical spincore
 ! number of core spin-channels
-integer nspncr
+INTEGER nspncr
 
-end module
+END MODULE 

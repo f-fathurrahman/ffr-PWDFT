@@ -342,7 +342,7 @@ SUBROUTINE read_species_files()
   IF(rmtall > 0.d0) rmt(1:nspecies) = rmtall
   
   ! add conduction state local-orbitals if required
-  CALL add_lorb_cond()
+  CALL add_lorb_cnd()
   
   ! subtract 2 Hartree from the minimum energy
   e0min = e0min - 2.d0
