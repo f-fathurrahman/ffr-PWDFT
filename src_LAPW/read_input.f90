@@ -1,5 +1,6 @@
 SUBROUTINE read_input()
   USE modmain
+  USE modrandom, ONLY: randomu
   IMPLICIT NONE 
   ! local variables
   logical :: lv
@@ -12,28 +13,33 @@ SUBROUTINE read_input()
   REAL(8) :: v1(3),v2(3),t1
   character(256) :: block,symb,str
     
-  CALL default_atoms()
   CALL default_apwlo()
-  CALL default_muffin_tins()
-  CALL default_lattice()
-  CALL default_plotting()
-  CALL default_mixing()
-  CALL default_misc()
-  CALL default_symmetry()
-  CALL default_force_stress()
-  CALL default_hamiltonian()
-  CALL default_states()
-  CALL default_spin()
-  CALL default_qpoints()
-  CALL default_kpoints()
-  CALL default_gkvectors()
-  CALL default_convergence()
-  CALL default_oep_hf()
+  CALL default_atoms()
   CALL default_charge_moment_current()
-  CALL default_electric_vector_pot() 
+  CALL default_convergence()
+  CALL default_core_states()
 
-  xctype(1)=3
-  xctype(2:3)=0
+  CALL default_density_pot_xc()
+  CALL default_dos_optics_response()
+  CALL default_electric_vector_pot()
+  CALL default_force_stress()
+  CALL default_gkvectors()
+  
+  CALL default_gvectors()
+  CALL default_hamiltonian()
+  CALL default_kpoints()
+  CALL default_lattice()
+  CALL default_misc()
+  
+  CALL default_mixing()
+  CALL default_muffin_tins()
+  CALL default_oep_hf()
+  CALL default_plotting()
+  CALL default_qpoints()
+  
+  CALL default_spin()
+  CALL default_states()
+  CALL default_symmetry()
 
   sc=1.d0
   sc1=1.d0
@@ -56,7 +62,7 @@ SUBROUTINE read_input()
   
   read(50,*,end=30) block
   ! check for a comment
-  IF((scan(trim(block),'!').eq.1).or.(scan(trim(block),'#').eq.1)) GOTO 10
+  IF((scan(trim(block),'!')==1) .or. (scan(trim(block),'#')==1)) GOTO 10
   SELECT CASE(trim(block))
   CASE('tasks')
     DO i=1,maxtasks
@@ -648,6 +654,82 @@ CASE('optcomp')
   STOP 
   30 continue
   close(50)
+
+  ! scale the speed of light
+  solsc=sol*solscf
+
+  ! scale and rotate the lattice vectors (not referenced again in code)
+  avec(:,1)=sc1*avec(:,1)
+  avec(:,2)=sc2*avec(:,2)
+  avec(:,3)=sc3*avec(:,3)
+  avec(:,:)=sc*avec(:,:)
+  t1=axang(4)
+  IF(t1.ne.0.d0) THEN 
+    t1=t1*pi/180.d0
+    CALL axangrot(axang(:),t1,rot)
+    DO i=1,3
+      v1(:)=avec(:,i)
+      CALL r3mv(rot,v1,avec(:,i))
+    ENDDO 
+  ENDIF 
+
+  ! randomise lattice vectors if required
+  IF(rndavec.gt.0.d0) THEN 
+    DO i=1,3
+      DO j=1,3
+        t1=rndavec*(randomu()-0.5d0)
+        avec(i,j)=avec(i,j)+t1
+      ENDDO 
+    ENDDO 
+  ENDIF 
+
+  ! case of isolated molecule
+  IF(molecule) THEN 
+    ! convert atomic positions from Cartesian to lattice coordinates
+    CALL r3minv(avec,ainv)
+    DO is=1,nspecies
+      DO ia=1,natoms(is)
+        CALL r3mv(ainv,atposl(:,ia,is),v1)
+        atposl(:,ia,is)=v1(:)
+      ENDDO 
+    ENDDO 
+  ENDIF 
+
+  ! randomise atomic positions if required
+  IF(rndatposc.gt.0.d0) THEN 
+    CALL r3minv(avec,ainv)
+    DO is=1,nspecies
+      DO ia=1,natoms(is)
+        CALL r3mv(avec,atposl(:,ia,is),v1)
+        DO i=1,3
+          t1=rndatposc*(randomu()-0.5d0)
+          v1(i)=v1(i)+t1
+        ENDDO 
+        CALL r3mv(ainv,v1,atposl(:,ia,is))
+      ENDDO 
+    ENDDO 
+  ENDIF 
+
+  ! randomise the muffin-tin magnetic fields if required
+  !IF(rndbfcmt > 0.d0) THEN 
+  !  DO is=1,nspecies
+  !    DO ia=1,natoms(is)
+  !      DO i=1,3
+  !        t1=rndbfcmt*(randomu()-0.5d0)
+  !        bfcmt0(i,ia,is)=bfcmt0(i,ia,is)+t1
+  !      ENDDO 
+  !    ENDDO 
+  !  ENDDO 
+  !ENDIF 
+  
+  ! find primitive cell if required
+  !IF(primcell) CALL findprimcell
+  
+  ! scale the ultracell vectors if required
+  !avecu(:,1)=scu1*avecu(:,1)
+  !avecu(:,2)=scu2*avecu(:,2)
+  !avecu(:,3)=scu3*avecu(:,3)
+  !avecu(:,:)=scu*avecu(:,:)
 
   ! read in atomic species data
   CALL read_species_files()

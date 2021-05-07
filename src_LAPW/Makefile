@@ -32,6 +32,7 @@ m_timing.f90 \
 m_constants.f90 \
 m_misc.f90 \
 modmain.f90 \
+modrandom.f90 \
 oblas_stub.f90 \
 zfftifc.f90 \
 libxcifc_stub.f90 \
@@ -43,10 +44,13 @@ default_atoms.f90 default_apwlo.f90 default_muffin_tins.f90 \
 default_lattice.f90 default_plotting.f90 default_mixing.f90 \
 default_misc.f90 default_symmetry.f90 default_force_stress.f90 \
 default_hamiltonian.f90 default_states.f90 default_spin.f90 \
-default_qpoints.f90 default_kpoints.f90 default_gkvectors.f90 \
+default_qpoints.f90 default_kpoints.f90 default_gvectors.f90 default_gkvectors.f90 \
 default_convergence.f90 default_oep_hf.f90 \
 default_charge_moment_current.f90 \
 default_electric_vector_pot.f90 \
+default_core_states.f90 \
+default_density_pot_xc.f90 \
+default_dos_optics_response.f90 \
 info_apwlo.f90 info_lattice.f90 info_muffin_tins.f90 \
 init_am_variables.f90 init_chgden_pot_xc.f90  init_Gk_vectors.f90 \
 init_radial_meshes.f90 init_APW_LO.f90  init_crystal_structure.f90  \
@@ -72,7 +76,152 @@ polynm.f90 gradrfmt.f90 rfmtsm.f90 ztorfmt.f90 \
 rtozfmt.f90 spline.f90 nfftifc.f90 rfmtlm.f90 \
 ztorflm.f90 fsmooth.f90 gradzfmt.f90 rtozflm.f90 clebgor.f90 \
 symmetry.f90 findsymlat.f90 findsymcrys.f90 findsymsite.f90 findsym.f90 \
-r3mtm.f90 i3mdet.f90 r3mm.f90 r3mtv.f90 i3minv.f90
+r3mtm.f90 i3mdet.f90 r3mm.f90 r3mtv.f90 i3minv.f90 axangrot.f90 \
+init0.f90 nuclei.f90 energynn.f90 \
+genshtmat.f90 zpotcoul.f90 sphcover.f90 genrlmv.f90 sctovec.f90 \
+rminv.f90 zminv.f90 timesec.f90 \
+mixerifc.f90 mixadapt.f90 mixlinear.f90 mixbroyden.f90 \
+init1.f90 gndstate.f90 \
+rhoinit.f90 maginit.f90 \
+potks.f90 genvsig.f90 \
+mixpack.f90 gencore.f90 \
+linengy.f90 genapwlofr.f90 \
+genapwfr.f90 genlofr.f90 gensocfr.f90 \
+genevfsv.f90 occupy.f90 \
+putoccsv.f90 rhomag.f90 \
+energy.f90 writeeval.f90 writefermi.f90  \
+writelinen.f90 writeengy.f90 writechg.f90 writestate.f90 writemom.f90 \
+potcoul.f90 \
+rfirsm.f90 \
+genbs.f90 \
+genws.f90 \
+potxc.f90 \
+oepmain.f90 \
+gentau.f90 \
+projsbf.f90 \
+rfpack.f90 \
+findband.f90 \
+olprad.f90 \
+hmlrad.f90 \
+rschrodint.f90 \
+eveqn.f90 \
+putevalfv.f90 putevalsv.f90 \
+getevecfv.f90 getevecsv.f90 \
+stheta.f90 \
+sdelta.f90 \
+findswidth.f90 \
+match.f90 \
+rhomagk.f90 \
+rhomagsh.f90 \
+symrf.f90 \
+rhocore.f90 \
+charge.f90 \
+rhonorm.f90 \
+moment.f90 \
+symrvf.f90 \
+rfinp.f90 \
+energykncr.f90 \
+rfmtctof.f90 \
+getkmat.f90 \
+exxengy.f90 \
+putevecfv.f90 \
+putevecsv.f90 \
+rfmtpack.f90 \
+genzvclmt.f90 \
+potefield.f90 \
+bdipole.f90 \
+rfmtftoc.f90 \
+potxcmt.f90 \
+potxcir.f90 \
+oepvcl.f90 \
+oepresk.f90 \
+rfinpc.f90 \
+rfint0.f90 \
+initoep.f90 \
+gentauk.f90 \
+gentaucr.f90 \
+eveqnit.f90 \
+eveqnfv.f90 \
+eveqnss.f90 \
+eveqnsv.f90 \
+rotzflm.f90 \
+findkpt.f90 \
+rotaxang.f90 \
+axangsu2.f90 \
+stheta_sq.f90 \
+stheta_lr.f90 \
+stheta_mp.f90 \
+stheta_fd.f90 \
+sbesseldm.f90 \
+wavefmt.f90 \
+zbsht.f90 \
+symrfmt.f90 \
+symrfir.f90 \
+chargemt.f90 \
+symrvfmt.f90 \
+symrvfir.f90 \
+rfinterp.f90 \
+exxengyk.f90 \
+wavefcr.f90 \
+zfsht.f90 \
+zpotclmt.f90 \
+zfmtinp.f90 \
+sdelta_sq.f90 \
+sdelta_lr.f90 \
+sdelta_mp.f90 \
+sdelta_fd.f90 \
+sphcrd.f90 \
+curlrvf.f90 \
+curden.f90 \
+ggamt_1.f90 \
+ggamt_sp_1.f90 \
+ggamt_sp_2a.f90 \
+ggamt_sp_2b.f90 \
+ggamt_2a.f90 \
+ggamt_2b.f90 \
+ggair_1.f90 \
+ggair_sp_2b.f90 \
+ggair_sp_2a.f90 \
+ggair_2a.f90 \
+ggair_2b.f90 \
+ggair_sp_1.f90 \
+oepvclk.f90 \
+getevalsv.f90 \
+genwfsv.f90 \
+genzrm.f90 \
+rzfmtinp.f90 \
+genzfrm.f90 \
+rzfinp.f90 \
+genzrho.f90 \
+rfmtinp.f90 \
+hmlaa.f90 \
+hmlalo.f90 \
+hmllolo.f90 \
+hmlistl.f90 \
+olpaa.f90 \
+olpalo.f90 \
+olplolo.f90 \
+olpistl.f90 \
+getevalfv.f90 \
+hmlfv.f90 \
+olpfv.f90 \
+eveqnfvz.f90 \
+eveqnfvr.f90 \
+eveqnz.f90 \
+lopzflm.f90 \
+roteuler.f90 \
+ylmrot.f90 \
+erf.f90 \
+hermite.f90 \
+rotrfmt.f90 \
+gengclgq.f90 \
+zfinp.f90 \
+curdenk.f90 \
+grad2rfmt.f90 \
+zmctmu.f90 \
+ylmroty.f90 \
+rotrflm.f90 rlmrot.f90
+
 
 OBJ = $(SRC:.f90=.o)
 EXE = lapwdft.x

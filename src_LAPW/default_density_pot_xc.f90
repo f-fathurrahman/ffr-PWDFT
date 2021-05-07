@@ -1,7 +1,7 @@
 SUBROUTINE default_density_pot_xc()
-  IMPLICIT NONE 
   USE m_density_pot_xc, ONLY: xctype, trhonorm, tc_tb09, taudft, nosource, msmooth, maxitksi, &
                 dncgga, c_tb09, tauksi
+  IMPLICIT NONE 
 
   xctype(1)=3
   xctype(2:3)=0

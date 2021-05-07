@@ -50,7 +50,8 @@ SUBROUTINE init_gvector_arrays()
   ! generate the G-vectors
   CALL gengvec()
   
-  ! write number of G-vectors to test file
+  WRITE(*,*) 'gkmax = ', gkmax
+  WRITE(*,*) 'gmaxvr = ', gmaxvr
   WRITE(*,*) 'number of G-vectors = ', ngvec
   
   ! Poisson solver pseudocharge density constant
