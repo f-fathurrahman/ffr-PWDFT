@@ -1,10 +1,10 @@
 !-----------------------------
 SUBROUTINE init_am_variables()
 !-----------------------------
-  USE modmain, ONLY: &
-      lmaxi, zil, zilc, idxim, idxil, idxlm, lmmaxapw, lmmaxo, &
-      lmaxo, zi, lmaxdos, lmmaxi, lmaxapw
-
+  USE m_constants, ONLY: zil, zilc, zi
+  USE m_muffin_tins, ONLY: lmaxi, idxim, idxil, idxlm, lmmaxapw, lmmaxo, &
+      lmaxo, lmmaxi, lmaxapw
+  USE m_dos_optics_response, ONLY: lmaxdos
   IMPLICIT NONE 
   INTEGER :: l, m, lm
 

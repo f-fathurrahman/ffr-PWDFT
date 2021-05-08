@@ -169,12 +169,9 @@ SUBROUTINE init_spin_variables()
     WRITE(*,*) 'Not supported yet'
     STOP
   ENDIF 
-
-  ! generate the fixed tensor moment density matrices if required
-  !call gendmftm()
   
   ! write to VARIABLES.OUT
-  !call writevars('nspinor',iv=nspinor)
-  !call writevars('ndmag',iv=ndmag)
+  WRITE(*,*) 'nspinor = ', nspinor
+  WRITE(*,*) 'ndmag   = ', ndmag
 
 END SUBROUTINE 

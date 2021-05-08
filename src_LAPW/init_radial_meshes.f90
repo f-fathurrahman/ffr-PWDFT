@@ -1,7 +1,8 @@
 !------------------------------
 SUBROUTINE init_radial_meshes()
 !------------------------------
-  USE modmain, ONLY: nrmtmax, nrcmtmax, nspecies, lradstp, nrcmt, nrcmti, &
+  USE m_atoms, ONLY: nspecies
+  USE m_muffin_tins, ONLY: nrmtmax, nrcmtmax, lradstp, nrcmt, nrcmti, &
                      npcmti, npcmtmax, npcmt, nrmti, npmt, nrmti, npmti, &
                      nrmt, npcmt, nrcmti, lmmaxi, lmmaxo, npmtmax
   IMPLICIT NONE 

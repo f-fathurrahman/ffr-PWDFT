@@ -1,8 +1,7 @@
 !---------------------------------
 SUBROUTINE init_idx_atom_species()
 !---------------------------------
-  USE modmain, ONLY: &
-               nspecies, idxas, idxis, idxia, natmmax, natmtot, natoms
+  USE m_atoms, ONLY: nspecies, idxas, idxis, idxia, natmmax, natmtot, natoms
   IMPLICIT NONE 
   INTEGER :: is, ia, ias
 

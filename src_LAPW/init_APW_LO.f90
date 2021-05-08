@@ -1,6 +1,9 @@
 SUBROUTINE init_APW_LO()
-
-  USE modmain
+  USE m_atoms, ONLY: natoms, idxas, nspecies, natmtot
+  USE m_apwlo, ONLY: apword, apwordmax, nlorb, lorbordmax, lmoapw, lorbord, &
+               lorbe, lorbe0, apwe0, apwe, npapw, nplorb, nlomax, maxlorb, &
+               lolmax, lolmmax, lofr, apwfr, lorbl, apwdfr
+  USE m_muffin_tins, ONLY: nrmtmax, lmaxapw
   IMPLICIT NONE 
   INTEGER :: ia, ias, ilo, l1, is, io
 

@@ -1,10 +1,12 @@
 !----------------------------------
 SUBROUTINE init_crystal_structure()
 !----------------------------------
-  USE modmain, ONLY: &
-               avec, nspecies, atposl, ainv, binv, bvec, fourpi, rmt, natoms, &
-               omegamt, omegabz, omega, epslat, atposc, &
-               vqlss, vecql, vecqc, vqcss
+  USE m_constants, ONLY: fourpi
+  USE m_atoms, ONLY: atposl, natoms, nspecies, atposc
+  USE m_lattice, ONLY: avec, ainv, binv, bvec, omegabz, omega, epslat
+  USE m_muffin_tins, ONLY: rmt, omegamt
+  USE m_spin, ONLY: vqlss, vqcss
+  USE m_dos_optics_response, ONLY: vecql, vecqc
   IMPLICIT NONE 
   INTEGER :: ia, is
 

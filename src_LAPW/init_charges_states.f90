@@ -1,12 +1,10 @@
 !-------------------------------
 SUBROUTINE init_charges_states()
 !-------------------------------
-  
-  USE modmain, ONLY: &
-               nspecies, spzn, natoms, nstsp, nstspmax, chgcr, occsp, &
-               ksp, spcore, spze, rwigner, omega, nstcr, fourpi, &
-               chgval, chgtot, chgzn, chgexs, chgcrtot
-
+  USE m_constants, ONLY: fourpi
+  USE m_atoms, ONLY: nspecies, spzn, natoms, nstsp, nstspmax, occsp, ksp, spze, spcore, nstcr
+  USE m_lattice, ONLY: omega
+  USE m_charge_moment_current, ONLY: chgval, chgtot, chgzn, chgexs, chgcrtot, chgcr, rwigner
   IMPLICIT NONE 
   INTEGER :: is, ist
 
@@ -51,12 +49,5 @@ SUBROUTINE init_charges_states()
   
   ! effective Wigner radius
   rwigner = (3.d0/(fourpi*(chgtot/omega)))**(1.d0/3.d0)
-  
-  ! write to VARIABLES.OUT
-  !call writevars('spze',nv=nspecies,rva=spze)
-  !call writevars('chgcr',nv=nspecies,rva=chgcr)
-  !call writevars('chgexs',rv=chgexs)
-  !call writevars('chgval',rv=chgtot)
 
 END SUBROUTINE 
-

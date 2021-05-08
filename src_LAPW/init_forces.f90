@@ -1,5 +1,6 @@
 SUBROUTINE init_forces()
-  USE modmain
+  USE m_atoms, ONLY: natmtot
+  USE m_force_stress, ONLY: forcehf, forceibs, forcetot
   IMPLICIT NONE 
   !-------------------------!
   !     force variables     !

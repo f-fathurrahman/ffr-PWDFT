@@ -1,6 +1,13 @@
 SUBROUTINE init_kpoints()
-  
-  USE modmain
+  USE m_constants, ONLY: twopi
+  USE m_symmetry, ONLY: lsplsymc, lspnsymc, tv0symc, nsymlat, nsymcrys, symlat
+  USE m_kpoints, ONLY: ngridk, kptboxl, wkpt, wkptnr, vkl, vkloff, vkc, symkpt, reducek, &
+                 radkpt, nsymkpt, nkptnr, nkpt, ivk, ivkik, ivkiknr, autokpt
+  USE m_misc, ONLY: task
+  USE m_lattice, ONLY: epslat, bvec
+  USE m_atoms, ONLY: molecule
+  USE m_spin, ONLY: spinpol
+  USE m_plotting, ONLY: np3d, vclp3d
   IMPLICIT NONE 
   LOGICAL :: lsym(48)
   INTEGER :: isym

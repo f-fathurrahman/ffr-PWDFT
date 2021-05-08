@@ -636,6 +636,9 @@ CASE('optcomp')
       WRITE(*,'(" msmooth : ",I4)') msmooth
     ENDIF
   !
+  CASE('autolinengy')
+    read(50,*,err=20) autolinengy
+  !
   CASE('')
     GOTO 10
   case default

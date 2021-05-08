@@ -1,9 +1,18 @@
 !------------------------------
 SUBROUTINE init_chgden_pot_xc()
 !------------------------------
-
-  USE modmain
-
+  USE m_atoms, ONLY: natmtot
+  USE m_density_pot_xc, ONLY: rhoir, rhomt, magir, magmt, xcgrad, tssxc, tcden, &
+             ssxc, socfr, wsmt, wsir, wxcmt, wxcir, taucr, taumt, taucr, tauir, &
+             bsmt, bsir, bdmt, bdir, tbdip, bxcir, bxcmt, vsig, vsir, vsmt, vxcmt, vxcir, &
+             ecir, ecmt, exir, exmt, vclir, vclmt, cdmt, cdir
+  USE m_spin, ONLY: spinpol, spinorb, ndmag, nspinor
+  USE m_states, ONLY: tevecsv
+  USE m_misc, ONLY: task
+  USE m_gvectors, ONLY: ngtot, ngvec
+  USE m_electric_vector_pot, ONLY: tafield
+  USE m_muffin_tins, ONLY: npmtmax, npcmtmax, nrcmtmax
+  USE m_charge_moment_current, ONLY: mommt, chgcrlk, chgmt
   IMPLICIT NONE 
 
   !-------------------------------------------------------------!

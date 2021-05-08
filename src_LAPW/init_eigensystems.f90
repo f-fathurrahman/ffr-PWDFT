@@ -1,6 +1,13 @@
 SUBROUTINE init_eigensystems()
-
-  USE modmain
+  USE m_atoms, ONLY: natmtot
+  USE m_states, ONLY: nempty, nstfv, nstsv, nempty0, occsv, evalsv
+  USE m_spin, ONLY: nspinor, nspnfv
+  USE m_muffin_tins, ONLY: idxlm, lmmaxo, lmaxo, lmmaxapw, lmaxapw
+  USE m_hamiltonian, ONLY: gntyry, nmatmax, nmat, hlolo, hloa, haa, ololo, oalo
+  USE m_apwlo, ONLY: nlotot, nlomax, apwordmax
+  USE m_gkvectors, ONLY: ngk
+  USE m_kpoints, ONLY: nkpt
+  USE m_charge_moment_current, ONLY: chgval
   IMPLICIT NONE 
   INTEGER :: lm1, lm2, lm3, l1, l2, l3, ik, jspn
   INTEGER :: m1, m2, m3
@@ -82,11 +89,11 @@ SUBROUTINE init_eigensystems()
       ENDDO 
     ENDDO 
   ENDDO 
-  ! write to VARIABLES.OUT
-  !call writevars('nempty',iv=nempty)
-  !call writevars('nstfv',iv=nstfv)
-  !call writevars('nlotot',iv=nlotot)
-  !call writevars('nstsv',iv=nstsv)
+  
+  WRITE(*,*) 'nempty = ', nempty
+  WRITE(*,*) 'nstfv  = ', nstfv
+  WRITE(*,*) 'nlotot = ', nlotot
+  WRITE(*,*) 'nstsv  = ', nstsv
 
   RETURN 
 
