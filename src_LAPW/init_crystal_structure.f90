@@ -10,6 +10,8 @@ SUBROUTINE init_crystal_structure()
   IMPLICIT NONE 
   INTEGER :: ia, is
 
+  WRITE(*,*) 'Setting up crystal structure'
+
   !----------------------------------!
   !     crystal structure set up     !
   !----------------------------------!
@@ -46,13 +48,5 @@ SUBROUTINE init_crystal_structure()
   
   ! input q-vector in Cartesian coordinates
   CALL r3mv(bvec, vecql, vecqc)
-  
-  ! write to VARIABLES.OUT
-  !call writevars('avec',nv=9,rva=avec)
-  !call writevars('bvec',nv=9,rva=bvec)
-  !call writevars('omega',rv=omega)
-  !do is=1,nspecies
-  !  call writevars('atposl',l=is,nv=3*natoms(is),rva=atposl(:,:,is))
-  !end DO
 
 END SUBROUTINE 

@@ -8,6 +8,8 @@ SUBROUTINE init_am_variables()
   IMPLICIT NONE 
   INTEGER :: l, m, lm
 
+  WRITE(*,*) 'Setting up angular momentum variables'
+
   !------------------------------------!
   !     angular momentum variables     !
   !------------------------------------!
@@ -51,11 +53,6 @@ SUBROUTINE init_am_variables()
     zil(l) = zi**l
     zilc(l) = conjg(zil(l))
   ENDDO 
-  
-  ! write to VARIABLES.OUT
-  WRITE(*,*) 'lmaxapw = ', lmaxapw
-  WRITE(*,*) 'lmaxi = ', lmaxi
-  WRITE(*,*) 'lmaxo = ', lmaxo
 
 END SUBROUTINE 
 

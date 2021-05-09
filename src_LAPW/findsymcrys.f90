@@ -22,11 +22,6 @@ use modmain, only: tv0symc, tsyminv, vtlsymc, lsplsymc, natoms, ieqatom, &
 !   variable {\tt tshift} is set to {\tt .false.} THEN  the shift is not
 !   performed. See L. M. Sandratskii and P. G. Guletskii, {\it J. Phys. F: Met.
 !   Phys.} {\bf 16}, L43 (1986) and the routine {\tt findsym}.
-!
-! !REVISION HISTORY:
-!   Created April 2007 (JKD)
-!EOP
-!BOC
 IMPLICIT NONE 
 ! local variables
 INTEGER ia,ja,is,js

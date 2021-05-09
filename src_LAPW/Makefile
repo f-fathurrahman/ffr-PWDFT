@@ -51,7 +51,8 @@ default_electric_vector_pot.f90 \
 default_core_states.f90 \
 default_density_pot_xc.f90 \
 default_dos_optics_response.f90 \
-info_apwlo.f90 info_lattice.f90 info_muffin_tins.f90 \
+info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
+info_symmetry.f90 \
 init_am_variables.f90 init_chgden_pot_xc.f90  init_Gk_vectors.f90 \
 init_radial_meshes.f90 init_APW_LO.f90  init_crystal_structure.f90  \
 init_gvector_arrays.f90 init_spin_variables.f90 init_atoms_cores.f90 \
@@ -91,11 +92,7 @@ genevfsv.f90 occupy.f90 \
 putoccsv.f90 rhomag.f90 \
 energy.f90 writeeval.f90 writefermi.f90  \
 writelinen.f90 writeengy.f90 writechg.f90 writestate.f90 writemom.f90 \
-potcoul.f90 \
-rfirsm.f90 \
-genbs.f90 \
-genws.f90 \
-potxc.f90 \
+potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 \
 oepmain.f90 \
 gentau.f90 \
 projsbf.f90 \

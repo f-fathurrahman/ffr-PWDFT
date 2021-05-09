@@ -1,19 +1,19 @@
-module m_convergence
+MODULE m_convergence
 
 !-------------------------------!
 !     convergence variables     !
 !-------------------------------!
 ! maximum number of self-consistent loops
-integer maxscl
+INTEGER maxscl
 ! current self-consistent loop number
-integer iscl
+INTEGER iscl
 ! Kohn-Sham potential convergence tolerance
-real(8) epspot
+REAL(8) epspot
 ! energy convergence tolerance
-real(8) epsengy
+REAL(8) epsengy
 ! force convergence tolerance
-real(8) epsforce
+REAL(8) epsforce
 ! stress tensor convergence tolerance
-real(8) epsstress
+REAL(8) epsstress
 
-end module
+END MODULE 

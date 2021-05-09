@@ -1,31 +1,31 @@
-subroutine symmetry
+SUBROUTINE symmetry()
 
-use modmain, only: avec, lsplsymc, lspnsymc, ainv
-use modmain, only: vtlsymc, tsyminv, tefvr, symtype, symlat, nsymlat, nsymcrys
+  USE m_lattice, ONLY: avec, ainv
+  USE m_symmetry, ONLY: tsyminv, symtype, nsymlat
+  USE m_hamiltonian, ONLY: tefvr
 
-implicit none
+  IMPLICIT NONE 
 
-! inverse of the lattice vector matrix
-call r3minv(avec,ainv) ! ffr: call this again?
+  WRITE(*,*) 'Setting up symmetry'
 
-! find Bravais lattice symmetries
-call findsymlat()
+  ! inverse of the lattice vector matrix
+  CALL r3minv(avec,ainv) ! ffr: CALL this again?
 
-! use only the identity if required
-if (symtype.eq.0) nsymlat=1
+  ! find Bravais lattice symmetries
+  CALL findsymlat()
 
-! find the crystal symmetries and shift atomic positions if required
-call findsymcrys()
+  ! use only the identity if required
+  IF(symtype.eq.0) nsymlat=1
 
-! find the site symmetries
-call findsymsite()
+  ! find the crystal symmetries and shift atomic positions if required
+  CALL findsymcrys()
 
-  ! check if fixed spin moments are invariant under the symmetry group
-  !call checkfsm()
+  ! find the site symmetries
+  CALL findsymsite()
 
-! check if real symmetric first-variational eigen solver can be used
-if (.not.tsyminv) tefvr=.false.
+  ! check if real symmetric first-variational eigen solver can be used
+  IF(.not.tsyminv) tefvr=.false.
 
-return
-end subroutine
+  RETURN 
+END SUBROUTINE 
 

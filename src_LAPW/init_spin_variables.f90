@@ -3,14 +3,16 @@ SUBROUTINE init_spin_variables()
 !------------------------------
   USE modmain, ONLY: &
            spinsprl, ssdph, natoms, natmtot, xctype, jspnfv, xcgrad, xcdescr, xcspin, &
-           tevecsv, task, tefvit, spinpol, spincore, spinorb, spcpl, occmax, reducebf, &
+           tevecsv, task, spinpol, spincore, spinorb, spcpl, occmax, reducebf, &
            nspinor, nspnfv, nspecies, ncmag, ndmag, nosource, mixtype, &
            hybrid, hybridc, epslat, cmagz, fsmtype, bfcmt0, bfcmt, bfieldc0, bfieldc, &
            bfsmc, bfsmcmt
   USE modxcifc, ONLY: getxcdata
 
   IMPLICIT NONE 
-  INTEGER :: i, ia, is
+  INTEGER :: ia, is
+
+  WRITE(*,*) 'Setting up spin variables'
 
   !------------------------!
   !     spin variables     !
@@ -169,9 +171,5 @@ SUBROUTINE init_spin_variables()
     WRITE(*,*) 'Not supported yet'
     STOP
   ENDIF 
-  
-  ! write to VARIABLES.OUT
-  WRITE(*,*) 'nspinor = ', nspinor
-  WRITE(*,*) 'ndmag   = ', ndmag
 
 END SUBROUTINE 

@@ -12,7 +12,7 @@ SUBROUTINE gndstate
   ! initialise global variables
   CALL init0()
   CALL init1()
-  
+
   iscl = 0
 
   ! initialise the density and magnetisation from atomic data

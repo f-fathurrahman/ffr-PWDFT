@@ -17,9 +17,16 @@ SUBROUTINE init0()
   CALL init_am_variables()
   CALL init_idx_atom_species()
   CALL init_spin_variables()
+  
   CALL init_crystal_structure()
+  CALL info_crystal()
+  
   CALL init_vector_field_E_A()
+  
   CALL symmetry() ! crystal symmetry set up
+  CALL info_symmetry()
+  STOP 'ffr1'
+
   CALL init_radial_meshes()
   CALL init_charges_states()
   CALL init_gvector_arrays()
