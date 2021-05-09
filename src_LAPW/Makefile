@@ -1,5 +1,6 @@
 
-include make.inc.gfortran
+#include make.inc.gfortran
+include make.inc.flang
 
 SRC_main = main_lapwdft.f90
 
@@ -34,7 +35,7 @@ m_misc.f90 \
 modmain.f90 \
 modrandom.f90 \
 oblas_stub.f90 \
-zfftifc.f90 \
+zfftifc_fftw.f90 \
 libxcifc_stub.f90 \
 modxcifc.f90 \
 read_input.f90 \

@@ -1,17 +1,16 @@
 MAKE = make
 AR = ar
 
-F77 = gfortran
-F77_OPTS = -Wall -O3 -cpp
+F77 = flang
+F77_OPTS = -O3 -Mpreprocess -mp
 
-F90 = gfortran
-F90_OPTS = -Wall -O3 -cpp
+F90 = flang
+F90_OPTS = -O3 -Mpreprocess -mp
 
 LIB_LINALG = -lblas -llapack
 LIB_FFTW3 = -lfftw3
 LIB_XC  = -L/home/efefer/mysoftwares/libxc-3.0.0/lib -lxcf90 -lxc
 LIBS    = $(LIB_LINALG) $(LIB_FFTW3) $(LIB_XC)
 
-#LIB_FFT = fftlib.a 
 LIB_FFT = -lfftw3
-LIB_LPK = -lopenblas
+LIB_LPK = lapack_flang.a blas_flang.a
