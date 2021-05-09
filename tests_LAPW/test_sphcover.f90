@@ -1,6 +1,6 @@
 PROGRAM main
   IMPLICIT NONE 
-  INTEGER, PARAMETER :: n=10
+  INTEGER, PARAMETER :: n=100
   INTEGER :: i
   REAL(8) :: tp(2,n)
 
