@@ -51,8 +51,6 @@ default_electric_vector_pot.f90 \
 default_core_states.f90 \
 default_density_pot_xc.f90 \
 default_dos_optics_response.f90 \
-info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
-info_symmetry.f90 \
 init_am_variables.f90 init_chgden_pot_xc.f90  init_Gk_vectors.f90 \
 init_radial_meshes.f90 init_APW_LO.f90  init_crystal_structure.f90  \
 init_gvector_arrays.f90 init_spin_variables.f90 init_atoms_cores.f90 \
@@ -204,20 +202,10 @@ hmlfv.f90 \
 olpfv.f90 \
 eveqnfvz.f90 \
 eveqnfvr.f90 \
-eveqnz.f90 \
-lopzflm.f90 \
-roteuler.f90 \
-ylmrot.f90 \
-erf.f90 \
-hermite.f90 \
-rotrfmt.f90 \
-gengclgq.f90 \
-zfinp.f90 \
-curdenk.f90 \
-grad2rfmt.f90 \
-zmctmu.f90 \
-ylmroty.f90 \
-rotrflm.f90 rlmrot.f90
+eveqnz.f90 lopzflm.f90 roteuler.f90 ylmrot.f90 erf.f90 hermite.f90 rotrfmt.f90 \
+gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.f90 rlmrot.f90 \
+info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
+info_symmetry.f90 info_gvectors.f90 \
 
 
 OBJ = $(SRC:.f90=.o)

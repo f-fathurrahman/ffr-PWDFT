@@ -19,19 +19,21 @@ SUBROUTINE init0()
   CALL init_spin_variables()
   
   CALL init_crystal_structure()
-  CALL info_crystal()
   
   CALL init_vector_field_E_A()
   
   CALL symmetry() ! crystal symmetry set up
-  CALL info_symmetry()
-  STOP 'ffr1'
-
+  
   CALL init_radial_meshes()
+
   CALL init_charges_states()
+  
   CALL init_gvector_arrays()
+  
   CALL init_atoms_cores()
+  
   CALL init_chgden_pot_xc()
+  
   CALL init_forces()
 
   !-----------------------!
@@ -54,12 +56,12 @@ SUBROUTINE init0()
   CALL genshtmat()
   !
   ! allocate 1D plotting arrays
-  IF( allocated(dvp1d)) DEALLOCATE(dvp1d)
-  ALLOCATE( dvp1d(nvp1d))
+  IF(allocated(dvp1d)) DEALLOCATE(dvp1d)
+  ALLOCATE(dvp1d(nvp1d))
   IF(allocated(vplp1d)) DEALLOCATE(vplp1d)
-  ALLOCATE( vplp1d(3,npp1d) )
-  IF( allocated(dpp1d) ) DEALLOCATE(dpp1d)
-  ALLOCATE( dpp1d(npp1d) )
+  ALLOCATE(vplp1d(3,npp1d))
+  IF(allocated(dpp1d)) DEALLOCATE(dpp1d)
+  ALLOCATE(dpp1d(npp1d))
   !
   ! initial self-consistent loop number
   iscl = 1
@@ -73,7 +75,7 @@ SUBROUTINE init0()
 
   CALL timesec(ts1)
   CALL timesec(ts1)
-  timeinit = timeinit+ts1-ts0
+  timeinit = timeinit + ts1 - ts0
 
   WRITE(*,*) 'tempk = ', tempk
 

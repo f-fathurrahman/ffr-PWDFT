@@ -5,7 +5,7 @@ SUBROUTINE init_idx_atom_species()
   IMPLICIT NONE 
   INTEGER :: is, ia, ias
 
-  WRITE(*,*) 'Setting indix to atoms and species'
+  WRITE(*,*) 'Setting up index to atoms and species'
 
   !------------------------------------!
   !     index to atoms and species     !

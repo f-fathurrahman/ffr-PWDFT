@@ -31,9 +31,9 @@ SUBROUTINE init_crystal_structure()
   DO is = 1,nspecies
     DO ia = 1,natoms(is)
       ! map atomic lattice coordinates to [0,1)
-      call r3frac( epslat, atposl(:,ia,is) )
+      CALL r3frac( epslat, atposl(:,ia,is) )
       ! determine atomic Cartesian coordinates
-      call r3mv( avec, atposl(:,ia,is), atposc(:,ia,is))
+      CALL r3mv( avec, atposl(:,ia,is), atposc(:,ia,is))
     ENDDO 
   ENDDO 
   

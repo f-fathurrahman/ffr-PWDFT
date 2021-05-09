@@ -8,7 +8,7 @@ SUBROUTINE info_apwlo()
 
   write(*,*)
   write(*,*) '----------'
-  write(*,*) 'APWLO info'
+  write(*,*) 'Info APWLO'
   write(*,*) '----------'
 
   WRITE(*,*) 'energy step used for numerical calculation of energy derivatives'

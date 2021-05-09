@@ -14,42 +14,40 @@
 !   where ${\bf r}_{ij}$ is the position of the $j$th atom of the $i$th species.
 SUBROUTINE gencfun()
   USE m_atoms, ONLY: natoms, nspecies, atposc
-  use m_gvectors, ONLY: cfunig, cfunir, ffacg, ngtot, ngridg, igfft, vgc
-implicit none
-! local variables
-integer is,ia,ig
-real(8) v1,v2,v3,t1
-complex(8) z1
-! allocatable arrays
-complex(8), allocatable :: zfft(:)
-! allocate global characteristic function arrays
-if (allocated(cfunig)) deallocate(cfunig)
-allocate(cfunig(ngtot))
-if (allocated(cfunir)) deallocate(cfunir)
-allocate(cfunir(ngtot))
-cfunig(1)=1.d0
-cfunig(2:)=0.d0
-! begin loop over species
-do is=1,nspecies
-! loop over atoms
-  do ia=1,natoms(is)
-    v1=atposc(1,ia,is); v2=atposc(2,ia,is); v3=atposc(3,ia,is)
-    do ig=1,ngtot
-! structure factor
-      t1=vgc(1,ig)*v1+vgc(2,ig)*v2+vgc(3,ig)*v3
-      z1=cmplx(cos(t1),-sin(t1),8)
-! add to characteristic function in G-space
-      cfunig(ig)=cfunig(ig)-ffacg(ig,is)*z1
-    end do
-  end do
-end do
-allocate(zfft(ngtot))
-zfft(igfft(:))=cfunig(:)
-! Fourier transform to real-space
-call zfftifc(3,ngridg,1,zfft)
-cfunir(:)=dble(zfft(:))
-deallocate(zfft)
-return
-end subroutine
-!EOC
-
+  USE m_gvectors, ONLY: cfunig, cfunir, ffacg, ngtot, ngridg, igfft, vgc
+  IMPLICIT NONE 
+  ! local variables
+  INTEGER :: is,ia,ig
+  REAL(8) :: v1,v2,v3,t1
+  COMPLEX(8) :: z1
+  ! ALLOCATABLE arrays
+  COMPLEX(8), ALLOCATABLE :: zfft(:)
+  ! allocate global characteristic function arrays
+  IF(allocated(cfunig)) DEALLOCATE(cfunig)
+  ALLOCATE(cfunig(ngtot))
+  IF(allocated(cfunir)) DEALLOCATE(cfunir)
+  ALLOCATE(cfunir(ngtot))
+  cfunig(1)=1.d0
+  cfunig(2:)=0.d0
+  ! begin loop over species
+  DO is=1,nspecies
+    ! loop over atoms
+    DO ia=1,natoms(is)
+      v1=atposc(1,ia,is); v2=atposc(2,ia,is); v3=atposc(3,ia,is)
+      DO ig=1,ngtot
+        ! structure factor
+        t1=vgc(1,ig)*v1+vgc(2,ig)*v2+vgc(3,ig)*v3
+        z1=cmplx(cos(t1),-sin(t1),8)
+        ! add to characteristic function in G-space
+        cfunig(ig)=cfunig(ig)-ffacg(ig,is)*z1
+      ENDDO 
+    ENDDO 
+  ENDDO 
+  ALLOCATE(zfft(ngtot))
+  zfft(igfft(:))=cfunig(:)
+  ! Fourier transform to real-space
+  CALL zfftifc(3,ngridg,1,zfft)
+  cfunir(:)=dble(zfft(:))
+  DEALLOCATE(zfft)
+  RETURN 
+END SUBROUTINE 

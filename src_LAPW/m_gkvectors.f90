@@ -1,27 +1,27 @@
-module m_gkvectors
+MODULE m_gkvectors
 
 !------------------------------!
 !     G+k-vector variables     !
 !------------------------------!
 ! species for which the muffin-tin radius will be used for calculating gkmax
-integer isgkmax
+INTEGER isgkmax
 ! smallest muffin-tin radius times gkmax
-real(8) rgkmax
+REAL(8) rgkmax
 ! maximum |G+k| cut-off for APW functions
-real(8) gkmax
+REAL(8) gkmax
 ! number of G+k-vectors for augmented plane waves
-integer, allocatable :: ngk(:,:)
+INTEGER, ALLOCATABLE :: ngk(:,:)
 ! maximum number of G+k-vectors over all k-points
-integer ngkmax
+INTEGER ngkmax
 ! index from G+k-vectors to G-vectors
-integer, allocatable :: igkig(:,:,:)
+INTEGER, ALLOCATABLE :: igkig(:,:,:)
 ! G+k-vectors in lattice coordinates
-real(8), allocatable :: vgkl(:,:,:,:)
+REAL(8), ALLOCATABLE :: vgkl(:,:,:,:)
 ! G+k-vectors in Cartesian coordinates
-real(8), allocatable :: vgkc(:,:,:,:)
+REAL(8), ALLOCATABLE :: vgkc(:,:,:,:)
 ! length of G+k-vectors
-real(8), allocatable :: gkc(:,:,:)
+REAL(8), ALLOCATABLE :: gkc(:,:,:)
 ! structure factors for the G+k-vectors
-complex(8), allocatable :: sfacgk(:,:,:,:)
+COMPLEX(8), ALLOCATABLE :: sfacgk(:,:,:,:)
 
-end module
+END MODULE 

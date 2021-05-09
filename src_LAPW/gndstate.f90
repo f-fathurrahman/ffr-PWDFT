@@ -12,6 +12,12 @@ SUBROUTINE gndstate
   ! initialise global variables
   CALL init0()
   CALL init1()
+  
+  CALL info_crystal()
+  CALL info_symmetry()
+  CALL info_gvectors()
+
+  STOP 'ffr1'
 
   iscl = 0
 

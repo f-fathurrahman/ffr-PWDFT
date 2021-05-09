@@ -8,6 +8,8 @@ SUBROUTINE init_radial_meshes()
   IMPLICIT NONE 
   INTEGER :: is
 
+  WRITE(*,*) 'Setting up radial meshes'
+
   nrmtmax = 1
   nrcmtmax = 1
   DO is = 1,nspecies

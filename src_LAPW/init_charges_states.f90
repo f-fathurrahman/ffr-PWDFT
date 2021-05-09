@@ -8,6 +8,8 @@ SUBROUTINE init_charges_states()
   IMPLICIT NONE 
   INTEGER :: is, ist
 
+  WRITE(*,*) 'Setting up charges and states'
+
   !--------------------------------------!
   !     charges and number of states     !
   !--------------------------------------!

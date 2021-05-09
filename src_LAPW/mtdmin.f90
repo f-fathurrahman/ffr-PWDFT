@@ -1,3 +1,7 @@
+! !DESCRIPTION:
+!   Finds the atomic species pair for which the distance between the muffin-tin
+!   surfaces is a minimum. This distance may be negative if the muffin-tins
+!   overlap.
 SUBROUTINE mtdmin(is,js,dmin)
   USE m_atoms, ONLY: atposc, nspecies, natoms
   USE m_lattice, ONLY: avec, epslat
@@ -5,10 +9,6 @@ SUBROUTINE mtdmin(is,js,dmin)
 ! !INPUT/OUTPUT PARAMETERS:
 !   is, js : species numbers (out,integer)
 !   dmin   : minimum distance between muffin-tin surfaces (out,real)
-! !DESCRIPTION:
-!   Finds the atomic species pair for which the distance between the muffin-tin
-!   surfaces is a minimum. This distance may be negative if the muffin-tins
-!   overlap.
   IMPLICIT NONE 
   ! arguments
   INTEGER, intent(out) :: is,js

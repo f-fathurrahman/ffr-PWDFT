@@ -1,10 +1,7 @@
 SUBROUTINE findsymlat()
-
-! !USES:
-use modmain, only: isymlat, symlat, symlatd, vqlss, epslat, efieldl, &
+  USE modmain, only: isymlat, symlat, symlatd, vqlss, epslat, efieldl, &
                    afieldl, tefield, tafield, spinsprl, ainv, avec, &
                    nsymlat, symlatc
-
 ! !DESCRIPTION:
 !   Finds the point group symmetries which leave the Bravais lattice invariant.
 !   Let $A$ be the matrix consisting of the lattice vectors in columns, THEN 
@@ -15,10 +12,10 @@ use modmain, only: isymlat, symlat, symlatd, vqlss, epslat, efieldl, &
 !   The first matrix in the set RETURN ed is the identity.
 IMPLICIT NONE 
 ! local variables
-INTEGER md,sym(3,3),its,i,j
-INTEGER i11,i12,i13,i21,i22,i23,i31,i32,i33
-REAL(8) s(3,3),g(3,3),sgs(3,3)
-REAL(8) sc(3,3),c(3,3),v(3),t1
+INTEGER :: md,sym(3,3),i,j
+INTEGER :: i11,i12,i13,i21,i22,i23,i31,i32,i33
+REAL(8) :: s(3,3),g(3,3),sgs(3,3)
+REAL(8) :: c(3,3),v(3),t1
 ! external functions
 INTEGER i3mdet
 external i3mdet
@@ -65,21 +62,8 @@ DO i31=-1,1; DO i32=-1,1; DO i33=-1,1
     IF(t1.gt.epslat) goto 10
   ENDIF 
   
-  ! check invariance of time-dependent A-field if required
-  !IF(tafieldt) THEN 
-  !  CALL r3mm(s,ainv,c)
-  !  CALL r3mm(avec,c,sc)
-  !  DO its=1,ntimes
-  !    CALL r3mv(sc,afieldt(:,its),v)
-  !    t1=abs(afieldt(1,its)-v(1)) &
-  !      +abs(afieldt(2,its)-v(2)) &
-  !      +abs(afieldt(3,its)-v(3))
-  !    IF(t1.gt.epslat) goto 10
-  !  ENDDO 
-  !ENDIF 
-  
   nsymlat=nsymlat+1
-  IF(nsymlat.gt.48) THEN 
+  IF(nsymlat > 48) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(findsymlat): more than 48 symmetries found")')
     WRITE(*,'(" (lattice vectors may be linearly dependent)")')
@@ -135,10 +119,6 @@ DO i=1,nsymlat
 30 continue
 ENDDO 
 
-WRITE(*,*)
-WRITE(*,*) 'findsymlat: nsymlat = ', nsymlat
-WRITE(*,*)
-
 ! determine the lattice symmetries in Cartesian coordinates
 DO i=1,nsymlat
   s(:,:)=dble(symlat(:,:,i))
@@ -147,5 +127,3 @@ DO i=1,nsymlat
 ENDDO 
 RETURN 
 END SUBROUTINE 
-!EOC
-

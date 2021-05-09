@@ -12,6 +12,8 @@ SUBROUTINE init_gvector_arrays()
   INTEGER :: is
   REAL(8) :: t1, rsum
 
+  WRITE(*,*) 'Setting up Gvector arrays'
+
   !-------------------------!
   !     G-vector arrays     !
   !-------------------------!
@@ -49,10 +51,6 @@ SUBROUTINE init_gvector_arrays()
 
   ! generate the G-vectors
   CALL gengvec()
-  
-  WRITE(*,*) 'gkmax = ', gkmax
-  WRITE(*,*) 'gmaxvr = ', gmaxvr
-  WRITE(*,*) 'number of G-vectors = ', ngvec
   
   ! Poisson solver pseudocharge density constant
   IF(nspecies.gt.0) THEN 
