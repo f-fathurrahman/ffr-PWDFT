@@ -89,7 +89,7 @@ linengy.f90 genapwlofr.f90 \
 genapwfr.f90 genlofr.f90 gensocfr.f90 \
 genevfsv.f90 occupy.f90 \
 putoccsv.f90 rhomag.f90 \
-energy.f90 writeeval.f90 writefermi.f90  \
+energy.f90 writeeval.f90 writefermi.f90 writeforces.f90 writesym.f90 \
 writelinen.f90 writeengy.f90 writechg.f90 writestate.f90 writemom.f90 \
 potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 \
 oepmain.f90 \
@@ -205,6 +205,7 @@ eveqnfvz.f90 \
 eveqnfvr.f90 \
 eveqnz.f90 lopzflm.f90 roteuler.f90 ylmrot.f90 erf.f90 hermite.f90 rotrfmt.f90 \
 gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.f90 rlmrot.f90 \
+force.f90 forcek.f90 symveca.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
 

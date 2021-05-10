@@ -271,11 +271,10 @@ PROGRAM debug_gndstate
   ENDIF 
 
   ! compute forces if required
-  !IF(tforce) THEN 
-  !  CALL force()
-  !  ! output forces to INFO.OUT
-  !  IF(mp_mpi) CALL writeforces(6)
-  !end IF
+  IF(tforce) THEN 
+    CALL force()
+    CALL writeforces(6)
+  end IF
 
   ! total time used
   timetot = timeinit + timemat + timefv + timesv + timerho + timepot + timefor
