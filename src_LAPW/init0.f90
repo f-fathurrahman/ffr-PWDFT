@@ -77,6 +77,4 @@ SUBROUTINE init0()
   CALL timesec(ts1)
   timeinit = timeinit + ts1 - ts0
 
-  WRITE(*,*) 'tempk = ', tempk
-
 END SUBROUTINE

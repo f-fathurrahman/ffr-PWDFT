@@ -1,4 +1,4 @@
-SUBROUTINE gndstate
+PROGRAM debug_gndstate
   USE modmain
 
   IMPLICIT NONE 
@@ -9,13 +9,15 @@ SUBROUTINE gndstate
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: v(:),work(:)
 
+  CALL read_input()
+
   ! initialise global variables
   CALL init0()
   CALL init1()
   
-  !CALL info_crystal()
-  !CALL info_symmetry()
-  !CALL info_gvectors()
+  CALL info_crystal()
+  CALL info_symmetry()
+  CALL info_gvectors()
   !STOP 'ffr1'
 
   iscl = 0
@@ -317,4 +319,4 @@ SUBROUTINE gndstate
 
   RETURN 
 
-END SUBROUTINE 
+END PROGRAM 

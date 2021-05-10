@@ -14,4 +14,4 @@ LIBS    = $(LIB_LINALG) $(LIB_FFTW3) $(LIB_XC)
 
 #LIB_FFT = fftlib.a 
 LIB_FFT = -lfftw3
-LIB_LPK = -lopenblas
+LIB_LPK = -lblas -llapack

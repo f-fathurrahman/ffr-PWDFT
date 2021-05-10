@@ -1,6 +1,6 @@
 
-#include make.inc.gfortran
-include make.inc.flang
+include make.inc.gfortran
+#include make.inc.flang
 
 SRC_main = main_lapwdft.f90
 
@@ -225,8 +225,13 @@ EXE = lapwdft.x
 lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
+
+debug_gndstate:	$(OBJ)
+	$(F90) $(F90_OPTS) debug_gndstate.f90 -o debug_gndstate.x $(OBJ) $(LIB_LPK) $(LIB_FFT) \
+    $(LIB_libxc) $(LIB_SYS)
+
 main:	$(OBJ)
-	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_W90) $(LIB_LPK) $(LIB_FFT) \
+	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) \
     $(LIB_libxc) $(LIB_SYS)
 
 clean:
