@@ -236,7 +236,7 @@ main:	$(OBJ)
     $(LIB_libxc) $(LIB_SYS)
 
 clean:
-	rm -f *.o *.mod 
+	rm -f *.o *.mod liblapwdft.a
 
 mpi_stub.o: mpi_stub.f90
 	$(F90) $(F90_OPTS_NO_WARN) -c mpi_stub.f90
