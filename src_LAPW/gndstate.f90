@@ -12,11 +12,6 @@ SUBROUTINE gndstate
   ! initialise global variables
   CALL init0()
   CALL init1()
-  
-  !CALL info_crystal()
-  !CALL info_symmetry()
-  !CALL info_gvectors()
-  !STOP 'ffr1'
 
   iscl = 0
 
@@ -269,11 +264,10 @@ SUBROUTINE gndstate
   ENDIF 
 
   ! compute forces if required
-  !IF(tforce) THEN 
-  !  CALL force()
-  !  ! output forces to INFO.OUT
-  !  IF(mp_mpi) CALL writeforces(6)
-  !end IF
+  IF(tforce) THEN 
+    CALL force()
+    CALL writeforces(6)
+  ENDIF
 
   ! total time used
   timetot = timeinit + timemat + timefv + timesv + timerho + timepot + timefor

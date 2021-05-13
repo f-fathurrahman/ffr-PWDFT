@@ -7,80 +7,80 @@ use m_muffin_tins, only: maxlapw
 !     APW and local-orbital variables     !
 !-----------------------------------------!
 ! energy step used for numerical calculation of energy derivatives
-real(8) :: deapwlo
+REAL(8) :: deapwlo
 ! maximum allowable APW order
-integer, parameter :: maxapword=4
+INTEGER, parameter :: maxapword=4
 ! APW order
-integer ::apword(0:maxlapw,maxspecies)
+INTEGER :: apword(0:maxlapw,maxspecies)
 ! maximum of apword over all angular momenta and species
-integer apwordmax
+INTEGER :: apwordmax
 ! total number of APW coefficients (l, m and order) for each species
-integer lmoapw(maxspecies)
+INTEGER :: lmoapw(maxspecies)
 ! polynomial order used for APW radial derivatives
-integer npapw
+INTEGER :: npapw
 ! APW initial linearisation energies
-real(8) apwe0(maxapword,0:maxlapw,maxspecies)
+REAL(8) :: apwe0(maxapword,0:maxlapw,maxspecies)
 ! APW linearisation energies
-real(8), allocatable :: apwe(:,:,:)
+REAL(8), ALLOCATABLE :: apwe(:,:,:)
 ! APW derivative order
-integer apwdm(maxapword,0:maxlapw,maxspecies)
+INTEGER :: apwdm(maxapword,0:maxlapw,maxspecies)
 ! apwve is .true. if the linearisation energies are allowed to vary
-logical apwve(maxapword,0:maxlapw,maxspecies)
+LOGICAL :: apwve(maxapword,0:maxlapw,maxspecies)
 ! APW radial functions
-real(8), allocatable :: apwfr(:,:,:,:,:)
+REAL(8), ALLOCATABLE :: apwfr(:,:,:,:,:)
 ! derivate of radial functions at the muffin-tin surface
-real(8), allocatable :: apwdfr(:,:,:)
+REAL(8), ALLOCATABLE :: apwdfr(:,:,:)
 ! maximum number of local-orbitals
-integer, parameter :: maxlorb=200
+INTEGER, parameter :: maxlorb=200
 ! maximum allowable local-orbital order
-integer, parameter :: maxlorbord=5
+INTEGER, parameter :: maxlorbord=5
 ! number of local-orbitals
-integer nlorb(maxspecies)
+INTEGER :: nlorb(maxspecies)
 ! maximum nlorb over all species
-integer nlomax
+INTEGER :: nlomax
 ! total number of local-orbitals
-integer nlotot
+INTEGER :: nlotot
 ! local-orbital order
-integer lorbord(maxlorb,maxspecies)
+INTEGER :: lorbord(maxlorb,maxspecies)
 ! maximum lorbord over all species
-integer lorbordmax
+INTEGER :: lorbordmax
 ! polynomial order used for local-orbital radial derivatives
-integer nplorb
+INTEGER :: nplorb
 ! local-orbital angular momentum
-integer lorbl(maxlorb,maxspecies)
+INTEGER :: lorbl(maxlorb,maxspecies)
 ! maximum lorbl over all species
-integer lolmax
+INTEGER lolmax
 ! (lolmax+1)^2
-integer lolmmax
+INTEGER lolmmax
 ! local-orbital initial energies
-real(8) lorbe0(maxlorbord,maxlorb,maxspecies)
+REAL(8) lorbe0(maxlorbord,maxlorb,maxspecies)
 ! local-orbital energies
-real(8), allocatable :: lorbe(:,:,:)
+REAL(8), ALLOCATABLE :: lorbe(:,:,:)
 ! local-orbital derivative order
-integer lorbdm(maxlorbord,maxlorb,maxspecies)
+INTEGER lorbdm(maxlorbord,maxlorb,maxspecies)
 ! lorbve is .true. if the linearisation energies are allowed to vary
-logical lorbve(maxlorbord,maxlorb,maxspecies)
+LOGICAL lorbve(maxlorbord,maxlorb,maxspecies)
 ! local-orbital radial functions
-real(8), allocatable :: lofr(:,:,:,:)
+REAL(8), ALLOCATABLE :: lofr(:,:,:,:)
 ! band energy search tolerance
-real(8) epsband
+REAL(8) epsband
 ! maximum allowed change in energy during band energy search; enforced only if
 ! default energy is less than zero
-real(8) demaxbnd
+REAL(8) demaxbnd
 ! minimum default linearisation energy over all APWs and local-orbitals
-real(8) e0min
-! if autolinengy is .true. then the fixed linearisation energies are set to the
+REAL(8) e0min
+! if autolinengy is .true. THEN  the fixed linearisation energies are set to the
 ! Fermi energy minus dlefe
-logical autolinengy
+LOGICAL autolinengy
 ! difference between linearisation and Fermi energies when autolinengy is .true.
-real(8) dlefe
+REAL(8) dlefe
 ! lorbcnd is .true. if conduction state local-orbitals should be added
-logical lorbcnd
+LOGICAL lorbcnd
 ! conduction state local-orbital order
-integer lorbordc
+INTEGER lorbordc
 ! excess order of the APW and local-orbital functions
-integer nxoapwlo
+INTEGER nxoapwlo
 ! excess local orbitals
-integer nxlo
+INTEGER nxlo
 
 end module

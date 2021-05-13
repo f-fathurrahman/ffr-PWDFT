@@ -6,66 +6,66 @@ use m_atoms, only: maxspecies
 !     muffin-tin radial mesh and angular momentum variables     !
 !---------------------------------------------------------------!
 ! scale factor for number of muffin-tin points
-real(8) nrmtscf
+REAL(8) :: nrmtscf
 ! number of muffin-tin radial points for each species
-integer nrmt(maxspecies)
+INTEGER :: nrmt(maxspecies)
 ! maximum nrmt over all the species
-integer nrmtmax
+INTEGER :: nrmtmax
 ! optional default muffin-tin radius for all atoms
-real(8) rmtall
+REAL(8) :: rmtall
 ! minimum allowed distance between muffin-tin surfaces
-real(8) rmtdelta
+REAL(8) :: rmtdelta
 ! muffin-tin radii
-real(8) rmt(maxspecies)
+REAL(8) :: rmt(maxspecies)
 ! total muffin-tin volume
-real(8) omegamt
+REAL(8) :: omegamt
 ! radial step length for coarse mesh
-integer lradstp
+INTEGER :: lradstp
 ! number of coarse radial mesh points
-integer nrcmt(maxspecies)
+INTEGER :: nrcmt(maxspecies)
 ! maximum nrcmt over all the species
-integer nrcmtmax
+INTEGER :: nrcmtmax
 ! coarse muffin-tin radial mesh
-real(8), allocatable :: rcmt(:,:)
+REAL(8), ALLOCATABLE :: rcmt(:,:)
 ! r^l on fine radial mesh
-real(8), allocatable :: rlmt(:,:,:)
+REAL(8), ALLOCATABLE :: rlmt(:,:,:)
 ! r^l on coarse radial mesh
-real(8), allocatable :: rlcmt(:,:,:)
+REAL(8), ALLOCATABLE :: rlcmt(:,:,:)
 ! weights for spline integration on fine radial mesh
-real(8), allocatable :: wrmt(:,:)
+REAL(8), ALLOCATABLE :: wrmt(:,:)
 ! weights for spline partial integration on fine radial mesh
-real(8), allocatable :: wprmt(:,:,:)
+REAL(8), ALLOCATABLE :: wprmt(:,:,:)
 ! weights for spline integration on coarse radial mesh
-real(8), allocatable :: wrcmt(:,:)
+REAL(8), ALLOCATABLE :: wrcmt(:,:)
 ! weights for spline partial integration on coarse radial mesh
-real(8), allocatable :: wprcmt(:,:,:)
+REAL(8), ALLOCATABLE :: wprcmt(:,:,:)
 ! maximum allowable angular momentum for augmented plane waves
-integer, parameter :: maxlapw=50
+INTEGER, parameter :: maxlapw=50
 ! maximum angular momentum for augmented plane waves
-integer lmaxapw
+INTEGER lmaxapw
 ! (lmaxapw+1)^2
-integer lmmaxapw
+INTEGER lmmaxapw
 ! maximum angular momentum on the outer part of the muffin-tin
-integer lmaxo
+INTEGER lmaxo
 ! (lmaxo+1)^2
-integer lmmaxo
+INTEGER lmmaxo
 ! maximum angular momentum on the inner part of the muffin-tin
-integer lmaxi
+INTEGER lmaxi
 ! (lmaxi+1)^2
-integer lmmaxi
+INTEGER lmmaxi
 ! fraction of muffin-tin radius which constitutes the inner part
-real(8) fracinr
+REAL(8) fracinr
 ! number of fine/coarse radial points on the inner part of the muffin-tin
-integer nrmti(maxspecies),nrcmti(maxspecies)
+INTEGER nrmti(maxspecies),nrcmti(maxspecies)
 ! index to (l,m) pairs
-integer, allocatable :: idxlm(:,:)
+INTEGER, ALLOCATABLE :: idxlm(:,:)
 ! inverse index to (l,m) pairs
-integer, allocatable :: idxil(:),idxim(:)
+INTEGER, ALLOCATABLE :: idxil(:),idxim(:)
 ! number of fine/coarse points in packed muffin-tins
-integer npmti(maxspecies),npmt(maxspecies)
-integer npcmti(maxspecies),npcmt(maxspecies)
+INTEGER npmti(maxspecies),npmt(maxspecies)
+INTEGER npcmti(maxspecies),npcmt(maxspecies)
 ! maximum number of points over all packed muffin-tins
-integer npmtmax,npcmtmax
+INTEGER npmtmax,npcmtmax
 
 
 end module

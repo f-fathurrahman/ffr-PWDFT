@@ -17,8 +17,18 @@ PROGRAM debug_gndstate
   
   CALL info_crystal()
   CALL info_symmetry()
+  CALL writesym()
   CALL info_gvectors()
-  !STOP 'ffr1'
+
+  CALL info_muffin_tins()
+
+  WRITE(*,*)
+  WRITE(*,*) 'Dimension of Hamiltonian'
+  WRITE(*,*) 'nmat'  
+  WRITE(*,*) 'size nmat = ', size(nmat)
+  WRITE(*,*) nmat(:,1)
+
+  STOP 'ffr1'
 
   iscl = 0
 
