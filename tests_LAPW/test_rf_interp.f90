@@ -4,7 +4,7 @@ subroutine my_func(x, res)
   implicit none 
   real(8), intent(in) :: x
   real(8), intent(out) :: res
-  res = exp(-0.5*x)
+  res = exp(-0.1*x)
   return
 end subroutine
 
