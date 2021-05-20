@@ -1,12 +1,3 @@
-
-SUBROUTINE findsymcrys()
-! !USES:
-use modmain, only: tv0symc, tsyminv, vtlsymc, lsplsymc, natoms, ieqatom, &
-                   lspnsymc, isymlat, eqatoms, efieldc, tefield, symtype, &
-                   nspecies, nsymcrys, tshift, natmtot, natmmax, maxsymcrys, &
-                   avec, epslat, atposl, maxspecies, maxatoms, vtcsymc, &
-                   symlat, atposc
-
 ! !DESCRIPTION:
 !   Finds the complete set of symmetries which leave the crystal structure
 !   (including the magnetic fields) invariant. A crystal symmetry is of the form
@@ -22,114 +13,125 @@ use modmain, only: tv0symc, tsyminv, vtlsymc, lsplsymc, natoms, ieqatom, &
 !   variable {\tt tshift} is set to {\tt .false.} THEN  the shift is not
 !   performed. See L. M. Sandratskii and P. G. Guletskii, {\it J. Phys. F: Met.
 !   Phys.} {\bf 16}, L43 (1986) and the routine {\tt findsym}.
-IMPLICIT NONE 
-! local variables
-INTEGER ia,ja,is,js
-INTEGER isym,nsym,i,n
-INTEGER lspl(48),lspn(48),ilspl
-REAL(8) v0(3),v1(3),v2(3),t1
-REAL(8) apl(3,maxatoms,maxspecies)
-! ALLOCATABLE arrays
-INTEGER, ALLOCATABLE :: iea(:,:,:)
-REAL(8), ALLOCATABLE :: vtl(:,:)
+SUBROUTINE findsymcrys()
+  ! !USES:
+  USE m_atoms, ONLY: nspecies, atposl, maxspecies, maxatoms, atposc, natoms, &
+               natmtot, natmmax, nspecies
+  USE m_lattice, ONLY: epslat, avec
+  USE m_electric_vector_pot, ONLY: efieldc, tefield
+  USE m_symmetry, only: tv0symc, tsyminv, vtlsymc, lsplsymc, ieqatom, &
+                     lspnsymc, isymlat, eqatoms, symtype, &
+                     nsymcrys, tshift, maxsymcrys, &
+                     vtcsymc, symlat
 
-! allocate local array
-ALLOCATE(iea(natmmax,nspecies,48))
+  IMPLICIT NONE 
+  ! local variables
+  INTEGER :: ia,ja,is,js
+  INTEGER :: isym,nsym,i,n
+  INTEGER :: lspl(48),lspn(48),ilspl
+  REAL(8) :: v0(3),v1(3),v2(3),t1
+  REAL(8) :: apl(3,maxatoms,maxspecies)
+  ! ALLOCATABLE arrays
+  INTEGER, ALLOCATABLE :: iea(:,:,:)
+  REAL(8), ALLOCATABLE :: vtl(:,:)
 
-! allocate equivalent atom arrays
-IF(allocated(ieqatom)) DEALLOCATE(ieqatom)
-ALLOCATE(ieqatom(natmmax,nspecies,maxsymcrys))
-IF(allocated(eqatoms)) DEALLOCATE(eqatoms)
-ALLOCATE(eqatoms(natmmax,natmmax,nspecies))
+  ! allocate local array
+  ALLOCATE(iea(natmmax,nspecies,48))
 
-! store position of first atom
-IF(natmtot.gt.0) v0(:)=atposl(:,1,1)
+  ! allocate equivalent atom arrays
+  IF(allocated(ieqatom)) DEALLOCATE(ieqatom)
+  ALLOCATE(ieqatom(natmmax,nspecies,maxsymcrys))
+  IF(allocated(eqatoms)) DEALLOCATE(eqatoms)
+  ALLOCATE(eqatoms(natmmax,natmmax,nspecies))
 
-! find the smallest set of atoms
-is=1
-DO js=1,nspecies
-  IF(natoms(js).lt.natoms(is)) is=js
-ENDDO 
+  ! store position of first atom
+  IF(natmtot.gt.0) v0(:)=atposl(:,1,1)
 
-IF((tshift).and.(natmtot.gt.0)) THEN 
-! shift basis so that the first atom in the smallest atom set is at the origin
-  v1(:)=atposl(:,1,is)
+  ! find the smallest set of atoms
+  is=1
   DO js=1,nspecies
-    DO ia=1,natoms(js)
-      ! shift atom
-      atposl(:,ia,js)=atposl(:,ia,js)-v1(:)
-      ! map lattice coordinates back to [0,1)
-      CALL r3frac(epslat,atposl(:,ia,js))
-      ! determine the new Cartesian coordinates
-      CALL r3mv(avec,atposl(:,ia,js),atposc(:,ia,js))
+    IF(natoms(js).lt.natoms(is)) is=js
+  ENDDO 
+
+  IF((tshift).and.(natmtot.gt.0)) THEN 
+    ! shift basis so that the first atom in the smallest atom set is at the origin
+    v1(:)=atposl(:,1,is)
+    DO js=1,nspecies
+      DO ia=1,natoms(js)
+        ! shift atom
+        atposl(:,ia,js)=atposl(:,ia,js)-v1(:)
+        ! map lattice coordinates back to [0,1)
+        CALL r3frac(epslat,atposl(:,ia,js))
+        ! determine the new Cartesian coordinates
+        CALL r3mv(avec,atposl(:,ia,js),atposc(:,ia,js))
+      ENDDO 
+    ENDDO 
+  ENDIF 
+
+  ! determine possible translation vectors from smallest set of atoms
+  n=max(natoms(is)*natoms(is),1)
+  ALLOCATE(vtl(3,n))
+  n=1
+  vtl(:,1)=0.d0
+  DO ia=1,natoms(is)
+    DO ja=2,natoms(is)
+      ! compute difference between two atom vectors
+      v1(:)=atposl(:,ia,is)-atposl(:,ja,is)
+      ! map lattice coordinates to [0,1)
+      CALL r3frac(epslat,v1)
+      ! check if vector has any component along electric field
+      IF(tefield) THEN 
+        CALL r3mv(avec,v1,v2)
+        t1=efieldc(1)*v2(1)+efieldc(2)*v2(2)+efieldc(3)*v2(3)
+        IF(abs(t1).gt.epslat) goto 10
+      ENDIF 
+      DO i=1,n
+        t1=abs(vtl(1,i)-v1(1))+abs(vtl(2,i)-v1(2))+abs(vtl(3,i)-v1(3))
+        IF(t1.lt.epslat) goto 10
+      ENDDO 
+      n=n+1
+      vtl(:,n)=v1(:)
+      10 CONTINUE
     ENDDO 
   ENDDO 
-ENDIF 
 
-! determine possible translation vectors from smallest set of atoms
-n=max(natoms(is)*natoms(is),1)
-ALLOCATE(vtl(3,n))
-n=1
-vtl(:,1)=0.d0
-DO ia=1,natoms(is)
-  DO ja=2,natoms(is)
-! compute difference between two atom vectors
-    v1(:)=atposl(:,ia,is)-atposl(:,ja,is)
-! map lattice coordinates to [0,1)
-    CALL r3frac(epslat,v1)
-! check if vector has any component along electric field
-    IF(tefield) THEN 
-      CALL r3mv(avec,v1,v2)
-      t1=efieldc(1)*v2(1)+efieldc(2)*v2(2)+efieldc(3)*v2(3)
-      IF(abs(t1).gt.epslat) goto 10
-    ENDIF 
-    DO i=1,n
-      t1=abs(vtl(1,i)-v1(1))+abs(vtl(2,i)-v1(2))+abs(vtl(3,i)-v1(3))
-      IF(t1.lt.epslat) goto 10
-    ENDDO 
-    n=n+1
-    vtl(:,n)=v1(:)
-10 continue
-  ENDDO 
-ENDDO 
+  ! no translations required when symtype=0,2 (F. Cricchio)
+  IF(symtype.ne.1) n=1
+  eqatoms(:,:,:)=.false.
+  nsymcrys=0
 
-! no translations required when symtype=0,2 (F. Cricchio)
-IF(symtype.ne.1) n=1
-eqatoms(:,:,:)=.false.
-nsymcrys=0
-
-! loop over all possible translations
-DO i=1,n
-! construct new array with translated positions
-  DO is=1,nspecies
-    DO ia=1,natoms(is)
-      apl(:,ia,is)=atposl(:,ia,is)+vtl(:,i)
-    ENDDO 
-  ENDDO 
-! find the symmetries for current translation
-  CALL findsym(atposl,apl,nsym,lspl,lspn,iea)
-  DO isym=1,nsym
-    nsymcrys=nsymcrys+1
-    IF(nsymcrys.gt.maxsymcrys) THEN 
-      WRITE(*,*)
-      WRITE(*,'("Error(findsymcrys): too many crystal symmetries")')
-      WRITE(*,'(" Adjust maxsymcrys in modmain and recompile code")')
-      WRITE(*,*)
-      stop
-    ENDIF 
-    vtlsymc(:,nsymcrys)=vtl(:,i)
-    lsplsymc(nsymcrys)=lspl(isym)
-    lspnsymc(nsymcrys)=lspn(isym)
+  ! loop over all possible translations
+  DO i=1,n
+    ! construct new array with translated positions
     DO is=1,nspecies
       DO ia=1,natoms(is)
-        ja=iea(ia,is,isym)
-        ieqatom(ia,is,nsymcrys)=ja
-        eqatoms(ia,ja,is)=.true.
-        eqatoms(ja,ia,is)=.true.
+        apl(:,ia,is)=atposl(:,ia,is)+vtl(:,i)
+      ENDDO 
+    ENDDO 
+    ! find the symmetries for current translation
+    CALL findsym(atposl,apl,nsym,lspl,lspn,iea)
+    DO isym=1,nsym
+      nsymcrys=nsymcrys+1
+      IF(nsymcrys.gt.maxsymcrys) THEN 
+        WRITE(*,*)
+        WRITE(*,'("Error(findsymcrys): too many crystal symmetries")')
+        WRITE(*,'(" Adjust maxsymcrys in modmain and recompile code")')
+        WRITE(*,*)
+        stop
+      ENDIF 
+      vtlsymc(:,nsymcrys)=vtl(:,i)
+      lsplsymc(nsymcrys)=lspl(isym)
+      lspnsymc(nsymcrys)=lspn(isym)
+      DO is=1,nspecies
+        DO ia=1,natoms(is)
+          ja=iea(ia,is,isym)
+          ieqatom(ia,is,nsymcrys)=ja
+          eqatoms(ia,ja,is)=.true.
+          eqatoms(ja,ia,is)=.true.
+        ENDDO 
       ENDDO 
     ENDDO 
   ENDDO 
-ENDDO 
 
 tsyminv=.false.
 

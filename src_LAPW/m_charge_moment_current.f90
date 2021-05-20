@@ -1,49 +1,49 @@
-module m_charge_moment_current
+MODULE m_charge_moment_current
 
-use m_atoms, only: maxspecies
+USE m_atoms, only: maxspecies
 
 !----------------------------------------------!
 !     charge, moment and current variables     !
 !----------------------------------------------!
 ! tolerance for error in total charge
-real(8) epschg
+REAL(8) epschg
 ! total nuclear charge
-real(8) chgzn
+REAL(8) chgzn
 ! core charges
-real(8) chgcr(maxspecies)
+REAL(8) chgcr(maxspecies)
 ! total core charge
-real(8) chgcrtot
+REAL(8) chgcrtot
 ! core leakage charge
-real(8), allocatable :: chgcrlk(:)
+REAL(8), ALLOCATABLE :: chgcrlk(:)
 ! total valence charge
-real(8) chgval
+REAL(8) chgval
 ! excess charge
-real(8) chgexs
+REAL(8) chgexs
 ! total charge
-real(8) chgtot
+REAL(8) chgtot
 ! calculated total charge
-real(8) chgcalc
+REAL(8) chgcalc
 ! interstitial region charge
-real(8) chgir
+REAL(8) chgir
 ! muffin-tin charges
-real(8), allocatable :: chgmt(:)
+REAL(8), ALLOCATABLE :: chgmt(:)
 ! total muffin-tin charge
-real(8) chgmttot
+REAL(8) chgmttot
 ! effective Wigner radius
-real(8) rwigner
+REAL(8) rwigner
 ! total moment
-real(8) momtot(3)
+REAL(8) momtot(3)
 ! total moment magnitude
-real(8) momtotm
+REAL(8) momtotm
 ! interstitial region moment
-real(8) momir(3)
+REAL(8) momir(3)
 ! muffin-tin moments
-real(8), allocatable :: mommt(:,:)
+REAL(8), ALLOCATABLE :: mommt(:,:)
 ! total muffin-tin moment
-real(8) mommttot(3)
+REAL(8) mommttot(3)
 ! total current
-real(8) curtot(3)
+REAL(8) curtot(3)
 ! total current magnitude
-real(8) curtotm
+REAL(8) curtotm
 
 end module 

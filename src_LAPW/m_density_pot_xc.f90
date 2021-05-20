@@ -1,90 +1,90 @@
-module m_density_pot_xc
+MODULE m_density_pot_xc
 
 !---------------------------------------------------------------!
 !     density, potential and exchange-correlation variables     !
 !---------------------------------------------------------------!
 ! exchange-correlation functional type
-integer xctype(3)
+INTEGER xctype(3)
 ! exchange-correlation functional description
 character(512) xcdescr
 ! exchange-correlation functional spin requirement
-integer xcspin
+INTEGER xcspin
 ! exchange-correlation functional density gradient requirement
-integer xcgrad
+INTEGER xcgrad
 ! small constant used to stabilise non-collinear GGA
-real(8) dncgga
+REAL(8) dncgga
 ! muffin-tin and interstitial charge density
-real(8), allocatable :: rhomt(:,:),rhoir(:)
+REAL(8), ALLOCATABLE :: rhomt(:,:),rhoir(:)
 ! trhonorm is .true. if the density is to be normalised after every iteration
-logical trhonorm
+LOGICAL trhonorm
 ! muffin-tin and interstitial magnetisation vector field
-real(8), allocatable :: magmt(:,:,:),magir(:,:)
+REAL(8), ALLOCATABLE :: magmt(:,:,:),magir(:,:)
 ! tcden is .true. if the current density is to be calculated
-logical tcden
+LOGICAL tcden
 ! muffin-tin and interstitial current density vector field
-real(8), allocatable :: cdmt(:,:,:),cdir(:,:)
+REAL(8), ALLOCATABLE :: cdmt(:,:,:),cdir(:,:)
 ! amount of smoothing to be applied to the exchange-correlation potentials and
 ! magnetic field
-integer msmooth
+INTEGER msmooth
 ! muffin-tin and interstitial Coulomb potential
-real(8), allocatable :: vclmt(:,:),vclir(:)
+REAL(8), ALLOCATABLE :: vclmt(:,:),vclir(:)
 ! Poisson solver pseudocharge density constant
-integer npsd
+INTEGER npsd
 ! lmaxo+npsd+1
-integer lnpsd
+INTEGER lnpsd
 ! muffin-tin and interstitial exchange energy density
-real(8), allocatable :: exmt(:,:),exir(:)
+REAL(8), ALLOCATABLE :: exmt(:,:),exir(:)
 ! muffin-tin and interstitial correlation energy density
-real(8), allocatable :: ecmt(:,:),ecir(:)
+REAL(8), ALLOCATABLE :: ecmt(:,:),ecir(:)
 ! muffin-tin and interstitial exchange-correlation potential
-real(8), allocatable :: vxcmt(:,:),vxcir(:)
+REAL(8), ALLOCATABLE :: vxcmt(:,:),vxcir(:)
 ! constant part of exchange-correlation potential
-real(8) vxc0
+REAL(8) vxc0
 ! muffin-tin and interstitial Kohn-Sham effective potential
-real(8), allocatable :: vsmt(:,:),vsir(:)
+REAL(8), ALLOCATABLE :: vsmt(:,:),vsir(:)
 ! G-space interstitial Kohn-Sham effective potential
-complex(8), allocatable :: vsig(:)
+COMPLEX(8), ALLOCATABLE :: vsig(:)
 ! muffin-tin and interstitial exchange-correlation magnetic field
-real(8), allocatable :: bxcmt(:,:,:),bxcir(:,:)
+REAL(8), ALLOCATABLE :: bxcmt(:,:,:),bxcir(:,:)
 ! muffin-tin and interstitial magnetic dipole field
-real(8), allocatable :: bdmt(:,:,:),bdir(:,:)
+REAL(8), ALLOCATABLE :: bdmt(:,:,:),bdir(:,:)
 ! tbdip is .true. if the spin and current dipole fields are to be added to the
 ! Kohn-Sham magnetic field
-logical tbdip
+LOGICAL tbdip
 ! muffin-tin Kohn-Sham effective magnetic field in spherical coordinates and on
 ! a coarse radial mesh
-real(8), allocatable :: bsmt(:,:,:)
+REAL(8), ALLOCATABLE :: bsmt(:,:,:)
 ! interstitial Kohn-Sham effective magnetic field
-real(8), allocatable :: bsir(:,:)
+REAL(8), ALLOCATABLE :: bsir(:,:)
 ! nosource is .true. if the field is to be made source-free
-logical nosource
+LOGICAL nosource
 ! tssxc is .true. if scaled spin exchange-correlation (SSXC) is to be used
-logical tssxc
+LOGICAL tssxc
 ! SSXC scaling factor
-real(8) ssxc
+REAL(8) ssxc
 ! spin-orbit coupling radial function
-real(8), allocatable :: socfr(:,:)
+REAL(8), ALLOCATABLE :: socfr(:,:)
 ! kinetic energy density
-real(8), allocatable :: taumt(:,:,:),tauir(:,:)
+REAL(8), ALLOCATABLE :: taumt(:,:,:),tauir(:,:)
 ! core kinetic energy density
-real(8), allocatable :: taucr(:,:,:)
+REAL(8), ALLOCATABLE :: taucr(:,:,:)
 ! taudft is .true. if meta-GGA is to be treated as a tau-DFT functional
-logical taudft
+LOGICAL taudft
 ! tau-DFT exchange-correlation potential
-real(8), allocatable :: wxcmt(:,:),wxcir(:)
+REAL(8), ALLOCATABLE :: wxcmt(:,:),wxcir(:)
 ! tau-DFT Kohn-Sham potential
-real(8), allocatable :: wsmt(:,:),wsir(:)
+REAL(8), ALLOCATABLE :: wsmt(:,:),wsir(:)
 ! Tran-Blaha '09 constant c [Phys. Rev. Lett. 102, 226401 (2009)]
-real(8) c_tb09
+REAL(8) c_tb09
 ! tc_tb09 is .true. if the Tran-Blaha constant has been read in
-logical tc_tb09
+LOGICAL tc_tb09
 ! if trdstate is .true. the density and potential can be read from STATE.OUT
-logical trdstate
+LOGICAL trdstate
 ! temperature in degrees Kelvin
-real(8) tempk
+REAL(8) tempk
 ! maximum number of iterations used for inverting the Kohn-Sham equations
-integer maxitksi
+INTEGER maxitksi
 ! step size used for inverting the Kohn-Sham equations
-real(8) tauksi
+REAL(8) tauksi
 
-end module
+END MODULE 
