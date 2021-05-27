@@ -36,7 +36,7 @@ SUBROUTINE debug_potks(txc)
   CALL timesec(ts0)
 
   ! compute the Coulomb potential
-  CALL potcoul()
+  CALL my_potcoul()
 
   ! meta-GGA variables if required
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
@@ -51,8 +51,8 @@ SUBROUTINE debug_potks(txc)
    exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
 
   write(*,*) 'xctype = ', xctype
-  write(*,*) 'size(exmt) = ', size(exmt)
-  write(*,*) 'size(exir) = ', size(exir)
+  write(*,*) 'shape(exmt) = ', shape(exmt)
+  write(*,*) 'shape(exir) = ', shape(exir)
   
   ! optimised effective potential exchange potential
   IF(xctype(1) < 0) CALL oepmain()
@@ -64,9 +64,9 @@ SUBROUTINE debug_potks(txc)
   DO ias=1,natmtot
     is=idxis(ias)
     np=npmt(is)
-    vsmt(1:np,ias)=vclmt(1:np,ias)+vxcmt(1:np,ias)
+    vsmt(1:np,ias) = vclmt(1:np,ias) + vxcmt(1:np,ias)
   ENDDO 
-  vsir(:)=vclir(:)+vxcir(:)
+  vsir(:) = vclir(:) + vxcir(:)
   
   write(*,*) 'msmooth = ', msmooth
   ! smooth the interstitial potential if required
@@ -81,12 +81,22 @@ SUBROUTINE debug_potks(txc)
   CALL timesec(ts1)
   timepot = timepot + ts1 - ts0
 
+  write(*,*) 'sum(vclir) = ', sum(vclir)
+  write(*,*) 'sum(vxcir) = ', sum(vxcir)
+  write(*,*) 'sum(vsir) = ', sum(vsir)
   write(*,'(1x,A,F18.5)') 'timepot = ', timepot
   
   RETURN 
 END SUBROUTINE 
 
-!include 'z_to_rf_mt.f90'
-!include 'z_to_rf_lm.f90'
+include 'my_potcoul.f90'
+include 'my_zpotclmt.f90'
+include 'my_genzvclmt.f90'
+include 'my_zpotcoul.f90'
+
+include 'r_to_zf_mt.f90'
+include 'r_to_zf_lm.f90'
+include 'z_to_rf_mt.f90'
+include 'z_to_rf_lm.f90'
 !include 'rf_mt_c_to_f.f90'
 !include 'rf_interp.f90'
