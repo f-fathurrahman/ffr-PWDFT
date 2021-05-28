@@ -21,24 +21,30 @@ SUBROUTINE init_gvector_arrays()
   IF (nspecies.eq.0) isgkmax=-2
   select case(isgkmax)
   case(:-4)
-    ! use largest muffin-tin radius
+    write(*,*) 'Use largest muffin-tin radius'
     gkmax=rgkmax/maxval(rmt(1:nspecies))
   case(-3)
-    ! use smallest muffin-tin radius
+    write(*,*) 'Use smallest muffin-tin radius'
     gkmax=rgkmax/minval(rmt(1:nspecies))
   case(-2)
-    ! use the fixed value of 2.0
+    write(*,*) 'Use the fixed value of 2.0'
     gkmax=rgkmax/2.d0
   case(-1)
-    ! use average muffin-tin radius
+    write(*,*) 'Use average muffin-tin radius'
     rsum=0.d0
     DO is=1,nspecies
-       rsum=rsum+dble(natoms(is))*rmt(is)
+      write(*,*) 'rmt(is) = ', rmt(is)
+      rsum=rsum+dble(natoms(is))*rmt(is)
     ENDDO 
     rsum=rsum/dble(natmtot)
     gkmax=rgkmax/rsum
+    
+    write(*,*) 'rgkmax = ', rgkmax
+    write(*,*) 'rsum   = ', rsum
+    write(*,*) 'gkmax  = ', gkmax
+
   case(1:)
-    ! use user-specified muffin-tin radius
+    write(*,*) 'Use user-specified muffin-tin radius'
     IF(isgkmax <= nspecies) THEN 
       gkmax = rgkmax/rmt(isgkmax)
     ELSE 
