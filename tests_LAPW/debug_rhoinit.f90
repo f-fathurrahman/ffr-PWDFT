@@ -18,7 +18,7 @@ END PROGRAM
 
 
 SUBROUTINE debug_rhoinit()
-  USE m_density_pot_xc, ONLY: rhoir, rhomt
+  USE m_density_pot_xc, ONLY: rhoir, rhomt, xctype, xcdescr
   USE m_muffin_tins, ONLY: nrmti, nrmt, rcmt, rcmt, npcmtmax, npcmt, nrcmt, nrcmti, nrcmtmax, &
                    lmmaxi, lmmaxo, lmaxi
   USE m_constants, ONLY: zil, y00, fourpi
@@ -134,6 +134,8 @@ SUBROUTINE debug_rhoinit()
     nrc = nrcmt(is)
     nrci = nrcmti(is)
     irco = nrci+1
+    write(*,*) 'nrci = ', nrci
+    write(*,*) 'nrc  = ', nrc
     zfmt(1:npcmt(is)) = 0.d0
     DO ig = 1,ngvec
       ifg = igfft(ig)
@@ -203,6 +205,9 @@ SUBROUTINE debug_rhoinit()
   write(*,*) 'ngridg = ', ngridg
   write(*,'(1x,A,ES18.10)') 'sum(rhoir) = ', sum(rhoir)
   write(*,'(1x,A,ES18.10)') 'sum(rhomt) = ', sum(rhomt)
+
+  write(*,*) 'xctype = ', xctype
+  write(*,*) 'xcdescr = ', trim(xcdescr)
 
   RETURN 
 END SUBROUTINE 
