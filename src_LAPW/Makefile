@@ -36,7 +36,7 @@ modmain.f90 \
 modrandom.f90 \
 oblas_stub.f90 \
 zfftifc_fftw.f90 \
-libxcifc_stub.f90 \
+libxcifc.f90 \
 modxcifc.f90 \
 read_input.f90 \
 read_species_files.f90 \
@@ -233,7 +233,7 @@ debug_gndstate:	$(OBJ)
 
 main:	$(OBJ)
 	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) \
-    $(LIB_libxc) $(LIB_SYS)
+    $(LIB_LIBXC) $(LIB_SYS)
 
 clean:
 	rm -f *.o *.mod liblapwdft.a
@@ -241,8 +241,11 @@ clean:
 mpi_stub.o: mpi_stub.f90
 	$(F90) $(F90_OPTS_NO_WARN) -c mpi_stub.f90
 
-libxcifc_stub.o: libxcifc_stub.f90
-	$(F90) $(F90_OPTS_NO_WARN) -c libxcifc_stub.f90
+#libxcifc_stub.o: libxcifc_stub.f90
+#	$(F90) $(F90_OPTS_NO_WARN) -c libxcifc_stub.f90
+
+libxcifc.o: libxcifc.f90
+	$(F90) -I$(LIBXC_HOME)/include $(F90_OPTS_NO_WARN) -c libxcifc.f90
 
 mkl_stub.o: mkl_stub.f90
 	$(F90) $(F90_OPTS_NO_WARN) -c mkl_stub.f90

@@ -9,7 +9,9 @@ F90_OPTS = -Wall -O3 -cpp
 
 LIB_LINALG = -lblas -llapack
 LIB_FFTW3 = -lfftw3
-LIB_XC  = -L/home/efefer/mysoftwares/libxc-3.0.0/lib -lxcf90 -lxc
+
+LIBXC_HOME = /home/efefer/mysoftwares/libxc-4.3.4
+LIB_LIBXC  = $(LIBXC_HOME)/lib/libxcf90.a $(LIBXC_HOME)/lib/libxc.a
 LIBS    = $(LIB_LINALG) $(LIB_FFTW3) $(LIB_XC)
 
 #LIB_FFT = fftlib.a 
