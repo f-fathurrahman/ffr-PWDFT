@@ -226,11 +226,6 @@ EXE = lapwdft.x
 lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
-
-debug_gndstate:	$(OBJ)
-	$(F90) $(F90_OPTS) debug_gndstate.f90 -o debug_gndstate.x $(OBJ) $(LIB_LPK) $(LIB_FFT) \
-    $(LIB_libxc) $(LIB_SYS)
-
 main:	$(OBJ)
 	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) \
     $(LIB_LIBXC) $(LIB_SYS)
