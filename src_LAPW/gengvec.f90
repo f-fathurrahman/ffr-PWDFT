@@ -18,9 +18,14 @@ SUBROUTINE gengvec()
   REAL(8), ALLOCATABLE :: vgc0(:,:),gc0(:)
   
   IF(gmaxvr < 0.d0) gmaxvr = abs(gmaxvr)*gkmax
-  
+
   ! ensure |G| cut-off is at least twice |G+k| cut-off
+  if(gmaxvr <= 2.d0*gkmax) then
+    write(*,*) 'INFO gengvec: gmaxvr will be set to 2*gkmax'
+  endif
   gmaxvr=max(gmaxvr,2.d0*gkmax+epslat)
+  write(*,*) 'gmaxvr = ', gmaxvr
+  write(*,*) 'gkmax  = ', gkmax
   
   ! find the G-vector grid sizes
   CALL gridsize(avec,gmaxvr,ngridg,ngtot,intgv)
