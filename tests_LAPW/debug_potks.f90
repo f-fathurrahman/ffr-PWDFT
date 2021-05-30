@@ -47,7 +47,7 @@ SUBROUTINE debug_potks(txc)
   ENDIF 
   
   ! compute the exchange-correlation potential and fields
-  IF(txc) CALL potxc(.true.,xctype,rhomt,rhoir,magmt,magir,taumt,tauir,exmt, &
+  IF(txc) CALL my_potxc(.true.,xctype,rhomt,rhoir,magmt,magir,taumt,tauir,exmt, &
    exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
 
   write(*,*) 'xctype = ', xctype
@@ -93,6 +93,9 @@ include 'my_potcoul.f90'
 include 'my_zpotclmt.f90'
 include 'my_genzvclmt.f90'
 include 'my_zpotcoul.f90'
+include 'my_potxc.f90'
+include 'my_potxcmt.f90'
+include 'my_potxcir.f90'
 
 include 'r_to_zf_mt.f90'
 include 'r_to_zf_lm.f90'

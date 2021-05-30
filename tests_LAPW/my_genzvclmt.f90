@@ -12,9 +12,14 @@ SUBROUTINE my_genzvclmt(nr,nri,ld1,rl,wpr,ld2,zrhomt,zvclmt)
   COMPLEX(8), intent(out) :: zvclmt(ld2,natmtot)
   ! local variables
   INTEGER :: is,ias
+
+  write(*,*)
+  write(*,*) 'In my_genzvclmt: ld1 = ', ld1
+  write(*,*) 'In my_genzvclmt: ld2 = ', ld2  
+
   DO ias=1,natmtot
     is=idxis(ias)
-    CALL zpotclmt(nr(is),nri(is),ld1,rl(:,:,is),wpr(:,:,is),zrhomt(:,ias), &
+    CALL my_zpotclmt(nr(is),nri(is),ld1,rl(:,:,is),wpr(:,:,is),zrhomt(:,ias), &
      zvclmt(:,ias))
   ENDDO 
   RETURN 

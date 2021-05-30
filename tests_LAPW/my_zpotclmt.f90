@@ -27,19 +27,25 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
   iro=nri+1
   npi=lmmaxi*nri
   lm=0
+  write(*,*) 'lmaxi = ', lmaxi
   DO l=0,lmaxi
-    l1=l+2
-    l2=-l+1
-    l3=-l-1
+    l1 =  l + 2
+    l2 = -l + 1
+    l3 = -l - 1
+    write(*,'(1x,A,3I4)') 'l1 l2 l3 = ', l1, l2, l3
     t0=fourpi/dble(2*l+1)
     DO m=-l,l
       lm=lm+1
       i=lm
       DO ir=1,nri
-        t1=dble(zrhomt(i)); t2=aimag(zrhomt(i))
-        r1=rl(ir,l1); r2=rl(ir,l2)
-        f1(ir)=t1*r1; f2(ir)=t2*r1
-        f3(ir)=t1*r2; f4(ir)=t2*r2
+        t1=dble(zrhomt(i))
+        t2=aimag(zrhomt(i))
+        r1=rl(ir,l1)
+        r2=rl(ir,l2)
+        f1(ir)=t1*r1
+        f2(ir)=t2*r1
+        f3(ir)=t1*r2
+        f4(ir)=t2*r2
         i=i+lmmaxi
       ENDDO 
       DO ir=iro,nr
@@ -71,19 +77,26 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
       ENDDO 
     ENDDO 
   ENDDO 
+
+  write(*,*) 'lmaxo = ', lmaxo
   DO l=lmaxi+1,lmaxo
-    l1=l+2
-    l2=-l+1
-    l3=-l-1
+    l1 =  l + 2
+    l2 = -l + 1
+    l3 = -l - 1
+    write(*,'(1x,A,3I4)') 'l1 l2 l3 = ', l1, l2, l3
     t0=fourpi/dble(2*l+1)
     DO m=-l,l
       lm=lm+1
       i=npi+lm
       DO ir=iro,nr
-        t1=dble(zrhomt(i)); t2=aimag(zrhomt(i))
-        r1=rl(ir,l1); r2=rl(ir,l2)
-        f1(ir)=t1*r1; f2(ir)=t2*r1
-        f3(ir)=t1*r2; f4(ir)=t2*r2
+        t1=dble(zrhomt(i))
+        t2=aimag(zrhomt(i))
+        r1=rl(ir,l1)
+        r2=rl(ir,l2)
+        f1(ir)=t1*r1
+        f2(ir)=t2*r1
+        f3(ir)=t1*r2
+        f4(ir)=t2*r2
         i=i+lmmaxo
       ENDDO 
       CALL splintwp(nro,wpr(1,iro),f1(iro),f5(iro))
