@@ -40,8 +40,12 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
   REAL(8), ALLOCATABLE :: wx(:),wxup(:),wxdn(:)
   REAL(8), ALLOCATABLE :: wc(:),wcup(:),wcdn(:)
   
+  write(*,*) 'xcgrad = ', xcgrad
+  write(*,*) 'xctype_ = ', xctype_
+
   is=idxis(ias)
   n=npmt(is)
+
   ! allocate local arrays
   ALLOCATE(rho(n),ex(n),ec(n),vxc(n))
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) ALLOCATE(tau(n,nspinor))
@@ -91,14 +95,20 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
       ALLOCATE(wx(n),wc(n))
     ENDIF 
   ENDIF 
+
+  !
   nr=nrmt(is)
   nri=nrmti(is)
+  !
   IF(tsh) THEN 
-  ! convert the density to spherical coordinates
+    ! convert the density to spherical coordinates
     CALL rbsht(nr,nri,rhomt_(:,ias),rho)
   ELSE 
     rho(1:n)=rhomt_(1:n,ias)
   ENDIF 
+
+  write(*,*) 'my_potxcmt: shape(rho) = ', shape(rho)
+  
   ! convert tau to spherical coordinates if required
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
     DO ispn=1,nspinor
@@ -109,6 +119,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
       ENDIF 
     ENDDO 
   ENDIF 
+
   IF(spinpol) THEN 
   !------------------------!
   !     spin-polarised     !
@@ -121,21 +132,22 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
         mag(1:n,idm)=magmt_(1:n,ias,idm)
       ENDIF 
     ENDDO 
-  ! use scaled spin exchange-correlation (SSXC) if required
+    ! use scaled spin exchange-correlation (SSXC) if required
     IF(tssxc) mag(:,1:ndmag)=mag(:,1:ndmag)*ssxc
+    !
     IF(ncmag) THEN 
-  ! non-collinear (use Kubler's trick)
+      ! non-collinear (use Kubler's trick)
       IF(xcgrad.eq.0) THEN 
-  ! LSDA
+        ! LSDA
         DO i=1,n
-  ! compute rhoup=(rho+|m|)/2 and rhodn=(rho-|m|)/2
+          ! compute rhoup=(rho+|m|)/2 and rhodn=(rho-|m|)/2
           t0=rho(i)
           t1=sqrt(mag(i,1)**2+mag(i,2)**2+mag(i,3)**2)
           rhoup(i)=0.5d0*(t0+t1)
           rhodn(i)=0.5d0*(t0-t1)
         ENDDO 
       ELSE 
-  ! functionals which require gradients
+        ! functionals which require gradients
         DO i=1,n
           t0=rho(i)
           t1=sqrt(mag(i,1)**2+mag(i,2)**2+mag(i,3)**2+dncgga)
@@ -144,24 +156,26 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
         ENDDO 
       ENDIF 
     ELSE 
-  ! collinear
+      ! collinear
       DO i=1,n
-  ! compute rhoup=(rho+m_z)/2 and rhodn=(rho-m_z)/2
+        ! compute rhoup=(rho+m_z)/2 and rhodn=(rho-m_z)/2
         t0=rho(i)
         t1=mag(i,1)
         rhoup(i)=0.5d0*(t0+t1)
         rhodn(i)=0.5d0*(t0-t1)
       ENDDO 
     ENDIF 
-  ! CALL the exchange-correlation interface routine
+    ! CALL the exchange-correlation interface routine
     IF(xcgrad.le.0) THEN 
       CALL xcifc(xctype_,n=n,tempa=swidth,rhoup=rhoup,rhodn=rhodn,ex=ex,ec=ec, &
        vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
+    !
     ELSEIF(xcgrad.eq.1) THEN 
       CALL ggamt_sp_1(is,n,rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,grho=grho,gup=gup,gdn=gdn, &
        g2up=g2up,g2dn=g2dn,g3rho=g3rho,g3up=g3up,g3dn=g3dn,ex=ex,ec=ec,vxup=vxup,&
        vxdn=vxdn,vcup=vcup,vcdn=vcdn)
+    !
     ELSEIF(xcgrad.eq.2) THEN 
       CALL ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,gup2=gup2,gdn2=gdn2, &
@@ -170,12 +184,14 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
        dcdgud=dcdgud)
       CALL ggamt_sp_2b(is,n,g2up,g2dn,gvup,gvdn,vxup,vxdn,vcup,vcdn,dxdgu2, &
        dxdgd2,dxdgud,dcdgu2,dcdgd2,dcdgud)
+    !
     ELSEIF(xcgrad.eq.3) THEN 
       CALL ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,c_tb09=c_tb09,rhoup=rhoup,rhodn=rhodn,g2up=g2up, &
        g2dn=g2dn,gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tau(:,1),taudn=tau(:,2), &
        vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
        ex(:)=0.d0; ec(:)=0.d0
+    !
     ELSEIF(xcgrad.eq.4) THEN 
       CALL ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,g2up=g2up,g2dn=g2dn, &
@@ -193,30 +209,30 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
         wxcmt_(1:n,ias)=wxup(1:n)
       ENDIF 
     ENDIF 
-  ! hybrid functionals
+    ! hybrid functionals
     IF(hybrid) THEN 
       t1=1.d0-hybridc
-  ! scale exchange part of energy
+      ! scale exchange part of energy
       ex(:)=t1*ex(:)
-  ! scale exchange part of potential
+      ! scale exchange part of potential
       vxup(:)=t1*vxup(:)
       vxdn(:)=t1*vxdn(:)
     ENDIF 
     IF(ncmag) THEN 
-  ! non-collinear: locally spin rotate the exchange-correlation potential
+      ! non-collinear: locally spin rotate the exchange-correlation potential
       DO i=1,n
         t1=vxup(i)+vcup(i)
         t2=vxdn(i)+vcdn(i)
         vxc(i)=0.5d0*(t1+t2)
-  ! determine the exchange-correlation magnetic field
+        ! determine the exchange-correlation magnetic field
         t3=0.5d0*(t1-t2)
-  ! |m| = rhoup - rhodn
+        ! |m| = rhoup - rhodn
         t4=rhoup(i)-rhodn(i)
         IF(abs(t4).gt.1.d-8) t4=t3/t4
         bxc(i,1:3)=mag(i,1:3)*t4
       ENDDO 
     ELSE 
-  ! collinear
+      ! collinear
       DO i=1,n
         t1=vxup(i)+vcup(i)
         t2=vxdn(i)+vcdn(i)
@@ -224,11 +240,11 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
         bxc(i,1)=0.5d0*(t1-t2)
       ENDDO 
     ENDIF 
-  ! scale B_xc for SSXC if required
+    ! scale B_xc for SSXC if required
     IF(tssxc) bxc(:,1:ndmag)=bxc(:,1:ndmag)*ssxc
     DO idm=1,ndmag
       IF(tsh) THEN 
-  ! convert field to spherical harmonics
+        ! convert field to spherical harmonics
         CALL rfsht(nr,nri,bxc(:,idm),bxcmt_(:,ias,idm))
       ELSE 
         bxcmt_(1:n,ias,idm)=bxc(1:n,idm)
@@ -236,13 +252,11 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     ENDDO 
   
   ELSE 
-  
-    write(*,*) 'xcgrad = ', xcgrad
-    write(*,*) 'xctype_ = ', xctype_
 
-  !--------------------------!
-  !     spin-unpolarised     !
-  !--------------------------!
+    !--------------------------!
+    !     spin-unpolarised     !
+    !--------------------------!
+
     IF(xcgrad.le.0) THEN 
       CALL xcifc(xctype_,n=n,tempa=swidth,rho=rho,ex=ex,ec=ec,vx=vx,vc=vc)
     ELSEIF(xcgrad.eq.1) THEN 
@@ -290,11 +304,18 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     CALL rfsht(nr,nri,ec,ecmt_(:,ias))
     ! convert exchange-correlation potential to spherical harmonics
     CALL rfsht(nr,nri,vxc,vxcmt_(:,ias))
+
+    write(*,*) 'my_potxcmt: shape(exmt) = ', shape(exmt_)
+    write(*,*) 'my_potxcmt: shape(ecmt) = ', shape(ecmt_)
+    write(*,*) 'my_potxcmt: shape(vxcmt) = ', shape(vxcmt_)
+
   ELSE 
     exmt_(1:n,ias)=ex(1:n)
     ecmt_(1:n,ias)=ec(1:n)
     vxcmt_(1:n,ias)=vxc(1:n)
   ENDIF 
+
+  ! Deallocate memory
   DEALLOCATE(rho,ex,ec,vxc)
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) DEALLOCATE(tau)
   IF(spinpol) THEN 

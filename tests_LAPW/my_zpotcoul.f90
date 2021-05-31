@@ -191,9 +191,8 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
     !ENDIF 
   
   ENDDO 
+
   ! Fourier transform interstitial potential to real-space
   CALL zfftifc(3,ngdg,1,zvclir)
   RETURN 
 END SUBROUTINE 
-!EOC
-
