@@ -1,6 +1,7 @@
 SUBROUTINE symrf(nr,nri,np,ld,rfmt,rfir)
   ! !USES:
-  USE modmain
+  USE m_atoms, ONLY: nspecies, natmtot
+  USE m_gvectors, ONLY: ngtot
   ! !INPUT/OUTPUT PARAMETERS:
   !   nr   : number of radial points for each species (in,integer(nspecies))
   !   nri  : number of radial points on the inner part (in,integer(nspecies))
