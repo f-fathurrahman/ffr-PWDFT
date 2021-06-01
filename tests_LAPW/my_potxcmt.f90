@@ -39,15 +39,18 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
   REAL(8), ALLOCATABLE :: dcdg2r(:),dcdg2u(:),dcdg2d(:)
   REAL(8), ALLOCATABLE :: wx(:),wxup(:),wxdn(:)
   REAL(8), ALLOCATABLE :: wc(:),wcup(:),wcdn(:)
-  
-  write(*,*) 'xcgrad = ', xcgrad
-  write(*,*) 'xctype_ = ', xctype_
 
   is=idxis(ias)
   n=npmt(is)
 
   ! allocate local arrays
   ALLOCATE(rho(n),ex(n),ec(n),vxc(n))
+  !rho(:) = 0.d0
+  !write(*,*) 'rho(1) = ', rho(1)
+  !write(*,*) 'rho(2) = ', rho(2)
+  !write(*,*) 'sum(rho) = ', sum(rho)
+  !stop 'ffr 49'
+
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) ALLOCATE(tau(n,nspinor))
   IF(spinpol) THEN 
     ALLOCATE(mag(n,3),bxc(n,3))
@@ -96,24 +99,33 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     ENDIF 
   ENDIF 
 
+  write(*,*)
+  write(*,*) 'my_potxcmt: xcgrad = ', xcgrad
+  write(*,*) 'my_potxcmt: xctype_ = ', xctype_
+  write(*,*) 'my_potxcmt: shape(rho) = ', shape(rho)
+  write(*,*) 'my_potxcmt: shape(rhomt) = ', shape(rhomt_)
+  write(*,'(1x,A,ES18.10)') 'sum(rho)    = ', sum(rho)
+  write(*,'(1x,A,ES18.10)') 'sum(rhomt_) = ', sum(rhomt_)
+
   !
   nr=nrmt(is)
   nri=nrmti(is)
   !
   IF(tsh) THEN 
     ! convert the density to spherical coordinates
-    CALL rbsht(nr,nri,rhomt_(:,ias),rho)
+    CALL my_rbsht(nr,nri,rhomt_(:,ias),rho)
   ELSE 
     rho(1:n)=rhomt_(1:n,ias)
   ENDIF 
 
-  write(*,*) 'my_potxcmt: shape(rho) = ', shape(rho)
-  
+  write(*,'(1x,A,ES18.10)') 'sum(rho)    = ', sum(rho)
+  write(*,'(1x,A,ES18.10)') 'sum(rhomt_) = ', sum(rhomt_)
+
   ! convert tau to spherical coordinates if required
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
     DO ispn=1,nspinor
       IF(tsh) THEN 
-        CALL rbsht(nr,nri,taumt_(:,ias,ispn),tau(:,ispn))
+        CALL my_rbsht(nr,nri,taumt_(:,ias,ispn),tau(:,ispn))
       ELSE 
         tau(1:n,ispn)=taumt_(1:n,ias,ispn)
       ENDIF 
@@ -127,7 +139,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
   ! magnetisation in spherical coordinates
     DO idm=1,ndmag
       IF(tsh) THEN 
-        CALL rbsht(nr,nri,magmt_(:,ias,idm),mag(:,idm))
+        CALL my_rbsht(nr,nri,magmt_(:,ias,idm),mag(:,idm))
       ELSE 
         mag(1:n,idm)=magmt_(1:n,ias,idm)
       ENDIF 
@@ -204,7 +216,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
        dxdgd2,dxdgud,dcdgu2,dcdgd2,dcdgud)
       wxup(:)=0.5d0*(wxup(:)+wxdn(:)+wcup(:)+wcdn(:))
       IF(tsh) THEN 
-        CALL rfsht(nr,nri,wxup,wxcmt_(:,ias))
+        CALL my_rfsht(nr,nri,wxup,wxcmt_(:,ias))
       ELSE 
         wxcmt_(1:n,ias)=wxup(1:n)
       ENDIF 
@@ -245,7 +257,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     DO idm=1,ndmag
       IF(tsh) THEN 
         ! convert field to spherical harmonics
-        CALL rfsht(nr,nri,bxc(:,idm),bxcmt_(:,ias,idm))
+        CALL my_rfsht(nr,nri,bxc(:,idm),bxcmt_(:,ias,idm))
       ELSE 
         bxcmt_(1:n,ias,idm)=bxc(1:n,idm)
       ENDIF 
@@ -281,7 +293,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
       CALL ggamt_2b(is,n,g2rho,gvrho,vx,vc,dxdgr2,dcdgr2)
       wx(:)=wx(:)+wc(:)
       IF(tsh) THEN 
-        CALL rfsht(nr,nri,wx,wxcmt_(:,ias))
+        CALL my_rfsht(nr,nri,wx,wxcmt_(:,ias))
       ELSE 
         wxcmt_(1:n,ias)=wx(1:n)
       ENDIF 
@@ -297,16 +309,17 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
       vxc(:)=vx(:)+vc(:)
     ENDIF 
   ENDIF
-  write(*,*) 'tsh = ', tsh 
+  write(*,*)
+  write(*,*) 'my_potxcmt: tsh = ', tsh 
   IF(tsh) THEN 
     ! convert exchange and correlation energy densities to spherical harmonics
-    CALL rfsht(nr,nri,ex,exmt_(:,ias))
-    CALL rfsht(nr,nri,ec,ecmt_(:,ias))
+    CALL my_rfsht(nr,nri,ex,exmt_(:,ias))
+    CALL my_rfsht(nr,nri,ec,ecmt_(:,ias))
     ! convert exchange-correlation potential to spherical harmonics
-    CALL rfsht(nr,nri,vxc,vxcmt_(:,ias))
+    CALL my_rfsht(nr,nri,vxc,vxcmt_(:,ias))
 
-    write(*,*) 'my_potxcmt: shape(exmt) = ', shape(exmt_)
-    write(*,*) 'my_potxcmt: shape(ecmt) = ', shape(ecmt_)
+    write(*,*) 'my_potxcmt: shape(exmt)  = ', shape(exmt_)
+    write(*,*) 'my_potxcmt: shape(ecmt)  = ', shape(ecmt_)
     write(*,*) 'my_potxcmt: shape(vxcmt) = ', shape(vxcmt_)
 
   ELSE 

@@ -51,8 +51,14 @@ SUBROUTINE debug_potks(txc)
    exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
 
   write(*,*) 'xctype = ', xctype
+  !
   write(*,*) 'shape(exmt) = ', shape(exmt)
+  write(*,*) 'shape(ecmt) = ', shape(ecir)
+  write(*,*) 'shape(vxcmt) = ', shape(vxcmt)
+  !
   write(*,*) 'shape(exir) = ', shape(exir)
+  write(*,*) 'shape(ecir) = ', shape(ecir)
+  write(*,*) 'shape(vxcir) = ', shape(vxcir)
   
   ! optimised effective potential exchange potential
   IF(xctype(1) < 0) CALL oepmain()
@@ -99,6 +105,9 @@ include 'my_potxcir.f90'
 include 'my_symrf.f90'
 include 'my_symrfmt.f90'
 include 'my_symrfir.f90'
+include 'my_rfsht.f90'
+include 'my_rbsht.f90'
+include 'write_radial_mt.f90'
 
 include 'r_to_zf_mt.f90'
 include 'r_to_zf_lm.f90'
