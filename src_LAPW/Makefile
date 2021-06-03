@@ -208,7 +208,7 @@ gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.
 force.f90 forcek.f90 symveca.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
-
+plot3d.f90 plotpt3d.f90 rfplot.f90
 
 OBJ = $(SRC:.f90=.o)
 EXE = lapwdft.x
