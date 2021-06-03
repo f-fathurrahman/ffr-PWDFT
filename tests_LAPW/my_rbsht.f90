@@ -20,8 +20,8 @@ SUBROUTINE my_rbsht(nr,nri,rfmt1,rfmt2)
   CALL dgemm('N','N',lmmaxi,nri,lmmaxi,1.d0,rbshti,lmmaxi,rfmt1,lmmaxi,0.d0, &
    rfmt2,lmmaxi)
 
-  !write(102,*) rfmt1(1:lmmaxi*nri)
-  !write(103,*) rfmt2(1:lmmaxi*nri)
+  write(102,*) rfmt1(1:lmmaxi*nri)
+  write(103,*) rfmt2(1:lmmaxi*nri)
   
   ! transform the outer part of the muffin-tin
   nro=nr-nri
@@ -37,8 +37,8 @@ SUBROUTINE my_rbsht(nr,nri,rfmt1,rfmt2)
   CALL dgemm('N','N',lmmaxo,nro,lmmaxo,1.d0,rbshto,lmmaxo,rfmt1(i),lmmaxo,0.d0, &
    rfmt2(i),lmmaxo)
 
-  !write(104,*) rfmt1(i:i+lmmaxo*nro-1)
-  !write(105,*) rfmt2(i:i+lmmaxo*nro-1)
+  write(104,*) rfmt1(i:i+lmmaxo*nro-1)
+  write(105,*) rfmt2(i:i+lmmaxo*nro-1)
 
   !call write_radial_mt()
   !stop 'should plot rfmt1 and rfmt2'

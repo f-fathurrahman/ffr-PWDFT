@@ -8,6 +8,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
   USE m_states, ONLY: swidth
   USE m_oep_hf, ONLY: hybridc, hybrid
   USE modxcifc, ONLY: xcifc
+  USE m_muffin_tins, ONLY: lmmaxo
   !
   IMPLICIT NONE 
   ! arguments
@@ -120,6 +121,20 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
 
   write(*,'(1x,A,ES18.10)') 'sum(rho)    = ', sum(rho)
   write(*,'(1x,A,ES18.10)') 'sum(rhomt_) = ', sum(rhomt_)
+
+  is = 1
+  write(*,*) 'Some rhomt after my_rbsht'
+  write(*,*) 'Inner'
+  do i = 1,10
+    write(*,'(1x,I4,ES18.10)') i, rho(i)
+  enddo
+  write(*,*) 'Outer'
+  do i = nrmti(is)+1,nrmti(is)+lmmaxo
+    write(*,'(1x,I4,ES18.10)') i, rho(i)
+  enddo
+
+  stop 'ffr 135'
+
 
   ! convert tau to spherical coordinates if required
   IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 

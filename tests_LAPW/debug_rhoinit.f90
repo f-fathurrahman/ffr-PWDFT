@@ -43,6 +43,16 @@ SUBROUTINE debug_rhoinit()
   write(*,*) 'debug_rhoinit'
   write(*,*) '-------------'
 
+  do is=1,nspecies
+    write(*,*) 'Some rhosp for is = ', is
+    do ir=1,10
+      write(*,'(1x,I4,ES18.10)') ir, rhosp(ir,is)
+    enddo
+  enddo
+
+  !stop 'ffr 53'
+
+
   lmax = min(lmaxi,1) ! why need this?
 
   write(*,*) 'lmax  = ', lmax
@@ -106,6 +116,13 @@ SUBROUTINE debug_rhoinit()
     !
   ENDDO 
 
+  write(*,*) 'some zfft'
+  do ig = 1,10
+    ifg = igfft(ig)
+    write(*,'(1x,I8,2ES18.10)') ifg, zfft(ifg)
+  enddo
+  !stop 'ffr 123'
+
   z1 = cmplx(0.d0,0.d0,kind=8)
   do is = 1,nspecies
     DO ia=1,natoms(is)
@@ -162,15 +179,45 @@ SUBROUTINE debug_rhoinit()
         ENDDO 
       ENDDO 
     ENDDO 
+
+    write(*,*) 'Some zfmt'
+    do i = 1,10
+      write(*,'(1x,I4,2ES18.10)') i, zfmt(i)
+      !write(*,'(1x,I8,2ES18.10)') ifg, zfft(ifg)
+    enddo
+
+
     CALL z_to_rf_mt(nrc,nrci,zfmt,rhomt(:,ias))
-    write(*,*)
-    write(*,*) 'size(zfmt)  = ', size(zfmt)
-    write(*,*) 'size(rhomt) = ', size(rhomt)
+    write(*,*) 'Some rhomt after z_to_rf_mt'
+    write(*,*) 'Inner'
+    do i = 1,10
+      write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    enddo
+    write(*,*) 'Outer'
+    do i = nrmti(is)+1,nrmti(is)+lmmaxo
+      write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    enddo
+
   ENDDO 
   DEALLOCATE(jl,zfmt)
 
   ! convert the density from a coarse to a fine radial mesh
   CALL rf_mt_c_to_f(rhomt)
+
+  is = 1
+  ias = 1
+  write(*,*) 'Inner'
+  write(*,*) 'Some rhomt after rf_mt_c_to_f'
+  do i = 1,10
+    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+  enddo
+  write(*,*) 'Outer'
+  do i = nrmti(is)+1,nrmti(is)+lmmaxo
+    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+  enddo
+
+  !stop 'ffr 218'
+
 
   ! add the atomic charge density and the excess charge in each muffin-tin
   t1=chgexs/omega
@@ -190,6 +237,21 @@ SUBROUTINE debug_rhoinit()
       i=i+lmmaxo
     ENDDO 
   ENDDO 
+
+
+  is = 1
+  ias = 1
+  write(*,*) 'Inner'
+  write(*,*) 'Some rhomt after adding rhosp'
+  do i = 1,10
+    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+  enddo
+  write(*,*) 'Outer'
+  do i = nrmti(is)+1,nrmti(is)+lmmaxo
+    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+  enddo
+
+  stop 'ffr 254'
 
   ! interstitial density determined from the atomic tails and excess charge
   write(*,*) 'sum zfft before = ', sum(zfft)
