@@ -1,0 +1,53 @@
+program main
+  IMPLICIT NONE
+  real(8) :: vclp3d(3,0:3)
+  integer :: np3d(3)
+  real(8), allocatable :: vpl(:,:)
+
+  vclp3d(:,:) = 0.d0
+  vclp3d(1,1) = 1.d0
+  vclp3d(2,2) = 1.d0
+  vclp3d(3,3) = 1.d0
+
+  np3d(:) = (/ 3,3,3 /)
+  
+  allocate( vpl(3,np3d(1)*np3d(2)*np3d(3)) )
+
+  call debug_plotpt3d(vclp3d, np3d, vpl)
+
+  deallocate( vpl )
+end program
+
+
+!-------------------------------------------
+SUBROUTINE debug_plotpt3d(vclp3d, np3d, vpl)
+!-------------------------------------------
+  IMPLICIT NONE 
+  ! arguments
+  real(8), intent(in) :: vclp3d(3,0:3)
+  integer, intent(in) :: np3d(3)
+  REAL(8), intent(out) :: vpl(3,np3d(1)*np3d(2)*np3d(3))
+  ! local variables
+  INTEGER ip,i1,i2,i3
+  REAL(8) v1(3),v2(3),v3(3)
+  REAL(8) t1,t2,t3
+
+  ! generate 3D grid from corner vectors
+  v1(:)=vclp3d(:,1)-vclp3d(:,0)
+  v2(:)=vclp3d(:,2)-vclp3d(:,0)
+  v3(:)=vclp3d(:,3)-vclp3d(:,0)
+  ip=0
+  DO i3=0,np3d(3)-1
+    t3=dble(i3)/dble(np3d(3))
+    DO i2=0,np3d(2)-1
+      t2=dble(i2)/dble(np3d(2))
+      DO i1=0,np3d(1)-1
+        t1=dble(i1)/dble(np3d(1))
+        ip=ip+1
+        vpl(:,ip) = t1*v1(:) + t2*v2(:) + t3*v3(:) + vclp3d(:,0)
+        write(*,'(1x,I8,3F18.10)') ip, vpl(:,ip)
+      ENDDO 
+    ENDDO 
+  ENDDO 
+  RETURN 
+END SUBROUTINE 
