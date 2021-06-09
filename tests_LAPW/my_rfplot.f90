@@ -1,4 +1,4 @@
-SUBROUTINE rfplot(np,vpl,rfmt,rfir,fp)
+SUBROUTINE my_rfplot(np, vpl, rfmt, rfir, fp)
   USE m_atoms, ONLY: natoms, natmtot, idxas, idxis, rsp, nspecies, atposc
   USE m_gvectors, ONLY: ngtot, vgc, igfft, ngvec, ngridg
   USE m_lattice, ONLY: epslat, avec
@@ -29,7 +29,7 @@ SUBROUTINE rfplot(np,vpl,rfmt,rfir,fp)
 
   ! begin loop over all points
   DO ip=1,np
-    CALL rfip(ip)
+    CALL my_rfip(ip)
   ENDDO 
   DEALLOCATE(rfmt1,zfft)
   RETURN 

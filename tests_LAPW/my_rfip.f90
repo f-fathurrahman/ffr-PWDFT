@@ -1,4 +1,4 @@
-SUBROUTINE rfip(ip, np, vpl, zfft)
+SUBROUTINE my_rfip(ip, np, vpl, zfft)
   USE m_atoms, ONLY: natoms, natmtot, idxas, rsp, nspecies, atposc
   USE m_gvectors, ONLY: ngtot, vgc, igfft, ngvec
   USE m_lattice, ONLY: epslat, avec
@@ -12,15 +12,15 @@ SUBROUTINE rfip(ip, np, vpl, zfft)
   REAL(8) :: rfmt1(lmmaxo,nrmtmax,natmtot)
   REAL(8) :: fp(np)
   ! local variables
-  INTEGER is,ia,ias,nr,nri
-  INTEGER ir0,ir,lmax,l,m,lm
-  INTEGER ig,ifg,i1,i2,i3,i,j
-  REAL(8) rmt2,r,sum,ya(4),t1
-  REAL(8) v1(3),v2(3),v3(3),v4(3),v5(3)
+  INTEGER :: is,ia,ias,nr,nri
+  INTEGER :: ir0,ir,lmax,l,m,lm
+  INTEGER :: ig,ifg,i1,i2,i3,i,j
+  REAL(8) :: rmt2,r,sum,ya(4),t1
+  REAL(8) :: v1(3),v2(3),v3(3),v4(3),v5(3)
   ! automatic arrays
   REAL(8) rlm(lmmaxo)
   
-  v2(:)=vpl(:,ip)
+  v2(:) = vpl(:,ip)
   CALL r3frac(epslat,v2)
   ! convert point to Cartesian coordinates
   CALL r3mv(avec,v2,v1)
