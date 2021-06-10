@@ -48,6 +48,10 @@ SUBROUTINE my_rfip(ip, np, vpl, zfft)
               DO ir=1,nr
                 !
                 IF(rsp(ir,is) >= r) THEN 
+                  write(*,*)
+                  write(*,*) 'inside the muffin tin'
+                  write(*,*) 'r = ', r
+                  write(*,*) 
                   !
                   IF(ir.le.3) THEN 
                     ir0=1
