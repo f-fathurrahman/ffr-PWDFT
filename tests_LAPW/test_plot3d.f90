@@ -19,7 +19,7 @@ PROGRAM main
 END PROGRAM
 
 !-----------------------
-subroutine test_rfplot()
+subroutine test_plot3d()
 !-----------------------
   USE m_density_pot_xc, ONLY: rhoir, rhomt
   implicit none
