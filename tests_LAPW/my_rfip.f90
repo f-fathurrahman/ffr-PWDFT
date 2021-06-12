@@ -1,4 +1,4 @@
-SUBROUTINE my_rfip(ip, np, vpl, zfft)
+SUBROUTINE my_rfip(ip, np, vpl, zfft, fp)
   USE m_atoms, ONLY: natoms, natmtot, idxas, rsp, nspecies, atposc
   USE m_gvectors, ONLY: ngtot, vgc, igfft, ngvec
   USE m_lattice, ONLY: epslat, avec

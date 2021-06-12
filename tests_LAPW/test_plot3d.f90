@@ -14,7 +14,7 @@ PROGRAM main
 
   CALL rhoinit()
 
-  CALL test_rfplot()
+  CALL test_plot3d()
 
 END PROGRAM
 
