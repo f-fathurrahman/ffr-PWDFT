@@ -7,7 +7,7 @@
 !   Produces a 3D plot of the real functions contained in arrays {\tt rfmt} and
 !   {\tt rfir} in the parallelepiped defined by the corner vertices in the
 !   global array {\tt vclp3d}. See routine {\tt rfarray}.
-SUBROUTINE my_plot3d(fnum,nf,rfmt,rfir)
+SUBROUTINE my_plot3d(fnum, nf, rfmt, rfir)
   USE m_atoms, ONLY: natmtot
   USE m_gvectors, ONLY: ngtot
   USE m_lattice, ONLY: avec
@@ -16,12 +16,12 @@ SUBROUTINE my_plot3d(fnum,nf,rfmt,rfir)
   IMPLICIT NONE 
   ! arguments
   INTEGER, intent(in) :: fnum,nf
-  REAL(8), intent(in) :: rfmt(npmtmax,natmtot,nf),rfir(ngtot,nf)
+  REAL(8), intent(in) :: rfmt(npmtmax,natmtot,nf), rfir(ngtot,nf)
   ! local variables
   INTEGER :: np,jf,ip
   REAL(8) :: v1(3)
   ! ALLOCATABLE arrays
-  REAL(8), ALLOCATABLE :: vpl(:,:),fp(:,:)
+  REAL(8), ALLOCATABLE :: vpl(:,:), fp(:,:)
   
   IF((nf < 1) .or. (nf > 4)) THEN 
     WRITE(*,*)

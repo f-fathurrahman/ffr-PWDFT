@@ -1,4 +1,4 @@
-SUBROUTINE my_rfip(ip, np, vpl, zfft, fp)
+SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
   USE m_atoms, ONLY: natoms, natmtot, idxas, rsp, nspecies, atposc
   USE m_gvectors, ONLY: ngtot, vgc, igfft, ngvec
   USE m_lattice, ONLY: epslat, avec
@@ -25,60 +25,67 @@ SUBROUTINE my_rfip(ip, np, vpl, zfft, fp)
   ! convert point to Cartesian coordinates
   CALL r3mv(avec,v2,v1)
 
+  !write(*,*) 'rfip: v1 = ', v1
+
   ! check if point is in a muffin-tin
-  DO is=1,nspecies
-    nr=nrmt(is)
-    nri=nrmti(is)
-    rmt2=rmt(is)**2
-    DO ia=1,natoms(is)
-      ias=idxas(ia,is)
-      v2(:)=v1(:)-atposc(:,ia,is)
-      DO i1=-1,1
-        v3(:)=v2(:)+dble(i1)*avec(:,1)
-        DO i2=-1,1
-          v4(:)=v3(:)+dble(i2)*avec(:,2)
-          DO i3=-1,1
-            v5(:)=v4(:)+dble(i3)*avec(:,3)
-            t1=v5(1)**2+v5(2)**2+v5(3)**2
+  DO is = 1,nspecies
+    nr = nrmt(is)
+    nri = nrmti(is)
+    rmt2 = rmt(is)**2
+    DO ia = 1,natoms(is)
+      ias = idxas(ia,is)
+      v2(:) = v1(:) - atposc(:,ia,is)
+      DO i1 = -1,1
+        v3(:) = v2(:) + dble(i1)*avec(:,1)
+        DO i2 = -1,1
+          v4(:) = v3(:) + dble(i2)*avec(:,2)
+          DO i3 = -1,1
+            v5(:) = v4(:) + dble(i3)*avec(:,3)
+            t1 = v5(1)**2 + v5(2)**2 + v5(3)**2
             !
             IF(t1 < rmt2) THEN 
-              r=sqrt(t1)
+              r = sqrt(t1)
               CALL genrlmv(lmaxo,v5,rlm)
               !
-              DO ir=1,nr
+              DO ir = 1,nr
                 !
                 IF(rsp(ir,is) >= r) THEN 
-                  write(*,*)
-                  write(*,*) 'inside the muffin tin'
-                  write(*,*) 'r = ', r
-                  write(*,*) 
+                  !write(*,*) 'inside the muffin tin'
+                  !write(*,'(1x,A,ES18.10)') 'r = ', r
                   !
-                  IF(ir.le.3) THEN 
-                    ir0=1
-                  ELSEIF(ir.gt.nr-2) THEN 
-                    ir0=nr-3
-                  else
-                    ir0=ir-2
+                  IF(ir .le. 3) THEN 
+                    ir0 = 1
+                  ELSEIF(ir .gt. nr-2) THEN 
+                    ir0 = nr - 3
+                  ELSE 
+                    ir0 = ir - 2
                   ENDIF 
+                  !write(*,*) 'ir0 = ', ir0
                   !
-                  r=max(r,rsp(1,is))
+                  r = max(r,rsp(1,is))
+                  !write(*,'(1x,A,ES18.10)') 'r after max = ', r
                   IF(ir0 <= nri) THEN 
-                    lmax=lmaxi
-                  else
-                    lmax=lmaxo
+                    !write(*,*) 'inner muffin tin'
+                    lmax = lmaxi
+                  ELSE 
+                    !write(*,*) 'outer muffin tin'
+                    lmax = lmaxo
                   ENDIF 
+                  !write(*,*) 'lmax = ', lmax
                   !
-                  sum=0.d0
-                  lm=0
-                  DO l=0,lmax
-                    DO m=-l,l
-                      lm=lm+1
-                      DO j=1,4
-                        i=ir0+j-1
-                        ya(j)=rfmt1(lm,i,ias)
+                  sum = 0.d0
+                  lm = 0
+                  DO l = 0,lmax
+                    DO m = -l,l
+                      lm = lm + 1
+                      DO j = 1,4
+                        i = ir0 + j - 1
+                        ya(j) = rfmt1(lm,i,ias)
+                        !write(*,'(1x,2I4,ES18.10)') lm, i, ya(j)
                       ENDDO 
-                      t1=poly4(rsp(ir0,is),ya,r)
-                      sum=sum+t1*rlm(lm)
+                      !write(*,*)
+                      t1 = poly4(rsp(ir0,is), ya, r)
+                      sum = sum + t1*rlm(lm)
                     ENDDO 
                   ENDDO 
                   goto 10 ! move out, set fp, return
@@ -93,6 +100,7 @@ SUBROUTINE my_rfip(ip, np, vpl, zfft, fp)
   !
   ! otherwise use direct Fourier transform of interstitial function
   !
+  !write(*,*) 'interstitial point'
   sum=0.d0
   DO ig=1,ngvec
     ifg = igfft(ig)
@@ -100,9 +108,9 @@ SUBROUTINE my_rfip(ip, np, vpl, zfft, fp)
     sum = sum + dble(zfft(ifg)*cmplx(cos(t1),sin(t1),8))
   ENDDO 
   10 continue
+  !write(*,*) 'sum = ', sum
   fp(ip)=sum
   RETURN 
-
 
 CONTAINS
 

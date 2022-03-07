@@ -35,6 +35,7 @@ subroutine test_unpack()
     CALL rfmtpack(.false.,nrmt(is),nrmti(is), rhomt(:,ias), rfmt1(:,:,ias))
   ENDDO 
 
+  write(*,*) 'shape rhomt = ', shape(rhomt)
   write(*,*) 'shape rfmt1 = ', shape(rfmt1)
   write(1000,*) rfmt1
 
