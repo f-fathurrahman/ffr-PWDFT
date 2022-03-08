@@ -1,15 +1,15 @@
 SUBROUTINE allatoms()
-
-use modmain, only: nspecies, xctsp, nstspmax, nstsp, nsp, nrspmax, lsp, vrsp, &
-                   ksp, rhosp, occsp, rsp, evalsp, solsc, ptnucl, spzn, nrsp, spfname
-use modxcifc, only: getxcdata
-
+  USE m_constants, ONLY: solsc
+  USE m_atoms, ONLY: nspecies
+  USE m_atomic_species, ONLY: xctsp, nstspmax, nstsp, nsp, nrspmax, lsp, vrsp, &
+       ksp, rhosp, occsp, rsp, evalsp, ptnucl, spzn, nrsp, spfname
+  USE modxcifc, ONLY: getxcdata
   IMPLICIT NONE 
-  logical :: hybrid_
+  LOGICAL :: hybrid_
   INTEGER :: xcspin_,xcgrad_
   INTEGER :: is, ist
   REAL(8) :: hybridc_
-  character(512) :: xcdescr_
+  CHARACTER(512) :: xcdescr_
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: rwf(:,:,:)
 

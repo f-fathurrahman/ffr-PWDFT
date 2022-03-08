@@ -1,6 +1,7 @@
 MODULE modmain
 use m_lattice
 use m_atoms
+use m_atomic_species
 use m_muffin_tins
 use m_spin
 use m_electric_vector_pot

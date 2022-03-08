@@ -6,6 +6,7 @@ SRC_main = main_lapwdft.f90
 
 SRC = m_lattice.f90 \
 m_atoms.f90 \
+m_atomic_species.f90 \
 m_muffin_tins.f90 \
 m_spin.f90 \
 m_electric_vector_pot.f90 \

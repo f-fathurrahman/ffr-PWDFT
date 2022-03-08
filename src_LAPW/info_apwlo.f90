@@ -1,5 +1,6 @@
 SUBROUTINE info_apwlo()
   USE m_atoms
+  USE m_atomic_species
   USE m_apwlo
   USE m_muffin_tins
   IMPLICIT NONE 

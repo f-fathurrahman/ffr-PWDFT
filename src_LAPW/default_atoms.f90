@@ -1,6 +1,7 @@
 SUBROUTINE default_atoms()
-  USE m_atoms, ONLY: natoms, xctsp, atposl, atposc, ecvcut, esccut, molecule, nspecies, &
-               primcell, ptnucl, rndatposc, sppath
+  USE m_atoms, ONLY: natoms, atposl, atposc, molecule, nspecies, &
+               primcell, rndatposc
+  USE m_atomic_species, ONLY: xctsp, sppath, ptnucl, esccut, ecvcut
   IMPLICIT NONE 
 
   natoms(:) = 0

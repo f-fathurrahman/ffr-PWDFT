@@ -1,5 +1,6 @@
 SUBROUTINE genrmesh()
-  USE m_atoms, ONLY: nspecies, rsp, nrsp, nrspmax, rminsp, rmaxsp
+  USE m_atoms, ONLY: nspecies
+  USE m_atomic_species, ONLY: rsp, nrsp, nrspmax, rminsp, rmaxsp
   USE m_muffin_tins, ONLY: nrcmt, rlmt, nrmt, rlcmt, nrmti, nrcmti, rcmt, rmt, &
                      nrcmtmax, nrmtmax, lradstp, lmmaxi, lmmaxo, lmaxo, fracinr, &
                      wprcmt, wrcmt, wrmt, wprmt

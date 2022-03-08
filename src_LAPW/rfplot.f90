@@ -1,5 +1,6 @@
 SUBROUTINE rfplot(np,vpl,rfmt,rfir,fp)
-  USE m_atoms, ONLY: natoms, natmtot, idxas, idxis, rsp, nspecies, atposc
+  USE m_atoms, ONLY: natoms, natmtot, idxas, idxis, nspecies, atposc
+  USE m_atomic_species, ONLY: rsp
   USE m_gvectors, ONLY: ngtot, vgc, igfft, ngvec, ngridg
   USE m_lattice, ONLY: epslat, avec
   USE m_muffin_tins, ONLY: npmtmax, lmmaxo, nrmt, nrmti, nrmtmax, rmt, lmaxo, lmaxi

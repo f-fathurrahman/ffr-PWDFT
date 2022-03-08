@@ -2,8 +2,9 @@
 SUBROUTINE init_atoms_cores()
 !----------------------------
   USE m_constants, ONLY: y00
-  USE m_atoms, ONLY: ptnucl, rsp, spzn, vcln, nstspmax, nstsp, evalsp, occsp, idxis, &
-               nrsp, nspecies, nrspmax, natmtot
+  USE m_atoms, ONLY: nspecies, natmtot, idxis
+  USE m_atomic_species, ONLY: ptnucl, rsp, spzn, vcln, nstspmax, nstsp, evalsp, occsp, &
+               nrsp, nrspmax
   USE m_core_states, ONLY: spincore, evalcr, rhocr, occcr, nspncr, rwfcr
   USE m_muffin_tins, ONLY: nrmtmax
   IMPLICIT NONE 

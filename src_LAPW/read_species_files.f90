@@ -1,6 +1,7 @@
 SUBROUTINE read_species_files()
   !
-  USE m_atoms, ONLY: sppath, spfname, spsymb, spzn, spmass, nspecies, &
+  USE m_atoms, ONLY: nspecies
+  USE m_atomic_species, ONLY: sppath, spfname, spsymb, spzn, spmass, &
                spname, spcore, rmaxsp, nstsp, occsp, nsp, ksp, lsp, rminsp, &
                maxstsp
   USE m_apwlo, ONLY: nlorb, lorbord, lorbve, lorbdm, lorbe0, apwve, apwe0, apword, &

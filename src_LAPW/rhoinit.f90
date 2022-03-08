@@ -4,7 +4,8 @@ SUBROUTINE rhoinit()
                    lmmaxi, lmmaxo, lmaxi
   USE m_constants, ONLY: zil, y00, fourpi
   USE m_lattice, ONLY: omega, epslat
-  USE m_atoms, ONLY: nrsp, nrspmax, idxis, idxas, nspecies, natoms, rsp, nrsp, natmtot, rhosp
+  USE m_atoms, ONLY: idxis, idxas, nspecies, natoms, natmtot
+  USE m_atomic_species, ONLY: nrsp, nrspmax, rsp, nrsp, rhosp
   USE m_gvectors, ONLY: igfft, sfacg, gc, gmaxvr, ngvec, ngtot, ngridg, ylmg
   USE m_charge_moment_current, ONLY: chgexs
   IMPLICIT NONE 

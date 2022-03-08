@@ -2,7 +2,8 @@
 SUBROUTINE init_charges_states()
 !-------------------------------
   USE m_constants, ONLY: fourpi
-  USE m_atoms, ONLY: nspecies, spzn, natoms, nstsp, nstspmax, occsp, ksp, spze, spcore, nstcr
+  USE m_atoms, ONLY: nspecies, natoms
+  USE m_atomic_species, ONLY: nstspmax, occsp, ksp, spze, spcore, nstcr, nstsp, spzn
   USE m_lattice, ONLY: omega
   USE m_charge_moment_current, ONLY: chgval, chgtot, chgzn, chgexs, chgcrtot, chgcr, rwigner
   IMPLICIT NONE 

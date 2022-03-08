@@ -16,7 +16,7 @@ SUBROUTINE rfmtpack(tpack,nr,nri,rfmt1,rfmt2)
       i=i+lmmaxo
       j=j+lmmaxi
     ENDDO 
-  else
+  ELSE 
     DO ir=1,nri
       CALL dcopy(lmmaxi,rfmt1(i),1,rfmt2(j),1)
       i=i+lmmaxi

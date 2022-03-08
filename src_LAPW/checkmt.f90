@@ -4,7 +4,8 @@
 !   {\tt rmtdelta}.
 SUBROUTINE checkmt()
   USE m_lattice, ONLY: epslat
-  USE m_atoms, ONLY: nspecies, spsymb
+  USE m_atoms, ONLY: nspecies
+  USE m_atomic_species, ONLY: spsymb
   USE m_muffin_tins, ONLY: rmt, rmtdelta
   !
   IMPLICIT NONE 
