@@ -1,3 +1,9 @@
+include 'write_rhosp.f90'
+include 'z_to_rf_mt.f90'
+include 'z_to_rf_lm.f90'
+include 'rf_mt_c_to_f.f90'
+include 'rf_interp.f90'
+
 PROGRAM main
   IMPLICIT NONE 
 
@@ -17,13 +23,16 @@ PROGRAM main
 END PROGRAM
 
 
+!-------------------------
 SUBROUTINE debug_rhoinit()
+!-------------------------
   USE m_density_pot_xc, ONLY: rhoir, rhomt, xctype, xcdescr
   USE m_muffin_tins, ONLY: nrmti, nrmt, rcmt, rcmt, npcmtmax, npcmt, nrcmt, nrcmti, nrcmtmax, &
                    lmmaxi, lmmaxo, lmaxi
   USE m_constants, ONLY: zil, y00, fourpi
   USE m_lattice, ONLY: omega, epslat
-  USE m_atoms, ONLY: nrsp, nrspmax, idxis, idxas, nspecies, natoms, rsp, nrsp, natmtot, rhosp
+  USE m_atoms, ONLY: idxis, idxas, nspecies, natoms, natmtot
+  USE m_atomic_species, ONLY: rhosp, rsp, nrsp, nrspmax
   USE m_gvectors, ONLY: igfft, sfacg, gc, gmaxvr, ngvec, ngtot, ngridg, ylmg
   USE m_charge_moment_current, ONLY: chgexs
   IMPLICIT NONE 
@@ -39,24 +48,16 @@ SUBROUTINE debug_rhoinit()
   COMPLEX(8), ALLOCATABLE :: zfmt(:),zfft(:)
   
 
-  write(*,*) '-------------'
-  write(*,*) 'debug_rhoinit'
-  write(*,*) '-------------'
+  WRITE(*,*) '-------------'
+  WRITE(*,*) 'debug_rhoinit'
+  WRITE(*,*) '-------------'
 
-  do is=1,nspecies
-    write(*,*) 'Some rhosp for is = ', is
-    do ir=1,10
-      write(*,'(1x,I4,ES18.10)') ir, rhosp(ir,is)
-    enddo
-  enddo
+  call write_rhosp()
 
-  !stop 'ffr 53'
+  lmax = MIN(lmaxi,1) ! why need this?
 
-
-  lmax = min(lmaxi,1) ! why need this?
-
-  write(*,*) 'lmax  = ', lmax
-  write(*,*) 'lmaxi = ', lmaxi
+  WRITE(*,*) 'lmax  = ', lmax
+  WRITE(*,*) 'lmaxi = ', lmaxi
   
   ! zero the charge density arrays
   rhomt(:,:) = 0.d0
@@ -70,8 +71,8 @@ SUBROUTINE debug_rhoinit()
   
   ALLOCATE(ffg(ngvec), wr(nrspmax), fr(nrspmax))
 
-  write(*,*) 'gmaxvr = ', gmaxvr
-  write(*,*) 'omega = ', omega
+  WRITE(*,*) 'gmaxvr = ', gmaxvr
+  WRITE(*,*) 'omega = ', omega
 
   DO is = 1,nspecies
     nr = nrmt(is)
@@ -89,7 +90,7 @@ SUBROUTINE debug_rhoinit()
     CALL wsplint(nro, rsp(nr,is) ,wr(nr))
     !
     DO ig = 1,ngvec
-      t1 = gc(ig)
+      t1 = gc(ig) ! gc is the magnitude of G-vectors
       ! spherical bessel function j_0(x) times the atomic density tail
       IF( t1 > epslat ) THEN 
         t2 = 1.d0/t1
@@ -124,7 +125,7 @@ SUBROUTINE debug_rhoinit()
   !stop 'ffr 123'
 
   z1 = cmplx(0.d0,0.d0,kind=8)
-  do is = 1,nspecies
+  DO is = 1,nspecies
     DO ia=1,natoms(is)
       ias = idxas(ia,is)
       DO ig = 1,ngvec
@@ -160,21 +161,23 @@ SUBROUTINE debug_rhoinit()
         x = gc(ig)*rcmt(irc,is)
         CALL sbessel(lmax,x,jl(:,irc))
       ENDDO 
-      z1=fourpi*zfft(ifg)*sfacg(ig,ias)
-      lm=0
+      z1 = fourpi*zfft(ifg)*sfacg(ig,ias)
+      lm = 0
       DO l=0,lmax
-        z2=z1*zil(l)
+        z2 = z1*zil(l)
         DO m=-l,l
-          lm=lm+1
-          z3=z2*conjg(ylmg(lm,ig))
-          i=lm
-          DO irc=1,nrci
-            zfmt(i)=zfmt(i)+jl(l,irc)*z3
-            i=i+lmmaxi
-          ENDDO 
-          DO irc=irco,nrc
-            zfmt(i)=zfmt(i)+jl(l,irc)*z3
-            i=i+lmmaxo
+          lm = lm + 1
+          z3 = z2*conjg(ylmg(lm,ig))
+          i = lm
+          ! Inner muffin tin
+          DO irc = 1,nrci
+            zfmt(i) = zfmt(i)+jl(l,irc)*z3
+            i = i + lmmaxi
+          ENDDO
+          ! outer muffin tin
+          DO irc = irco,nrc
+            zfmt(i) = zfmt(i) + jl(l,irc)*z3
+            i = i + lmmaxo
           ENDDO 
         ENDDO 
       ENDDO 
@@ -188,11 +191,11 @@ SUBROUTINE debug_rhoinit()
 
 
     CALL z_to_rf_mt(nrc,nrci,zfmt,rhomt(:,ias))
-    write(*,*) 'Some rhomt after z_to_rf_mt'
-    write(*,*) 'Inner'
-    do i = 1,10
-      write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
-    enddo
+    WRITE(*,*) 'Some rhomt after z_to_rf_mt'
+    WRITE(*,*) 'Inner'
+    DO i = 1,10
+      WRITE(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    ENDDO
     write(*,*) 'Outer'
     do i = nrmti(is)+1,nrmti(is)+lmmaxo
       write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
@@ -274,7 +277,3 @@ SUBROUTINE debug_rhoinit()
   RETURN 
 END SUBROUTINE 
 
-include 'z_to_rf_mt.f90'
-include 'z_to_rf_lm.f90'
-include 'rf_mt_c_to_f.f90'
-include 'rf_interp.f90'
