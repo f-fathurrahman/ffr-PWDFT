@@ -46,7 +46,7 @@ SUBROUTINE debug_rhoinit()
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: jl(:,:),ffg(:),wr(:),fr(:)
   COMPLEX(8), ALLOCATABLE :: zfmt(:),zfft(:)
-  
+  character(256) :: filename  
 
   WRITE(*,*) '-------------'
   WRITE(*,*) 'debug_rhoinit'
@@ -55,9 +55,6 @@ SUBROUTINE debug_rhoinit()
   call write_rhosp()
 
   lmax = MIN(lmaxi,1) ! why need this?
-
-  WRITE(*,*) 'lmax  = ', lmax
-  WRITE(*,*) 'lmaxi = ', lmaxi
   
   ! zero the charge density arrays
   rhomt(:,:) = 0.d0
@@ -146,9 +143,12 @@ SUBROUTINE debug_rhoinit()
   !
   ! compute the tails in each muffin-tin
   !
-  ALLOCATE(jl(0:lmax,nrcmtmax),zfmt(npcmtmax))
+  ALLOCATE(jl(0:lmax,nrcmtmax))
+  ALLOCATE(zfmt(npcmtmax))
+  !
   DO ias = 1,natmtot
     is = idxis(ias)
+    ! Using coarse radial grid, inner muffin-tin
     nrc = nrcmt(is)
     nrci = nrcmti(is)
     irco = nrci+1
@@ -183,23 +183,53 @@ SUBROUTINE debug_rhoinit()
       ENDDO 
     ENDDO 
 
-    write(*,*) 'Some zfmt'
-    do i = 1,10
-      write(*,'(1x,I4,2ES18.10)') i, zfmt(i)
-      !write(*,'(1x,I8,2ES18.10)') ifg, zfft(ifg)
+    if(ias < 10) then
+      write(filename, "(A,I1,A)") 'zfmt_', ias, '.dat'
+    elseif(ias < 100) then
+      write(filename, "(A,I2,A)") 'zfmt_', ias, '.dat'
+    else
+      write(*,*) 'ERROR: ias too large: ', ias
+      stop
+    endif
+    open(unit=9999, file=filename)
+    do i = 1,npcmtmax
+      write(9999,*) real(zfmt(i)), imag(zfmt(i))
     enddo
+    close(9999)
+    write(*,*) 'shape zfmt = ', shape(zfmt)
+    write(*,*) 'debug_rhoinit: zfmt is written to ', trim(filename)
+    !stop 'ffr 193'
 
+    ! Convert zfmt to real quantity
+    write(*,*) 'shape rhomt = ', shape(rhomt)
+    ! rhomt is defined in fine packed muffin-tin array
+    !CALL z_to_rf_mt(nrc, nrci, zfmt, rhomt(:,ias))
+    !!
+    !WRITE(*,*) 'Some rhomt after z_to_rf_mt'
+    !WRITE(*,*) 'Inner'
+    !DO i = 1,10
+    !  WRITE(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    !ENDDO
+    !write(*,*) 'Outer'
+    !do i = nrmti(is)+1,nrmti(is)+lmmaxo
+    !  write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    !enddo
 
-    CALL z_to_rf_mt(nrc,nrci,zfmt,rhomt(:,ias))
-    WRITE(*,*) 'Some rhomt after z_to_rf_mt'
-    WRITE(*,*) 'Inner'
-    DO i = 1,10
-      WRITE(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
-    ENDDO
-    write(*,*) 'Outer'
-    do i = nrmti(is)+1,nrmti(is)+lmmaxo
-      write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    if(ias < 10) then
+      write(filename, "(A,I1,A)") 'rhomt_', ias, '.dat'
+    elseif(ias < 100) then
+      write(filename, "(A,I2,A)") 'rhomt_', ias, '.dat'
+    else
+      write(*,*) 'ERROR: ias too large: ', ias
+      stop
+    endif
+    open(unit=9999, file=filename)
+    do i = 1,nrcmtmax
+      write(9999,*) rhomt(i,ias)
     enddo
+    close(9999)
+    write(*,*) 'debug_rhoinit: rhomt is written to ', trim(filename)
+    stop 'ffr 232'
 
   ENDDO 
   DEALLOCATE(jl,zfmt)

@@ -38,22 +38,26 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
       lm=lm+1
       i=lm
       DO ir=1,nri
-        t1=dble(zrhomt(i))
-        t2=aimag(zrhomt(i))
-        r1=rl(ir,l1)
-        r2=rl(ir,l2)
-        f1(ir)=t1*r1
-        f2(ir)=t2*r1
-        f3(ir)=t1*r2
-        f4(ir)=t2*r2
-        i=i+lmmaxi
+        t1 = dble(zrhomt(i))
+        t2 = aimag(zrhomt(i))
+        r1 = rl(ir,l1)
+        r2 = rl(ir,l2)
+        f1(ir) = t1*r1
+        f2(ir) = t2*r1
+        f3(ir) = t1*r2
+        f4(ir) = t2*r2
+        i = i + lmmaxi
       ENDDO 
       DO ir=iro,nr
-        t1=dble(zrhomt(i)); t2=aimag(zrhomt(i))
-        r1=rl(ir,l1); r2=rl(ir,l2)
-        f1(ir)=t1*r1; f2(ir)=t2*r1
-        f3(ir)=t1*r2; f4(ir)=t2*r2
-        i=i+lmmaxo
+        t1 = dble(zrhomt(i))
+        t2 = aimag(zrhomt(i))
+        r1 = rl(ir,l1)
+        r2 = rl(ir,l2)
+        f1(ir) = t1*r1
+        f2(ir) = t2*r1
+        f3(ir) = t1*r2
+        f4(ir) = t2*r2
+        i = i + lmmaxo
       ENDDO 
       CALL splintwp(nr,wpr,f1,f5)
       CALL splintwp(nr,wpr,f2,f1)

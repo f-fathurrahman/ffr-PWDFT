@@ -6,4 +6,4 @@ subroutine write_radial_mt()
   write(*,*) 'nrmt = ', nrmt
   write(*,*) 'shape(rlmt) = ', shape(rlmt)
   write(99,*) rlmt(1:nrmt(1),1,1)
-end
+end subroutine

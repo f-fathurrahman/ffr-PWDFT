@@ -1,7 +1,8 @@
 ! !INPUT/OUTPUT PARAMETERS:
 !   rfmt : real muffin-tin function (in,real(npmtmax,natmtot))
 SUBROUTINE rf_mt_c_to_f(rfmt)
-  USE m_atoms, ONLY: natmtot, rsp, idxis
+  USE m_atoms, ONLY: natmtot, idxis
+  USE m_atomic_species, ONLY: rsp
   USE m_muffin_tins, ONLY: npmtmax, nrcmtmax, nrmtmax, npmt, rcmt, npcmti, nrcmt, nrcmti, &
                    npmti, lmmaxo, lmmaxi, nrmti, nrmt, lradstp, rlmt
   IMPLICIT NONE 
