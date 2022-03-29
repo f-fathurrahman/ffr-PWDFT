@@ -28,7 +28,7 @@ SUBROUTINE debug_rhoinit()
 !-------------------------
   USE m_density_pot_xc, ONLY: rhoir, rhomt, xctype, xcdescr
   USE m_muffin_tins, ONLY: nrmti, nrmt, rcmt, rcmt, npcmtmax, npcmt, nrcmt, nrcmti, nrcmtmax, &
-                   lmmaxi, lmmaxo, lmaxi
+                   lmmaxi, lmmaxo, lmaxi, npmt
   USE m_constants, ONLY: zil, y00, fourpi
   USE m_lattice, ONLY: omega, epslat
   USE m_atoms, ONLY: idxis, idxas, nspecies, natoms, natmtot
@@ -201,7 +201,6 @@ SUBROUTINE debug_rhoinit()
     !stop 'ffr 193'
 
     ! Convert zfmt to real quantity
-    write(*,*) 'shape rhomt = ', shape(rhomt)
     ! rhomt is defined in fine packed muffin-tin array
     !CALL z_to_rf_mt(nrc, nrci, zfmt, rhomt(:,ias))
     !!
@@ -224,10 +223,12 @@ SUBROUTINE debug_rhoinit()
       stop
     endif
     open(unit=9999, file=filename)
-    do i = 1,nrcmtmax
+    do i = 1,npmt(is)
       write(9999,*) rhomt(i,ias)
     enddo
     close(9999)
+    write(*,*) 'shape rhomt = ', shape(rhomt)
+    write(*,*) 'npmt(is) = ', npmt(is)
     write(*,*) 'debug_rhoinit: rhomt is written to ', trim(filename)
     stop 'ffr 232'
 
