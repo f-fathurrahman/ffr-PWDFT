@@ -17,6 +17,7 @@ PROGRAM main
   CALL writesym()
   CALL info_gvectors()
   CALL info_muffin_tins()
+  CALL info_apwlo()
 
   CALL debug_rhoinit()
 
@@ -48,6 +49,7 @@ SUBROUTINE debug_rhoinit()
   COMPLEX(8), ALLOCATABLE :: zfmt(:),zfft(:)
   character(256) :: filename  
 
+  WRITE(*,*)
   WRITE(*,*) '-------------'
   WRITE(*,*) 'debug_rhoinit'
   WRITE(*,*) '-------------'
