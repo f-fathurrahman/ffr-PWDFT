@@ -1,5 +1,6 @@
 
-include make.inc.gfortran
+#include make.inc.gfortran
+include make.inc.gfortran.dynlib
 #include make.inc.flang
 
 SRC_main = main_lapwdft.f90
@@ -224,6 +225,9 @@ EXE = lapwdft.x
 #-------------------------------------------------------------------------------
 # Targets
 #-------------------------------------------------------------------------------
+libdyn:	$(OBJ)
+	gfortran -shared -o liblapwdft.so $(OBJ) $(LIBS)
+
 lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
@@ -232,7 +236,7 @@ main:	$(OBJ)
     $(LIB_LIBXC) $(LIB_SYS)
 
 clean:
-	rm -f *.o *.mod liblapwdft.a
+	rm -f *.o *.mod liblapwdft.a liblapwdft.so
 
 mpi_stub.o: mpi_stub.f90
 	$(F90) $(F90_OPTS_NO_WARN) -c mpi_stub.f90
