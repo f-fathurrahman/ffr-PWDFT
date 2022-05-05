@@ -94,13 +94,7 @@ putoccsv.f90 rhomag.f90 \
 energy.f90 writeeval.f90 writefermi.f90 writeforces.f90 writesym.f90 \
 writelinen.f90 writeengy.f90 writechg.f90 writestate.f90 writemom.f90 \
 potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 \
-oepmain.f90 \
-gentau.f90 \
-projsbf.f90 \
-rfpack.f90 \
-findband.f90 \
-olprad.f90 \
-hmlrad.f90 \
+oepmain.f90 gentau.f90 projsbf.f90 rfpack.f90 findband.f90 olprad.f90 hmlrad.f90 \
 rschrodint.f90 \
 eveqn.f90 \
 putevalfv.f90 putevalsv.f90 \
@@ -171,18 +165,8 @@ sdelta_fd.f90 \
 sphcrd.f90 \
 curlrvf.f90 \
 curden.f90 \
-ggamt_1.f90 \
-ggamt_sp_1.f90 \
-ggamt_sp_2a.f90 \
-ggamt_sp_2b.f90 \
-ggamt_2a.f90 \
-ggamt_2b.f90 \
-ggair_1.f90 \
-ggair_sp_2b.f90 \
-ggair_sp_2a.f90 \
-ggair_2a.f90 \
-ggair_2b.f90 \
-ggair_sp_1.f90 \
+ggamt_1.f90 ggamt_sp_1.f90 ggamt_sp_2a.f90 ggamt_sp_2b.f90 ggamt_2a.f90 ggamt_2b.f90 \
+ggair_1.f90 ggair_sp_2b.f90 ggair_sp_2a.f90 ggair_2a.f90 ggair_2b.f90 ggair_sp_1.f90 \
 oepvclk.f90 \
 getevalsv.f90 \
 genwfsv.f90 \
@@ -192,10 +176,7 @@ genzfrm.f90 \
 rzfinp.f90 \
 genzrho.f90 \
 rfmtinp.f90 \
-hmlaa.f90 \
-hmlalo.f90 \
-hmllolo.f90 \
-hmlistl.f90 \
+hmlaa.f90 hmlalo.f90 hmllolo.f90 hmlistl.f90 \
 olpaa.f90 \
 olpalo.f90 \
 olplolo.f90 \
@@ -210,7 +191,14 @@ gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.
 force.f90 forcek.f90 symveca.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
-plot3d.f90 plotpt3d.f90 rfplot.f90
+plot3d.f90 plotpt3d.f90 rfplot.f90 \
+my_rdiracint.f90 my_rhoinit.f90 \
+my_potks.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90  my_zpotcoul.f90 \
+my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
+my_rbsht.f90 my_rfip.f90 my_rfmtpack.f90 my_rfplot.f90 my_rfsht.f90 \
+my_symrf.f90 my_symrfir.f90  my_symrfmt.f90 \
+z_to_rf_lm.f90  z_to_rf_mt.f90 rf_interp.f90  rf_mt_c_to_f.f90 \
+r_to_zf_lm.f90  r_to_zf_mt.f90
 
 OBJ = $(SRC:.f90=.o)
 EXE = lapwdft.x
