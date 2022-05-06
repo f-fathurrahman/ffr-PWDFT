@@ -45,6 +45,15 @@ SUBROUTINE my_rhoinit()
   WRITE(*,*) 'gmaxvr = ', gmaxvr
   WRITE(*,*) 'omega = ', omega
 
+  write(*,*) 'Some rhosp'
+  do is = 1,nspecies
+    write(*,*) 'rhosp for is = ', is
+    do ir = 1,10
+      write(*,'(1x,I4,ES18.10)') ir, rhosp(ir,is)
+    enddo
+  enddo
+
+
   DO is = 1,nspecies
     nr = nrmt(is)
     nrs = nrsp(is)
