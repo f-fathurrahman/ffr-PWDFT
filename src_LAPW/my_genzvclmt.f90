@@ -19,10 +19,18 @@ SUBROUTINE my_genzvclmt(nr,nri,ld1,rl,wpr,ld2,zrhomt,zvclmt)
   write(*,*) 'In my_genzvclmt: ld2 = ', ld2  
 
   ! Loop over all atoms, results accumulated in zvclmt
-  DO ias=1,natmtot
-    is=idxis(ias)
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    zvclmt(:,ias) = cmplx(0.d0, 0.d0, kind=8)
     CALL my_zpotclmt( nr(is), nri(is), ld1, rl(:,:,is), wpr(:,:,is), &
       zrhomt(:,ias), zvclmt(:,ias) )
+    write(*,*) 'ias = ', ias
+    write(*,*) 'is = ', is
+    write(*,*) 'nr = ', nr(is)
+    write(*,*) 'nri = ', nri(is)
+    write(*,*) 'in my_genzvclmt: sum(zrhomt[ias]) = ', sum(zrhomt(1:ld2,ias))    
+    write(*,*) 'in my_genzvclmt: sum(zvclmt[ias]) = ', sum(zvclmt(1:ld2,ias))
   ENDDO 
+
   RETURN 
 END SUBROUTINE 

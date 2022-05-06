@@ -22,22 +22,27 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
   REAL(8) :: r1,r2,t0,t1,t2,t3,t4
   ! automatic arrays
   REAL(8) :: f1(nr),f2(nr),f3(nr),f4(nr),f5(nr)
+  complex(8) :: sz
 
-  nro=nr-nri
-  iro=nri+1
-  npi=lmmaxi*nri
-  lm=0
+  nro = nr - nri
+  iro = nri + 1
+  npi = lmmaxi*nri
+  lm = 0
   write(*,*) 'lmaxi = ', lmaxi
-  DO l=0,lmaxi
+  write(*,*) 'my_zpotclmt: sum(wpr) = ', sum(wpr)
+  write(*,*) 'my_zpotclmt: sum(rl) = ', sum(rl)
+
+  sz = cmplx(0.d0,0.d0,kind=8)
+  DO l = 0,lmaxi
     l1 =  l + 2
     l2 = -l + 1
     l3 = -l - 1
     write(*,'(1x,A,3I4)') 'l1 l2 l3 = ', l1, l2, l3
-    t0=fourpi/dble(2*l+1)
-    DO m=-l,l
-      lm=lm+1
-      i=lm
-      DO ir=1,nri
+    t0 = fourpi/dble(2*l+1)
+    DO m = -l,l
+      lm = lm + 1
+      i = lm
+      DO ir = 1,nri
         t1 = dble(zrhomt(i))
         t2 = aimag(zrhomt(i))
         r1 = rl(ir,l1)
@@ -48,7 +53,7 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
         f4(ir) = t2*r2
         i = i + lmmaxi
       ENDDO 
-      DO ir=iro,nr
+      DO ir = iro,nr
         t1 = dble(zrhomt(i))
         t2 = aimag(zrhomt(i))
         r1 = rl(ir,l1)
@@ -63,24 +68,31 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
       CALL splintwp(nr,wpr,f2,f1)
       CALL splintwp(nr,wpr,f3,f2)
       CALL splintwp(nr,wpr,f4,f3)
-      t1=f2(nr); t2=f3(nr)
-      i=lm
-      DO ir=1,nri
-        r1=t0*rl(ir,l3); r2=t0*rl(ir,l)
-        t3=r1*f5(ir)+r2*(t1-f2(ir))
-        t4=r1*f1(ir)+r2*(t2-f3(ir))
-        zvclmt(i)=cmplx(t3,t4,8)
-        i=i+lmmaxi
+      t1 = f2(nr)
+      t2 = f3(nr)
+      i = lm
+      DO ir = 1,nri
+        r1 = t0*rl(ir,l3)
+        r2 = t0*rl(ir,l)
+        t3 = r1*f5(ir) + r2*(t1 - f2(ir))
+        t4 = r1*f1(ir) + r2*(t2 - f3(ir))
+        zvclmt(i) = cmplx(t3,t4,8)
+        sz = sz + zvclmt(i)
+        i = i + lmmaxi
       ENDDO 
-      DO ir=iro,nr
-        r1=t0*rl(ir,l3); r2=t0*rl(ir,l)
-        t3=r1*f5(ir)+r2*(t1-f2(ir))
-        t4=r1*f1(ir)+r2*(t2-f3(ir))
-        zvclmt(i)=cmplx(t3,t4,8)
-        i=i+lmmaxo
+      DO ir = iro,nr
+        r1 = t0*rl(ir,l3)
+        r2 = t0*rl(ir,l)
+        t3 = r1*f5(ir) + r2*(t1 - f2(ir))
+        t4 = r1*f1(ir) + r2*(t2 - f3(ir))
+        zvclmt(i) = cmplx(t3,t4,8)
+        sz = sz + zvclmt(i)
+        i = i + lmmaxo
       ENDDO 
     ENDDO 
   ENDDO 
+  write(*,*) 'After lmaxi sz = ', sz
+
 
   write(*,*) 'lmaxo = ', lmaxo
   DO l=lmaxi+1,lmaxo
@@ -110,13 +122,14 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
       t1=f2(nr); t2=f3(nr)
       i=npi+lm
       DO ir=iro,nr
-        r1=t0*rl(ir,l3); r2=t0*rl(ir,l)
-        t3=r1*f5(ir)+r2*(t1-f2(ir))
-        t4=r1*f1(ir)+r2*(t2-f3(ir))
-        zvclmt(i)=cmplx(t3,t4,8)
-        i=i+lmmaxo
+        r1 = t0*rl(ir,l3); r2=t0*rl(ir,l)
+        t3 = r1*f5(ir)+r2*(t1-f2(ir))
+        t4 = r1*f1(ir)+r2*(t2-f3(ir))
+        zvclmt(i) = cmplx(t3,t4,8)
+        i = i + lmmaxo
       ENDDO 
     ENDDO 
   ENDDO 
+
   RETURN 
 END SUBROUTINE 

@@ -37,6 +37,8 @@ SUBROUTINE my_potcoul()
   write(*,*) 'shape(zvclmt) = ', shape(zvclmt)
   write(*,*) 'sum(zvclmt) = ', sum(zvclmt)
 
+  stop 'ffr 40'
+
   ! add the nuclear monopole potentials
   DO ias=1,natmtot
     is=idxis(ias)
