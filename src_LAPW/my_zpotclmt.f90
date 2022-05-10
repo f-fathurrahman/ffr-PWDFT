@@ -51,6 +51,7 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
         f2(ir) = t2*r1
         f3(ir) = t1*r2
         f4(ir) = t2*r2
+        !write(*,'(1x,A,I8,2F18.10)') 'zrhomt: ', i, t1, t2
         i = i + lmmaxi
       ENDDO 
       DO ir = iro,nr
@@ -62,6 +63,7 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
         f2(ir) = t2*r1
         f3(ir) = t1*r2
         f4(ir) = t2*r2
+        !write(*,'(1x,A,I8,2F18.10)') 'zrhomt: ', i, t1, t2
         i = i + lmmaxo
       ENDDO 
       CALL splintwp(nr,wpr,f1,f5)
@@ -77,6 +79,7 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
         t3 = r1*f5(ir) + r2*(t1 - f2(ir))
         t4 = r1*f1(ir) + r2*(t2 - f3(ir))
         zvclmt(i) = cmplx(t3,t4,8)
+        !write(*,'(1x,A,I8,2F18.10)') 'zvclmt: ', i, t3, t4
         sz = sz + zvclmt(i)
         i = i + lmmaxi
       ENDDO 
@@ -86,12 +89,14 @@ SUBROUTINE my_zpotclmt(nr,nri,ld,rl,wpr,zrhomt,zvclmt)
         t3 = r1*f5(ir) + r2*(t1 - f2(ir))
         t4 = r1*f1(ir) + r2*(t2 - f3(ir))
         zvclmt(i) = cmplx(t3,t4,8)
+        !write(*,'(1x,A,I8,2F18.10)') 'zvclmt: ', i, t3, t4
         sz = sz + zvclmt(i)
         i = i + lmmaxo
       ENDDO 
     ENDDO 
   ENDDO 
   write(*,*) 'After lmaxi sz = ', sz
+  !stop 'ffr 99'
 
 
   write(*,*) 'lmaxo = ', lmaxo

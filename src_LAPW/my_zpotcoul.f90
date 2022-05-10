@@ -28,48 +28,52 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
   REAL(8) t1,t2,t3
   COMPLEX(8) z1,z2
   ! automatic arrays
-  REAL(8) rmtl(0:lmaxo+3,nspecies)
-  COMPLEX(8) qlm(lmmaxo,natmtot)
-  COMPLEX(8) zl(0:lmaxo),zlm(lmmaxo)
-  COMPLEX(8) zhmt(ld3)
+  REAL(8) :: rmtl(0:lmaxo+3,nspecies)
+  COMPLEX(8) :: qlm(lmmaxo,natmtot)
+  COMPLEX(8) :: zl(0:lmaxo),zlm(lmmaxo)
+  COMPLEX(8) :: zhmt(ld3)
   ! external functions
-  REAL(8) factnm
+  REAL(8) :: factnm
   external factnm
+
   ! compute (R_mt)^l
-  DO is=1,nspecies
+  DO is = 1,nspecies
     rmtl(0,is)=1.d0
-    DO l=1,lmaxo+3
-      rmtl(l,is)=rmtl(l-1,is)*rmt(is)
+    DO l = 1,lmaxo+3
+      rmtl(l,is) = rmtl(l-1,is)*rmt(is)
     ENDDO 
   ENDDO 
+
   ! compute the multipole moments from the muffin-tin potentials
-  t1=1.d0/fourpi
-  DO ias=1,natmtot
-    is=idxis(ias)
-    i=np(is)-lmmaxo
-    lm=0
-    DO l=0,lmaxo
-      t2=t1*dble(2*l+1)*rmtl(l+1,is)
-      DO m=-l,l
-        lm=lm+1
-        i=i+1
-        qlm(lm,ias)=t2*zvclmt(i,ias)
+  t1 = 1.d0/fourpi
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    i = np(is) - lmmaxo
+    lm = 0
+    DO l = 0,lmaxo
+      t2 = t1*dble(2*l+1)*rmtl(l+1,is)
+      DO m = -l,l
+        lm = lm + 1
+        i = i + 1
+        qlm(lm,ias) = t2*zvclmt(i,ias)
       ENDDO 
     ENDDO 
   ENDDO 
+
   ! Fourier transform density to G-space and store in zvclir
   CALL zcopy(ngdg(1)*ngdg(2)*ngdg(3),zrhoir,1,zvclir,1)
   CALL zfftifc(3,ngdg,-1,zvclir)
+
   ! subtract the multipole moments of the interstitial charge density
-  DO is=1,nspecies
-    DO l=0,lmaxo
-      zl(l)=fourpi*zil(l)*rmtl(l+2,is)
+  DO is = 1,nspecies
+    DO l = 0,lmaxo
+      zl(l) = fourpi*zil(l)*rmtl(l+2,is)
     ENDDO 
-    DO ia=1,natoms(is)
-      ias=idxas(ia,is)
-      DO ig=1,ngp
-        jg=igf(ig)
-        IF(gpc(ig).gt.epslat) THEN 
+    DO ia = 1,natoms(is)
+      ias = idxas(ia,is)
+      DO ig = 1,ngp
+        jg = igf(ig)
+        IF(gpc(ig) .gt. epslat) THEN 
           z1=zvclir(jg)*sfacgp(ig,ias)/gpc(ig)
           lm=0
           DO l=0,lmaxo
@@ -86,6 +90,7 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
       ENDDO 
     ENDDO 
   ENDDO 
+
   ! find the smooth pseudocharge within the muffin-tin whose multipoles are the
   ! difference between the real muffin-tin and interstitial multipoles
   t1=(fourpi/omega)*factnm(2*lnpsd+1,2)
@@ -100,7 +105,8 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
         zlm(lm)=z1*qlm(lm,ias)
       ENDDO 
     ENDDO 
-  ! add the pseudocharge and real interstitial densities in G-space
+    
+    ! add the pseudocharge and real interstitial densities in G-space
     DO ig=1,ngp
       jg=igf(ig)
       IF(gpc(ig).gt.epslat) THEN 
@@ -126,11 +132,13 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
       ENDIF 
     ENDDO 
   ENDDO 
+  
   ! solve Poisson's equation in G+p-space for the pseudocharge
   DO ig=1,ngp
     jg=igf(ig)
     zvclir(jg)=gclgp(ig)*zvclir(jg)
   ENDDO 
+  
   ! match potentials at muffin-tin boundary by adding homogeneous solution
   DO ias=1,natmtot
     is=idxis(ias)

@@ -21,7 +21,6 @@ SUBROUTINE my_rhoinit()
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: jl(:,:),ffg(:),wr(:),fr(:)
   COMPLEX(8), ALLOCATABLE :: zfmt(:),zfft(:)
-  character(256) :: filename  
 
   WRITE(*,*)
   WRITE(*,*) '----------'
@@ -49,7 +48,7 @@ SUBROUTINE my_rhoinit()
   do is = 1,nspecies
     write(*,*) 'rhosp for is = ', is
     do ir = 1,10
-      write(*,'(1x,I4,ES18.10)') ir, rhosp(ir,is)
+      write(*,'(1x,I4,F18.10)') ir, rhosp(ir,is)
     enddo
   enddo
 
@@ -100,7 +99,7 @@ SUBROUTINE my_rhoinit()
   write(*,*) 'some zfft'
   do ig = 1,10
     ifg = igfft(ig)
-    write(*,'(1x,I8,2ES18.10)') ifg, zfft(ifg)
+    write(*,'(1x,I8,2F18.10)') ifg, zfft(ifg)
   enddo
   !stop 'ffr 123'
 
@@ -166,14 +165,10 @@ SUBROUTINE my_rhoinit()
       ENDDO 
     ENDDO 
 
-    if(ias < 10) then
-      write(filename, "(A,I1,A)") 'zfmt_', ias, '.dat'
-    elseif(ias < 100) then
-      write(filename, "(A,I2,A)") 'zfmt_', ias, '.dat'
-    else
-      write(*,*) 'ERROR: ias too large: ', ias
-      stop
-    endif
+    write(*,*) 'Some zfmt'
+    do i = 1,10
+      WRITE(*,'(1x,I4,2F18.10)') i, real(zfmt(i)), aimag(zfmt(i))
+    enddo
 
     ! Convert zfmt to real quantity
     ! rhomt is defined in fine packed muffin-tin array
@@ -182,11 +177,11 @@ SUBROUTINE my_rhoinit()
     WRITE(*,*) 'Some rhomt after z_to_rf_mt'
     WRITE(*,*) 'Inner'
     DO i = 1,10
-      WRITE(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+      WRITE(*,'(1x,I4,F18.10)') i, rhomt(i,ias)
     ENDDO
     write(*,*) 'Outer'
     do i = nrmti(is)+1,nrmti(is)+lmmaxo
-      write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+      write(*,'(1x,I4,F18.10)') i, rhomt(i,ias)
     enddo
 
   ENDDO 
@@ -200,11 +195,11 @@ SUBROUTINE my_rhoinit()
   write(*,*) 'Inner'
   write(*,*) 'Some rhomt after rf_mt_c_to_f'
   do i = 1,10
-    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    write(*,'(1x,I4,F18.10)') i, rhomt(i,ias)
   enddo
   write(*,*) 'Outer'
   do i = nrmti(is)+1,nrmti(is)+lmmaxo
-    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    write(*,'(1x,I4,F18.10)') i, rhomt(i,ias)
   enddo
 
   !stop 'ffr 218'
@@ -235,11 +230,11 @@ SUBROUTINE my_rhoinit()
   write(*,*) 'Inner'
   write(*,*) 'Some rhomt after adding rhosp'
   do i = 1,10
-    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    write(*,'(1x,I4,F18.10)') i, rhomt(i,ias)
   enddo
   write(*,*) 'Outer'
   do i = nrmti(is)+1,nrmti(is)+lmmaxo
-    write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
+    write(*,'(1x,I4,F18.10)') i, rhomt(i,ias)
   enddo
 
   ! interstitial density determined from the atomic tails and excess charge

@@ -21,15 +21,16 @@ SUBROUTINE my_genzvclmt(nr,nri,ld1,rl,wpr,ld2,zrhomt,zvclmt)
   ! Loop over all atoms, results accumulated in zvclmt
   DO ias = 1,natmtot
     is = idxis(ias)
+    !
     zvclmt(:,ias) = cmplx(0.d0, 0.d0, kind=8)
+    write(*,'(1x,A,2ES18.10)') 'in my_genzvclmt: sum(zrhomt[ias]) before = ', sum(zrhomt(1:ld2,ias))
+    write(*,'(1x,A,2ES18.10)') 'in my_genzvclmt: sum(zvclmt[ias]) before = ', sum(zvclmt(1:ld2,ias))
+    !
     CALL my_zpotclmt( nr(is), nri(is), ld1, rl(:,:,is), wpr(:,:,is), &
       zrhomt(:,ias), zvclmt(:,ias) )
-    write(*,*) 'ias = ', ias
-    write(*,*) 'is = ', is
-    write(*,*) 'nr = ', nr(is)
-    write(*,*) 'nri = ', nri(is)
-    write(*,*) 'in my_genzvclmt: sum(zrhomt[ias]) = ', sum(zrhomt(1:ld2,ias))    
-    write(*,*) 'in my_genzvclmt: sum(zvclmt[ias]) = ', sum(zvclmt(1:ld2,ias))
+    !
+    write(*,'(1x,A,2ES18.10)') 'in my_genzvclmt: sum(zrhomt[ias]) after = ', sum(zrhomt(1:ld2,ias))
+    write(*,'(1x,A,2ES18.10)') 'in my_genzvclmt: sum(zvclmt[ias]) after = ', sum(zvclmt(1:ld2,ias))
   ENDDO 
 
   RETURN 
