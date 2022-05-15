@@ -37,8 +37,6 @@ SUBROUTINE my_potcoul()
   write(*,*) 'shape(zvclmt) = ', shape(zvclmt)
   write(*,*) 'sum(zvclmt) = ', sum(zvclmt)
 
-  stop 'ffr 40'
-
   ! add the nuclear monopole potentials
   DO ias=1,natmtot
     is=idxis(ias)
@@ -54,10 +52,15 @@ SUBROUTINE my_potcoul()
       i=i+lmmaxo
     ENDDO 
   ENDDO 
+
+  write(*,*) 'sum(vcln) = ', sum(vcln)
+  write(*,*) 'After adding vcln: sum(zvclmt) = ', sum(zvclmt)
   
   ! store real interstitial charge density in complex array
   ALLOCATE(zrhoir(ngtot))
   zrhoir(:) = rhoir(:)
+  write(*,*) 'In potcoul, sum rhoir = ', sum(rhoir)
+  write(*,*) 'In potcoul, sum zrhoir = ', sum(zrhoir)
 
   ! solve Poisson's equation in the entire unit cell
   ALLOCATE(zvclir(ngtot))

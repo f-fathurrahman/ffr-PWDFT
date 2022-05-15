@@ -35,10 +35,13 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
   ! external functions
   REAL(8) :: factnm
   external factnm
+  !complex(8) :: ss
+
+  write(*,*) 'lnpsd = ', lnpsd
 
   ! compute (R_mt)^l
   DO is = 1,nspecies
-    rmtl(0,is)=1.d0
+    rmtl(0,is) = 1.d0
     DO l = 1,lmaxo+3
       rmtl(l,is) = rmtl(l-1,is)*rmt(is)
     ENDDO 
@@ -60,9 +63,29 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
     ENDDO 
   ENDDO 
 
+  write(*,*)
+  write(*,*) 'qlm = '
+  do lm = 1,lmmaxo
+    do ias = 1,natmtot
+      write(*,'(2ES18.10)',advance='no') qlm(lm,ias)
+    enddo
+    write(*,*)
+  enddo
+
+
+
+  write(*,*) 'ngp = ', ngp
+  write(*,*) 'ld1 = ', ld1
+  write(*,*) 'ld2 = ', ld2
+  write(*,*) 'ld3 = ', ld3
+  write(*,*) 'prod(ngdg) = ', product(ngdg) !ngdg(1)*ngdg(2)*ngdg(3)
+
   ! Fourier transform density to G-space and store in zvclir
   CALL zcopy(ngdg(1)*ngdg(2)*ngdg(3),zrhoir,1,zvclir,1)
+  write(*,*) 'Before fft to G-space sum zvclir: ', sum(zvclir(1:product(ngdg)))
   CALL zfftifc(3,ngdg,-1,zvclir)
+  write(*,*) 'After fft to G-space sum zvclir: ', sum(zvclir(1:product(ngdg)))
+
 
   ! subtract the multipole moments of the interstitial charge density
   DO is = 1,nspecies
@@ -91,6 +114,17 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
     ENDDO 
   ENDDO 
 
+
+  write(*,*)
+  write(*,*) 'qlm after subtracting multipole moments of zvclir:'
+  do lm = 1,lmmaxo
+    do ias = 1,natmtot
+      write(*,'(2ES18.10)',advance='no') qlm(lm,ias)
+    enddo
+    write(*,*)
+  enddo
+
+
   ! find the smooth pseudocharge within the muffin-tin whose multipoles are the
   ! difference between the real muffin-tin and interstitial multipoles
   t1=(fourpi/omega)*factnm(2*lnpsd+1,2)
@@ -104,35 +138,38 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
         lm=lm+1
         zlm(lm)=z1*qlm(lm,ias)
       ENDDO 
-    ENDDO 
-    
+    ENDDO     
     ! add the pseudocharge and real interstitial densities in G-space
-    DO ig=1,ngp
-      jg=igf(ig)
-      IF(gpc(ig).gt.epslat) THEN 
-        t2=gpc(ig)*rmt(is)
-        t3=1.d0/t2**lnpsd
-        z1=t3*zlm(1)*ylmgp(1,ig)
-        lm=1
-        DO l=1,lmaxo
-          lm=lm+1
-          z2=zlm(lm)*ylmgp(lm,ig)
-          DO m=1-l,l
-            lm=lm+1
-            z2=z2+zlm(lm)*ylmgp(lm,ig)
+    DO ig = 1,ngp
+      jg = igf(ig)
+      IF(gpc(ig) .gt. epslat) THEN 
+        t2 = gpc(ig)*rmt(is)
+        t3 = 1.d0/t2**lnpsd
+        z1 = t3*zlm(1)*ylmgp(1,ig)
+        lm = 1
+        DO l = 1,lmaxo
+          lm = lm + 1
+          z2 = zlm(lm)*ylmgp(lm,ig)
+          DO m = 1-l,l
+            lm = lm + 1
+            z2 = z2 + zlm(lm)*ylmgp(lm,ig)
           ENDDO 
-          t3=t3*t2
-          z1=z1+t3*z2
+          t3 = t3*t2
+          z1 = z1 + t3*z2
         ENDDO 
-        z2=jlgprmt(lnpsd,ig,is)*conjg(sfacgp(ig,ias))
-        zvclir(jg)=zvclir(jg)+z1*z2
+        z2 = jlgprmt(lnpsd,ig,is)*conjg(sfacgp(ig,ias))
+        zvclir(jg) = zvclir(jg) + z1*z2
       ELSE 
-        t2=y00/factnm(2*lnpsd+1,2)
-        zvclir(jg)=zvclir(jg)+t2*zlm(1)
+        t2 = y00/factnm(2*lnpsd+1,2)
+        zvclir(jg) = zvclir(jg) + t2*zlm(1)
       ENDIF 
     ENDDO 
   ENDDO 
-  
+
+  write(*,*) 'sum zvclir after smooth multipole: ', sum(zvclir(1:product(ngdg)))
+
+  stop 'ffr 173 in my_zpotcoul'
+
   ! solve Poisson's equation in G+p-space for the pseudocharge
   DO ig=1,ngp
     jg=igf(ig)
