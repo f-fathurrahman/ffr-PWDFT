@@ -68,6 +68,7 @@ SUBROUTINE my_potcoul()
    ngvec,jlgrmt,ylmg,sfacg,zrhoir,npmtmax,zvclmt,zvclir)
 
   ! convert complex muffin-tin potential to real spherical harmonic expansion
+  vclmt(:,:)  = 0.d0 ! ffr
   DO ias=1,natmtot
     is=idxis(ias)
     CALL z_to_rf_mt(nrmt(is),nrmti(is),zvclmt(:,ias),vclmt(:,ias))
@@ -75,11 +76,15 @@ SUBROUTINE my_potcoul()
   
   ! store complex interstitial potential in real array
   vclir(:) = dble(zvclir(:))
+
+  write(*,*) 'sum vclmt = ', sum(vclmt)
+  write(*,*) 'sum abs vclir = ', sum(abs(vclir))  
+
   DEALLOCATE(zrhoir, zvclmt, zvclir)
 
   write(*,*)  
   write(*,*) 'Exit my_potcoul'
-  
+
   RETURN 
 
 END SUBROUTINE 

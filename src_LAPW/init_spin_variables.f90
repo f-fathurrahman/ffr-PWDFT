@@ -78,6 +78,15 @@ SUBROUTINE init_spin_variables()
   
   ! get exchange-correlation functional data
   CALL getxcdata(xctype, xcdescr, xcspin, xcgrad, hybrid, hybridc)
+  write(*,*)
+  write(*,*) 'After getxcdata: '
+  write(*,*) 'xctype  = ', xctype
+  write(*,*) 'xcdescr = ', trim(xcdescr)
+  write(*,*) 'xcspin  = ', xcspin
+  write(*,*) 'xcgrad  = ', xcgrad
+  write(*,*) 'hybrid  = ', hybrid
+  write(*,*) 'hybridc = ', hybridc
+  !
   IF( (spinpol) .and. (xcspin == 0) ) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(init0): requested spin-polarised run with spin-unpolarised")')

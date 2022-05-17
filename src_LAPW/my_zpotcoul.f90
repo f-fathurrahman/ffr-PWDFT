@@ -168,13 +168,14 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
 
   write(*,*) 'sum zvclir after smooth multipole: ', sum(zvclir(1:product(ngdg)))
 
-  stop 'ffr 173 in my_zpotcoul'
 
   ! solve Poisson's equation in G+p-space for the pseudocharge
   DO ig=1,ngp
     jg=igf(ig)
     zvclir(jg)=gclgp(ig)*zvclir(jg)
   ENDDO 
+  
+  write(*,*) 'sum zvclir after Poisson solve: ', sum(zvclir(1:product(ngdg)))
   
   ! match potentials at muffin-tin boundary by adding homogeneous solution
   DO ias=1,natmtot
@@ -227,8 +228,10 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
         ENDDO 
       ENDDO 
     ENDDO 
-    zvclmt(1:np(is),ias)=zvclmt(1:np(is),ias)+zhmt(1:np(is))
+    zvclmt(1:np(is),ias) = zvclmt(1:np(is),ias) + zhmt(1:np(is))
   
+    write(*,'(1x,A,2ES18.10)') 'sum zvclmt(ia) = ', sum(zvclmt(1:np(is),ias))
+
     ! store the nuclear potential without the self-term for the phonon dynamical
     ! matrix calculation
     !IF(tphdyn) THEN 
@@ -239,5 +242,7 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
 
   ! Fourier transform interstitial potential to real-space
   CALL zfftifc(3,ngdg,1,zvclir)
+  write(*,*) 'sum abs zvclir after FFT to R-space: ', sum(abs(zvclir(1:product(ngdg))))
+
   RETURN 
 END SUBROUTINE 
