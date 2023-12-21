@@ -200,7 +200,8 @@ my_symrf.f90 my_symrfir.f90  my_symrfmt.f90 \
 z_to_rf_lm.f90  z_to_rf_mt.f90 rf_interp.f90  rf_mt_c_to_f.f90 \
 r_to_zf_lm.f90  r_to_zf_mt.f90 \
 my_potxcmt_lda_nospin.f90 \
-my_potxcir_lda_nospin.f90
+my_potxcir_lda_nospin.f90 \
+my_genshtmat.f90
 
 
 OBJ = $(SRC:.f90=.o)

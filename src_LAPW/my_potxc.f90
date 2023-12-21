@@ -33,13 +33,23 @@ SUBROUTINE my_potxc(tsh, xctype_, &
   ! interstitial exchange-correlation potential, field and energy density
   !CALL my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxcir_)
   CALL my_potxcir_lda_nospin(xctype_, rhoir_, exir_, ecir_, vxcir_)
+  
+  write(*,*) 'sum exmt_ = ', sum(exmt_)
+  write(*,*) 'sum ecmt_ = ', sum(ecmt_)
+  write(*,*) 'sum exir_ = ', sum(exir_)
+  write(*,*) 'sum ecir_ = ', sum(ecir_)
 
-  ! symmetrise the exchange-correlation potential and magnetic field
+  ! symmetrize the exchange-correlation potential and magnetic field
+  write(*,*) 'Before symmetrizing: sum vxcmt = ', sum(vxcmt_)
+  write(*,*) 'Before symmetrizing: sum vxcir = ', sum(vxcir_)
   IF(tsh) THEN 
     write(*,*) 'my_potxc: symmetrizing Vxc'
     CALL my_symrf(nrmt, nrmti, npmt, npmtmax, vxcmt_, vxcir_)
     IF(spinpol) CALL symrvf(.true.,ncmag,nrmt,nrmti,npmt,npmtmax,bxcmt_,bxcir_)
   ENDIF 
+  write(*,*) 'After symmetrizing: sum vxcmt = ', sum(vxcmt_)
+  write(*,*) 'After symmetrizing: sum vxcir = ', sum(vxcir_)
+
 
   stop 'ffr 45 in my_potxc'
 
