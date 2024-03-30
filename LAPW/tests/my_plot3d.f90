@@ -31,23 +31,24 @@ SUBROUTINE my_plot3d(fnum, nf, rfmt, rfir)
   ENDIF 
 
   ! total number of plot points
-  np=np3d(1)*np3d(2)*np3d(3)
+  np = np3d(1)*np3d(2)*np3d(3)
   write(*,*) 'Total number of plot points = ', np
 
   ! allocate local arrays
   ALLOCATE(vpl(3,np),fp(np,nf))
+
   ! generate the 3D plotting points
   CALL my_plotpt3d(vclp3d, np3d, vpl)
   
   ! evaluate the functions at the grid points
-  DO jf=1,nf ! loop over number of functions
+  DO jf = 1,nf ! loop over number of functions
     CALL my_rfplot(np, vpl, rfmt(:,:,jf), rfir(:,jf), fp(:,jf))
   ENDDO 
   
   ! write functions to file
   WRITE(fnum,'(3I6," : grid size")') np3d(:)
-  DO ip=1,np
-    CALL r3mv(avec,vpl(:,ip),v1)
+  DO ip = 1,np
+    CALL r3mv(avec, vpl(:,ip), v1)
     WRITE(fnum,'(7G18.10)') v1(:),(fp(ip,jf),jf=1,nf)
   ENDDO 
   DEALLOCATE(vpl,fp)

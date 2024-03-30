@@ -24,7 +24,8 @@ subroutine test_plot3d()
   USE m_density_pot_xc, ONLY: rhoir, rhomt
   implicit none
 
-  call my_plot3d(1001, 1,rhomt, rhoir)
+  call my_plot3d(1001, 1, rhomt, rhoir)
+  write(*,*) 'File saved to unit 1001'
 
 end subroutine
 

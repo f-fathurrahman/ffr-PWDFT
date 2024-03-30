@@ -1,5 +1,9 @@
+!
+! evaluate function defined by rfmt1 in muffin tins and zfft in interstitial
+!
 SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
-  USE m_atoms, ONLY: natoms, natmtot, idxas, rsp, nspecies, atposc
+  USE m_atoms, ONLY: natoms, natmtot, idxas, nspecies, atposc
+  USE m_atomic_species, ONLY: rsp
   USE m_gvectors, ONLY: ngtot, vgc, igfft, ngvec
   USE m_lattice, ONLY: epslat, avec
   USE m_muffin_tins, ONLY: lmmaxo, nrmt, nrmti, nrmtmax, rmt, lmaxo, lmaxi
@@ -15,8 +19,8 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
   INTEGER :: is,ia,ias,nr,nri
   INTEGER :: ir0,ir,lmax,l,m,lm
   INTEGER :: ig,ifg,i1,i2,i3,i,j
-  REAL(8) :: rmt2,r,sum,ya(4),t1
-  REAL(8) :: v1(3),v2(3),v3(3),v4(3),v5(3)
+  REAL(8) :: rmt2, r, sum, ya(4), t1
+  REAL(8) :: v1(3), v2(3), v3(3), v4(3), v5(3)
   ! automatic arrays
   REAL(8) rlm(lmmaxo)
   
@@ -35,6 +39,7 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
     DO ia = 1,natoms(is)
       ias = idxas(ia,is)
       v2(:) = v1(:) - atposc(:,ia,is)
+      ! we will loop over nearest neighboring periodic cells
       DO i1 = -1,1
         v3(:) = v2(:) + dble(i1)*avec(:,1)
         DO i2 = -1,1
@@ -45,7 +50,7 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
             !
             IF(t1 < rmt2) THEN 
               r = sqrt(t1)
-              CALL genrlmv(lmaxo,v5,rlm)
+              CALL genrlmv(lmaxo,v5,rlm) ! generate real spherical harmonics
               !
               DO ir = 1,nr
                 !
@@ -75,6 +80,9 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
                   !
                   sum = 0.d0
                   lm = 0
+                  ! This is sum over Ylm
+                  ! if the point falls into inner MT, lmax is lmaxi
+                  ! if the point falls into outer MT, lmax is lmaxo
                   DO l = 0,lmax
                     DO m = -l,l
                       lm = lm + 1
@@ -101,15 +109,15 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
   ! otherwise use direct Fourier transform of interstitial function
   !
   !write(*,*) 'interstitial point'
-  sum=0.d0
-  DO ig=1,ngvec
+  sum = 0.d0
+  DO ig = 1,ngvec
     ifg = igfft(ig)
     t1 = vgc(1,ig)*v1(1) + vgc(2,ig)*v1(2) + vgc(3,ig)*v1(3)
     sum = sum + dble(zfft(ifg)*cmplx(cos(t1),sin(t1),8))
   ENDDO 
   10 continue
   !write(*,*) 'sum = ', sum
-  fp(ip)=sum
+  fp(ip) = sum
   RETURN 
 
 CONTAINS
