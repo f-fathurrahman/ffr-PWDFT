@@ -232,7 +232,7 @@ SUBROUTINE debug_rhoinit()
     write(*,*) 'shape rhomt = ', shape(rhomt)
     write(*,*) 'npmt(is) = ', npmt(is)
     write(*,*) 'debug_rhoinit: rhomt is written to ', trim(filename)
-    stop 'ffr 232'
+    !stop 'ffr 232'
 
   ENDDO 
   DEALLOCATE(jl,zfmt)
@@ -256,21 +256,21 @@ SUBROUTINE debug_rhoinit()
 
 
   ! add the atomic charge density and the excess charge in each muffin-tin
-  t1=chgexs/omega
-  DO ias=1,natmtot
-    is=idxis(ias)
-    nr=nrmt(is)
-    nri=nrmti(is)
-    i=1
-    DO ir=1,nri
-      t2=(t1+rhosp(ir,is))/y00
-      rhomt(i,ias)=rhomt(i,ias)+t2
-      i=i+lmmaxi
+  t1 = chgexs/omega
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    nr = nrmt(is)
+    nri = nrmti(is)
+    i = 1
+    DO ir = 1,nri
+      t2 = (t1+rhosp(ir,is))/y00
+      rhomt(i,ias) = rhomt(i,ias) + t2
+      i = i + lmmaxi
     ENDDO 
-    DO ir=nri+1,nr
-      t2=(t1+rhosp(ir,is))/y00
-      rhomt(i,ias)=rhomt(i,ias)+t2
-      i=i+lmmaxo
+    DO ir = nri+1, nr
+      t2 = (t1 + rhosp(ir,is))/y00
+      rhomt(i,ias) = rhomt(i,ias) + t2
+      i = i + lmmaxo
     ENDDO 
   ENDDO 
 
@@ -287,16 +287,16 @@ SUBROUTINE debug_rhoinit()
     write(*,'(1x,I4,ES18.10)') i, rhomt(i,ias)
   enddo
 
-  stop 'ffr 254'
+  !stop 'ffr 254'
 
   ! interstitial density determined from the atomic tails and excess charge
   write(*,*) 'sum zfft before = ', sum(zfft)
   CALL zfftifc(3,ngridg,1,zfft)
   write(*,*) 'sum zfft after  = ', sum(zfft)
-  DO ir=1,ngtot
-    rhoir(ir)=dble(zfft(ir))+t1
+  DO ir = 1,ngtot
+    rhoir(ir) = dble(zfft(ir))+t1
     ! make sure that the density is always positive
-    IF(rhoir(ir).lt.1.d-10) rhoir(ir)=1.d-10
+    IF(rhoir(ir) < 1.d-10) rhoir(ir) = 1.d-10
   ENDDO 
   DEALLOCATE(zfft)
     

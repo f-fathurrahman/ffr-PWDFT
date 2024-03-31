@@ -50,14 +50,14 @@ PROGRAM debug_gndstate
   ALLOCATE( v(n) )
 
   ! determine the size of the mixer work array
-  nwork=-1
+  nwork = -1
   CALL mixerifc(mixtype,n,v,dv,nwork,v)
   ALLOCATE( work(nwork) )
 
   ! initialise the mixer
   iscl = 0
-  CALL mixpack(.true.,n,v)
-  CALL mixerifc(mixtype,n,v,dv,nwork,work)
+  CALL mixpack(.true., n, v)
+  CALL mixerifc(mixtype, n, v, dv, nwork, work)
 
   ! set the stop signal to .false.
   tstop = .false.

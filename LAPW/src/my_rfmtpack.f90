@@ -22,6 +22,8 @@ SUBROUTINE my_rfmtpack(tpack, nr, nri, rfmt1, rfmt2)
       j = j + lmmaxi
     ENDDO 
   ELSE 
+    ! unpacking
+    ! zeros rf are added
     DO ir=1,nri
       CALL dcopy(lmmaxi, rfmt1(i), 1, rfmt2(j), 1)
       i = i + lmmaxi

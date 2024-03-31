@@ -122,7 +122,7 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
 
 CONTAINS
 
-!------------------------------
+!-----------------------------
 REAL(8) function poly4(xa,ya,x)
 !------------------------------
   IMPLICIT NONE 

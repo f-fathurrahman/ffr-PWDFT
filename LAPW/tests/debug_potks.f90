@@ -67,9 +67,9 @@ SUBROUTINE debug_potks(txc)
   IF(spinpol .and. nosource) CALL projsbf()
   
   ! effective potential from sum of Coulomb and exchange-correlation potentials
-  DO ias=1,natmtot
-    is=idxis(ias)
-    np=npmt(is)
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    np = npmt(is)
     vsmt(1:np,ias) = vclmt(1:np,ias) + vxcmt(1:np,ias)
   ENDDO 
   vsir(:) = vclir(:) + vxcir(:)
