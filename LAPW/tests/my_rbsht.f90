@@ -24,8 +24,8 @@ SUBROUTINE my_rbsht(nr,nri,rfmt1,rfmt2)
   write(103,*) rfmt2(1:lmmaxi*nri)
   
   ! transform the outer part of the muffin-tin
-  nro=nr-nri
-  i=lmmaxi*nri+1
+  nro = nr - nri
+  i = lmmaxi*nri + 1
   write(*,*)
   write(*,*) 'my_rbsht: Outer part of MT'
   write(*,*) 'my_rbsht: i   = ', i

@@ -1,5 +1,6 @@
 SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
  bxcmt_,wxcmt_)
+  ! real input rhomt (density), magmt (magnetization), taumt (kinetic density)
   !
   USE m_atoms, ONLY: natmtot, idxis
   USE m_spin, ONLY: ndmag, nspinor, spinpol, ncmag
@@ -52,28 +53,28 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
   !write(*,*) 'sum(rho) = ', sum(rho)
   !stop 'ffr 49'
 
-  IF((xcgrad.eq.3).or.(xcgrad.eq.4)) ALLOCATE(tau(n,nspinor))
+  IF((xcgrad == 3).or.(xcgrad == 4)) ALLOCATE(tau(n,nspinor))
   IF(spinpol) THEN 
     ALLOCATE(mag(n,3),bxc(n,3))
   ENDIF 
   IF(spinpol) THEN 
     ALLOCATE(rhoup(n),rhodn(n))
     ALLOCATE(vxup(n),vxdn(n),vcup(n),vcdn(n))
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       ALLOCATE(grho(n),gup(n),gdn(n))
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(g3rho(n),g3up(n),g3dn(n))
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(gvup(n,3),gvdn(n,3))
       ALLOCATE(gup2(n),gdn2(n),gupdn(n))
       ALLOCATE(dxdgu2(n),dxdgd2(n),dxdgud(n))
       ALLOCATE(dcdgu2(n),dcdgd2(n),dcdgud(n))
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(gvup(n,3),gvdn(n,3))
       ALLOCATE(gup2(n),gdn2(n),gupdn(n))
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(gvup(n,3),gvdn(n,3))
       ALLOCATE(gup2(n),gdn2(n),gupdn(n))
@@ -85,14 +86,14 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     ENDIF 
   ELSE 
     ALLOCATE(vx(n),vc(n))
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       ALLOCATE(grho(n),g2rho(n),g3rho(n))
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       ALLOCATE(g2rho(n),gvrho(n,3),grho2(n))
       ALLOCATE(dxdgr2(n),dcdgr2(n))
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       ALLOCATE(g2rho(n),gvrho(n,3),grho2(n))
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       ALLOCATE(g2rho(n),gvrho(n,3),grho2(n))
       ALLOCATE(dxdgr2(n),dcdgr2(n))
       ALLOCATE(dxdg2r(n),dcdg2r(n))
@@ -137,7 +138,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
 
 
   ! convert tau to spherical coordinates if required
-  IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
+  IF((xcgrad == 3).or.(xcgrad == 4)) THEN 
     DO ispn=1,nspinor
       IF(tsh) THEN 
         CALL my_rbsht(nr,nri,taumt_(:,ias,ispn),tau(:,ispn))
@@ -164,7 +165,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     !
     IF(ncmag) THEN 
       ! non-collinear (use Kubler's trick)
-      IF(xcgrad.eq.0) THEN 
+      IF(xcgrad == 0) THEN 
         ! LSDA
         DO i=1,n
           ! compute rhoup=(rho+|m|)/2 and rhodn=(rho-|m|)/2
@@ -193,17 +194,17 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
       ENDDO 
     ENDIF 
     ! CALL the exchange-correlation interface routine
-    IF(xcgrad.le.0) THEN 
+    IF(xcgrad <= 0) THEN 
       CALL xcifc(xctype_,n=n,tempa=swidth,rhoup=rhoup,rhodn=rhodn,ex=ex,ec=ec, &
        vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
     !
-    ELSEIF(xcgrad.eq.1) THEN 
+    ELSEIF(xcgrad == 1) THEN 
       CALL ggamt_sp_1(is,n,rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,grho=grho,gup=gup,gdn=gdn, &
        g2up=g2up,g2dn=g2dn,g3rho=g3rho,g3up=g3up,g3dn=g3dn,ex=ex,ec=ec,vxup=vxup,&
        vxdn=vxdn,vcup=vcup,vcdn=vcdn)
     !
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       CALL ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,gup2=gup2,gdn2=gdn2, &
        gupdn=gupdn,ex=ex,ec=ec,vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn, &
@@ -212,14 +213,14 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
       CALL ggamt_sp_2b(is,n,g2up,g2dn,gvup,gvdn,vxup,vxdn,vcup,vcdn,dxdgu2, &
        dxdgd2,dxdgud,dcdgu2,dcdgd2,dcdgud)
     !
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       CALL ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,c_tb09=c_tb09,rhoup=rhoup,rhodn=rhodn,g2up=g2up, &
        g2dn=g2dn,gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tau(:,1),taudn=tau(:,2), &
        vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
        ex(:)=0.d0; ec(:)=0.d0
     !
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       CALL ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,g2up=g2up,g2dn=g2dn, &
        gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tau(:,1),taudn=tau(:,2),ex=ex,ec=ec,&
@@ -284,23 +285,23 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
     !     spin-unpolarised     !
     !--------------------------!
 
-    IF(xcgrad.le.0) THEN 
+    IF(xcgrad <= 0) THEN 
       CALL xcifc(xctype_,n=n,tempa=swidth,rho=rho,ex=ex,ec=ec,vx=vx,vc=vc)
-    ELSEIF(xcgrad.eq.1) THEN 
+    ELSEIF(xcgrad == 1) THEN 
       CALL ggamt_1(tsh,is,n,rhomt_(:,ias),grho,g2rho,g3rho)
       CALL xcifc(xctype_,n=n,rho=rho,grho=grho,g2rho=g2rho,g3rho=g3rho,ex=ex, &
        ec=ec,vx=vx,vc=vc)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       CALL ggamt_2a(tsh,is,n,rhomt_(:,ias),g2rho,gvrho,grho2)
       CALL xcifc(xctype_,n=n,rho=rho,grho2=grho2,ex=ex,ec=ec,vx=vx,vc=vc, &
        dxdgr2=dxdgr2,dcdgr2=dcdgr2)
       CALL ggamt_2b(is,n,g2rho,gvrho,vx,vc,dxdgr2,dcdgr2)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       CALL ggamt_2a(tsh,is,n,rhomt_(:,ias),g2rho,gvrho,grho2)
       CALL xcifc(xctype_,n=n,c_tb09=c_tb09,rho=rho,g2rho=g2rho,grho2=grho2, &
        tau=tau,vx=vx,vc=vc)
       ex(:)=0.d0; ec(:)=0.d0
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       CALL ggamt_2a(tsh,is,n,rhomt_(:,ias),g2rho,gvrho,grho2)
       CALL xcifc(xctype_,n=n,rho=rho,g2rho=g2rho,grho2=grho2,tau=tau,ex=ex,ec=ec,&
        vx=vx,vc=vc,dxdgr2=dxdgr2,dcdgr2=dcdgr2,dxdg2r=dxdg2r,dcdg2r=dcdg2r,wx=wx,&
@@ -345,33 +346,33 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
 
   ! Deallocate memory
   DEALLOCATE(rho,ex,ec,vxc)
-  IF((xcgrad.eq.3).or.(xcgrad.eq.4)) DEALLOCATE(tau)
+  IF((xcgrad == 3).or.(xcgrad == 4)) DEALLOCATE(tau)
   IF(spinpol) THEN 
     DEALLOCATE(mag,bxc)
     DEALLOCATE(rhoup,rhodn,vxup,vxdn,vcup,vcdn)
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       DEALLOCATE(grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       DEALLOCATE(g2up,g2dn)
       DEALLOCATE(gvup,gvdn)
       DEALLOCATE(gup2,gdn2,gupdn)
       DEALLOCATE(dxdgu2,dxdgd2,dxdgud)
       DEALLOCATE(dcdgu2,dcdgd2,dcdgud)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       DEALLOCATE(g2up,g2dn)
       DEALLOCATE(gvup,gvdn)
       DEALLOCATE(gup2,gdn2,gupdn)
     ENDIF 
   ELSE 
     DEALLOCATE(vx,vc)
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       DEALLOCATE(grho,g2rho,g3rho)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       DEALLOCATE(g2rho,gvrho,grho2)
       DEALLOCATE(dxdgr2,dcdgr2)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       DEALLOCATE(g2rho,gvrho,grho2)
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       DEALLOCATE(g2rho,gvrho,grho2)
       DEALLOCATE(dxdgr2,dcdgr2,dxdg2r,dcdg2r)
       DEALLOCATE(wx,wc)
