@@ -93,7 +93,7 @@ genevfsv.f90 occupy.f90 \
 putoccsv.f90 rhomag.f90 \
 energy.f90 writeeval.f90 writefermi.f90 writeforces.f90 writesym.f90 \
 writelinen.f90 writeengy.f90 writechg.f90 writestate.f90 writemom.f90 \
-potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 \
+potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 potxc_default.f90 \
 oepmain.f90 gentau.f90 projsbf.f90 rfpack.f90 findband.f90 olprad.f90 hmlrad.f90 \
 rschrodint.f90 \
 eveqn.f90 \

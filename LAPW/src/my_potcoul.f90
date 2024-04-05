@@ -1,4 +1,6 @@
+!----------------------
 SUBROUTINE my_potcoul()
+!----------------------
   USE m_atoms, ONLY: idxis, natmtot
   USE m_atomic_species, ONLY: vcln
   USE m_muffin_tins, ONLY: nrmt, nrmti, nrmtmax, npmtmax, npmti, wprmt, rlmt, npmt, &
@@ -10,8 +12,8 @@ SUBROUTINE my_potcoul()
   INTEGER :: is,ias
   INTEGER :: nr,nri,ir,i
   ! ALLOCATABLE arrays
-  COMPLEX(8), ALLOCATABLE :: zrhomt(:,:),zrhoir(:)
-  COMPLEX(8), ALLOCATABLE :: zvclmt(:,:),zvclir(:)
+  COMPLEX(8), ALLOCATABLE :: zrhomt(:,:), zrhoir(:)
+  COMPLEX(8), ALLOCATABLE :: zvclmt(:,:), zvclir(:)
 
   write(*,*)  
   write(*,*) 'Enter my_potcoul'
@@ -21,7 +23,7 @@ SUBROUTINE my_potcoul()
   ! convert real muffin-tin charge density to complex spherical harmonic expansion
   DO ias=1,natmtot
     is = idxis(ias)
-    CALL r_to_zf_mt(nrmt(is),nrmti(is),rhomt(:,ias),zrhomt(:,ias))
+    CALL r_to_zf_mt(nrmt(is), nrmti(is), rhomt(:,ias), zrhomt(:,ias))
   ENDDO 
   write(*,*) 'shape rhomt = ', shape(rhomt)
   write(*,*) 'shape zrhomt = ', shape(zrhomt)
@@ -38,18 +40,18 @@ SUBROUTINE my_potcoul()
   write(*,*) 'sum(zvclmt) = ', sum(zvclmt)
 
   ! add the nuclear monopole potentials
-  DO ias=1,natmtot
-    is=idxis(ias)
-    nr=nrmt(is)
-    nri=nrmti(is)
-    i=1
-    DO ir=1,nri
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    nr = nrmt(is)
+    nri = nrmti(is)
+    i = 1
+    DO ir = 1,nri
       zvclmt(i,ias) = zvclmt(i,ias) + vcln(ir,is)
       i = i + lmmaxi
     ENDDO 
-    DO ir=nri+1,nr
-      zvclmt(i,ias) = zvclmt(i,ias)+vcln(ir,is)
-      i=i+lmmaxo
+    DO ir = nri+1, nr
+      zvclmt(i,ias) = zvclmt(i,ias) + vcln(ir,is)
+      i = i + lmmaxo
     ENDDO 
   ENDDO 
 
