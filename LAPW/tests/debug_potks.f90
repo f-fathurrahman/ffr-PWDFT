@@ -39,16 +39,26 @@ SUBROUTINE debug_potks(txc)
   CALL my_potcoul()
 
   ! meta-GGA variables if required
-  IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
+  IF( (xcgrad == 3) .or. (xcgrad == 4)) THEN 
     ! generate the kinetic energy density
     CALL gentau()
     ! compute the Tran-Blaha '09 constant if required
     CALL xc_c_tb09()
   ENDIF 
-  
+
   ! compute the exchange-correlation potential and fields
-  IF(txc) CALL my_potxc(.true.,xctype,rhomt,rhoir,magmt,magir,taumt,tauir,exmt, &
-   exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
+  !IF(txc) CALL my_potxc(.true.,xctype,rhomt,rhoir,magmt,magir,taumt,tauir,exmt, &
+  ! exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
+
+  ! FIXME: create a simple potxc driver by passing all default arguments
+  ! my_potxc_simple() ! use default xctype, rhomt, etc ...
+  ! Currently, tsh is always .true.
+  
+  if(txc) then
+    call potxc_default()
+  endif
+
+
 
   write(*,*) 'xctype = ', xctype
   !
