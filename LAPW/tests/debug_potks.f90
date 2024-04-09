@@ -22,10 +22,10 @@ SUBROUTINE debug_potks(txc)
   USE m_atoms, ONLY: idxis, natmtot
   USE m_spin, ONLY: spinpol
   USE m_muffin_tins, ONLY: npmt
-  USE m_density_pot_xc, ONLY: xcgrad, xctype, wxcmt, wxcir, vxcmt, vxcir, vsir, &
-             taumt, tauir, rhomt, rhoir, nosource, msmooth, magmt, magir, &
-             exmt, exir, ecmt, ecir, bxcmt, bxcir, vsmt, vclir, vclmt
+  USE m_density_pot_xc, only: xctype, xcgrad, vxcir, vxcmt, &
+                              vsir, vclir, nosource, msmooth, vsmt, vclmt
   USE m_timing, ONLY: timepot
+  !
   IMPLICIT NONE 
   ! arguments
   LOGICAL, intent(in) :: txc
@@ -57,18 +57,6 @@ SUBROUTINE debug_potks(txc)
   if(txc) then
     call potxc_default()
   endif
-
-
-
-  write(*,*) 'xctype = ', xctype
-  !
-  write(*,*) 'shape(exmt) = ', shape(exmt)
-  write(*,*) 'shape(ecmt) = ', shape(ecir)
-  write(*,*) 'shape(vxcmt) = ', shape(vxcmt)
-  !
-  write(*,*) 'shape(exir) = ', shape(exir)
-  write(*,*) 'shape(ecir) = ', shape(ecir)
-  write(*,*) 'shape(vxcir) = ', shape(vxcir)
   
   ! optimised effective potential exchange potential
   IF(xctype(1) < 0) CALL oepmain()
@@ -104,24 +92,3 @@ SUBROUTINE debug_potks(txc)
   
   RETURN 
 END SUBROUTINE 
-
-include 'my_potcoul.f90'
-include 'my_zpotclmt.f90'
-include 'my_genzvclmt.f90'
-include 'my_zpotcoul.f90'
-include 'my_potxc.f90'
-include 'my_potxcmt.f90'
-include 'my_potxcir.f90'
-include 'my_symrf.f90'
-include 'my_symrfmt.f90'
-include 'my_symrfir.f90'
-include 'my_rfsht.f90'
-include 'my_rbsht.f90'
-include 'write_radial_mt.f90'
-
-include 'r_to_zf_mt.f90'
-include 'r_to_zf_lm.f90'
-include 'z_to_rf_mt.f90'
-include 'z_to_rf_lm.f90'
-!include 'rf_mt_c_to_f.f90'
-!include 'rf_interp.f90'

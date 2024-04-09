@@ -35,21 +35,21 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
   IF(spinpol) THEN 
     ALLOCATE(rhoup(n),rhodn(n))
     ALLOCATE(vxup(n),vxdn(n),vcup(n),vcdn(n))
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       ALLOCATE(grho(n),gup(n),gdn(n))
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(g3rho(n),g3up(n),g3dn(n))
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(gvup(n,3),gvdn(n,3))
       ALLOCATE(gup2(n),gdn2(n),gupdn(n))
       ALLOCATE(dxdgu2(n),dxdgd2(n),dxdgud(n))
       ALLOCATE(dcdgu2(n),dcdgd2(n),dcdgud(n))
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(gvup(n,3),gvdn(n,3))
       ALLOCATE(gup2(n),gdn2(n),gupdn(n))
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       ALLOCATE(g2up(n),g2dn(n))
       ALLOCATE(gvup(n,3),gvdn(n,3))
       ALLOCATE(gup2(n),gdn2(n),gupdn(n))
@@ -61,14 +61,14 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
     ENDIF 
   ELSE 
     ALLOCATE(vx(n),vc(n))
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       ALLOCATE(grho(n),g2rho(n),g3rho(n))
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       ALLOCATE(g2rho(n),gvrho(n,3),grho2(n))
       ALLOCATE(dxdgr2(n),dcdgr2(n))
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       ALLOCATE(g2rho(n),gvrho(n,3),grho2(n))
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       ALLOCATE(g2rho(n),gvrho(n,3),grho2(n))
       ALLOCATE(dxdgr2(n),dcdgr2(n))
       ALLOCATE(dxdg2r(n),dcdg2r(n))
@@ -81,7 +81,7 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
   !------------------------!
     IF(ncmag) THEN 
   ! non-collinear
-      IF(xcgrad.eq.0) THEN 
+      IF(xcgrad == 0) THEN 
   ! LSDA
         DO i=1,n
           t0=rhoir_(i)
@@ -107,15 +107,15 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
         rhodn(i)=0.5d0*(t0-t1)
       ENDDO 
     ENDIF 
-    IF(xcgrad.le.0) THEN 
+    IF(xcgrad <= 0) THEN 
       CALL xcifc(xctype_,n=n,tempa=swidth,rhoup=rhoup,rhodn=rhodn,ex=exir_, &
        ec=ecir_,vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
-    ELSEIF(xcgrad.eq.1) THEN 
+    ELSEIF(xcgrad == 1) THEN 
       CALL ggair_sp_1(rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,grho=grho,gup=gup,gdn=gdn, &
        g2up=g2up,g2dn=g2dn,g3rho=g3rho,g3up=g3up,g3dn=g3dn,ex=exir_,ec=ecir_, &
        vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       CALL ggair_sp_2a(rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,gup2=gup2,gdn2=gdn2, &
        gupdn=gupdn,ex=exir_,ec=ecir_,vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn, &
@@ -123,13 +123,13 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
        dcdgud=dcdgud)
       CALL ggair_sp_2b(g2up,g2dn,gvup,gvdn,vxup,vxdn,vcup,vcdn,dxdgu2,dxdgd2, &
        dxdgud,dcdgu2,dcdgd2,dcdgud)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       CALL ggair_sp_2a(rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,c_tb09=c_tb09,rhoup=rhoup,rhodn=rhodn,g2up=g2up, &
        g2dn=g2dn,gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tauir_(:,1), &
        taudn=tauir_(:,2),vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
       exir_(:)=0.d0; ecir_(:)=0.d0
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       CALL ggair_sp_2a(rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
       CALL xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,g2up=g2up,g2dn=g2dn, &
        gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tauir_(:,1),taudn=tauir_(:,2), &
@@ -177,24 +177,24 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
   !--------------------------!
   !     spin-unpolarised     !
   !--------------------------!
-    IF(xcgrad.le.0) THEN 
+    IF(xcgrad <= 0) THEN 
       CALL xcifc(xctype_,n=n,tempa=swidth,rho=rhoir_,ex=exir_,ec=ecir_,vx=vx, &
        vc=vc)
-    ELSEIF(xcgrad.eq.1) THEN 
+    ELSEIF(xcgrad == 1) THEN 
       CALL ggair_1(rhoir_,grho,g2rho,g3rho)
       CALL xcifc(xctype_,n=n,rho=rhoir_,grho=grho,g2rho=g2rho,g3rho=g3rho, &
        ex=exir_,ec=ecir_,vx=vx,vc=vc)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       CALL ggair_2a(rhoir_,g2rho,gvrho,grho2)
       CALL xcifc(xctype_,n=n,rho=rhoir_,grho2=grho2,ex=exir_,ec=ecir_,vx=vx, &
        vc=vc,dxdgr2=dxdgr2,dcdgr2=dcdgr2)
       CALL ggair_2b(g2rho,gvrho,vx,vc,dxdgr2,dcdgr2)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       CALL ggair_2a(rhoir_,g2rho,gvrho,grho2)
       CALL xcifc(xctype_,n=n,c_tb09=c_tb09,rho=rhoir_,g2rho=g2rho,grho2=grho2, &
        tau=tauir_,vx=vx,vc=vc)
       exir_(:)=0.d0; ecir_(:)=0.d0
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       CALL ggair_2a(rhoir_,g2rho,gvrho,grho2)
       CALL xcifc(xctype_,n=n,rho=rhoir_,g2rho=g2rho,grho2=grho2,tau=tauir_, &
        ex=exir_,ec=ecir_,vx=vx,vc=vc,dxdgr2=dxdgr2,dcdgr2=dcdgr2,dxdg2r=dxdg2r, &
@@ -215,29 +215,29 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
   ENDIF 
   IF(spinpol) THEN 
     DEALLOCATE(rhoup,rhodn,vxup,vxdn,vcup,vcdn)
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       DEALLOCATE(grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       DEALLOCATE(g2up,g2dn)
       DEALLOCATE(gvup,gvdn)
       DEALLOCATE(gup2,gdn2,gupdn)
       DEALLOCATE(dxdgu2,dxdgd2,dxdgud)
       DEALLOCATE(dcdgu2,dcdgd2,dcdgud)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       DEALLOCATE(g2up,g2dn)
       DEALLOCATE(gvup,gvdn)
       DEALLOCATE(gup2,gdn2,gupdn)
     ENDIF 
   ELSE 
     DEALLOCATE(vx,vc)
-    IF(xcgrad.eq.1) THEN 
+    IF(xcgrad == 1) THEN 
       DEALLOCATE(grho,g2rho,g3rho)
-    ELSEIF(xcgrad.eq.2) THEN 
+    ELSEIF(xcgrad == 2) THEN 
       DEALLOCATE(g2rho,gvrho,grho2)
       DEALLOCATE(dxdgr2,dcdgr2)
-    ELSEIF(xcgrad.eq.3) THEN 
+    ELSEIF(xcgrad == 3) THEN 
       DEALLOCATE(g2rho,gvrho,grho2)
-    ELSEIF(xcgrad.eq.4) THEN 
+    ELSEIF(xcgrad == 4) THEN 
       DEALLOCATE(g2rho,gvrho,grho2)
       DEALLOCATE(dxdgr2,dcdgr2,dxdg2r,dcdg2r)
       DEALLOCATE(wx,wc)

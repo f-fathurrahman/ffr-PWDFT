@@ -23,6 +23,17 @@ SUBROUTINE my_potxc(tsh, xctype_, &
   ! local variables
   INTEGER :: ias
 
+  write(*,*)
+  write(*,*) 'my_potxc: shape(rhomt) = ', shape(rhomt_)
+  write(*,*) 'my_potxc: sum(rhomt) = ', sum(rhomt_)
+  !
+  write(*,*) 'my_potxc: shape(magmt) = ', shape(magmt_)
+  write(*,*) 'my_potxc: sum(magmt) = ', sum(magmt_)
+  !
+  !write(*,*) 'my_potxc: shape(taumt) = ', shape(taumt_)
+  ! XXX: Will result in segfault if not a meta-GGA calc
+  !write(*,*) 'my_potxc: sum(taumt) = ', sum(taumt_)
+
   ! muffin-tin exchange-correlation potential, field and energy density
   DO ias=1,natmtot
     !CALL my_potxcmt( tsh, ias, xctype_, &

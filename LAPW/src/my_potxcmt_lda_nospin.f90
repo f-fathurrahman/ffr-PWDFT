@@ -1,3 +1,4 @@
+! a simplified version of potxcmt for LDA and nospin case
 SUBROUTINE my_potxcmt_lda_nospin( &
   tsh, ias, xctype_, &
   rhomt_, &
