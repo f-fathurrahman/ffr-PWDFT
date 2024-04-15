@@ -78,7 +78,7 @@ SUBROUTINE findsymlat()
   ENDDO ; ENDDO ; ENDDO 
   ENDDO ; ENDDO ; ENDDO 
   ENDDO ; ENDDO ; ENDDO 
-  IF(nsymlat.eq.0) THEN 
+  IF(nsymlat == 0) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(findsymlat): no symmetries found")')
     WRITE(*,*)
@@ -86,9 +86,9 @@ SUBROUTINE findsymlat()
   ENDIF 
   ! make the first symmetry the identity
   DO i=1,nsymlat
-    IF((symlat(1,1,i).eq.1).and.(symlat(1,2,i).eq.0).and.(symlat(1,3,i).eq.0) &
-   .and.(symlat(2,1,i).eq.0).and.(symlat(2,2,i).eq.1).and.(symlat(2,3,i).eq.0) &
-   .and.(symlat(3,1,i).eq.0).and.(symlat(3,2,i).eq.0).and.(symlat(3,3,i).eq.1)) &
+    IF((symlat(1,1,i) == 1).and.(symlat(1,2,i) == 0).and.(symlat(1,3,i) == 0) &
+   .and.(symlat(2,1,i) == 0).and.(symlat(2,2,i) == 1).and.(symlat(2,3,i) == 0) &
+   .and.(symlat(3,1,i) == 0).and.(symlat(3,2,i) == 0).and.(symlat(3,3,i) == 1)) &
     THEN 
       sym(:,:)=symlat(:,:,1)
       symlat(:,:,1)=symlat(:,:,i)
@@ -103,11 +103,11 @@ SUBROUTINE findsymlat()
   DO i=1,nsymlat
     CALL i3minv(symlat(:,:,i),sym)
     DO j=1,nsymlat
-      IF((symlat(1,1,j).eq.sym(1,1)).and.(symlat(1,2,j).eq.sym(1,2)).and. &
-          (symlat(1,3,j).eq.sym(1,3)).and.(symlat(2,1,j).eq.sym(2,1)).and. &
-          (symlat(2,2,j).eq.sym(2,2)).and.(symlat(2,3,j).eq.sym(2,3)).and. &
-          (symlat(3,1,j).eq.sym(3,1)).and.(symlat(3,2,j).eq.sym(3,2)).and. &
-          (symlat(3,3,j).eq.sym(3,3))) THEN 
+      IF((symlat(1,1,j) == sym(1,1)).and.(symlat(1,2,j) == sym(1,2)).and. &
+          (symlat(1,3,j) == sym(1,3)).and.(symlat(2,1,j) == sym(2,1)).and. &
+          (symlat(2,2,j) == sym(2,2)).and.(symlat(2,3,j) == sym(2,3)).and. &
+          (symlat(3,1,j) == sym(3,1)).and.(symlat(3,2,j) == sym(3,2)).and. &
+          (symlat(3,3,j) == sym(3,3))) THEN 
         isymlat(i)=j
         goto 30
       ENDIF 

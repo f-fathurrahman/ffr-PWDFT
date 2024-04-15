@@ -45,7 +45,7 @@ SUBROUTINE findsymcrys()
   ALLOCATE(eqatoms(natmmax,natmmax,nspecies))
 
   ! store position of first atom
-  IF(natmtot.gt.0) v0(:)=atposl(:,1,1)
+  IF(natmtot > 0) v0(:)=atposl(:,1,1)
 
   ! find the smallest set of atoms
   is=1
@@ -53,7 +53,7 @@ SUBROUTINE findsymcrys()
     IF(natoms(js).lt.natoms(is)) is=js
   ENDDO 
 
-  IF((tshift).and.(natmtot.gt.0)) THEN 
+  IF((tshift).and.(natmtot > 0)) THEN 
     ! shift basis so that the first atom in the smallest atom set is at the origin
     v1(:)=atposl(:,1,is)
     DO js=1,nspecies
@@ -83,7 +83,7 @@ SUBROUTINE findsymcrys()
       IF(tefield) THEN 
         CALL r3mv(avec,v1,v2)
         t1=efieldc(1)*v2(1)+efieldc(2)*v2(2)+efieldc(3)*v2(3)
-        IF(abs(t1).gt.epslat) goto 10
+        IF(abs(t1) > epslat) goto 10
       ENDIF 
       DO i=1,n
         t1=abs(vtl(1,i)-v1(1))+abs(vtl(2,i)-v1(2))+abs(vtl(3,i)-v1(3))
@@ -96,7 +96,7 @@ SUBROUTINE findsymcrys()
   ENDDO 
 
   ! no translations required when symtype=0,2 (F. Cricchio)
-  IF(symtype.ne.1) n=1
+  IF(symtype /= 1) n=1
   eqatoms(:,:,:)=.false.
   nsymcrys=0
 
@@ -110,9 +110,9 @@ SUBROUTINE findsymcrys()
     ENDDO 
     ! find the symmetries for current translation
     CALL findsym(atposl,apl,nsym,lspl,lspn,iea)
-    DO isym=1,nsym
-      nsymcrys=nsymcrys+1
-      IF(nsymcrys.gt.maxsymcrys) THEN 
+    DO isym = 1,nsym
+      nsymcrys = nsymcrys + 1
+      IF(nsymcrys > maxsymcrys) THEN 
         WRITE(*,*)
         WRITE(*,'("Error(findsymcrys): too many crystal symmetries")')
         WRITE(*,'(" Adjust maxsymcrys in modmain and recompile code")')
@@ -138,7 +138,7 @@ tsyminv=.false.
 DO isym=1,nsymcrys
 ! check if inversion symmetry is present
   i=lsplsymc(isym)
-  IF(all(symlat(:,:,i).eq.-symlat(:,:,1))) THEN 
+  IF(all(symlat(:,:,i) == -symlat(:,:,1))) THEN 
     tsyminv=.true.
 ! make inversion the second symmetry element (the identity is the first)
     v1(:)=vtlsymc(:,isym); vtlsymc(:,isym)=vtlsymc(:,2); vtlsymc(:,2)=v1(:)
@@ -167,7 +167,7 @@ IF(tsyminv.and.tshift) THEN
       CALL r3frac(epslat,atposl(:,ia,is))
       ! map lattice coordinates to [-0.5,0.5)
       DO i=1,3
-        IF(atposl(i,ia,is).gt.0.5d0) atposl(i,ia,is)=atposl(i,ia,is)-1.d0
+        IF(atposl(i,ia,is) > 0.5d0) atposl(i,ia,is)=atposl(i,ia,is)-1.d0
       ENDDO 
       ! determine the new Cartesian coordinates
       CALL r3mv(avec,atposl(:,ia,is),atposc(:,ia,is))
@@ -204,7 +204,7 @@ IF(tsyminv) THEN
   IF(.not.tv0symc(2)) tsyminv=.false.
 ENDIF 
 
-IF(natmtot.gt.0) THEN 
+IF(natmtot > 0) THEN 
   v1(:)=atposl(:,1,1)-v0(:)
   t1=abs(v1(1))+abs(v1(2))+abs(v1(3))
   if( t1 > epslat ) THEN 
