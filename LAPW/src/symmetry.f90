@@ -15,7 +15,7 @@ SUBROUTINE symmetry()
   CALL findsymlat()
 
   ! use only the identity if required
-  IF(symtype.eq.0) nsymlat=1
+  IF(symtype == 0) nsymlat = 1
 
   ! find the crystal symmetries and shift atomic positions if required
   CALL findsymcrys()
@@ -24,7 +24,7 @@ SUBROUTINE symmetry()
   CALL findsymsite()
 
   ! check if real symmetric first-variational eigen solver can be used
-  IF(.not.tsyminv) tefvr=.false.
+  IF(.not. tsyminv) tefvr = .false.
 
   RETURN 
 END SUBROUTINE 

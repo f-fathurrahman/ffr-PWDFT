@@ -35,7 +35,8 @@ SUBROUTINE my_potxc(tsh, xctype_, &
   !write(*,*) 'my_potxc: sum(taumt) = ', sum(taumt_)
 
   ! muffin-tin exchange-correlation potential, field and energy density
-  DO ias=1,natmtot
+  ! This is called for each atom
+  DO ias = 1,natmtot
     !CALL my_potxcmt( tsh, ias, xctype_, &
     !  rhomt_, magmt_, taumt_, exmt_, ecmt_, vxcmt_, bxcmt_, wxcmt_ )
     CALL my_potxcmt_lda_nospin( tsh, ias, xctype_, rhomt_, exmt_, ecmt_, vxcmt_ )
