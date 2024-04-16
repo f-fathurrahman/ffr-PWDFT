@@ -40,20 +40,28 @@ integer nsymcrys
 ! crystal symmetry translation vector in lattice and Cartesian coordinates
 real(8) vtlsymc(3,maxsymcrys)
 real(8) vtcsymc(3,maxsymcrys)
+
 ! tv0symc is .true. if the translation vector is zero
 logical tv0symc(maxsymcrys)
+
 ! spatial rotation element in lattice point group for each crystal symmetry
 integer lsplsymc(maxsymcrys)
+
 ! global spin rotation element in lattice point group for each crystal symmetry
 integer lspnsymc(maxsymcrys)
+
 ! equivalent atom index for each crystal symmetry
 integer, allocatable :: ieqatom(:,:,:)
+
 ! eqatoms(ia,ja,is) is .true. if atoms ia and ja are equivalent
 logical, allocatable :: eqatoms(:,:,:)
+
 ! number of site symmetries
 integer, allocatable :: nsymsite(:)
+
 ! site symmetry spatial rotation element in lattice point group
 integer, allocatable :: lsplsyms(:,:)
+
 ! site symmetry global spin rotation element in lattice point group
 integer, allocatable :: lspnsyms(:,:)
 

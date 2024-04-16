@@ -27,12 +27,15 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
   external dnrm2
   
   nsym = 0
+  write(*,*)
+  write(*,*) 'Trying to finding symmetry between two atomic positions'
 
   ! loop over lattice symmetries (spatial rotations)
   DO isym = 1,nsymlat
     ! make real copy of lattice rotation symmetry
     sl(:,:) = dble(symlat(:,:,isym))
     ! loop over species
+    ! we will build jea (equivalent atom information) array here
     DO is = 1,nspecies
       ! map apl1 coordinates to [0,1) and store in apl3
       ! XXX: This loop should be over atoms with same species (???)
@@ -45,55 +48,56 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
         v(:) = sl(:,1)*apl2(1,ja,is) + sl(:,2)*apl2(2,ja,is) + sl(:,3)*apl2(3,ja,is)
         ! map coordinates to [0,1)
         CALL r3frac(epslat,v)
+        ! now apl2 is rotated and the result is stored in v
+        !
         ! check if atomic positions are invariant
+        ! we only check atomic species with the same species
         DO ia = 1,natoms(is)
           t1 = abs(apl3(1,ia)-v(1)) + abs(apl3(2,ia)-v(2)) + abs(apl3(3,ia)-v(3))
           IF(t1 < epslat) THEN 
             ! equivalent atom index
             jea(ia,is) = ja
-            GOTO 10
+            GOTO 10  ! next atom iteration
           ENDIF 
         ENDDO 
         ! not invariant so try new spatial rotation
-        GOTO 40
+        ! no need to check next atom (within the same species)
+        GOTO 40 
         10 CONTINUE ! next iteration over natom(is)
       ENDDO 
     ENDDO 
     
     ! all atomic positions invariant at this point
-    jsym=1
+    jsym = 1
     ! spin polarised case
     IF(spinpol) THEN 
       ! check invariance of magnetic fields under global spin rotation
       IF(spinorb) THEN 
         ! with spin-orbit coupling spin rotation equals spatial rotation
-        jsym0=isym
-        jsym1=isym
+        jsym0 = isym
+        jsym1 = isym
       ELSE 
         ! without spin-orbit coupling spin rotation independent of spatial rotation
-        jsym0=1
-        jsym1=nsymlat
+        jsym0 = 1
+        jsym1 = nsymlat
       ENDIF 
-      DO jsym=jsym0,jsym1
+      ! ffr: need to check this if bfields are zeros?
+      DO jsym = jsym0,jsym1
         ! determinant of the symmetry matrix
-        md=symlatd(jsym)
-        sc(:,:)=dble(md)*symlatc(:,:,jsym)
+        md = symlatd(jsym)
+        sc(:,:) = dble(md)*symlatc(:,:,jsym)
         ! rotate global field and check invariance using proper part of symmetry matrix
-        v(:)=sc(:,1)*bfieldc0(1) + sc(:,2)*bfieldc0(2) + sc(:,3)*bfieldc0(3)
+        v(:) = sc(:,1)*bfieldc0(1) + sc(:,2)*bfieldc0(2) + sc(:,3)*bfieldc0(3)
         t1 = abs(bfieldc0(1)-v(1)) + abs(bfieldc0(2)-v(2)) + abs(bfieldc0(3)-v(3))
         ! if not invariant try a different global spin rotation
         IF(t1 > epslat) goto 20
         ! rotate muffin-tin magnetic fields and check invariance
-        DO is=1,nspecies
-          DO ia=1,natoms(is)
+        DO is = 1,nspecies
+          DO ia = 1,natoms(is)
             ! equivalent atom
-            ja=jea(ia,is)
-            v(:)=sc(:,1)*bfcmt0(1,ja,is) &
-                +sc(:,2)*bfcmt0(2,ja,is) &
-                +sc(:,3)*bfcmt0(3,ja,is)
-            t1=abs(bfcmt0(1,ia,is)-v(1)) &
-              +abs(bfcmt0(2,ia,is)-v(2)) &
-              +abs(bfcmt0(3,ia,is)-v(3))
+            ja = jea(ia,is)
+            v(:) = sc(:,1)*bfcmt0(1,ja,is) + sc(:,2)*bfcmt0(2,ja,is) + sc(:,3)*bfcmt0(3,ja,is)
+            t1 = abs(bfcmt0(1,ia,is)-v(1)) + abs(bfcmt0(2,ia,is)-v(2)) + abs(bfcmt0(3,ia,is)-v(3))
               ! if not invariant try a different global spin rotation
             IF(t1 > epslat) goto 20
           ENDDO 
@@ -114,12 +118,14 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
     lspn(nsym) = jsym
     DO is = 1,nspecies
       DO ia = 1,natoms(is)
-        iea(ia,is,nsym)=jea(ia,is)
+        iea(ia,is,nsym) = jea(ia,is)
       ENDDO 
     ENDDO 
     40 continue
-    ! end loop over spatial rotations
   ENDDO 
+  ! end loop over spatial rotations
+
+  write(*,*) 'nsym = ', nsym
 
   RETURN 
 END SUBROUTINE 

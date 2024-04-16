@@ -18,7 +18,7 @@ SUBROUTINE symmetry()
   IF(symtype == 0) nsymlat = 1
 
   ! find the crystal symmetries and shift atomic positions if required
-  CALL findsymcrys()
+  CALL my_findsymcrys()
 
   ! find the site symmetries
   CALL findsymsite()

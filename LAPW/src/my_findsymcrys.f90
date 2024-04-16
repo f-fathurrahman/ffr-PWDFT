@@ -22,6 +22,14 @@ SUBROUTINE my_findsymcrys()
   INTEGER, ALLOCATABLE :: iea(:,:,:)
   REAL(8), ALLOCATABLE :: vtl(:,:)
 
+  write(*,*) '--------------------'
+  write(*,*) 'Enter my_findsymcrys'
+  write(*,*) '--------------------'
+
+  ! Needed to avoid gfortran warnings
+  v0(:) = 0.d0
+  v1(:) = 0.d0 
+
   ! allocate local array
   ALLOCATE( iea(natmmax,nspecies,48) )
 
@@ -40,6 +48,16 @@ SUBROUTINE my_findsymcrys()
   DO js = 1,nspecies
     IF( natoms(js) < natoms(is) ) is = js
   ENDDO 
+  write(*,*) 'Species with smallest set of atoms, is = ', is
+
+  write(*,*)
+  write(*,*) 'atposl before shifting (make first atom to be at (0,0,0)'
+  write(*,*) '--------------------------------------------------------'
+  do js = 1,nspecies
+    do ia = 1,natoms(js)
+      write(*,'(2I4,3F18.10)') js, is, atposl(:,ia,js)
+    enddo
+  enddo
 
   IF( (tshift) .and. (natmtot > 0) ) THEN 
     ! shift basis so that the first atom in the smallest atom set is at the origin
@@ -56,7 +74,19 @@ SUBROUTINE my_findsymcrys()
     ENDDO 
   ENDIF 
 
+  write(*,*)
+  write(*,*) 'atposl after shifting (make first atom to be at (0,0,0)'
+  write(*,*) '-------------------------------------------------------'
+  do js = 1,nspecies
+    do ia = 1,natoms(js)
+      write(*,'(2I4,3F18.10)') js, is, atposl(:,ia,js)
+    enddo
+  enddo
+
   ! determine possible translation vectors from smallest set of atoms
+  write(*,*)
+  write(*,*) 'Finding translation vectors'
+  write(*,*) '---------------------------'
   n = max( natoms(is)*natoms(is), 1 )
   ALLOCATE( vtl(3,n) )
   n = 1
@@ -65,8 +95,12 @@ SUBROUTINE my_findsymcrys()
     DO ja = 2,natoms(is)
       ! compute difference between two atom vectors
       v1(:) = atposl(:,ia,is) - atposl(:,ja,is)
+      write(*,*)
+      write(*,*) 'Trying ia, ja = ', ia, ja
+      write(*,'(1x,A,3F18.10)') 'v1 = ', v1
       ! map lattice coordinates to [0,1)
       CALL r3frac(epslat, v1)
+      write(*,'(1x,A,3F18.10)') 'v1 mapped to [0,1) = ', v1
       ! check if vector has any component along electric field
       IF(tefield) THEN 
         CALL r3mv( avec, v1, v2 )
@@ -75,16 +109,32 @@ SUBROUTINE my_findsymcrys()
       ENDIF 
       DO i = 1,n
         t1 = abs(vtl(1,i)-v1(1)) + abs(vtl(2,i)-v1(2)) + abs(vtl(3,i)-v1(3))
-        IF( t1 < epslat ) goto 10
+        IF( t1 < epslat ) then
+          write(*,*) 'This translation is not accepted'
+          goto 10
+        endif
       ENDDO 
+      write(*,*) 'This translation is accepted'
       n = n + 1
       vtl(:,n) = v1(:)
       10 CONTINUE
     ENDDO 
   ENDDO 
 
+  write(*,*)
+  write(*,*) 'Number of possible translations: ', n
+  write(*,*)
+  write(*,*) 'Translation vectors:'
+  write(*,*) '--------------------'
+  do i = 1,n
+    write(*,'(1x,I4,3F18.10)') i, vtl(:,i)
+  enddo
+
   ! no translations required when symtype=0,2 (F. Cricchio)
-  IF(symtype /= 1) n = 1
+  IF(symtype /= 1) then
+    write(*,*) 'No translations required for symtype=', symtype
+    n = 1
+  endif
   eqatoms(:,:,:) = .false.
   nsymcrys = 0
 
@@ -121,12 +171,13 @@ SUBROUTINE my_findsymcrys()
     ENDDO 
   ENDDO 
 
-  tsyminv=.false.
+  tsyminv = .false.
 
-  DO isym=1,nsymcrys
+  DO isym = 1,nsymcrys
   ! check if inversion symmetry is present
     i = lsplsymc(isym)
     IF( all(symlat(:,:,i) == -symlat(:,:,1)) ) THEN 
+      write(*,*) '**** inversion symmetry is present'
       tsyminv = .true.
       ! make inversion the second symmetry element (the identity is the first)
       v1(:) = vtlsymc(:,isym); vtlsymc(:,isym) = vtlsymc(:,2); vtlsymc(:,2) = v1(:)
@@ -139,7 +190,7 @@ SUBROUTINE my_findsymcrys()
           ieqatom(ia,is,2) = i
         ENDDO 
       ENDDO 
-      goto 20
+      goto 20 ! exit loop over isym
     ENDIF 
   ENDDO 
   20 continue
@@ -202,6 +253,11 @@ SUBROUTINE my_findsymcrys()
   ENDIF 
 
   DEALLOCATE(iea,vtl)
+
+  write(*,*) '-------------------'
+  write(*,*) 'Exit my_findsymcrys'
+  write(*,*) '-------------------'
+  
   RETURN 
 
 END SUBROUTINE 
