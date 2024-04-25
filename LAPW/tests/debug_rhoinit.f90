@@ -54,7 +54,8 @@ SUBROUTINE debug_rhoinit()
   WRITE(*,*) 'debug_rhoinit'
   WRITE(*,*) '-------------'
 
-  call write_rhosp()
+  ! Better to use Julia's serialization
+  !call write_rhosp()
 
   lmax = MIN(lmaxi,1) ! why need this?
   
