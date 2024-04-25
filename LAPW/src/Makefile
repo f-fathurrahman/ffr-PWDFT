@@ -78,7 +78,7 @@ polynm.f90 gradrfmt.f90 rfmtsm.f90 ztorfmt.f90 \
 rtozfmt.f90 spline.f90 nfftifc.f90 rfmtlm.f90 \
 ztorflm.f90 fsmooth.f90 gradzfmt.f90 rtozflm.f90 clebgor.f90 \
 symmetry.f90 findsymlat.f90 findsymcrys.f90 findsymsite.f90 findsym.f90 \
-my_findsymlat.f90 my_findsymcrys.f90 my_findsym.f90 \
+my_findsymlat.f90 my_findsymcrys.f90 my_findsym.f90 my_findsymsite.f90 \
 r3mtm.f90 i3mdet.f90 r3mm.f90 r3mtv.f90 i3minv.f90 axangrot.f90 \
 init0.f90 nuclei.f90 energynn.f90 \
 genshtmat.f90 zpotcoul.f90 sphcover.f90 genrlmv.f90 sctovec.f90 \

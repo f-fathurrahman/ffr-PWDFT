@@ -21,7 +21,7 @@ SUBROUTINE symmetry()
   CALL my_findsymcrys()
 
   ! find the site symmetries
-  CALL findsymsite()
+  CALL my_findsymsite()
 
   ! check if real symmetric first-variational eigen solver can be used
   IF(.not. tsyminv) tefvr = .false.
