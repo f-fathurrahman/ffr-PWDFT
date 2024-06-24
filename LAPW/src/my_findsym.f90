@@ -28,10 +28,34 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
   
   nsym = 0
   write(*,*)
+  write(*,*) '--- ENTER my_findsym ---'
+  write(*,*)
   write(*,*) 'Trying to finding symmetry between two atomic positions'
+  write(*,*)
+  write(*,*) 'First positions'
+  write(*,*) '---------------'
+  do is = 1,nspecies
+    do ia = 1,natoms(is)
+      write(*,'(1x,3F18.10)') apl1(1,ia,is), apl1(2,ia,is), apl1(3,ia,is)
+    enddo
+  enddo
+  write(*,*)
+  write(*,*) 'Second positions'
+  write(*,*) '----------------'
+  do is = 1,nspecies
+    do ia = 1,natoms(is)
+      write(*,'(1x,3F18.10)') apl2(1,ia,is), apl2(2,ia,is), apl2(3,ia,is)
+    enddo
+  enddo
+
+  write(*,*)
 
   ! loop over lattice symmetries (spatial rotations)
   DO isym = 1,nsymlat
+
+    write(*,*)
+    write(*,*) 'isym = ', isym
+
     ! make real copy of lattice rotation symmetry
     sl(:,:) = dble(symlat(:,:,isym))
     ! loop over species
@@ -43,6 +67,8 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
         apl3(:,ia) = apl1(:,ia,is)
         CALL r3frac(epslat,apl3(:,ia))
       ENDDO 
+      !write(*,*) 'apl3 ia = ', apl3(:,ia)
+      !
       DO ja = 1,natoms(is)
         ! apply lattice symmetry to atomic positions
         v(:) = sl(:,1)*apl2(1,ja,is) + sl(:,2)*apl2(2,ja,is) + sl(:,3)*apl2(3,ja,is)
@@ -54,12 +80,15 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
         ! we only check atomic species with the same species
         DO ia = 1,natoms(is)
           t1 = abs(apl3(1,ia)-v(1)) + abs(apl3(2,ia)-v(2)) + abs(apl3(3,ia)-v(3))
+          write(*,'(1x,A,3I4)') 'Checking: ', is, ia, ja
           IF(t1 < epslat) THEN 
+            write(*,'(1x,A,3I5)') '--- equivalent atom: '
             ! equivalent atom index
             jea(ia,is) = ja
             GOTO 10  ! next atom iteration
           ENDIF 
         ENDDO 
+        write(*,*) 'Not invariant trying new spatial rotation'
         ! not invariant so try new spatial rotation
         ! no need to check next atom (within the same species)
         GOTO 40 
@@ -114,6 +143,9 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
     30 continue
     ! everything invariant so add symmetry to set
     nsym = nsym + 1
+    !
+    write(*,*) 'Everything is invariant: increment nsym to ', nsym
+    !
     lspl(nsym) = isym
     lspn(nsym) = jsym
     DO is = 1,nspecies
@@ -126,6 +158,10 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
   ! end loop over spatial rotations
 
   write(*,*) 'nsym = ', nsym
+
+  write(*,*)
+  write(*,*) '--- EXIT my_findsym ---'
+  write(*,*)
 
   RETURN 
 END SUBROUTINE 

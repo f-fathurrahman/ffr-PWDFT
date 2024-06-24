@@ -255,6 +255,8 @@ SUBROUTINE my_findsymcrys()
 
   DEALLOCATE(iea,vtl)
 
+  write(*,*) 'nsymcrys = ', nsymcrys
+
   write(*,*) '-------------------'
   write(*,*) 'Exit my_findsymcrys'
   write(*,*) '-------------------'
