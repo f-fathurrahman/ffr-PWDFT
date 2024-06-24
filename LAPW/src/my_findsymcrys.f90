@@ -148,6 +148,7 @@ SUBROUTINE my_findsymcrys()
     ENDDO 
     ! find the symmetries for current translation
     CALL my_findsym(atposl, apl, nsym, lspl, lspn, iea)
+    write(*,*) 'translation nsym = ', nsym
     DO isym = 1,nsym
       nsymcrys = nsymcrys + 1
       IF(nsymcrys > maxsymcrys) THEN 

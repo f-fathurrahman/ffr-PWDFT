@@ -64,8 +64,8 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
         ! no need to check next atom (within the same species)
         GOTO 40 
         10 CONTINUE ! next iteration over natom(is)
-      ENDDO 
-    ENDDO 
+      ENDDO  ! atom ja
+    ENDDO  ! species is
     
     ! all atomic positions invariant at this point
     jsym = 1
