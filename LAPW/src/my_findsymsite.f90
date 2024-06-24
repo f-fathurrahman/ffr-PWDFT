@@ -37,6 +37,7 @@ SUBROUTINE my_findsymsite()
       !
       ! why the first and second arguments are the same?
       CALL my_findsym(apl, apl, nsymsite(ias), lsplsyms(:,ias), lspnsyms(:,ias), iea)
+      write(*,'(1x,A,2I4)') 'ias, nsymsite(ias) = ', ias, nsymsite(ias)
     ENDDO 
   ENDDO 
 
