@@ -1,4 +1,4 @@
-SUBROUTINE rotrflm(rot, lmax, n, ld, rflm1, rflm2)
+SUBROUTINE my_rotrflm(rot, lmax, n, ld, rflm1, rflm2)
 ! !INPUT/OUTPUT PARAMETERS:
 !   rot   : rotation matrix (in,real(3,3))
 !   lmax  : maximum angular momentum (in,integer)

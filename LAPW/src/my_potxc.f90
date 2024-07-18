@@ -57,7 +57,7 @@ SUBROUTINE my_potxc(tsh, xctype_, &
   IF(tsh) THEN 
     write(*,*) 'my_potxc: symmetrizing Vxc'
     CALL my_symrf(nrmt, nrmti, npmt, npmtmax, vxcmt_, vxcir_)
-    IF(spinpol) CALL symrvf(.true.,ncmag,nrmt,nrmti,npmt,npmtmax,bxcmt_,bxcir_)
+    IF(spinpol) CALL symrvf(.true., ncmag, nrmt, nrmti, npmt, npmtmax, bxcmt_, bxcir_)
   ENDIF 
   write(*,*) 'After symmetrizing: sum vxcmt = ', sum(vxcmt_)
   write(*,*) 'After symmetrizing: sum vxcir = ', sum(vxcir_)
