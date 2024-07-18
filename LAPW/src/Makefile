@@ -225,8 +225,7 @@ lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
 main:	$(OBJ)
-	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) \
-    $(LIB_LIBXC) $(LIB_SYS)
+	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) $(LIB_LIBXC) $(LIB_SYS)
 
 clean:
 	rm -f *.o *.mod liblapwdft.a liblapwdft.so
