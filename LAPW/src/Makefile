@@ -194,7 +194,7 @@ info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
 plot3d.f90 plotpt3d.f90 rfplot.f90 \
 my_rdiracint.f90 my_rhoinit.f90 \
-my_potks.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90  my_zpotcoul.f90 \
+my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90  my_zpotcoul.f90 \
 my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
 my_rbsht.f90 my_rfip.f90 my_rfmtpack.f90 my_rfplot.f90 my_rfsht.f90 \
 my_symrf.f90 my_symrfir.f90  my_symrfmt.f90 \

@@ -1,4 +1,7 @@
-SUBROUTINE my_potks(txc)
+! A special version of my_potks where potxc is called without symmetrization
+! Used for debugging symmetrization routines
+!
+SUBROUTINE my_potks_no_symm(txc)
   USE m_atoms, ONLY: idxis, natmtot
   USE m_spin, ONLY: spinpol
   USE m_muffin_tins, ONLY: npmt
@@ -27,7 +30,10 @@ SUBROUTINE my_potks(txc)
   ENDIF 
   
   ! compute the exchange-correlation potential and fields
-  IF(txc) CALL my_potxc(.true., xctype, rhomt, rhoir, magmt, magir, taumt, tauir, exmt, &
+  !
+  ! !!!!! tsh is set to false, symmetrization is not done here !!!!!!!
+  !
+  IF(txc) CALL my_potxc(.false., xctype, rhomt, rhoir, magmt, magir, taumt, tauir, exmt, &
    exir, ecmt, ecir, vxcmt, vxcir, bxcmt, bxcir, wxcmt, wxcir)
 
   write(*,*) 'xctype = ', xctype
