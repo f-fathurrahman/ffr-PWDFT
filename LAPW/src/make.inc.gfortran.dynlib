@@ -6,7 +6,8 @@ F77_OPTS = -Wall $(F77_OPTS_NO_WARN)
 
 F90 = gfortran
 F90_OPTS_NO_WARN = -O3 -cpp -fPIC
-F90_OPTS = -Wall $(F90_OPTS_NO_WARN)
+F90_OPTS = -Wall -fallow-argument-mismatch $(F90_OPTS_NO_WARN)
+# only for gfortran-11
 
 LIB_LINALG = -lblas -llapack
 LIB_FFTW3 = -lfftw3
