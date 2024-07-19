@@ -7,8 +7,19 @@ SUBROUTINE my_symrf(nr, nri, np, ld, rfmt, rfir)
   INTEGER, intent(in) :: nr(nspecies),nri(nspecies),np(nspecies)
   INTEGER, intent(in) :: ld
   REAL(8), intent(inout) :: rfmt(ld,natmtot), rfir(ngtot)
+  
+  write(*,*)
+  write(*,*) 'ENTER my_symrf'
+  write(*,*)
+
+  write(*,*) 'ld (should be equal to npmtmax) = ', ld
   ! local variables
   CALL my_symrfmt(nr, nri, np, ld, rfmt)
   CALL my_symrfir(rfir)
+
+  write(*,*)
+  write(*,*) 'EXIT my_symrf'
+  write(*,*)
+
   RETURN 
 END SUBROUTINE 

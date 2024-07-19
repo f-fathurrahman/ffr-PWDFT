@@ -198,8 +198,9 @@ my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f9
 my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
 my_rbsht.f90 my_rfip.f90 my_rfmtpack.f90 my_rfplot.f90 my_rfsht.f90 \
 my_symrf.f90 my_symrfir.f90  my_symrfmt.f90 \
-z_to_rf_lm.f90  z_to_rf_mt.f90 rf_interp.f90  rf_mt_c_to_f.f90 \
-r_to_zf_lm.f90  r_to_zf_mt.f90 \
+my_rotrfmt.f90 my_rotrflm.f90 \
+z_to_rf_lm.f90 z_to_rf_mt.f90 rf_interp.f90  rf_mt_c_to_f.f90 \
+r_to_zf_lm.f90 r_to_zf_mt.f90 \
 my_potxcmt_lda_nospin.f90 \
 my_potxcir_lda_nospin.f90 \
 my_genshtmat.f90
