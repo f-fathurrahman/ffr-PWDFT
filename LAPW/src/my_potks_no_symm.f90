@@ -22,7 +22,7 @@ SUBROUTINE my_potks_no_symm(txc)
   CALL my_potcoul()
 
   ! meta-GGA variables if required
-  IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
+  IF( (xcgrad==3) .or. (xcgrad==4) ) THEN 
     ! generate the kinetic energy density
     CALL gentau()
     ! compute the Tran-Blaha '09 constant if required
@@ -53,9 +53,9 @@ SUBROUTINE my_potks_no_symm(txc)
   IF(spinpol .and. nosource) CALL projsbf()
   
   ! effective potential from sum of Coulomb and exchange-correlation potentials
-  DO ias=1,natmtot
-    is=idxis(ias)
-    np=npmt(is)
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    np = npmt(is)
     vsmt(1:np,ias) = vclmt(1:np,ias) + vxcmt(1:np,ias)
   ENDDO 
   vsir(:) = vclir(:) + vxcir(:)

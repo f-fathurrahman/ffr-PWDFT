@@ -39,7 +39,12 @@ SUBROUTINE my_potxc(tsh, xctype_, &
   DO ias = 1,natmtot
     !CALL my_potxcmt( tsh, ias, xctype_, &
     !  rhomt_, magmt_, taumt_, exmt_, ecmt_, vxcmt_, bxcmt_, wxcmt_ )
-    CALL my_potxcmt_lda_nospin( tsh, ias, xctype_, rhomt_, exmt_, ecmt_, vxcmt_ )
+    !
+    write(*,*)
+    write(*,*) '***** DEBUG: tsh is forced to be .TRUE. before calling my_potxcmt (the usual case)'
+    write(*,*) '***** DEBUG: Later, in case tsh is .FALSE. the symmetrization is not done'
+    write(*,*)
+    CALL my_potxcmt_lda_nospin( .true., ias, xctype_, rhomt_, exmt_, ecmt_, vxcmt_ )
   ENDDO 
 
   ! interstitial exchange-correlation potential, field and energy density
@@ -60,7 +65,7 @@ SUBROUTINE my_potxc(tsh, xctype_, &
     IF(spinpol) CALL symrvf(.true., ncmag, nrmt, nrmti, npmt, npmtmax, bxcmt_, bxcir_)
   ELSE
     write(*,*)
-    write(*,*) '***** Not doing symmetrization because tsh is set to .FALSE.'
+    write(*,*) '***** DEBUG: Not doing symmetrization because tsh is set to .FALSE.'
     write(*,*)
   ENDIF 
   write(*,*) 'After symmetrizing: sum vxcmt = ', sum(vxcmt_)

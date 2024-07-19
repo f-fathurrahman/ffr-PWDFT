@@ -27,19 +27,22 @@ SUBROUTINE potks(txc)
     CALL xc_c_tb09()
   ENDIF 
   ! compute the exchange-correlation potential and fields
+  !
   IF(txc) CALL potxc(.true.,xctype,rhomt,rhoir,magmt,magir,taumt,tauir,exmt, &
    exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
   ! optimised effective potential exchange potential
+  !
   IF(xctype(1) < 0) CALL oepmain()
   ! remove the source term of the exchange-correlation magnetic field if required
+  !
   IF(spinpol .and. nosource) CALL projsbf()
   ! effective potential from sum of Coulomb and exchange-correlation potentials
   DO ias=1,natmtot
     is=idxis(ias)
     np=npmt(is)
-    vsmt(1:np,ias)=vclmt(1:np,ias)+vxcmt(1:np,ias)
+    vsmt(1:np,ias) = vclmt(1:np,ias) + vxcmt(1:np,ias)
   ENDDO 
-  vsir(:)=vclir(:)+vxcir(:)
+  vsir(:) = vclir(:) + vxcir(:)
   
   ! smooth the interstitial potential if required
   CALL rfirsm(msmooth,vsir)
