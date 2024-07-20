@@ -29,8 +29,8 @@ SUBROUTINE my_rbsht(nr, nri, rfmt1, rfmt2)
   ! 1st index is faster in looping
   ! matrix multiplication: (lmmaxi,lmmaxi) * (lmmaxi,nri) -> (lmmaxi,nri)
 
-  write(102,*) rfmt1(1:lmmaxi*nri)
-  write(103,*) rfmt2(1:lmmaxi*nri)
+  !write(102,*) rfmt1(1:lmmaxi*nri)
+  !write(103,*) rfmt2(1:lmmaxi*nri)
   
   ! transform the outer part of the muffin-tin
   nro = nr - nri
@@ -47,8 +47,8 @@ SUBROUTINE my_rbsht(nr, nri, rfmt1, rfmt2)
    rfmt2(i),lmmaxo)
   ! matrix multiplication: (lmmaxi,lmmaxi) * (lmmaxi,nri) -> (lmmaxi,nri)
 
-  write(104,*) rfmt1(i:i+lmmaxo*nro-1)
-  write(105,*) rfmt2(i:i+lmmaxo*nro-1)
+  !write(104,*) rfmt1(i:i+lmmaxo*nro-1)
+  !write(105,*) rfmt2(i:i+lmmaxo*nro-1)
 
   !call write_radial_mt()
   !stop 'should plot rfmt1 and rfmt2'
