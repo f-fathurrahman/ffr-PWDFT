@@ -44,10 +44,11 @@ SUBROUTINE gencfun()
     ENDDO 
   ENDDO 
   ALLOCATE(zfft(ngtot))
-  zfft(igfft(:))=cfunig(:)
+  zfft(:) = 0.d0 ! ffr
+  zfft(igfft(:)) = cfunig(:)
   ! Fourier transform to real-space
   CALL zfftifc(3,ngridg,1,zfft)
-  cfunir(:)=dble(zfft(:))
+  cfunir(:) = dble(zfft(:))
   DEALLOCATE(zfft)
   RETURN 
 END SUBROUTINE 

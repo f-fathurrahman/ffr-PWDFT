@@ -31,7 +31,7 @@ SUBROUTINE my_symrfir(rfir)
     ! zero translation vector flag
     tv0 = tv0symc(isym)
     ! translation vector in Cartesian coordinates
-    IF(.not.tv0) THEN 
+    IF(.not. tv0) THEN 
       v1 = vtcsymc(1,isym)
       v2 = vtcsymc(2,isym)
       v3 = vtcsymc(3,isym)

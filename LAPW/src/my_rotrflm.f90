@@ -27,6 +27,8 @@ SUBROUTINE my_rotrflm(rot, lmax, n, ld, rflm1, rflm2)
   ! automatic arrays
   REAL(8) d(ld,ld)
   !
+  write(*,*) 'in my_rotrflm: ld = ', ld
+  !
   IF(lmax < 0) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(rotrflm): lmax < 0 : ",I8)') lmax
@@ -56,6 +58,7 @@ SUBROUTINE my_rotrflm(rot, lmax, n, ld, rflm1, rflm2)
   angi(3) = -ang(1)
   ! determine the rotation matrix for real spherical harmonics
   CALL rlmrot(p, angi, lmax, ld, d)
+  !write(*,*) d
   ! apply rotation matrix
   DO l=0,lmax
     nm = 2*l + 1

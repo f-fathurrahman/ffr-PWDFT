@@ -16,7 +16,7 @@ SUBROUTINE my_symrfmt(nr, nri, np, ld, rfmt)
   INTEGER isym,lspl
   REAL(8) t0
   ! automatic arrays
-  LOGICAL done(natmmax)
+  LOGICAL done(natmmax) ! natmmax is maximum number of natoms(is), across different species
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: rfmt1(:,:), rfmt2(:)
   !
@@ -45,7 +45,7 @@ SUBROUTINE my_symrfmt(nr, nri, np, ld, rfmt)
         lspl = lsplsymc(isym)
         !
         ! equivalent atom index (symmetry rotates atom ja into atom ia)
-        ja = ieqatom(ia,is,isym)
+        ja = ieqatom(ia, is, isym)
         !
         ! apply the rotation to the muffin-tin function
         CALL my_rotrfmt(symlatc(:,:,lspl), nr(is), nri(is), rfmt1(:,ja), rfmt2)
