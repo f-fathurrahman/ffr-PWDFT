@@ -18,10 +18,10 @@ SUBROUTINE symmetry()
   IF(symtype == 0) nsymlat = 1
 
   ! find the crystal symmetries and shift atomic positions if required
-  CALL my_findsymcrys()
+  CALL findsymcrys()
 
   ! find the site symmetries
-  CALL my_findsymsite()
+  CALL findsymsite()
 
   ! check if real symmetric first-variational eigen solver can be used
   IF(.not. tsyminv) tefvr = .false.
