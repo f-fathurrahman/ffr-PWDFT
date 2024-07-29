@@ -1,20 +1,40 @@
-SUBROUTINE my_gndstate(maxscl_in)
-  USE modmain
+module m_my_gndstate
+  implicit none
+  ! local variables
+  LOGICAL :: exist
+  INTEGER :: ik, nwork, n
+  REAL(8) :: dv, etp, de, timetot
+  ! ALLOCATABLE arrays
+  REAL(8), ALLOCATABLE :: v(:), work(:)
+end module ! m_my_gndstate
 
+
+SUBROUTINE my_gndstate(maxscl_in)
+  !USE modmain
+  use m_atoms, only: natmtot
+  use m_muffin_tins, only: npmtmax, npcmtmax
+  use m_kpoints, only: nkpt
+  use m_gvectors, only: ngtot
+  use m_states, only: ikgap, bandgap, tevecsv, swidth, fermidos, autoswidth, occsv
+  use m_force_stress, only: tforce
+  use m_spin, only: spinpol, ndmag
+  use m_charge_moment_current, only: momtotm, momtot
+  use m_oep_hf, only: resoep
+  use m_density_pot_xc, only: xctype, xcgrad, c_tb09
+  use m_mixing, only: mixtype
+  use m_energy, only: engytot
+  use m_convergence, only: iscl, epspot, epsengy
+  use m_timing, only: timesv, timerho, timemat, timepot, timeinit, timefv, timefor
+  use m_misc, only: tlast, tstop, nwrite, filext
+  use m_my_gndstate
   IMPLICIT NONE 
   !
   integer :: maxscl_in
-  ! local variables
-  LOGICAL :: exist
-  INTEGER :: ik,nwork,n
-  REAL(8) :: dv,etp,de,timetot
-  ! ALLOCATABLE arrays
-  REAL(8), ALLOCATABLE :: v(:),work(:)
 
   ! initialise global variables
   !CALL init0()
   !CALL init1()
-  ! These call will be handled separately, with read_input()
+  ! These call will be handled separately, along with read_input()
 
   iscl = 0
 
@@ -152,12 +172,12 @@ SUBROUTINE my_gndstate(maxscl_in)
     WRITE(6,'(" at k-point ",I6)') ikgap(3)
 
     ! write total energy to TOTENERGY.OUT
-    WRITE(61,'(G22.12)') engytot
-    flush(61)
+    !WRITE(61,'(G22.12)') engytot
+    !flush(61)
 
     ! write DOS at Fermi energy to FERMIDOS.OUT
-    WRITE(62,'(G18.10)') fermidos
-    flush(62)
+    !WRITE(62,'(G18.10)') fermidos
+    !flush(62)
     
     ! output charges and moments
     CALL writechg(6)
@@ -173,10 +193,10 @@ SUBROUTINE my_gndstate(maxscl_in)
     ENDIF 
     
     ! write estimated Kohn-Sham indirect band gap
-    WRITE(64,'(G22.12)') bandgap(1)
-    flush(64)
+    !WRITE(64,'(G22.12)') bandgap(1)
+    !flush(64)
     
-        ! check for WRITE file
+    ! check for WRITE file
     inquire(file='WRITE',exist=exist)
     IF( exist ) THEN 
       WRITE(6,*)
@@ -226,7 +246,7 @@ SUBROUTINE my_gndstate(maxscl_in)
     ENDIF ! check for convergence
 
     ! average the current and previous total energies and store
-    IF (iscl.gt.1) THEN 
+    IF (iscl > 1) THEN 
       etp = 0.75d0*engytot + 0.25d0*etp
     ELSE 
       etp = engytot
@@ -296,9 +316,10 @@ SUBROUTINE my_gndstate(maxscl_in)
 
   ! close the FERMIDOS.OUT file
   CLOSE(62)
+  
   ! close the MOMENT.OUT and MOMENTM.OUT files
   IF( spinpol ) THEN 
-    CLOSE(63); close(68)
+  CLOSE(63); close(68)
   ENDIF 
   ! close the GAP.OUT file
   CLOSE(64)
