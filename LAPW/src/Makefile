@@ -205,6 +205,9 @@ my_potxcmt_lda_nospin.f90 \
 my_potxcir_lda_nospin.f90 \
 my_genshtmat.f90 my_gencore.f90 \
 print_tv0symc.f90 \
+my_linengy.f90 \
+my_findband.f90 \
+my_rschrodint.f90 \
 my_gndstate.f90
 
 
