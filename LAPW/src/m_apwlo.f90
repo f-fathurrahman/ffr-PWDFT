@@ -20,6 +20,7 @@ INTEGER :: lmoapw(maxspecies)
 INTEGER :: npapw
 ! APW initial linearisation energies
 REAL(8) :: apwe0(maxapword,0:maxlapw,maxspecies)
+!
 ! APW linearisation energies
 REAL(8), ALLOCATABLE :: apwe(:,:,:)
 ! APW derivative order
@@ -54,14 +55,19 @@ INTEGER lolmax
 INTEGER lolmmax
 ! local-orbital initial energies
 REAL(8) lorbe0(maxlorbord,maxlorb,maxspecies)
+!
 ! local-orbital energies
 REAL(8), ALLOCATABLE :: lorbe(:,:,:)
+!
 ! local-orbital derivative order
 INTEGER lorbdm(maxlorbord,maxlorb,maxspecies)
+!
 ! lorbve is .true. if the linearisation energies are allowed to vary
 LOGICAL lorbve(maxlorbord,maxlorb,maxspecies)
+!
 ! local-orbital radial functions
 REAL(8), ALLOCATABLE :: lofr(:,:,:,:)
+!
 ! band energy search tolerance
 REAL(8) epsband
 ! maximum allowed change in energy during band energy search; enforced only if
