@@ -2,10 +2,10 @@ SUBROUTINE info_apwlo()
   USE m_atoms
   USE m_atomic_species
   USE m_apwlo
-  USE m_muffin_tins
+  USE m_muffin_tins, only: lmaxapw, nrmt, nrmtmax
   IMPLICIT NONE 
 
-  integer :: is, l, iord, ia, ias
+  integer :: is, l, iord, ia, ias, ilo
 
   write(*,*)
   write(*,*) '----------'
@@ -80,11 +80,12 @@ SUBROUTINE info_apwlo()
 
   write(*,*)
   write(*,*) 'apwve is .true. if the linearisation energies are allowed to vary'
+  write(*,*) 'index iord, l, ispecies'
   do is = 1,nspecies
     write(*,*) 'Species ', trim(spfname(is))
     do l = 0,lmaxapw
       do iord = 1,apword(l,is)
-        write(*,*) 'apwdm = ', apwve(iord,l,is)
+        write(*,'(1x,3I4,L3)') iord, l, is, apwve(iord,l,is)
       enddo
     enddo
   enddo
@@ -100,58 +101,94 @@ SUBROUTINE info_apwlo()
   write(*,*) 'nlorb = ', nlorb
   write(*,*) 'nlotot = ', nlotot
 
-  !! derivate of radial functions at the muffin-tin surface
+  write(*,*) 'maxlorbord = ', maxlorbord
+  ! effective local orbital order
+  write(*,*) 'Actual local orbital order (lorbord) '
+  write(*,*) 'index ispecies, ilo'
+  do is = 1,nspecies
+    do ilo = 1,nlorb(is)
+      write(*,*) is, ilo, lorbord(ilo,is)
+    enddo
+  enddo
+
+
+!! derivate of radial functions at the muffin-tin surface
 !real(8), allocatable :: apwdfr(:,:,:)
+
 !! maximum number of local-orbitals
 !integer, parameter :: maxlorb=200
+
 !! maximum allowable local-orbital order
 !integer, parameter :: maxlorbord=5
+
 !! number of local-orbitals
 !integer nlorb(maxspecies)
+
 !! maximum nlorb over all species
 !integer nlomax
+
 !! total number of local-orbitals
 !integer nlotot
+
 !! local-orbital order
 !integer lorbord(maxlorb,maxspecies)
+
 !! maximum lorbord over all species
 !integer lorbordmax
+
 !! polynomial order used for local-orbital radial derivatives
 !integer nplorb
+
 !! local-orbital angular momentum
 !integer lorbl(maxlorb,maxspecies)
+
 !! maximum lorbl over all species
 !integer lolmax
+
 !! (lolmax+1)^2
 !integer lolmmax
+
 !! local-orbital initial energies
 !real(8) lorbe0(maxlorbord,maxlorb,maxspecies)
+
 !! local-orbital energies
 !real(8), allocatable :: lorbe(:,:,:)
+
 !! local-orbital derivative order
 !integer lorbdm(maxlorbord,maxlorb,maxspecies)
+
 !! lorbve is .true. if the linearisation energies are allowed to vary
 !logical lorbve(maxlorbord,maxlorb,maxspecies)
+
 !! local-orbital radial functions
 !real(8), allocatable :: lofr(:,:,:,:)
+
 !! band energy search tolerance
 !real(8) epsband
+
 !! maximum allowed change in energy during band energy search; enforced only if
 !! default energy is less than zero
 !real(8) demaxbnd
+
 !! minimum default linearisation energy over all APWs and local-orbitals
 !real(8) e0min
+
 !! if autolinengy is .true. then the fixed linearisation energies are set to the
 !! Fermi energy minus dlefe
 !logical autolinengy
+
 !! difference between linearisation and Fermi energies when autolinengy is .true.
 !real(8) dlefe
+
 !! lorbcnd is .true. if conduction state local-orbitals should be added
 !logical lorbcnd
+
 !! conduction state local-orbital order
 !integer lorbordc
+
 !! excess order of the APW and local-orbital functions
 !integer nxoapwlo
+
 !! excess local orbitals
 !integer nxlo
 
