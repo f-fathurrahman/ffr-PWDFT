@@ -29,6 +29,7 @@ SUBROUTINE init_eigensystems()
   ! overlap and Hamiltonian matrix sizes
   IF( allocated(nmat) ) deallocate(nmat)
   ALLOCATE( nmat(nspnfv,nkpt) )
+  nmat(:,:) = 0.d0
   nmatmax = 0
   DO ik = 1,nkpt
     DO jspn = 1,nspnfv
@@ -50,29 +51,37 @@ SUBROUTINE init_eigensystems()
   ! allocate second-variational arrays
   IF( allocated(evalsv) ) DEALLOCATE(evalsv)
   ALLOCATE( evalsv(nstsv,nkpt) )
+  evalsv(:,:) = 0.d0
   !
   IF( allocated(occsv) ) DEALLOCATE(occsv)
   ALLOCATE( occsv(nstsv,nkpt) )
   occsv(:,:) = 0.d0
-  
+  !
   ! allocate overlap and Hamiltonian integral arrays
   IF( allocated(oalo) ) DEALLOCATE(oalo)
   ALLOCATE( oalo(apwordmax,nlomax,natmtot) )
+  oalo(:,:,:) = 0.d0
   !
   IF( allocated(ololo) ) DEALLOCATE(ololo)
   ALLOCATE(ololo(nlomax,nlomax,natmtot))
+  ololo(:,:,:) = 0.d0
+  !
   IF( allocated(haa) ) DEALLOCATE(haa)
   ALLOCATE( haa(lmmaxo,apwordmax,0:lmaxapw,apwordmax,0:lmaxapw,natmtot) )
+  haa(:,:,:,:,:,:) = 0.d0
   !
   IF( allocated(hloa) ) DEALLOCATE(hloa)
   allocate(hloa(lmmaxo,apwordmax,0:lmaxapw,nlomax,natmtot))
+  hloa(:,:,:,:,:) = 0.d0
   !
   IF( allocated(hlolo)) DEALLOCATE(hlolo)
   ALLOCATE( hlolo(lmmaxo,nlomax,nlomax,natmtot) )
+  hlolo(:,:,:,:) = 0.d0
   
   ! allocate and generate complex Gaunt coefficient array
   IF( allocated(gntyry) ) deallocate(gntyry)
   ALLOCATE( gntyry(lmmaxo,lmmaxapw,lmmaxapw) )
+  gntyry(:,:,:) = 0.d0
   DO l1 = 0,lmaxapw
     DO m1 = -l1,l1
       lm1 = idxlm(l1,m1)

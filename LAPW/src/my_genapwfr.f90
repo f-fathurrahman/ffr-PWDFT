@@ -21,6 +21,8 @@ SUBROUTINE my_genapwfr()
   REAL(8) splint
   EXTERNAL splint
 
+  write(*,*) '*** ENTER: my_genapwfr'
+
   DO is=1,nspecies
     nr = nrmt(is)
     nri = nrmti(is)
@@ -109,6 +111,9 @@ SUBROUTINE my_genapwfr()
       ! end loop over atoms and species
     ENDDO 
   ENDDO 
+
+  write(*,*) '*** EXIT: my_genapwfr'
+
   RETURN 
 END SUBROUTINE 
 
