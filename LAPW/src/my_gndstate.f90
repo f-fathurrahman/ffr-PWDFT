@@ -20,9 +20,13 @@ subroutine my_gndstate_setup_mixing()
   use m_convergence, only: iscl
   use m_my_gndstate
   implicit none
+
+  write(*,*) 'EXIT my_gndstate_setup_mixing'
+
   ! size of mixing vector
   n = npmtmax*natmtot + ngtot
   IF( spinpol ) n = n + (npcmtmax*natmtot+ngtot)*ndmag
+  write(*,*) 'n = ', n
 
   ! allocate mixing array
   ALLOCATE( v(n) )
@@ -37,6 +41,8 @@ subroutine my_gndstate_setup_mixing()
   CALL mixpack(.true.,n,v)
   CALL mixerifc(mixtype,n,v,dv,nwork,work)
 
+  write(*,*) 'EXIT my_gndstate_setup_mixing'
+
   return
 
 end subroutine
@@ -47,14 +53,24 @@ subroutine my_gndstate_do_mixing()
   use m_mixing, only: mixtype
   use m_my_gndstate
   implicit none
+  !
+  write(*,*) 'mixtype = ', mixtype
+  !
   ! pack interstitial and muffin-tin potential and field into one array
   CALL mixpack(.true.,n,v)
   ! mix in the old potential and field with the new
   CALL mixerifc(mixtype, n, v, dv, nwork, work)
   ! unpack potential and field
-  CALL mixpack(.false.,n,v)
+  CALL mixpack(.false., n, v)
   !
   return
+end subroutine
+
+
+! Need to set iscl outside Fortran
+subroutine my_gndstate_increment_iscl()
+  use m_convergence, only: iscl
+  iscl = iscl + 1
 end subroutine
 
 
