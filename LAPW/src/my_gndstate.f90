@@ -9,45 +9,17 @@ module m_my_gndstate
 end module ! m_my_gndstate
 
 
-SUBROUTINE my_gndstate(maxscl_in)
-  !USE modmain
-  use m_atoms, only: natmtot
-  use m_muffin_tins, only: npmtmax, npcmtmax
-  use m_kpoints, only: nkpt
-  use m_gvectors, only: ngtot
-  use m_states, only: ikgap, bandgap, tevecsv, swidth, fermidos, autoswidth, occsv
-  use m_force_stress, only: tforce
-  use m_spin, only: spinpol, ndmag
-  use m_charge_moment_current, only: momtotm, momtot
-  use m_oep_hf, only: resoep
-  use m_density_pot_xc, only: xctype, xcgrad, c_tb09
+!------------------------------------
+subroutine my_gndstate_setup_mixing()
+!------------------------------------
   use m_mixing, only: mixtype
-  use m_energy, only: engytot
-  use m_convergence, only: iscl, epspot, epsengy
-  use m_timing, only: timesv, timerho, timemat, timepot, timeinit, timefv, timefor
-  use m_misc, only: tlast, tstop, nwrite, filext
+  use m_muffin_tins, only: npmtmax, npcmtmax
+  use m_spin, only: spinpol, ndmag
+  use m_gvectors, only: ngtot
+  use m_atoms, only: natmtot
+  use m_convergence, only: iscl
   use m_my_gndstate
-  IMPLICIT NONE 
-  !
-  integer :: maxscl_in
-
-  ! initialise global variables
-  !CALL init0()
-  !CALL init1()
-  ! These call will be handled separately, along with read_input()
-
-  iscl = 0
-
-  ! initialise the density and magnetisation from atomic data
-  CALL rhoinit()
-  CALL maginit()
-  ! generate the Kohn-Sham potential and magnetic field
-  CALL potks(.true.)
-  WRITE(6,'("Kohn-Sham potential initialised from atomic data")')
-
-  ! Fourier transform of KS effective potential
-  CALL genvsig() 
-
+  implicit none
   ! size of mixing vector
   n = npmtmax*natmtot + ngtot
   IF( spinpol ) n = n + (npcmtmax*natmtot+ngtot)*ndmag
@@ -65,12 +37,72 @@ SUBROUTINE my_gndstate(maxscl_in)
   CALL mixpack(.true.,n,v)
   CALL mixerifc(mixtype,n,v,dv,nwork,work)
 
+  return
+
+end subroutine
+
+!---------------------------------
+subroutine my_gndstate_do_mixing()
+!---------------------------------
+  use m_mixing, only: mixtype
+  use m_my_gndstate
+  implicit none
+  ! pack interstitial and muffin-tin potential and field into one array
+  CALL mixpack(.true.,n,v)
+  ! mix in the old potential and field with the new
+  CALL mixerifc(mixtype, n, v, dv, nwork, work)
+  ! unpack potential and field
+  CALL mixpack(.false.,n,v)
+  !
+  return
+end subroutine
+
+
+!--------------------------------
+SUBROUTINE my_gndstate(maxscl_in)
+!--------------------------------
+  !USE modmain
+  use m_kpoints, only: nkpt
+  use m_states, only: ikgap, bandgap, tevecsv, swidth, fermidos, autoswidth, occsv
+  use m_force_stress, only: tforce
+  use m_spin, only: spinpol, ndmag
+  use m_charge_moment_current, only: momtotm, momtot
+  use m_oep_hf, only: resoep
+  use m_density_pot_xc, only: xctype, xcgrad, c_tb09
+  use m_energy, only: engytot
+  use m_convergence, only: iscl, epspot, epsengy
+  use m_timing, only: timesv, timerho, timemat, timepot, timeinit, timefv, timefor
+  use m_misc, only: tlast, tstop, nwrite, filext
+  use m_my_gndstate
+  IMPLICIT NONE 
+  !
+  integer :: maxscl_in
+
+  ! initialise global variables
+  !CALL init0()
+  !CALL init1()
+  ! These call will be handled separately, along with read_input()
+
+  iscl = 0 ! this is a global variable for SCF iteration counter
+
+  ! initialise the density and magnetisation from atomic data
+  CALL rhoinit()
+  CALL maginit()
+  ! generate the Kohn-Sham potential and magnetic field
+  CALL potks(.true.)
+  WRITE(6,'("Kohn-Sham potential initialised from atomic data")')
+
+  ! Fourier transform of KS effective potential
+  CALL genvsig() 
+
+  call my_gndstate_setup_mixing()
+
   ! set the stop signal to .false.
   tstop = .false.
 
   ! set last self-consistent loop flag
   tlast = .false.
-  etp = 0.d0
+  etp = 0.d0 ! XXX: what's this? total energy mixing?
 
   ! begin the self-consistent loop
   WRITE(6,*)
@@ -139,14 +171,9 @@ SUBROUTINE my_gndstate(maxscl_in)
       WRITE(6,'("Tran-Blaha ''09 constant c : ",G18.10)') c_tb09
     ENDIF 
 
-    ! pack interstitial and muffin-tin potential and field into one array
-    CALL mixpack(.true.,n,v)
 
-    ! mix in the old potential and field with the new
-    CALL mixerifc(mixtype, n, v, dv, nwork, work)
+    call my_gndstate_do_mixing()
 
-    ! unpack potential and field
-    CALL mixpack(.false.,n,v)
 
     ! calculate and add the fixed spin moment effective field (after mixing)
     ! .... SKIPPED ....
