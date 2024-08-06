@@ -22,7 +22,10 @@ SUBROUTINE genevfsv()
     CALL putevalsv(filext,ik,evalsv(:,ik))
     CALL putevecfv(filext,ik,evecfv)
     CALL putevecsv(filext,ik,evecsv)
-  ENDDO 
+  ENDDO
+  ! 
+  ! The eigenvalues and eigenvectors are already written to files
+  ! Temporary arrays are deallocated here.
   DEALLOCATE(evalfv,evecfv,evecsv)
 
   RETURN 
