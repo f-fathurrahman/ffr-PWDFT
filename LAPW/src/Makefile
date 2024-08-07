@@ -209,6 +209,7 @@ my_linengy.f90 \
 my_findband.f90 \
 my_rschrodint.f90 \
 my_genapwfr.f90 my_genlofr.f90 \
+driver_match.f90 my_eveqn.f90 \
 my_gndstate.f90
 
 
