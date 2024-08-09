@@ -2,13 +2,13 @@
 
 SUBROUTINE my_eveqn( ik, evalfv, evecfv )
   USE m_atoms, ONLY: natmtot
-  USE m_gkvectors, ONLY: ngk, ngkmax, igkig, vgkc, vgkl, gkc, sfacgk
-  USE m_hamiltonian, ONLY: tefvit, nmatmax, nmat
-  USE m_states, ONLY: nstfv, nstsv, evalsv
-  USE m_kpoints, ONLY: vkc, vkl
+  USE m_gkvectors, ONLY: ngk, ngkmax, igkig, vgkc, gkc, sfacgk
+  USE m_hamiltonian, ONLY: nmatmax, nmat
+  USE m_states, ONLY: nstfv
+  USE m_kpoints, ONLY: vkc
   USE m_muffin_tins, ONLY: lmmaxapw
   USE m_apwlo, ONLY: apwordmax
-  USE m_spin, ONLY: spinsprl, nspnfv
+  USE m_spin, ONLY: nspnfv
   IMPLICIT NONE 
   ! arguments
   INTEGER, intent(in) :: ik
@@ -27,8 +27,12 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv )
   ! loop over first-variational spins (nspnfv=2 for spin-spirals only)
   DO jspn = 1,nspnfv
     ! find the matching coefficients
-    CALL match(ngk(jspn,ik),vgkc(:,:,jspn,ik),gkc(:,jspn,ik), &
-     sfacgk(:,:,jspn,ik),apwalm(:,:,:,:,jspn))
+    CALL match( ngk(jspn,ik), vgkc(:,:,jspn,ik), gkc(:,jspn,ik), &
+                sfacgk(:,:,jspn,ik), apwalm(:,:,:,:,jspn) )
+    !
+    ! the important variable here is apwalm, which will be passed to eveqnfv
+    !
+    !
     ! solve the first-variational eigenvalue equation
     !
     ! XXX: tefvit is disabled

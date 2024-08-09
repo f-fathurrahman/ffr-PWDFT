@@ -6,7 +6,7 @@ SUBROUTINE genevfsv()
   USE m_misc, ONLY: filext
   IMPLICIT NONE 
   ! local variables
-  INTEGER :: ik,lp
+  INTEGER :: ik
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: evalfv(:,:)
   COMPLEX(8), ALLOCATABLE :: evecfv(:,:,:),evecsv(:,:)
