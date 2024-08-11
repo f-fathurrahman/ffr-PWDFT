@@ -1,5 +1,9 @@
 ! evecsv argument is removed
 
+! input:
+! - ik: kpoint index
+! - evalfv: eigenvalues
+! - evecfv: eigenvectors
 SUBROUTINE my_eveqn( ik, evalfv, evecfv )
   USE m_atoms, ONLY: natmtot
   USE m_gkvectors, ONLY: ngk, ngkmax, igkig, vgkc, gkc, sfacgk
@@ -26,6 +30,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv )
 
   ! loop over first-variational spins (nspnfv=2 for spin-spirals only)
   DO jspn = 1,nspnfv
+    write(*,'(1x,A,I5,A,I5)') 'ik = ', ik, ' jspn = ', jspn
     ! find the matching coefficients
     CALL match( ngk(jspn,ik), vgkc(:,:,jspn,ik), gkc(:,jspn,ik), &
                 sfacgk(:,:,jspn,ik), apwalm(:,:,:,:,jspn) )
@@ -37,7 +42,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv )
     !
     ! XXX: tefvit is disabled
     ! directly
-    CALL eveqnfv( nmat(jspn,ik), ngk(jspn,ik), igkig(:,jspn,ik), vkc(:,ik), &
+    CALL my_eveqnfv( nmat(jspn,ik), ngk(jspn,ik), igkig(:,jspn,ik), vkc(:,ik), &
                   vgkc(:,:,jspn,ik), apwalm(:,:,:,:,jspn), evalfv(:,jspn), evecfv(:,:,jspn))
   ENDDO 
   
