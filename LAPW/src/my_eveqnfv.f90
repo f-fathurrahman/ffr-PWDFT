@@ -22,7 +22,9 @@ SUBROUTINE my_eveqnfv(nmatp,ngp,igpig,vpc,vgpc,apwalm,evalfv,evecfv)
   write(*,*) '-------- ENTER my_eveqnfv -----------'
   write(*,*)
 
-  write(*,*) 'nmatp = ', nmatp
+  write(*,*) 'nmatp = ', nmatp ! may include local orbital
+  write(*,*) 'ngp = ', ngp ! should be the same as nmatp in case no local orbitals are used
+  ! igpig, vpc, vgpc: igk index to ig, k-vector, G+k-vector
 
   !-----------------------------------------------!
   !     Hamiltonian and overlap matrix set up     !
