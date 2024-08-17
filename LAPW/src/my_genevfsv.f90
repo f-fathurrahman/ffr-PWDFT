@@ -16,6 +16,10 @@ SUBROUTINE my_genevfsv()
   write(*,*)
   write(*,*) '****** ENTER: my_genevfsv'
   write(*,*)
+  write(*,*) 'NOTE:'
+  write(*,*) 'NOTE: Second variational eigenvalues are not calculated'
+  write(*,*) 'NOTE:'
+  write(*,*)
 
   ALLOCATE(evalfv(nstfv,nspnfv))
   ALLOCATE(evecfv(nmatmax,nstfv,nspnfv),evecsv(nstsv,nstsv))
@@ -26,10 +30,6 @@ SUBROUTINE my_genevfsv()
   DO ik=1,nkpt
     ! solve the first- and second-variational eigenvalue equations
     CALL my_eveqn(ik,evalfv,evecfv)
-    !
-    write(*,*) 'DEBUG:'
-    write(*,*) 'DEBUG: Second variational eigenvalues are not calculated'
-    write(*,*) 'DEBUG:'
     !
     ! write the eigenvalues/vectors to file
     CALL putevalfv(filext,ik,evalfv)
