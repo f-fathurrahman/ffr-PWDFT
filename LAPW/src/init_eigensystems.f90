@@ -29,7 +29,7 @@ SUBROUTINE init_eigensystems()
   ! overlap and Hamiltonian matrix sizes
   IF( allocated(nmat) ) deallocate(nmat)
   ALLOCATE( nmat(nspnfv,nkpt) )
-  nmat(:,:) = 0.d0
+  nmat(:,:) = 0
   nmatmax = 0
   DO ik = 1,nkpt
     DO jspn = 1,nspnfv

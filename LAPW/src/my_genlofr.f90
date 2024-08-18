@@ -46,75 +46,90 @@ SUBROUTINE my_genlofr()
         vr(ir)=vsmt(i,ias)*y00
         i=i+lmmaxo
       ENDDO 
-      DO ilo=1,nlorb(is)
-        l=lorbl(ilo,is)
-        DO jo=1,lorbord(ilo,is)
+      DO ilo = 1,nlorb(is)
+        l = lorbl(ilo,is)
+        DO jo = 1,lorbord(ilo,is)
           ! linearisation energy accounting for energy derivative
-          e=lorbe(jo,ilo,ias)+dble(lorbdm(jo,ilo,is))*deapwlo
+          e = lorbe(jo,ilo,ias) + dble(lorbdm(jo,ilo,is))*deapwlo
           ! integrate the radial Schrodinger equation
-          CALL rschrodint(solsc,l,e,nr,rlmt(:,1,is),vr,nn,p0(:,jo),p1,q0,q1)
-          ep0(1:nr,jo)=e*p0(1:nr,jo)
+          CALL rschrodint(solsc, l, e, nr, rlmt(:,1,is), vr, nn, p0(:,jo), p1, q0, q1)
+          !write(*,*)
+          !write(*,'(1x,A,2I4,F18.10,I4)') 'l, ilo, linearization energy, nn = ', l, ilo, e, nn
+          ep0(1:nr,jo) = e*p0(1:nr,jo)
+          !
           ! normalise radial functions
-          fr(1:nr)=p0(1:nr,jo)**2
-          t1=splint(nr,rlmt(:,1,is),fr)
-          t1=1.d0/sqrt(abs(t1))
-          CALL dscal(nr,t1,p0(:,jo),1)
-          CALL dscal(nr,t1,ep0(:,jo),1)
+          fr(1:nr) = p0(1:nr,jo)**2
+          t1 = splint(nr,rlmt(:,1,is),fr)
+          !write(*,*) 't1 = ', t1
+          !
+          t1 = 1.d0/sqrt(abs(t1))
+          CALL dscal(nr, t1, p0(:,jo), 1)
+          CALL dscal(nr, t1, ep0(:,jo), 1)
+          !write(*,'(1x,A,I4,F18.10)') 'jo, sum abs ep0 = ', jo, sum(abs(ep0(1:nr,jo)))
           ! set up the matrix of radial derivatives
-          DO i=1,nplorb
-            ir=nr-nplorb+i
-            xa(i)=rlmt(ir,1,is)
-            ya(i)=p0(ir,jo)*rlmt(ir,-1,is)
+          DO i = 1,nplorb
+            ir = nr - nplorb + i
+            xa(i) = rlmt(ir,1,is)
+            ya(i) = p0(ir,jo)*rlmt(ir,-1,is)
           ENDDO 
-          DO io=1,lorbord(ilo,is)
-            a(io,jo)=polynm(io-1,nplorb,xa,ya,rmt(is))
+          DO io = 1,lorbord(ilo,is)
+            a(io,jo) = polynm(io-1,nplorb,xa,ya,rmt(is))
           ENDDO 
         ENDDO 
         ! set up the target vector
-        b(:)=0.d0
-        b(lorbord(ilo,is))=1.d0
+        b(:) = 0.d0
+        b(lorbord(ilo,is)) = 1.d0
         CALL dgesv(lorbord(ilo,is),1,a,nplorb,ipiv,b,nplorb,info)
-        IF(info.ne.0) goto 10
+        IF(info /= 0) goto 10
         ! generate linear superposition of radial functions
-        p0s(:,ilo)=0.d0
-        ep0s(:,ilo)=0.d0
-        DO io=1,lorbord(ilo,is)
-          t1=b(io)
+        p0s(:,ilo) = 0.d0
+        ep0s(:,ilo) = 0.d0
+        DO io = 1,lorbord(ilo,is)
+          t1 = b(io)
+          !write(*,'(1x,A,I4,F18.10)') 'io, b = ', io, b(io)
           CALL daxpy(nr,t1,p0(:,io),1,p0s(:,ilo),1)
           CALL daxpy(nr,t1,ep0(:,io),1,ep0s(:,ilo),1)
         ENDDO 
         ! normalise radial functions
-        fr(1:nr)=p0s(1:nr,ilo)**2
-        t1=splint(nr,rlmt(:,1,is),fr)
-        t1=1.d0/sqrt(abs(t1))
+        fr(1:nr) = p0s(1:nr,ilo)**2
+        t1 = splint(nr,rlmt(:,1,is),fr)
+        t1 = 1.d0/sqrt(abs(t1))
+        !write(*,'(1x,A,F18.10)') 'Scaling factor t1 from p0s = ', t1
+        !
         CALL dscal(nr,t1,p0s(:,ilo),1)
         CALL dscal(nr,t1,ep0s(:,ilo),1)
+        !
+        !write(*,'(1x,A,I4,F18.10)') 'ilo, sum abs ep0s = ', ilo, sum(abs(ep0s(1:nr,ilo)))
+        !
         ! subtract linear combination of previous local-orbitals with same l
         DO jlo=1,ilo-1
           IF(lorbl(jlo,is).eq.l) THEN 
-            fr(1:nr)=p0s(1:nr,ilo)*p0s(1:nr,jlo)
-            t1=-splint(nr,rlmt(:,1,is),fr)
+            fr(1:nr) = p0s(1:nr,ilo)*p0s(1:nr,jlo)
+            t1 = -splint(nr,rlmt(:,1,is),fr)
             CALL daxpy(nr,t1,p0s(:,jlo),1,p0s(:,ilo),1)
             CALL daxpy(nr,t1,ep0s(:,jlo),1,ep0s(:,ilo),1)
           ENDIF 
         ENDDO 
         ! normalise radial functions again
-        fr(1:nr)=p0s(1:nr,ilo)**2
-        t1=splint(nr,rlmt(:,1,is),fr)
-        t1=abs(t1)
-        IF(t1.lt.1.d-25) goto 10
-        t1=1.d0/sqrt(t1)
+        fr(1:nr) = p0s(1:nr,ilo)**2
+        t1 = splint(nr,rlmt(:,1,is),fr)
+        t1 = abs(t1)
+        IF(t1 < 1.d-25) goto 10
+        t1 = 1.d0/sqrt(t1)
+        !write(*,'(1x,A,F18.10)') 'Scaling factor t1 again = ', t1
+        !
         CALL dscal(nr,t1,p0s(:,ilo),1)
         CALL dscal(nr,t1,ep0s(:,ilo),1)
-  ! divide by r and store in global array
+        ! divide by r and store in global array
         DO ir=1,nr
           t1=rlmt(ir,-1,is)
-          lofr(ir,1,ilo,ias)=t1*p0s(ir,ilo)
-          lofr(ir,2,ilo,ias)=t1*ep0s(ir,ilo)
+          lofr(ir,1,ilo,ias) = t1*p0s(ir,ilo)
+          lofr(ir,2,ilo,ias) = t1*ep0s(ir,ilo)
         ENDDO 
+        !write(*,'(1x,I4,F18.10,F18.10)') ilo, sum(abs(lofr(1:nr,1,ilo,ias))), sum(abs(lofr(1:nr,2,ilo,ias)))
       ENDDO 
       done(ia)=.true.
-  ! copy to equivalent atoms
+      ! copy to equivalent atoms
       DO ja=1,natoms(is)
         IF((.not.done(ja)).and.(eqatoms(ia,ja,is))) THEN 
           jas=idxas(ja,is)

@@ -44,6 +44,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv )
     ! directly
     CALL my_eveqnfv( nmat(jspn,ik), ngk(jspn,ik), igkig(:,jspn,ik), vkc(:,ik), &
                   vgkc(:,:,jspn,ik), apwalm(:,:,:,:,jspn), evalfv(:,jspn), evecfv(:,:,jspn))
+    ! NOTE: ik index is not passed directly
   ENDDO 
   
   ! XXX: spinsprl and second variational stuffs are removed

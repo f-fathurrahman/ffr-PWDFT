@@ -12,6 +12,7 @@ integer is,ias,i,ilo,l,m,lm
 ! allocate global local-orbital index
 if (allocated(idxlo)) deallocate(idxlo)
 allocate(idxlo(lolmmax,nlomax,natmtot))
+idxlo(:,:,:) = 0 ! ffr
 i=0
 do ias=1,natmtot
   is=idxis(ias)
