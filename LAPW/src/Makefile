@@ -213,6 +213,7 @@ driver_match.f90 my_genevfsv.f90 my_eveqn.f90 my_eveqnfv.f90 \
 my_hmlaa.f90 my_hmlistl.f90 \
 debug_hamiltonian.f90 \
 my_occupy.f90 \
+my_rhomag.f90 my_rhomagk.f90 \
 my_gndstate.f90
 
 
