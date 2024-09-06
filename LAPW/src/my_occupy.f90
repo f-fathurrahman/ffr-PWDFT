@@ -2,9 +2,14 @@
 SUBROUTINE my_occupy()
 !---------------------
   use m_convergence, only: iscl
+  ! iscl is used when autoswidth is active, which in this case, only
+  ! when iscl > 1
   use m_kpoints, only: wkpt, nkpt
   use m_states, only: bandgap, evalsv, ikgap, occsv, swidth, stype, nstsv, occmax,&
                     & fermidos, efermi, epsocc, autoswidth
+  ! actual inputs: evalsv
+  ! actual output: occsv
+  !
   use m_charge_moment_current, only: chgval
   use m_apwlo, only: e0min
   IMPLICIT NONE 
@@ -18,6 +23,7 @@ SUBROUTINE my_occupy()
   external sdelta,stheta
 
   ! ffr: why use evalsv? (second variational)
+
 
 
   ! determine the smearing width automatically if required

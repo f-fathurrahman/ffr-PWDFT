@@ -116,6 +116,14 @@ SUBROUTINE read_input()
     read(50,*,err=20) avec(:,1)
     read(50,*,err=20) avec(:,2)
     read(50,*,err=20) avec(:,3)
+  case('scale')
+    read(50,*,err=20) sc
+  case('scale1')
+    read(50,*,err=20) sc1
+  case('scale2')
+    read(50,*,err=20) sc2
+  case('scale3')
+    read(50,*,err=20) sc3
   CASE('primcell')
     read(50,*,err=20) primcell
   CASE('tshift')
@@ -466,6 +474,74 @@ CASE('optcomp')
   WRITE(*,'("Error(readinput): optical component list too long")')
   WRITE(*,*)
   STOP 
+case('intraband')
+  read(50,*,err=20) intraband
+case('evaltol')
+  read(50,*,err=20) evaltol
+case('deband')
+  read(50,*,err=20)
+  WRITE(*,*)
+  WRITE(*,'("Info(readinput): variable ''deband'' is no longer used")')
+case('epsband')
+  read(50,*,err=20) epsband
+  IF(epsband.le.0.d0) THEN 
+    WRITE(*,*)
+    WRITE(*,'("Error(readinput): epsband <= 0 : ",G18.10)') epsband
+    WRITE(*,*)
+    stop
+  ENDIF 
+case('demaxbnd')
+  read(50,*,err=20) demaxbnd
+  IF(demaxbnd.le.0.d0) THEN 
+    WRITE(*,*)
+    WRITE(*,'("Error(readinput): demaxbnd <= 0 : ",G18.10)') demaxbnd
+    WRITE(*,*)
+    stop
+  ENDIF 
+case('autolinengy')
+  read(50,*,err=20) autolinengy
+case('dlefe')
+  read(50,*,err=20) dlefe
+case('deapwlo')
+  read(50,*,err=20) deapwlo
+  IF(abs(deapwlo).lt.1.d-8) THEN 
+    WRITE(*,*)
+    WRITE(*,'("Error(readinput): invalid deapwlo : ",G18.10)') deapwlo
+    WRITE(*,*)
+    stop
+  ENDIF 
+case('bfieldc')
+  read(50,*,err=20) bfieldc0
+case('efieldc')
+  read(50,*,err=20) efieldc
+case('afieldc')
+  read(50,*,err=20) afieldc
+case('fsmtype','fixspin')
+  read(50,*,err=20) fsmtype
+case('momfix')
+  read(50,*,err=20) momfix
+case('mommtfix')
+  DO ias=1,maxspecies*maxatoms
+    read(50,'(A256)',err=20) str
+    IF(trim(str).eq.'') goto 10
+    read(str,*,iostat=ios) is,ia,mommtfix(:,ia,is)
+    IF(ios.ne.0) THEN 
+      WRITE(*,*)
+      WRITE(*,'("Error(readinput): error reading muffin-tin fixed spin &
+       &moments")')
+      WRITE(*,'("(blank line required after mommtfix block")')
+      WRITE(*,*)
+      stop
+    ENDIF 
+  ENDDO 
+case('taufsm')
+  read(50,*,err=20) taufsm
+  IF(taufsm.lt.0.d0) THEN 
+    WRITE(*,*)
+    WRITE(*,'("Error(readinput): taufsm < 0 : ",G18.10)') taufsm
+    WRITE(*,*)
+    stop
+  ENDIF 
   CASE('autormt')
     read(50,*,err=20)
     WRITE(*,*)
@@ -635,9 +711,6 @@ CASE('optcomp')
       WRITE(*,'(" nrmtscf : ",G18.10)') nrmtscf
       WRITE(*,'(" msmooth : ",I4)') msmooth
     ENDIF
-  !
-  CASE('autolinengy')
-    read(50,*,err=20) autolinengy
   !
   CASE('')
     GOTO 10
