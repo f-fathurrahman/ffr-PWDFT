@@ -35,6 +35,9 @@ m_timing.f90 \
 m_constants.f90 \
 m_misc.f90 \
 modmain.f90 \
+moddftu.f90 \
+modulr.f90 \
+modrdm.f90 \
 modrandom.f90 \
 oblas_stub.f90 \
 zfftifc_fftw.f90 \
@@ -94,6 +97,7 @@ genevfsv.f90 occupy.f90 \
 putoccsv.f90 rhomag.f90 \
 energy.f90 writeeval.f90 writefermi.f90 writeforces.f90 writesym.f90 \
 writelinen.f90 writeengy.f90 writechg.f90 writestate.f90 writemom.f90 \
+writelat.f90 writekpts.f90 writegeom.f90 writeiad.f90 writeinfo.f90 \
 potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 potxc_default.f90 \
 oepmain.f90 gentau.f90 projsbf.f90 rfpack.f90 findband.f90 olprad.f90 hmlrad.f90 \
 rschrodint.f90 \
@@ -190,6 +194,7 @@ eveqnfvr.f90 \
 eveqnz.f90 lopzflm.f90 roteuler.f90 ylmrot.f90 erf.f90 hermite.f90 rotrfmt.f90 \
 gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.f90 rlmrot.f90 \
 force.f90 forcek.f90 symveca.f90 \
+fsmbfield.f90 addbfsm.f90 addbfsmu.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
 plot3d.f90 plotpt3d.f90 rfplot.f90 \
