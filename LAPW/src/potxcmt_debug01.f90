@@ -114,6 +114,8 @@ if (spinpol) then
 !     spin-polarised     !
 !------------------------!
 ! magnetisation in spherical coordinates
+  write(*,*) 'ndmag = ', ndmag
+  write(*,*) 'tsh = ', tsh
   do idm=1,ndmag
     if (tsh) then
       call rbsht(nr,nri,magmt_(:,ias,idm),mag(:,idm))
@@ -121,9 +123,12 @@ if (spinpol) then
       mag(1:n,idm) = magmt_(1:n,ias,idm)
     end if
   end do
+  write(*,*) 'magmt_(1:2,ias,1) = ', magmt_(1:2,ias,1)
+  write(*,*) 'sum abs mag = ', sum(abs(mag))
   !
 ! use scaled spin exchange-correlation (SSXC) if required
   if (tssxc) then
+    write(*,*) 'Using tssxc'
     mag(:,1:ndmag) = mag(:,1:ndmag)*ssxc
   endif
   if (ncmag) then
@@ -148,6 +153,8 @@ if (spinpol) then
     end if
   else
     ! collinear
+    write(*,*) 'potxcmt: collinear spinpol'
+    write(*,*) 'mag(1:2,1) = ', mag(1:2,1)
     do i=1,n
       ! compute rhoup=(rho+m_z)/2 and rhodn=(rho-m_z)/2
       t0 = rho(i)
@@ -155,11 +162,20 @@ if (spinpol) then
       rhoup(i) = 0.5d0*(t0+t1)
       rhodn(i) = 0.5d0*(t0-t1)
     end do
+    write(*,*) 'before sum rhoup = ', sum(rhoup)
+    write(*,*) 'before sum rhodn = ', sum(rhodn)
   end if
   ! call the exchange-correlation interface routine
   if (xcgrad.le.0) then
+    write(*,*) 'potxcmt: Calling xcifc here ....'
+    write(*,*) 'sum rhoup = ', sum(rhoup)
+    write(*,*) 'sum rhodn = ', sum(rhodn)
     call xcifc(xctype_,n=n,tempa=swidth,rhoup=rhoup,rhodn=rhodn,ex=ex,ec=ec, &
      vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
+    write(*,*) 'sum vxup = ', sum(vxup)
+    write(*,*) 'sum vxdn = ', sum(vxdn)
+    write(*,*) 'sum vcup = ', sum(vcup)
+    write(*,*) 'sum vcdn = ', sum(vcdn)
   !
   else if (xcgrad.eq.1) then
     call ggamt_sp_1(is,n,rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)

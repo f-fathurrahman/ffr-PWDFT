@@ -45,6 +45,9 @@ if (t1.gt.1.d-8) then
 else
   magir(:,:)=0.d0
 end if
+
+write(*,*) 'sum magir = ', sum(magir)
+
 return
 end subroutine
 

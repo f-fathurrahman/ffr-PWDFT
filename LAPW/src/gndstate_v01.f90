@@ -226,7 +226,7 @@ SUBROUTINE gndstate
     ENDIF ! check for convergence
 
     ! average the current and previous total energies and store
-    IF (iscl.gt.1) THEN 
+    IF (iscl > 1) THEN 
       etp = 0.75d0*engytot + 0.25d0*etp
     ELSE 
       etp = engytot

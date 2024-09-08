@@ -43,22 +43,23 @@ do ias=1,natmtot
   else
     magmt(1:np,ias,:)=0.d0
   end if
-end do
+enddo
 ! initialise interstitial magnetisation
-v(:)=bfieldc(:)
-t1=sqrt(v(1)**2+v(2)**2+v(3)**2)
-if (t1.gt.1.d-8) then
-  t1=-fmr/t1
-  v(:)=t1*v(:)
-  if (.not.ncmag) v(1)=v(3)
-  do idm=1,ndmag
-    t1=v(idm)
+v(:) = bfieldc(:)
+t1 = sqrt(v(1)**2 + v(2)**2 + v(3)**2)
+if (t1 > 1.d-8) then
+  t1 = -fmr/t1
+  v(:) = t1*v(:)
+  if (.not. ncmag) v(1)=v(3)
+  do idm = 1,ndmag
+    t1 = v(idm)
     magir(:,idm)=t1*rhoir(:)
-  end do
+  enddo
 else
-  magir(:,:)=0.d0
+  magir(:,:) = 0.d0
 end if
 
+write(*,*) 'sum magir = ', sum(magir)
 write(*,*)
 write(*,*) '*** ffr: Leaving maginit ***'
 write(*,*)

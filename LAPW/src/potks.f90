@@ -30,12 +30,13 @@ SUBROUTINE potks(txc)
   !
   IF(txc) CALL potxc(.true.,xctype,rhomt,rhoir,magmt,magir,taumt,tauir,exmt, &
    exir,ecmt,ecir,vxcmt,vxcir,bxcmt,bxcir,wxcmt,wxcir)
+  !
   ! optimised effective potential exchange potential
-  !
   IF(xctype(1) < 0) CALL oepmain()
-  ! remove the source term of the exchange-correlation magnetic field if required
   !
+  ! remove the source term of the exchange-correlation magnetic field if required
   IF(spinpol .and. nosource) CALL projsbf()
+  !
   ! effective potential from sum of Coulomb and exchange-correlation potentials
   DO ias=1,natmtot
     is=idxis(ias)

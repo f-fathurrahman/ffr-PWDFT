@@ -1,13 +1,15 @@
-
-! Copyright (C) 2018 J. K. Dewhurst, S. Sharma and E. K. U. Gross.
-! This file is distributed under the terms of the GNU General Public License.
-! See the file COPYING for license details.
-
 subroutine potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
  bxcmt_,wxcmt_)
-use modmain
-use modxcifc
-implicit none
+!
+  USE m_atoms, ONLY: natmtot, idxis
+  USE m_spin, ONLY: ndmag, nspinor, spinpol, ncmag
+  USE m_muffin_tins, ONLY: npmtmax, npmt, nrmt, nrmti
+  USE m_density_pot_xc, ONLY: xcgrad, tssxc, ssxc, dncgga, c_tb09
+  USE m_states, ONLY: swidth
+  USE m_oep_hf, ONLY: hybridc, hybrid
+  USE modxcifc, ONLY: xcifc
+!
+  implicit none
 ! arguments
 logical, intent(in) :: tsh
 integer, intent(in) :: ias,xctype_(3)
@@ -37,6 +39,7 @@ real(8), allocatable :: dxdg2r(:),dxdg2u(:),dxdg2d(:)
 real(8), allocatable :: dcdg2r(:),dcdg2u(:),dcdg2d(:)
 real(8), allocatable :: wx(:),wxup(:),wxdn(:)
 real(8), allocatable :: wc(:),wcup(:),wcdn(:)
+
 is=idxis(ias)
 n=npmt(is)
 ! allocate local arrays
@@ -115,24 +118,27 @@ if (spinpol) then
     if (tsh) then
       call rbsht(nr,nri,magmt_(:,ias,idm),mag(:,idm))
     else
-      mag(1:n,idm)=magmt_(1:n,ias,idm)
+      mag(1:n,idm) = magmt_(1:n,ias,idm)
     end if
   end do
+  !
 ! use scaled spin exchange-correlation (SSXC) if required
-  if (tssxc) mag(:,1:ndmag)=mag(:,1:ndmag)*ssxc
+  if (tssxc) then
+    mag(:,1:ndmag) = mag(:,1:ndmag)*ssxc
+  endif
   if (ncmag) then
-! non-collinear (use Kubler's trick)
+    ! non-collinear (use Kubler's trick)
     if (xcgrad.eq.0) then
-! LSDA
+      ! LSDA
       do i=1,n
-! compute rhoup=(rho+|m|)/2 and rhodn=(rho-|m|)/2
+        ! compute rhoup=(rho+|m|)/2 and rhodn=(rho-|m|)/2
         t0=rho(i)
         t1=sqrt(mag(i,1)**2+mag(i,2)**2+mag(i,3)**2)
         rhoup(i)=0.5d0*(t0+t1)
         rhodn(i)=0.5d0*(t0-t1)
       end do
     else
-! functionals which require gradients
+      ! functionals which require gradients
       do i=1,n
         t0=rho(i)
         t1=sqrt(mag(i,1)**2+mag(i,2)**2+mag(i,3)**2+dncgga)
@@ -141,19 +147,20 @@ if (spinpol) then
       end do
     end if
   else
-! collinear
+    ! collinear
     do i=1,n
-! compute rhoup=(rho+m_z)/2 and rhodn=(rho-m_z)/2
-      t0=rho(i)
-      t1=mag(i,1)
-      rhoup(i)=0.5d0*(t0+t1)
-      rhodn(i)=0.5d0*(t0-t1)
+      ! compute rhoup=(rho+m_z)/2 and rhodn=(rho-m_z)/2
+      t0 = rho(i)
+      t1 = mag(i,1)
+      rhoup(i) = 0.5d0*(t0+t1)
+      rhodn(i) = 0.5d0*(t0-t1)
     end do
   end if
-! call the exchange-correlation interface routine
+  ! call the exchange-correlation interface routine
   if (xcgrad.le.0) then
     call xcifc(xctype_,n=n,tempa=swidth,rhoup=rhoup,rhodn=rhodn,ex=ex,ec=ec, &
      vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
+  !
   else if (xcgrad.eq.1) then
     call ggamt_sp_1(is,n,rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,grho=grho,gup=gup,gdn=gdn, &

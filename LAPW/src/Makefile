@@ -38,6 +38,7 @@ modmain.f90 \
 moddftu.f90 \
 modulr.f90 \
 modrdm.f90 \
+modstore.f90 \
 modrandom.f90 \
 oblas_stub.f90 \
 zfftifc_fftw.f90 \
@@ -88,6 +89,7 @@ genshtmat.f90 zpotcoul.f90 sphcover.f90 genrlmv.f90 sctovec.f90 \
 rminv.f90 zminv.f90 timesec.f90 \
 mixerifc.f90 mixadapt.f90 mixlinear.f90 mixbroyden.f90 \
 init1.f90 gndstate.f90 \
+straingkq.f90 \
 rhoinit.f90 maginit.f90 \
 potks.f90 genvsig.f90 \
 mixpack.f90 gencore.f90 \
