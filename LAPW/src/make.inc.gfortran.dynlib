@@ -15,6 +15,3 @@ LIB_FFTW3 = -lfftw3
 LIBXC_HOME = /home/efefer/mysoftwares/libxc-4.3.4dyn
 LIB_LIBXC = -Wl,-rpath $(LIBXC_HOME)/lib -L$(LIBXC_HOME)/lib -lxcf90 -lxc
 LIBS    = $(LIB_LINALG) $(LIB_FFTW3) $(LIB_LIBXC)
-
-LIB_FFT = -lfftw3
-LIB_LPK = -lblas -llapack
