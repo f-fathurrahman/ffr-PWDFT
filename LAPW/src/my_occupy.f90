@@ -89,6 +89,7 @@ SUBROUTINE my_occupy()
     ENDIF 
   ENDDO 
   fermidos = fermidos*occmax
+  write(*,*) 'fermidos = ', fermidos
 
   ! estimate the indirect band gap (FC)
   e0 = -1.d8
@@ -140,7 +141,7 @@ SUBROUTINE my_occupy()
   ENDDO 
   bandgap(2) = e
 
-  WRITE(*,*) 'Estimated direct band gap: ', bandgap(1)
+  WRITE(*,*) 'Estimated direct band gap: ', bandgap(2)
 
   RETURN 
 END SUBROUTINE 
