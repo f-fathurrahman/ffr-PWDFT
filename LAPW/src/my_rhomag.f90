@@ -20,17 +20,24 @@ SUBROUTINE my_rhomag()
   COMPLEX(8), ALLOCATABLE :: apwalm(:,:,:,:,:),evecfv(:,:,:),evecsv(:,:)
 
   ! set the charge density and magnetisation to zero
-  DO ias=1,natmtot
-    is=idxis(ias)
-    rhomt(1:npcmt(is),ias)=0.d0
+  !
+  ! rho, muffin tin
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    rhomt(1:npcmt(is),ias) = 0.d0
   ENDDO 
-  rhoir(:)=0.d0
-  DO idm=1,ndmag
-    DO ias=1,natmtot
-      is=idxis(ias)
+  !
+  ! interstitial
+  rhoir(:) = 0.d0
+  !
+  ! magnetization, muffin tin
+  DO idm = 1,ndmag
+    DO ias = 1,natmtot
+      is = idxis(ias)
       magmt(1:npcmt(is),ias,idm)=0.d0
-    ENDDO 
-    magir(:,idm)=0.d0
+    ENDDO
+    ! interstitial
+    magir(:,idm) = 0.d0
   ENDDO 
 
   ALLOCATE(apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv))
