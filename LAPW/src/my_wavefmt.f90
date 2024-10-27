@@ -1,19 +1,12 @@
+!------------------------------------------------------
 subroutine my_wavefmt(lrstp,ias,ngp,apwalm,evecfv,wfmt)
-  use m_atoms, only: idxis
-  use m_gkvectors, only: ngkmax
-  use m_apwlo, only: nlorb, lofr, lorbl, apword, apwfr, apwordmax
-  use m_hamiltonian, only: idxlo, nmatmax
-  use m_muffin_tins, only: idxlm, npcmti, npcmt, nrcmt, nrcmti, npmti, npmt, nrmti, nrmt, &
+!------------------------------------------------------
+use m_atoms, only: idxis
+use m_gkvectors, only: ngkmax
+use m_apwlo, only: nlorb, lofr, lorbl, apword, apwfr, apwordmax
+use m_hamiltonian, only: idxlo, nmatmax
+use m_muffin_tins, only: idxlm, npcmti, npcmt, nrcmt, nrcmti, npmti, npmt, nrmti, nrmt, &
                            lradstp, lmmaxo, lmmaxi, lmmaxapw, lmaxo, lmaxi
-!use modmain
-! !INPUT/OUTPUT PARAMETERS:
-!   lrstp  : radial step length (in,integer)
-!   ias    : joint atom and species number (in,integer)
-!   ngp    : number of G+p-vectors (in,integer)
-!   apwalm : APW matching coefficients (in,complex(ngkmax,apwordmax,lmmaxapw))
-!   evecfv : first-variational eigenvector (in,complex(nmatmax))
-!   wfmt   : complex muffin-tin wavefunction passed in as real array
-!            (out,real(2,*))
 implicit none
 ! arguments
 integer, intent(in) :: lrstp,ias,ngp

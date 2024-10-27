@@ -1,3 +1,5 @@
+
+! input information: ik, pwgrid, apwalm, evecfv, and evecsv
 !---------------------------------------------------------------------
 SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
 !---------------------------------------------------------------------
@@ -12,6 +14,7 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
   USE m_hamiltonian, ONLY: nmatmax
   USE m_density_pot_xc, ONLY: rhoir, rhomt, magir, magmt
   USE m_lattice, ONLY: omega
+  !
   IMPLICIT NONE 
   ! arguments
   INTEGER, intent(in) :: ngp(nspnfv), igpig(ngkmax,nspnfv)
@@ -33,37 +36,42 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
   !----------------------------------------------!
   !     muffin-tin density and magnetisation     !
   !----------------------------------------------!
-  IF(tevecsv) ALLOCATE(wfmt1(npcmtmax,nstfv,nspnfv))
-  ALLOCATE(wfmt2(npcmtmax),wfmt3(npcmtmax,nspinor))
-  DO ias=1,natmtot
-    is=idxis(ias)
-    nrc=nrcmt(is)
-    nrci=nrcmti(is)
-    npc=npcmt(is)
+  IF(tevecsv) ALLOCATE( wfmt1(npcmtmax,nstfv,nspnfv) )
+  ALLOCATE( wfmt2(npcmtmax), wfmt3(npcmtmax,nspinor) )
+  !
+  ! loop over all atoms
+  DO ias = 1,natmtot
+    is = idxis(ias)
+    nrc = nrcmt(is)
+    nrci = nrcmti(is)
+    npc = npcmt(is)
     ! de-phasing factor for spin-spirals
     IF(ssdph) THEN 
-      ia=idxia(ias)
-      t1=-0.5d0*dot_product(vqcss(:),atposc(:,ia,is))
-      zq(1)=cmplx(cos(t1),sin(t1),8)
-      zq(2)=conjg(zq(1))
+      ia = idxia(ias)
+      t1 = -0.5d0*dot_product(vqcss(:),atposc(:,ia,is))
+      zq(1) = cmplx(cos(t1),sin(t1),8)
+      zq(2) = conjg(zq(1))
     ENDIF 
     
-    done(:,:)=.false.
-  
-    DO j=1,nstsv
-      wo=occsvp(j)
+    done(:,:) = .false.
+    ! loop over all second-variational state
+    DO j = 1,nstsv
+      wo = occsvp(j) ! occupation number
+      ! skip this state if it is empty or nearly empty
       IF(abs(wo) < epsocc) cycle
-      wo=wo*wppt
       !
-      IF(tevecsv) THEN 
+      wo = wo*wppt
+      !
+      ! if using 2nd variational scheme
+      IF( tevecsv ) THEN 
         ! generate spinor wavefunction from second-variational eigenvectors
-        i=0
-        DO ispn=1,nspinor
-          jspn=jspnfv(ispn)
-          wfmt3(1:npc,ispn)=0.d0
-          DO ist=1,nstfv
-            i=i+1
-            z1=evecsv(i,j)
+        i = 0
+        DO ispn = 1,nspinor
+          jspn = jspnfv(ispn)
+          wfmt3(1:npc,ispn) = 0.d0
+          DO ist = 1,nstfv
+            i = i + 1
+            z1 = evecsv(i,j)
             IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
               IF(ssdph) z1=z1*zq(ispn)
               IF(.not.done(ist,jspn)) THEN 
@@ -79,12 +87,14 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
         ENDDO 
         !
       ELSE 
+        ! not using 2nd variational scheme
+        !
         ! spin-unpolarised wavefunction
-        CALL wavefmt(lradstp,ias,ngp,apwalm(:,:,:,ias,1),evecfv(:,j,1),wfmt2)
+        CALL wavefmt(lradstp, ias, ngp, apwalm(:,:,:,ias,1), evecfv(:,j,1), wfmt2)
         ! convert to spherical coordinates
-        CALL zbsht(nrc,nrci,wfmt2,wfmt3)
+        CALL zbsht(nrc, nrci, wfmt2, wfmt3)
       ENDIF 
-      
+      !
       ! add to density and magnetisation
       IF(spinpol) THEN 
         ! spin-polarised
@@ -98,10 +108,10 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
         ENDIF 
       ELSE
         ! spin-unpolarised
-        CALL rmk3(npc,wo,wfmt3,rhomt(:,ias))
+        CALL rmk3(npc, wo, wfmt3, rhomt(:,ias))
       ENDIF 
   
-    ENDDO 
+    ENDDO ! over states
   
   ENDDO ! end loop over atoms
 
@@ -113,11 +123,16 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
   !     interstitial density and magnetisation     !
   !------------------------------------------------!
   ALLOCATE(wfir(ngtot,nspinor))
-  DO j=1,nstsv
-    wo=occsvp(j)
-    IF(abs(wo).lt.epsocc) cycle
-    wo=wo*wppt/omega
-    wfir(:,:)=0.d0
+  !
+  ! loop over all states
+  !
+  DO j = 1,nstsv
+    wo = occsvp(j)
+    !
+    IF(abs(wo) < epsocc) cycle
+    !
+    wo = wo*wppt/omega
+    wfir(:,:) = 0.d0
     !
     IF(tevecsv) THEN 
       ! generate spinor wavefunction from second-variational eigenvectors
@@ -137,18 +152,18 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
       ENDDO 
     ELSE 
       ! spin-unpolarised wavefunction
-      DO igp=1,ngp(1)
-        ifg=igfft(igpig(igp,1))
-        wfir(ifg,1)=evecfv(igp,j,1)
+      DO igp = 1,ngp(1)
+        ifg = igfft(igpig(igp,1))
+        wfir(ifg,1) = evecfv(igp,j,1)
       ENDDO 
     ENDIF 
     
     ! Fourier transform wavefunction to real-space
-    DO ispn=1,nspinor
+    DO ispn = 1,nspinor
       CALL zfftifc(3,ngridg,1,wfir(:,ispn))
     ENDDO 
     ! add to density and magnetisation
-    IF(spinpol) THEN 
+    IF( spinpol ) THEN 
       ! spin-polarised
       IF(ncmag) THEN 
         ! non-collinear
@@ -159,7 +174,7 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
       ENDIF 
     ELSE 
       ! spin-unpolarised
-      CALL rmk3(ngtot,wo,wfir,rhoir)
+      CALL rmk3(ngtot, wo, wfir, rhoir)
     ENDIF 
   ENDDO ! nstsv
 
@@ -214,6 +229,8 @@ ENDDO
 RETURN 
 END SUBROUTINE 
 
+
+! used for non-spin-polarized case
 PURE SUBROUTINE rmk3(n,wo,wf,rho)
 IMPLICIT NONE 
 ! arguments
@@ -221,8 +238,8 @@ INTEGER, intent(in) :: n
 REAL(8), intent(in) :: wo
 COMPLEX(8), intent(in) :: wf(n)
 REAL(8), intent(inout) :: rho(n)
-rho(:)=rho(:)+wo*(dble(wf(:))**2+aimag(wf(:))**2)
-RETURN 
-END SUBROUTINE 
+rho(:) = rho(:) + wo*(dble(wf(:))**2 + aimag(wf(:))**2)
+RETURN
+END SUBROUTINE
 
 END SUBROUTINE 

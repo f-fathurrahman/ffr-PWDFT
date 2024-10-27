@@ -53,6 +53,7 @@ SUBROUTINE my_rhomag()
        sfacgk(:,:,ispn,ik),apwalm(:,:,:,:,ispn))
     ENDDO 
     ! add to the density and magnetisation
+    ! pass apwalm and eigenvectors
     CALL my_rhomagk(ngk(:,ik),igkig(:,:,ik),wkpt(ik),occsv(:,ik),apwalm, &
      evecfv,evecsv)
   ENDDO 
