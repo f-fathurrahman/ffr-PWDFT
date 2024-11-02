@@ -72,10 +72,10 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
           DO ist = 1,nstfv
             i = i + 1
             z1 = evecsv(i,j)
-            IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
+            IF(abs(dble(z1))+abs(aimag(z1)) > epsocc) THEN 
               IF(ssdph) z1=z1*zq(ispn)
               IF(.not.done(ist,jspn)) THEN 
-                CALL wavefmt(lradstp, ias, ngp(jspn), apwalm(:,:,:,ias,jspn), evecfv(:,ist,jspn), wfmt2)
+                CALL my_wavefmt(lradstp, ias, ngp(jspn), apwalm(:,:,:,ias,jspn), evecfv(:,ist,jspn), wfmt2)
                 ! convert to spherical coordinates
                 CALL zbsht(nrc,nrci,wfmt2,wfmt1(:,ist,jspn))
                 done(ist,jspn)=.true.
@@ -90,7 +90,9 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
         ! not using 2nd variational scheme
         !
         ! spin-unpolarised wavefunction
-        CALL wavefmt(lradstp, ias, ngp, apwalm(:,:,:,ias,1), evecfv(:,j,1), wfmt2)
+        CALL my_wavefmt(lradstp, ias, ngp, apwalm(:,:,:,ias,1), evecfv(:,j,1), wfmt2)
+        ! The result is stored in wfmt2
+        !
         ! convert to spherical coordinates
         CALL zbsht(nrc, nrci, wfmt2, wfmt3)
       ENDIF 
@@ -142,7 +144,7 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
         DO ist=1,nstfv
           i=i+1
           z1=evecsv(i,j)
-          IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
+          IF(abs(dble(z1))+abs(aimag(z1)) > epsocc) THEN 
             DO igp=1,ngp(jspn)
               ifg=igfft(igpig(igp,jspn))
               wfir(ifg,ispn)=wfir(ifg,ispn)+z1*evecfv(igp,ist,jspn)

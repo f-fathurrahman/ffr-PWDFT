@@ -19,6 +19,13 @@ SUBROUTINE my_rhomag()
   ! ALLOCATABLE arrays
   COMPLEX(8), ALLOCATABLE :: apwalm(:,:,:,:,:),evecfv(:,:,:),evecsv(:,:)
 
+  write(*,*)
+  write(*,*) '---------------'
+  write(*,*) 'ENTER my_rhomag'
+  write(*,*) '---------------'
+  write(*,*)
+
+
   ! set the charge density and magnetisation to zero
   !
   ! rho, muffin tin
@@ -45,7 +52,7 @@ SUBROUTINE my_rhomag()
 
   DO ik=1,nkpt
     ! get the eigenvectors from file
-    CALL getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik),evecfv)
+    CALL my_getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik),evecfv)
     CALL getevecsv(filext, ik, vkl(:,ik), evecsv)
     ! find the matching coefficients
     DO ispn=1,nspnfv
@@ -88,6 +95,12 @@ SUBROUTINE my_rhomag()
 
   ! calculate the moments
   IF(spinpol) CALL moment()
+
+  write(*,*)
+  write(*,*) '---------------'
+  write(*,*) 'EXIT my_rhomag'
+  write(*,*) '---------------'
+  write(*,*)
 
   RETURN 
 END SUBROUTINE 

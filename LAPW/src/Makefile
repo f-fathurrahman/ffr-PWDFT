@@ -222,6 +222,7 @@ debug_hamiltonian.f90 \
 my_occupy.f90 \
 my_rhomag.f90 my_rhomagk.f90 \
 my_wavefmt.f90 \
+my_getevecfv.f90 \
 my_gndstate.f90
 
 
