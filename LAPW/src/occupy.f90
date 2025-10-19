@@ -4,7 +4,7 @@ SUBROUTINE occupy()
   ! when iscl > 1
   use m_kpoints, only: wkpt, nkpt
   use m_states, only: bandgap, evalsv, ikgap, occsv, swidth, stype, nstsv, occmax,&
-                    & fermidos, efermi, epsocc, autoswidth, chg
+                    & fermidos, efermi, epsocc, autoswidth
   use m_apwlo, only: e0min
   use m_charge_moment_current, only: chgval
   use m_apwlo, only: e0min  
