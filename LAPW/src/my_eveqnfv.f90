@@ -19,7 +19,7 @@ SUBROUTINE my_eveqnfv(nmatp,ngp,igpig,vpc,vgpc,apwalm,evalfv,evecfv)
 
 
   write(*,*)
-  write(*,*) '-------- ENTER my_eveqnfv -----------'
+  write(*,*) '<div> ENTER my_eveqnfv'
   write(*,*)
 
   write(*,*) 'nmatp = ', nmatp ! may include local orbital
@@ -54,7 +54,7 @@ SUBROUTINE my_eveqnfv(nmatp,ngp,igpig,vpc,vgpc,apwalm,evalfv,evecfv)
   DEALLOCATE(h,o)
 
   write(*,*)
-  write(*,*) '-------- EXIT my_eveqnfv -----------'
+  write(*,*) '</div> EXIT my_eveqnfv'
   write(*,*)
 
   

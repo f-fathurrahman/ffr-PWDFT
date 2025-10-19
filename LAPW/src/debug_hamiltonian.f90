@@ -23,7 +23,7 @@ SUBROUTINE debug_hamiltonian( jspn, ik, apwalm, h, o )
   integer :: ias, i
 
   write(*,*)
-  write(*,*) '**** ENTER debug_hamiltonian ****'
+  write(*,*) '<div> ENTER debug_hamiltonian'
   write(*,*)
 
   ! loop over first-variational spins (nspnfv=2 for spin-spirals only)
@@ -75,7 +75,7 @@ SUBROUTINE debug_hamiltonian( jspn, ik, apwalm, h, o )
 
 
   write(*,*)
-  write(*,*) '**** EXIT debug_hamiltonian ****'
+  write(*,*) '</div> EXIT debug_hamiltonian'
   write(*,*)
 
 

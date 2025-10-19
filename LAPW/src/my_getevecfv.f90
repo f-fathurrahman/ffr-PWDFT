@@ -1,4 +1,5 @@
-subroutine my_getevecfv(fext,ikp,vpl,vgpl,evecfv)
+subroutine my_getevecfv(fext, ikp, vpl, vgpl, evecfv)
+! ffr: This will read and "symmetrize" wave functions IF NEEDED
 
 use modmain
 ! !INPUT/OUTPUT PARAMETERS:
@@ -37,11 +38,14 @@ logical done(ngkmax)
 complex(8), allocatable :: evecfv_(:,:)
 
 
+! ffr: why need this?
 if (ikp > 0) then
   ik = ikp
+  write(*,*) 'Using ik=ikp = ', ik
 else
   ! find the equivalent k-point number and crystal symmetry element
-  call findkpt(vpl,isym,ik)
+  write(*,*) 'Need to fing equivalent k-point number and crystal symmetry element'
+  call findkpt(vpl, isym, ik)
 endif
 
 ! find the record length
@@ -49,11 +53,13 @@ inquire(iolength=recl) vkl_, nmatmax_, nstfv_, nspnfv_, evecfv
 fname = trim(scrpath)//'EVECFV'//trim(fext)
 !
 write(*,*) 'my_getevecfv: fname = ', trim(fname)
+write(*,*) 'my_getevecfc: isym = ', isym
 !
 
 !
 ! actual file reading is done here
 !
+! other than evecfv some other variables are also read here
 do i=1,2
   open(122,file=trim(fname),form='UNFORMATTED',access='DIRECT',recl=recl,err=10)
   read(122,rec=ik,err=10) vkl_, nmatmax_, nstfv_, nspnfv_, evecfv
@@ -68,9 +74,8 @@ do i=1,2
   close(122)
 end do
 
-
-t1 = abs(vkl(1,ik)-vkl_(1))+abs(vkl(2,ik)-vkl_(2))+abs(vkl(3,ik)-vkl_(3))
-
+! Check whether kpoints read are valid
+t1 = abs(vkl(1,ik)-vkl_(1)) + abs(vkl(2,ik)-vkl_(2)) + abs(vkl(3,ik)-vkl_(3))
 if (t1 > epslat) then
   write(*,*)
   write(*,'("Error(getevecfv): differing vectors for k-point ",I8)') ik
@@ -80,6 +85,7 @@ if (t1 > epslat) then
   stop
 end if
 
+! Also checks nmatmax
 if (nmatmax /= nmatmax_) then
   write(*,*)
   write(*,'("Error(getevecfv): differing nmatmax for k-point ",I8)') ik
@@ -109,11 +115,12 @@ end if
 
 ! if p = k then return
 if (ikp > 0) then
-  write(*,*) 'ikp > 0: early return'
+  write(*,*) 'ikp > 0: early return, no need for symmetrization'
   return
 endif
-t1 = abs(vpl(1)-vkl(1,ik)) + abs(vpl(2)-vkl(2,ik)) + abs(vpl(3)-vkl(3,ik))
 
+! Check vpl ?
+t1 = abs(vpl(1)-vkl(1,ik)) + abs(vpl(2)-vkl(2,ik)) + abs(vpl(3)-vkl(3,ik))
 if(t1 < epslat) then
   write(*,*) 't1 < epslat: early return'
   return
@@ -123,19 +130,22 @@ endif
 allocate(evecfv_(nmatmax,nstfv))
 
 ! index to spatial rotation in lattice point group
-lspl=lsplsymc(isym)
+lspl = lsplsymc(isym)
 
 ! the inverse of the spatial symmetry rotates k into p
-ilspl=isymlat(lspl)
-si(:,:)=dble(symlat(:,:,ilspl))
+ilspl = isymlat(lspl)
+si(:,:) = dble(symlat(:,:,ilspl))
 
 !-----------------------------------------------!
 !     translate and rotate APW coefficients     !
 !-----------------------------------------------!
+
+write(*,*) 'I will translate and rotate APW coefficients'
+
 ! loop over the first-variational spins
 do jspn=1,nspnfv
   if (tv0symc(isym)) then
-! translation vector is zero
+    ! translation vector is zero
     do ist=1,nstfv
       do igk=1,ngk(jspn,ik)
         evecfv_(igk,ist)=evecfv(igk,ist,jspn)
@@ -143,21 +153,21 @@ do jspn=1,nspnfv
     end do
   else
     ! non-zero translation vector gives a phase factor
-    v(:)=vtcsymc(:,isym)
-    do igk=1,ngk(jspn,ik)
-      ig=igkig(igk,jspn,ik)
-      t1=-(vgc(1,ig)*v(1)+vgc(2,ig)*v(2)+vgc(3,ig)*v(3))
-      z1=cmplx(cos(t1),sin(t1),8)
-      evecfv_(igk,:)=z1*evecfv(igk,:,jspn)
+    v(:) = vtcsymc(:,isym)
+    do igk = 1,ngk(jspn,ik)
+      ig = igkig(igk,jspn,ik)
+      t1 = -(vgc(1,ig)*v(1)+vgc(2,ig)*v(2)+vgc(3,ig)*v(3))
+      z1 = cmplx(cos(t1),sin(t1),8)
+      evecfv_(igk,:) = z1*evecfv(igk,:,jspn)
     end do
   end if
   ! apply spatial rotation operation (passive transformation)
-  done(1:ngk(jspn,ik))=.false.
+  done(1:ngk(jspn,ik)) = .false.
   i=1
   do igk = 1,ngk(jspn,ik)
-    call r3mtv(si,vgkl(:,igk,jspn,ik),v)
+    call r3mtv(si, vgkl(:,igk,jspn,ik), v)
     do igp = i,ngk(jspn,ik)
-      if (done(igp)) cycle
+      if (done(igp)) cycle ! skip this igp
       t1 = abs(v(1)-vgpl(1,igp,jspn)) &
          + abs(v(2)-vgpl(2,igp,jspn)) &
          + abs(v(3)-vgpl(3,igp,jspn))

@@ -9,7 +9,7 @@ SUBROUTINE my_symrf(nr, nri, np, ld, rfmt, rfir)
   REAL(8), intent(inout) :: rfmt(ld,natmtot), rfir(ngtot)
   
   write(*,*)
-  write(*,*) 'ENTER my_symrf'
+  write(*,*) '<div> ENTER my_symrf'
   write(*,*)
 
   write(*,*) 'ld (should be equal to npmtmax) = ', ld
@@ -18,7 +18,7 @@ SUBROUTINE my_symrf(nr, nri, np, ld, rfmt, rfir)
   CALL my_symrfir(rfir)
 
   write(*,*)
-  write(*,*) 'EXIT my_symrf'
+  write(*,*) '</div> EXIT my_symrf'
   write(*,*)
 
   RETURN 

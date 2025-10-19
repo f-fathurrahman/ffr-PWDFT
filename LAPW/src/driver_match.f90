@@ -14,7 +14,7 @@ subroutine driver_match(ik, apwalm)
   integer :: jspn
 
   write(*,*)
-  write(*,*) '>>>>>    ENTER driver_match'
+  write(*,*) '<div> ENTER driver_match'
   write(*,*)
 
   ! find the matching coefficients
@@ -25,7 +25,7 @@ subroutine driver_match(ik, apwalm)
   enddo
 
   write(*,*)
-  write(*,*) '>>>>>    EXIT driver_match'
+  write(*,*) '</div> EXIT driver_match'
   write(*,*)
 
   return

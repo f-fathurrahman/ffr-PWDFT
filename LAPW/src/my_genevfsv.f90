@@ -14,7 +14,7 @@ SUBROUTINE my_genevfsv()
   COMPLEX(8), ALLOCATABLE :: evecfv(:,:,:), evecsv(:,:)
 
   write(*,*)
-  write(*,*) '****** ENTER: my_genevfsv'
+  write(*,*) '<div> ENTER: my_genevfsv'
   write(*,*)
   write(*,*) 'NOTE:'
   write(*,*) 'NOTE: Second variational eigenvalues are not calculated'
@@ -59,7 +59,7 @@ SUBROUTINE my_genevfsv()
   DEALLOCATE(evalfv,evecfv,evecsv)
 
   write(*,*)
-  write(*,*) '****** EXIT: my_genevfsv'
+  write(*,*) '</div> EXIT: my_genevfsv'
   write(*,*)
 
   RETURN 

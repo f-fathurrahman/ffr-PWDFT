@@ -25,7 +25,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv )
   ALLOCATE(apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv))
   
   write(*,*)
-  write(*,*) '**** ENTER my_eveqn ****'
+  write(*,*) '<div> ENTER my_eveqn'
   write(*,*)
 
   ! loop over first-variational spins (nspnfv=2 for spin-spirals only)
@@ -52,7 +52,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv )
   DEALLOCATE(apwalm)
 
   write(*,*)
-  write(*,*) '**** EXIT my_eveqn ****'
+  write(*,*) '</div> EXIT my_eveqn'
   write(*,*)
 
 

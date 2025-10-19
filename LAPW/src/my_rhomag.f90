@@ -20,9 +20,7 @@ SUBROUTINE my_rhomag()
   COMPLEX(8), ALLOCATABLE :: apwalm(:,:,:,:,:),evecfv(:,:,:),evecsv(:,:)
 
   write(*,*)
-  write(*,*) '---------------'
-  write(*,*) 'ENTER my_rhomag'
-  write(*,*) '---------------'
+  write(*,*) '<div> ENTER my_rhomag'
   write(*,*)
 
 
@@ -50,6 +48,7 @@ SUBROUTINE my_rhomag()
   ALLOCATE(apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv))
   ALLOCATE(evecfv(nmatmax,nstfv,nspnfv),evecsv(nstsv,nstsv))
 
+  ! eigenvectors (wavefunctions are used and read in this loop only)
   DO ik=1,nkpt
     ! get the eigenvectors from file
     CALL my_getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik),evecfv)
@@ -97,9 +96,7 @@ SUBROUTINE my_rhomag()
   IF(spinpol) CALL moment()
 
   write(*,*)
-  write(*,*) '---------------'
-  write(*,*) 'EXIT my_rhomag'
-  write(*,*) '---------------'
+  write(*,*) '</div> EXIT my_rhomag'
   write(*,*)
 
   RETURN 

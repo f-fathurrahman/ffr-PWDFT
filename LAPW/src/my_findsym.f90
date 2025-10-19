@@ -28,7 +28,7 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
   
   nsym = 0
   write(*,*)
-  write(*,*) '--- ENTER my_findsym ---'
+  write(*,*) '<div> ENTER my_findsym'
   write(*,*)
   write(*,*) 'Trying to finding symmetry between two atomic positions'
   write(*,*)
@@ -160,7 +160,7 @@ SUBROUTINE my_findsym(apl1, apl2, nsym, lspl, lspn, iea)
   write(*,*) 'nsym = ', nsym
 
   write(*,*)
-  write(*,*) '--- EXIT my_findsym ---'
+  write(*,*) '</div> EXIT my_findsym'
   write(*,*)
 
   RETURN 

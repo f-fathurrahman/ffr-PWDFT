@@ -27,7 +27,9 @@ SUBROUTINE my_genlofr()
   REAL(8) splint, polynm
   external splint, polynm
 
-  write(*,*) '*** ENTER my_genlofr'
+  write(*,*)
+  write(*,*) '<div> ENTER my_genlofr'
+  write(*,*)
 
   DO is=1,nspecies
     nr = nrmt(is)
@@ -144,7 +146,9 @@ SUBROUTINE my_genlofr()
     ENDDO 
   ENDDO 
 
-  write(*,*) '*** EXIT my_genlofr'
+  write(*,*)
+  write(*,*) '</div> EXIT my_genlofr'
+  write(*,*)
 
   RETURN 
   10 continue
