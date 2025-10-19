@@ -54,6 +54,7 @@ SUBROUTINE my_rhomag()
     CALL my_getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik),evecfv)
     CALL getevecsv(filext, ik, vkl(:,ik), evecsv)
     ! find the matching coefficients
+    ! ffr: do they depend on evecfv ? apwfr ? try debug this first in ElkDFTWrapper
     DO ispn=1,nspnfv
       CALL match(ngk(ispn,ik),vgkc(:,:,ispn,ik),gkc(:,ispn,ik), &
        sfacgk(:,:,ispn,ik),apwalm(:,:,:,:,ispn))
