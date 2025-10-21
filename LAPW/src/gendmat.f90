@@ -17,6 +17,7 @@ real(8) wo
 ! allocatable arrays
 complex(8), allocatable :: apwalm(:,:,:,:,:),evecfv(:,:,:),evecsv(:,:)
 complex(8), allocatable :: dmatk(:,:,:,:,:)
+
 ! zero the density matrix
 dmat(:,:,:,:,:)=0.d0
 

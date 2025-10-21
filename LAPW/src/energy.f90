@@ -1,5 +1,6 @@
 SUBROUTINE energy
   USE modmain
+  USE moddftu
 ! !DESCRIPTION:
 !   Computes the total energy and its individual contributions. The kinetic
 !   energy is given by
@@ -155,6 +156,20 @@ SUBROUTINE energy
     engyc=rfinp(rhomt,rhoir,ecmt,ecir)
   ENDIF 
 
+  !----------------------!
+  !     DFT+U energy     !
+  !----------------------!
+  engydu=0.d0
+  if (dftu.ne.0) then
+    do i=1,ndftu
+      is=idftu(1,i)
+      do ia=1,natoms(is)
+        engydu=engydu+engyadu(ia,i)
+      end do
+    end do
+  end if
+
+
   !----------------------------!
   !     sum of eigenvalues     !
   !----------------------------!
@@ -220,6 +235,14 @@ SUBROUTINE energy
         sum=sum+rfinp(rfmt,tauir,wxcmt,wxcir)
       ENDDO 
     ENDIF 
+    ! remove fixed tensor moment potential matrix contribution
+    if (ftmtype.ne.0) then
+      n2=(lmmaxdm*nspinor)**2
+      do ias=1,natmtot
+        z1=zdotc(n2,dmatmt(:,:,:,:,ias),1,vmftm(:,:,:,:,ias),1)
+        sum=sum+dble(z1)
+      end do
+    end if
     engykn=evalsum-engyvcl-engyvxc-sum
     DEALLOCATE(rfmt)
   ENDIF 
@@ -251,6 +274,9 @@ SUBROUTINE energy
   !----------------------!
   engytot=engykn+0.5d0*engyvcl+engymad+engyx+engyc+engyts
   
+  ! add the DFT+U correction if required
+  if (dftu.ne.0) engytot=engytot+engydu
+
   ! write total energy
   WRITE(*,*) 'total energy', engytot
   RETURN 

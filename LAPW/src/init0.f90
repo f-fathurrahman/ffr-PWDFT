@@ -36,6 +36,8 @@ SUBROUTINE init0()
   
   CALL init_forces()
 
+  CALL init_dftu_ftm()
+
   !-----------------------!
   !     miscellaneous     !
   !-----------------------!

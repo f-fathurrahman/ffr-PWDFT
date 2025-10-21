@@ -64,6 +64,7 @@ init_gvector_arrays.f90 init_spin_variables.f90 init_atoms_cores.f90 \
 init_eigensystems.f90 init_idx_atom_species.f90 init_timing.f90 \
 init_charges_states.f90 init_forces.f90 init_kpoints.f90 \
 init_vector_field_E_A.f90 \
+init_dftu_ftm.f90 \
 r3mv.f90 gauntyry.f90 genppts.f90 \
 potnucl.f90 gencfun.f90 \
 gensfacgp.f90 genffacgp.f90 genjlgprmt.f90 \
@@ -197,8 +198,10 @@ eveqnz.f90 lopzflm.f90 roteuler.f90 ylmrot.f90 erf.f90 hermite.f90 rotrfmt.f90 \
 gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.f90 rlmrot.f90 \
 force.f90 forcek.f90 symveca.f90 \
 fsmbfield.f90 addbfsm.f90 addbfsmu.f90 \
-gendmftm.f90 \
-gendmatmt.f90 gendmat.f90 gendmatk.f90 \
+gendmftm.f90 genvmatmt.f90 genveedu.f90 genfdu.f90 genfdufr.f90 ftmfield.f90 \
+gendmatmt.f90 gendmat.f90 gendmatk.f90 symdmat.f90 rotdmat.f90 \
+r3mdet.f90 z2mm.f90 z2mmct.f90 \
+tm2pol.f90   tm2todm.f90  tm3pol.f90   tm3todm.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
 plot3d.f90 plotpt3d.f90 rfplot.f90 \

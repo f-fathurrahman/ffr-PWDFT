@@ -211,17 +211,18 @@ do iscl=1,maxscl
     call genvmatmt()
   endif
   
+  ! ffr: this is disabled
   if(dftu /= 0) then
     ! write the DFT+U matrices to file
-    call writedftu
-    ! calculate and write tensor moments to file
-    if (tmwrite) then
-      if (spinorb) then
-        call writetm3du(67)
-      else
-        call writetm2du(67)
-      endif
-    endif
+    !call writedftu()
+    !! calculate and write tensor moments to file
+    !if (tmwrite) then
+    !  if (spinorb) then
+    !    call writetm3du(67)
+    !  else
+    !    call writetm2du(67)
+    !  endif
+    !endif
   endif
 
   ! compute the Kohn-Sham potentials and magnetic fields
