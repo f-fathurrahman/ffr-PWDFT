@@ -163,7 +163,7 @@ do iscl=1,maxscl
   call gencore()
   
   ! find the new linearisation energies
-  call linengy
+  call linengy()
   
   ! write out the linearisation energies
   call writelinen()

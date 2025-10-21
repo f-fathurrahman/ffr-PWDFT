@@ -7,10 +7,11 @@ SUBROUTINE init_spin_variables()
            nspinor, nspnfv, nspecies, ncmag, ndmag, nosource, mixtype, &
            hybrid, hybridc, epslat, cmagz, fsmtype, bfcmt0, bfcmt, bfieldc0, bfieldc, &
            bfsmc, bfsmcmt
+  use moddftu, only: ntmfix, rtmfix
   USE modxcifc, ONLY: getxcdata
 
   IMPLICIT NONE 
-  INTEGER :: ia, is
+  INTEGER :: ia, is, i
 
   WRITE(*,*) 'Setting up spin variables'
 
@@ -177,8 +178,13 @@ SUBROUTINE init_spin_variables()
   ! set the fixed tensor moment spatial and spin rotation matrices equal for the
   ! case of spin-orbit coupling; parity for spin is ignored by rotdmat
   IF( spinorb ) THEN 
-    WRITE(*,*) 'Not supported yet'
-    STOP
+    DO i=1,ntmfix
+      rtmfix(:,:,2,i) = rtmfix(:,:,1,i)
+    ENDDO
   ENDIF 
+
+  ! generate the fixed tensor moment density matrices if required
+  call gendmftm()
+  ! writing to VARIABLES.OUT is skipped
 
 END SUBROUTINE 

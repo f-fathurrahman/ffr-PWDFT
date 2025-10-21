@@ -197,6 +197,8 @@ eveqnz.f90 lopzflm.f90 roteuler.f90 ylmrot.f90 erf.f90 hermite.f90 rotrfmt.f90 \
 gengclgq.f90 zfinp.f90 curdenk.f90 grad2rfmt.f90 zmctmu.f90 ylmroty.f90 rotrflm.f90 rlmrot.f90 \
 force.f90 forcek.f90 symveca.f90 \
 fsmbfield.f90 addbfsm.f90 addbfsmu.f90 \
+gendmftm.f90 \
+gendmatmt.f90 gendmat.f90 gendmatk.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
 plot3d.f90 plotpt3d.f90 rfplot.f90 \

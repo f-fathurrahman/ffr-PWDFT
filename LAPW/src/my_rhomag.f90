@@ -39,14 +39,14 @@ SUBROUTINE my_rhomag()
   DO idm = 1,ndmag
     DO ias = 1,natmtot
       is = idxis(ias)
-      magmt(1:npcmt(is),ias,idm)=0.d0
+      magmt(1:npcmt(is),ias,idm) = 0.d0
     ENDDO
     ! interstitial
     magir(:,idm) = 0.d0
   ENDDO 
 
-  ALLOCATE(apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv))
-  ALLOCATE(evecfv(nmatmax,nstfv,nspnfv),evecsv(nstsv,nstsv))
+  ALLOCATE( apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv) )
+  ALLOCATE( evecfv(nmatmax,nstfv,nspnfv), evecsv(nstsv,nstsv) )
 
   ! eigenvectors (wavefunctions are used and read in this loop only)
   DO ik=1,nkpt
@@ -55,17 +55,17 @@ SUBROUTINE my_rhomag()
     CALL getevecsv(filext, ik, vkl(:,ik), evecsv)
     ! find the matching coefficients
     ! ffr: do they depend on evecfv ? apwfr ? try debug this first in ElkDFTWrapper
-    DO ispn=1,nspnfv
-      CALL match(ngk(ispn,ik),vgkc(:,:,ispn,ik),gkc(:,ispn,ik), &
-       sfacgk(:,:,ispn,ik),apwalm(:,:,:,:,ispn))
+    DO ispn = 1,nspnfv
+      CALL match( ngk(ispn,ik), vgkc(:,:,ispn,ik), gkc(:,ispn,ik), &
+                  sfacgk(:,:,ispn,ik), apwalm(:,:,:,:,ispn))
     ENDDO 
     ! add to the density and magnetisation
     ! pass apwalm and eigenvectors
-    CALL my_rhomagk(ngk(:,ik),igkig(:,:,ik),wkpt(ik),occsv(:,ik),apwalm, &
-     evecfv,evecsv)
+    CALL my_rhomagk( ngk(:,ik), igkig(:,:,ik), wkpt(ik), occsv(:,ik), apwalm, &
+                     evecfv, evecsv )
   ENDDO 
-
-  DEALLOCATE(apwalm,evecfv,evecsv)
+  ! matching coefs, eigenvectors are no longer needed
+  DEALLOCATE(apwalm, evecfv, evecsv)
 
   ! convert muffin-tin density/magnetisation to spherical harmonics
   CALL rhomagsh()

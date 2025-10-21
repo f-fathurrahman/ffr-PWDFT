@@ -1,5 +1,6 @@
 SUBROUTINE read_input()
   USE modmain
+  USE moddftu
   USE modrandom, ONLY: randomu
   IMPLICIT NONE 
   ! local variables
@@ -40,6 +41,18 @@ SUBROUTINE read_input()
   CALL default_spin()
   CALL default_states()
   CALL default_symmetry()
+
+  ! default dftu ?
+  dftu=0
+  inpdftu=1
+  ndftu=0
+  ujdu(:,:)=0.d0
+  fdu(:,:)=0.d0
+  edu(:,:)=0.d0
+  lambdadu(:)=0.d0
+  udufix(:)=0.d0
+  lambdadu0(:)=0.d0
+
 
   sc=1.d0
   sc1=1.d0
@@ -100,7 +113,7 @@ SUBROUTINE read_input()
   !    read(50,'(A256)',err=20) str
   !    IF(trim(str).eq.'') GOTO 10
   !    read(str,*,iostat=ios) zn,symb
-  !    IF(zn.gt.-1.d0+epsocc) THEN 
+  !    IF(zn > -1.d0+epsocc) THEN 
   !      WRITE(*,*)
   !      WRITE(*,'("Error(readinput): fractional nuclear Z > -1 : ",G18.10)') zn
   !      WRITE(*,*)
@@ -291,7 +304,7 @@ SUBROUTINE read_input()
       WRITE(*,*)
       STOP 
     ENDIF 
-    IF((amixpm(2).lt.0.d0).or.(amixpm(2).gt.1.d0)) THEN 
+    IF((amixpm(2).lt.0.d0).or.(amixpm(2) > 1.d0)) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(readinput): betamax [amixpm(2)] not in [0,1] : ",G18.10)')&
        amixpm(2)
@@ -308,8 +321,8 @@ SUBROUTINE read_input()
     ENDIF 
 CASE('broydpm')
   read(50,*,err=20) broydpm(:)
-  IF((broydpm(1).lt.0.d0).or.(broydpm(1).gt.1.d0).or. &
-      (broydpm(2).lt.0.d0).or.(broydpm(2).gt.1.d0)) THEN 
+  IF((broydpm(1).lt.0.d0).or.(broydpm(1) > 1.d0).or. &
+      (broydpm(2).lt.0.d0).or.(broydpm(2) > 1.d0)) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(readinput): invalid Broyden mixing parameters : ",&
      &2G18.10)') broydpm
@@ -347,7 +360,7 @@ CASE('atoms')
     WRITE(*,*)
     STOP 
   ENDIF 
-  IF(nspecies.gt.maxspecies) THEN 
+  IF(nspecies > maxspecies) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(readinput): nspecies too large : ",I8)') nspecies
     WRITE(*,'("Adjust maxspecies in modmain and recompile code")')
@@ -365,7 +378,7 @@ CASE('atoms')
       WRITE(*,*)
       STOP 
     ENDIF 
-    IF(natoms(is).gt.maxatoms) THEN 
+    IF(natoms(is) > maxatoms) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(readinput): natoms too large : ",I8)') natoms(is)
       WRITE(*,'(" for species ",I4)') is
@@ -461,9 +474,9 @@ CASE('optcomp')
       WRITE(*,*)
       STOP 
     ENDIF 
-    IF((optcomp(1,i).lt.1).or.(optcomp(1,i).gt.3).or. &
-        (optcomp(2,i).lt.1).or.(optcomp(2,i).gt.3).or. &
-        (optcomp(3,i).lt.1).or.(optcomp(3,i).gt.3)) THEN 
+    IF((optcomp(1,i).lt.1).or.(optcomp(1,i) > 3).or. &
+        (optcomp(2,i).lt.1).or.(optcomp(2,i) > 3).or. &
+        (optcomp(3,i).lt.1).or.(optcomp(3,i) > 3)) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(readinput): invalid optcomp : ",3I8)') optcomp
       WRITE(*,*)
@@ -559,7 +572,7 @@ case('taufsm')
     IF(lv) symtype=0
   CASE('symtype')
     read(50,*,err=20) symtype
-    IF((symtype.lt.0).or.(symtype.gt.2)) THEN 
+    IF((symtype.lt.0).or.(symtype > 2)) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(readinput): symtype not defined : ",I8)') symtype
       WRITE(*,*)
@@ -617,7 +630,7 @@ case('taufsm')
     read(50,*,err=20) deltaem
   CASE('ndspem')
     read(50,*,err=20) ndspem
-    IF((ndspem.lt.1).or.(ndspem.gt.4)) THEN 
+    IF((ndspem.lt.1).or.(ndspem > 4)) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(readinput): ndspem out of range : ",I8)') ndspem
       WRITE(*,*)
@@ -645,7 +658,7 @@ case('taufsm')
     read(50,*,err=20) hybrid
   CASE('hybridc','hybmix')
     read(50,*,err=20) hybridc
-    IF((hybridc.lt.0.d0).or.(hybridc.gt.1.d0)) THEN 
+    IF((hybridc.lt.0.d0).or.(hybridc > 1.d0)) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(readinput): invalid hybridc : ",G18.10)') hybridc
       WRITE(*,*)
@@ -712,6 +725,75 @@ case('taufsm')
       WRITE(*,'(" msmooth : ",I4)') msmooth
     ENDIF
   !
+  CASE('DFT+U','dft+u','lda+u')
+    read(50,*,err=20) dftu,inpdftu
+    DO i=1,maxdftu
+      read(50,'(A256)',err=20) str
+      IF(trim(str).eq.'') THEN 
+        ndftu=i-1
+        goto 10
+      ENDIF 
+      select case(inpdftu)
+      case(1)
+        read(str,*,iostat=ios) is,l,ujdu(1:2,i)
+      case(2)
+        read(str,*,iostat=ios) is,l,(fdu(k,i),k=0,2*l,2)
+      case(3)
+        read(str,*,iostat=ios) is,l,(edu(k,i),k=0,l)
+      case(4)
+        read(str,*,iostat=ios) is,l,lambdadu(i)
+      case(5)
+        read(str,*,iostat=ios) is,l,udufix(i)
+      case default
+        WRITE(*,*)
+        WRITE(*,'("Error(readinput): invalid inpdftu : ",I8)') inpdftu
+        WRITE(*,*)
+        stop
+      end select
+      IF(ios.ne.0) THEN 
+        WRITE(*,*)
+        WRITE(*,'("Error(readinput): error reading DFT+U parameters")')
+        WRITE(*,'("(blank line required after dft+u block)")')
+        WRITE(*,*)
+        stop
+      ENDIF 
+      IF((is.le.0).or.(is.ge.maxspecies)) THEN 
+        WRITE(*,*)
+        WRITE(*,'("Error(readinput): invalid species number in dft+u block : ", &
+         &I8)') is
+        WRITE(*,*)
+        stop
+      ENDIF 
+      IF(l.lt.0) THEN 
+        WRITE(*,*)
+        WRITE(*,'("Error(readinput): l < 0 in dft+u block : ",I8)') l
+        WRITE(*,*)
+        stop
+      ENDIF 
+      IF(l > lmaxdm) THEN 
+        WRITE(*,*)
+        WRITE(*,'("Error(readinput): l > lmaxdm in dft+u block : ",2I8)') l,lmaxdm
+        WRITE(*,*)
+        stop
+      ENDIF 
+      ! check for repeated entries
+      DO j=1,i-1
+        IF((is.eq.idftu(1,j)).and.(l.eq.idftu(2,j))) THEN 
+          WRITE(*,*)
+          WRITE(*,'("Error(readinput): repeated entry in DFT+U block")')
+          WRITE(*,*)
+          stop
+        ENDIF 
+      ENDDO 
+      idftu(1,i)=is
+      idftu(2,i)=l
+    ENDDO 
+    WRITE(*,*)
+    WRITE(*,'("Error(readinput): too many DFT+U entries")')
+    WRITE(*,'("Adjust maxdftu in modmain and recompile code")')
+    WRITE(*,*)
+    stop
+  !
   CASE('')
     GOTO 10
   case default
@@ -750,7 +832,7 @@ case('taufsm')
   ENDIF 
 
   ! randomise lattice vectors if required
-  IF(rndavec.gt.0.d0) THEN 
+  IF(rndavec > 0.d0) THEN 
     DO i=1,3
       DO j=1,3
         t1=rndavec*(randomu()-0.5d0)
@@ -772,7 +854,7 @@ case('taufsm')
   ENDIF 
 
   ! randomise atomic positions if required
-  IF(rndatposc.gt.0.d0) THEN 
+  IF(rndatposc > 0.d0) THEN 
     CALL r3minv(avec,ainv)
     DO is=1,nspecies
       DO ia=1,natoms(is)
