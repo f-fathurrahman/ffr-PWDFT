@@ -1,5 +1,6 @@
 SUBROUTINE writeengy(fnum)
 use modmain
+use moddftu
 IMPLICIT NONE 
 ! arguments
 INTEGER, intent(in) :: fnum
@@ -23,7 +24,9 @@ ENDIF
 
 WRITE(fnum,'(" exchange",T30,": ",G22.12)') engyx
 WRITE(fnum,'(" correlation",T30,": ",G22.12)') engyc
-
+if (dftu.ne.0) then
+  write(fnum,'(" DFT+U",T30,": ",G22.12)') engydu
+end if
 IF(stype.eq.3) THEN 
   WRITE(fnum,'(" electron entropic",T30,": ",G22.12)') engyts
 ENDIF 
