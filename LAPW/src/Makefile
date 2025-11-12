@@ -221,7 +221,7 @@ my_linengy.f90 \
 my_findband.f90 \
 my_rschrodint.f90 \
 my_genapwfr.f90 my_genlofr.f90 \
-driver_match.f90 my_genevfsv.f90 my_eveqn.f90 my_eveqnfv.f90 \
+driver_match.f90 my_genevfsv.f90 my_eveqn.f90 my_eveqnfv.f90 my_eveqnsv.f90 \
 driver_getevecfv.f90 \
 my_hmlaa.f90 my_hmlistl.f90 \
 debug_hamiltonian.f90 \
