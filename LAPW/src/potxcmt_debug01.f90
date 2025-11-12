@@ -44,28 +44,28 @@ is=idxis(ias)
 n=npmt(is)
 ! allocate local arrays
 allocate(rho(n),ex(n),ec(n),vxc(n))
-if ((xcgrad.eq.3).or.(xcgrad.eq.4)) allocate(tau(n,nspinor))
+if ((xcgrad == 3).or.(xcgrad == 4)) allocate(tau(n,nspinor))
 if (spinpol) then
   allocate(mag(n,3),bxc(n,3))
 end if
 if (spinpol) then
   allocate(rhoup(n),rhodn(n))
   allocate(vxup(n),vxdn(n),vcup(n),vcdn(n))
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     allocate(grho(n),gup(n),gdn(n))
     allocate(g2up(n),g2dn(n))
     allocate(g3rho(n),g3up(n),g3dn(n))
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     allocate(g2up(n),g2dn(n))
     allocate(gvup(n,3),gvdn(n,3))
     allocate(gup2(n),gdn2(n),gupdn(n))
     allocate(dxdgu2(n),dxdgd2(n),dxdgud(n))
     allocate(dcdgu2(n),dcdgd2(n),dcdgud(n))
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     allocate(g2up(n),g2dn(n))
     allocate(gvup(n,3),gvdn(n,3))
     allocate(gup2(n),gdn2(n),gupdn(n))
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     allocate(g2up(n),g2dn(n))
     allocate(gvup(n,3),gvdn(n,3))
     allocate(gup2(n),gdn2(n),gupdn(n))
@@ -77,14 +77,14 @@ if (spinpol) then
   end if
 else
   allocate(vx(n),vc(n))
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     allocate(grho(n),g2rho(n),g3rho(n))
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     allocate(g2rho(n),gvrho(n,3),grho2(n))
     allocate(dxdgr2(n),dcdgr2(n))
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     allocate(g2rho(n),gvrho(n,3),grho2(n))
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     allocate(g2rho(n),gvrho(n,3),grho2(n))
     allocate(dxdgr2(n),dcdgr2(n))
     allocate(dxdg2r(n),dcdg2r(n))
@@ -100,7 +100,7 @@ else
   rho(1:n)=rhomt_(1:n,ias)
 end if
 ! convert tau to spherical coordinates if required
-if ((xcgrad.eq.3).or.(xcgrad.eq.4)) then
+if ((xcgrad == 3).or.(xcgrad == 4)) then
   do ispn=1,nspinor
     if (tsh) then
       call rbsht(nr,nri,taumt_(:,ias,ispn),tau(:,ispn))
@@ -109,16 +109,17 @@ if ((xcgrad.eq.3).or.(xcgrad.eq.4)) then
     end if
   end do
 end if
+!
 if (spinpol) then
-!------------------------!
-!     spin-polarised     !
-!------------------------!
-! magnetisation in spherical coordinates
+  !------------------------!
+  !     spin-polarised     !
+  !------------------------!
+  ! magnetisation in spherical coordinates
   write(*,*) 'ndmag = ', ndmag
   write(*,*) 'tsh = ', tsh
-  do idm=1,ndmag
+  do idm = 1,ndmag
     if (tsh) then
-      call rbsht(nr,nri,magmt_(:,ias,idm),mag(:,idm))
+      call rbsht(nr, nri, magmt_(:,ias,idm), mag(:,idm))
     else
       mag(1:n,idm) = magmt_(1:n,ias,idm)
     end if
@@ -126,14 +127,15 @@ if (spinpol) then
   write(*,*) 'magmt_(1:2,ias,1) = ', magmt_(1:2,ias,1)
   write(*,*) 'sum abs mag = ', sum(abs(mag))
   !
-! use scaled spin exchange-correlation (SSXC) if required
+  ! use scaled spin exchange-correlation (SSXC) if required
   if (tssxc) then
     write(*,*) 'Using tssxc'
     mag(:,1:ndmag) = mag(:,1:ndmag)*ssxc
   endif
+  !
   if (ncmag) then
     ! non-collinear (use Kubler's trick)
-    if (xcgrad.eq.0) then
+    if (xcgrad  ==  0) then
       ! LSDA
       do i=1,n
         ! compute rhoup=(rho+|m|)/2 and rhodn=(rho-|m|)/2
@@ -159,12 +161,14 @@ if (spinpol) then
       ! compute rhoup=(rho+m_z)/2 and rhodn=(rho-m_z)/2
       t0 = rho(i)
       t1 = mag(i,1)
-      rhoup(i) = 0.5d0*(t0+t1)
-      rhodn(i) = 0.5d0*(t0-t1)
+      rhoup(i) = 0.5d0*(t0 + t1)
+      rhodn(i) = 0.5d0*(t0 - t1)
     end do
     write(*,*) 'before sum rhoup = ', sum(rhoup)
     write(*,*) 'before sum rhodn = ', sum(rhodn)
   end if
+  ! bxcmt is not involved here
+  !
   ! call the exchange-correlation interface routine
   if (xcgrad.le.0) then
     write(*,*) 'potxcmt: Calling xcifc here ....'
@@ -177,12 +181,12 @@ if (spinpol) then
     write(*,*) 'sum vcup = ', sum(vcup)
     write(*,*) 'sum vcdn = ', sum(vcdn)
   !
-  else if (xcgrad.eq.1) then
+  else if (xcgrad == 1) then
     call ggamt_sp_1(is,n,rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,grho=grho,gup=gup,gdn=gdn, &
      g2up=g2up,g2dn=g2dn,g3rho=g3rho,g3up=g3up,g3dn=g3dn,ex=ex,ec=ec,vxup=vxup,&
      vxdn=vxdn,vcup=vcup,vcdn=vcdn)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     call ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,gup2=gup2,gdn2=gdn2, &
      gupdn=gupdn,ex=ex,ec=ec,vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn, &
@@ -190,13 +194,13 @@ if (spinpol) then
      dcdgud=dcdgud)
     call ggamt_sp_2b(is,n,g2up,g2dn,gvup,gvdn,vxup,vxdn,vcup,vcdn,dxdgu2, &
      dxdgd2,dxdgud,dcdgu2,dcdgd2,dcdgud)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     call ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
     call xcifc(xctype_,n=n,c_tb09=c_tb09,rhoup=rhoup,rhodn=rhodn,g2up=g2up, &
      g2dn=g2dn,gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tau(:,1),taudn=tau(:,2), &
      vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
      ex(:)=0.d0; ec(:)=0.d0
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     call ggamt_sp_2a(is,n,rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,g2up=g2up,g2dn=g2dn, &
      gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tau(:,1),taudn=tau(:,2),ex=ex,ec=ec,&
@@ -213,68 +217,73 @@ if (spinpol) then
       wxcmt_(1:n,ias)=wxup(1:n)
     end if
   end if
-! hybrid functionals
+  !
+  ! hybrid functionals
   if (hybrid) then
     t1=1.d0-hybridc
-! scale exchange part of energy
+    ! scale exchange part of energy
     ex(:)=t1*ex(:)
-! scale exchange part of potential
+    ! scale exchange part of potential
     vxup(:)=t1*vxup(:)
     vxdn(:)=t1*vxdn(:)
   end if
+  !
   if (ncmag) then
-! non-collinear: locally spin rotate the exchange-correlation potential
+    ! non-collinear: locally spin rotate the exchange-correlation potential
     do i=1,n
-      t1=vxup(i)+vcup(i)
-      t2=vxdn(i)+vcdn(i)
-      vxc(i)=0.5d0*(t1+t2)
-! determine the exchange-correlation magnetic field
-      t3=0.5d0*(t1-t2)
-! |m| = rhoup - rhodn
-      t4=rhoup(i)-rhodn(i)
-      if (abs(t4).gt.1.d-8) t4=t3/t4
-      bxc(i,1:3)=mag(i,1:3)*t4
+      t1 = vxup(i) + vcup(i)
+      t2 = vxdn(i) + vcdn(i)
+      vxc(i) = 0.5d0*(t1 + t2)
+      ! determine the exchange-correlation magnetic field
+      t3 = 0.5d0*(t1 - t2)
+      ! |m| = rhoup - rhodn
+      t4 = rhoup(i)-rhodn(i)
+      if (abs(t4) .gt. 1.d-8) t4=t3/t4
+      bxc(i,1:3) = mag(i,1:3)*t4
     end do
   else
-! collinear
-    do i=1,n
-      t1=vxup(i)+vcup(i)
-      t2=vxdn(i)+vcdn(i)
-      vxc(i)=0.5d0*(t1+t2)
-      bxc(i,1)=0.5d0*(t1-t2)
-    end do
-  end if
-! scale B_xc for SSXC if required
-  if (tssxc) bxc(:,1:ndmag)=bxc(:,1:ndmag)*ssxc
+    ! collinear
+    do i = 1,n
+      t1 = vxup(i) + vcup(i)
+      t2 = vxdn(i) + vcdn(i)
+      vxc(i) = 0.5d0*(t1 + t2)
+      bxc(i,1) = 0.5d0*(t1 - t2)
+    enddo
+    !
+  endif
+  ! scale B_xc for SSXC if required
+  if(tssxc) bxc(:,1:ndmag)=bxc(:,1:ndmag)*ssxc
+  !
   do idm=1,ndmag
     if (tsh) then
-! convert field to spherical harmonics
-      call rfsht(nr,nri,bxc(:,idm),bxcmt_(:,ias,idm))
+      ! convert field to spherical harmonics
+      call rfsht(nr, nri, bxc(:,idm), bxcmt_(:,ias,idm))
     else
-      bxcmt_(1:n,ias,idm)=bxc(1:n,idm)
-    end if
-  end do
+      bxcmt_(1:n,ias,idm) = bxc(1:n,idm)
+    endif
+  enddo
+  !
 else
 !--------------------------!
 !     spin-unpolarised     !
 !--------------------------!
   if (xcgrad.le.0) then
     call xcifc(xctype_,n=n,tempa=swidth,rho=rho,ex=ex,ec=ec,vx=vx,vc=vc)
-  else if (xcgrad.eq.1) then
+  else if (xcgrad == 1) then
     call ggamt_1(tsh,is,n,rhomt_(:,ias),grho,g2rho,g3rho)
     call xcifc(xctype_,n=n,rho=rho,grho=grho,g2rho=g2rho,g3rho=g3rho,ex=ex, &
      ec=ec,vx=vx,vc=vc)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     call ggamt_2a(tsh,is,n,rhomt_(:,ias),g2rho,gvrho,grho2)
     call xcifc(xctype_,n=n,rho=rho,grho2=grho2,ex=ex,ec=ec,vx=vx,vc=vc, &
      dxdgr2=dxdgr2,dcdgr2=dcdgr2)
     call ggamt_2b(is,n,g2rho,gvrho,vx,vc,dxdgr2,dcdgr2)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     call ggamt_2a(tsh,is,n,rhomt_(:,ias),g2rho,gvrho,grho2)
     call xcifc(xctype_,n=n,c_tb09=c_tb09,rho=rho,g2rho=g2rho,grho2=grho2, &
      tau=tau,vx=vx,vc=vc)
     ex(:)=0.d0; ec(:)=0.d0
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     call ggamt_2a(tsh,is,n,rhomt_(:,ias),g2rho,gvrho,grho2)
     call xcifc(xctype_,n=n,rho=rho,g2rho=g2rho,grho2=grho2,tau=tau,ex=ex,ec=ec,&
      vx=vx,vc=vc,dxdgr2=dxdgr2,dcdgr2=dcdgr2,dxdg2r=dxdg2r,dcdg2r=dcdg2r,wx=wx,&
@@ -310,33 +319,33 @@ else
   vxcmt_(1:n,ias)=vxc(1:n)
 end if
 deallocate(rho,ex,ec,vxc)
-if ((xcgrad.eq.3).or.(xcgrad.eq.4)) deallocate(tau)
+if ((xcgrad == 3).or.(xcgrad == 4)) deallocate(tau)
 if (spinpol) then
   deallocate(mag,bxc)
   deallocate(rhoup,rhodn,vxup,vxdn,vcup,vcdn)
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     deallocate(grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     deallocate(g2up,g2dn)
     deallocate(gvup,gvdn)
     deallocate(gup2,gdn2,gupdn)
     deallocate(dxdgu2,dxdgd2,dxdgud)
     deallocate(dcdgu2,dcdgd2,dcdgud)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     deallocate(g2up,g2dn)
     deallocate(gvup,gvdn)
     deallocate(gup2,gdn2,gupdn)
   end if
 else
   deallocate(vx,vc)
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     deallocate(grho,g2rho,g3rho)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     deallocate(g2rho,gvrho,grho2)
     deallocate(dxdgr2,dcdgr2)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     deallocate(g2rho,gvrho,grho2)
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     deallocate(g2rho,gvrho,grho2)
     deallocate(dxdgr2,dcdgr2,dxdg2r,dcdg2r)
     deallocate(wx,wc)
