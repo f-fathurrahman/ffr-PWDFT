@@ -43,11 +43,14 @@ else
   write(*,'("Error(wavefmt): invalid lrstp : ",I8)') lrstp
   write(*,*)
   stop
-end if
+endif
 nrco = nrc - nrci
 
+!write(*,*) 'ldi = ', ldi, ' ldo = ', ldo, ' npc = ', npc, ' lrstp = ', lrstp
+!write(*,*) 'nrci = ', nrci, 'nrco = ', nrco, ' iro = ', iro
+
 ! zero the wavefunction
-wfmt(:,1:npc)=0.d0
+wfmt(:,1:npc) = 0.d0
 
 !-----------------------!
 !     APW functions     !
@@ -55,30 +58,32 @@ wfmt(:,1:npc)=0.d0
 lm=0
 do l=0,lmaxo
   do m=-l,l
-    lm=lm+1
-    i=npci+lm
-    do io=1,apword(l,is)
+    lm = lm + 1
+    i = npci + lm
+    do io = 1,apword(l,is)
       !
       ! multiply vector and sum (not a dot product?)
       z1 = zdotu(ngp,evecfv,1,apwalm(:,io,lm),1)
+      !write(*,*) 'lm, io, z1 = ', lm, io, z1
       ! we need to investigate both real and imaginary parts
       !
-      if (abs(dble(z1)) > 1.d-14) then
+      !if (abs(dble(z1)) > 1.d-14) then
         if (l <= lmaxi) then
           call daxpy(nrci,dble(z1),apwfr(1,1,io,l,ias),lrstp,wfmt(1,lm),ldi)
-        end if
+        endif
         call daxpy(nrco,dble(z1),apwfr(iro,1,io,l,ias),lrstp,wfmt(1,i),ldo)
-      end if
+      !endif
       !
-      if (abs(aimag(z1)) > 1.d-14) then
+      !if (abs(aimag(z1)) > 1.d-14) then
         if (l <= lmaxi) then
           call daxpy(nrci,aimag(z1),apwfr(1,1,io,l,ias),lrstp,wfmt(2,lm),ldi)
-        end if
+        endif
         call daxpy(nrco,aimag(z1),apwfr(iro,1,io,l,ias),lrstp,wfmt(2,i),ldo)
-      end if
-    end do
-  end do
-end do
+      !endif
+      !write(*,*) '   temp sum wfmt real, complex = ', sum(wfmt(1,1:npc)), sum(wfmt(2,1:npc))
+    enddo
+  enddo
+enddo
 
 !---------------------------------!
 !     local-orbital functions     !
@@ -89,20 +94,20 @@ do ilo=1,nlorb(is)
     lm=idxlm(l,m)
     i=npci+lm
     z1=evecfv(ngp+idxlo(lm,ilo,ias))
-    if (abs(dble(z1)) > 1.d-14) then
+    !if (abs(dble(z1)) > 1.d-14) then
       if (l <= lmaxi) then
         call daxpy(nrci,dble(z1),lofr(1,1,ilo,ias),lrstp,wfmt(1,lm),ldi)
-      end if
+      endif
       call daxpy(nrco,dble(z1),lofr(iro,1,ilo,ias),lrstp,wfmt(1,i),ldo)
-    end if
-    if (abs(aimag(z1)) > 1.d-14) then
+    !endif
+    !if (abs(aimag(z1)) > 1.d-14) then
       if (l <= lmaxi) then
         call daxpy(nrci,aimag(z1),lofr(1,1,ilo,ias),lrstp,wfmt(2,lm),ldi)
-      end if
+      endif
       call daxpy(nrco,aimag(z1),lofr(iro,1,ilo,ias),lrstp,wfmt(2,i),ldo)
-    end if
-  end do
-end do
+    !endif
+  enddo
+enddo
 
 return
 

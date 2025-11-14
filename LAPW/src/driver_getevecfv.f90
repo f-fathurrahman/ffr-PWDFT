@@ -15,6 +15,7 @@ subroutine driver_getevecfv(ik, evecfv)
   complex(8) :: evecfv(nmatmax, nstfv, nspnfv)
 
   ! get the eigenvectors from file
-  CALL my_getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik), evecfv)
+  !CALL my_getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik), evecfv) ! for debugging
+  CALL getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik), evecfv)
   return
 end subroutine

@@ -60,7 +60,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv, evecsv )
     CALL eveqnss(ngk(:,ik),igkig(:,:,ik),apwalm,evalfv,evecfv,evalsv(:,ik),evecsv)
   ELSE 
     ! solve the second-variational eigenvalue equation
-    CALL my_eveqnsv( ngk(1,ik), igkig(:,1,ik), vgkc(:,:,1,ik), apwalm, &
+    CALL my_eveqnsv( ik, ngk(1,ik), igkig(:,1,ik), vgkc(:,:,1,ik), apwalm, &
                      evalfv, evecfv, &
                      evalsv(:,ik), evecsv)
   ENDIF 

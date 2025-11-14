@@ -1,10 +1,11 @@
 
-subroutine my_eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
+subroutine my_eveqnsv(ik,ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
   use modmain
   use moddftu
   !
   implicit none
   ! arguments
+  integer, intent(in) :: ik ! added by ffr
   integer, intent(in) :: ngp,igpig(ngkmax)
   real(8), intent(in) :: vgpc(3,ngkmax)
   complex(8), intent(in) :: apwalm(ngkmax,apwordmax,lmmaxapw,natmtot)
@@ -93,6 +94,11 @@ subroutine my_eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
   allocate(wfmt2(npcmtmax), wfmt3(npcmtmax), wfmt4(npcmtmax,nsc))
   if (spinorb) allocate(zlflm(lmmaxo,3))
   if (tafield .or. (xcgrad == 4)) allocate(gzfmt(npcmtmax,3))
+
+  wfmt2(:) = 0.d0
+  wfmt3(:) = 0.d0
+  wfmt4(:,:) = 0.d0
+
   !
   ! begin loop over atoms
   do ias = 1,natmtot
@@ -106,22 +112,36 @@ subroutine my_eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
     !
     ! compute the first-variational wavefunctions
     do ist = 1,nstfv
-      call wavefmt( lradstp, ias, ngp, apwalm(:,:,:,ias), evecfv(:,ist), wfmt1(:,ist) )
+      write(*,*) 'sum evecfv(1:nmat(1,ik),ist) = ', sum(evecfv(1:nmat(1,ik),ist))
+      call my_wavefmt( lradstp, ias, ngp, apwalm(:,:,:,ias), evecfv(:,ist), wfmt1(:,ist) )
+      write(*,*) 'sum wfmt1(1:npc,ist) = ', sum(wfmt1(1:npc,ist))
     enddo
+    write(*,*) 'sum wfmt1 = ', sum(wfmt1(1:npc,:))
+    write(*,*) 'sum bsmt = ', sum(bsmt(1:npc,ias,ndmag))
     !
     ! begin loop over states
-    do jst=1,nstfv
+    do jst = 1,nstfv
       if (spinpol) then
         !
         ! convert wavefunction to spherical coordinates
+        write(*,*) 'sum wfmt1(:,jst) = ', sum(wfmt1(:,jst))
         call zbsht(nrc, nrci, wfmt1(:,jst), wfmt2)
+        write(*,*) 'sum wfmt2 = ', sum(wfmt2)
+        !write(1111,*) real(wfmt1(:,jst))
+        !write(2222,*) aimag(wfmt1(:,jst))
+        !write(3333,*) real(wfmt2)
+        !write(4444,*) aimag(wfmt2)
+        !stop 'DEBUG 134'
         !
         ! apply Kohn-Sham effective magnetic field
         wfmt3(1:npc) = bsmt(1:npc,ias,ndmag)*wfmt2(1:npc)  ! ffr: THIS IS IMPORTANT
+        write(*,*) 'sum wfmt3 = ', sum(wfmt3)
         !
         ! convert to spherical harmonics and store in wfmt4
         call zfsht(nrc, nrci, wfmt3, wfmt4)
         wfmt4(1:npc,2) = -wfmt4(1:npc,1)
+        write(*,*) 'sum wfmt4(:,1) = ', sum(wfmt4(:,1))
+        write(*,*) 'sum wfmt4(:,2) = ', sum(wfmt4(:,2))
         !
         ! non-collinear magnetic field
         if (ncmag) then
@@ -215,6 +235,7 @@ subroutine my_eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
       ! upper diagonal block
       do ist = 1,jst
         z1 = zfmtinp(nrc, nrci, wrcmt(:,is), wfmt1(:,ist), wfmt4)
+        write(*,*) 'Upper diagonal block: ist = ', ist, ' z1 from zfmtinp = ', z1
         evecsv(ist,jst) = evecsv(ist,jst) + z1
       enddo
       !
@@ -401,6 +422,7 @@ subroutine my_eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
       evecsv(i,i) = evecsv(i,i) + evalfv(ist)
     enddo
   enddo
+  write(*,*) '!!! sum evecsv before diagonalization = ', sum(evecsv)
   !
   if( spcpl .or. (.not. spinpol) ) then
     ! spins are coupled; or spin-unpolarised: full diagonalisation
