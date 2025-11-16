@@ -1,8 +1,8 @@
 
 ! input information: ik, pwgrid, apwalm, evecfv, and evecsv
-!---------------------------------------------------------------------
-SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
-!---------------------------------------------------------------------
+!--------------------------------------------------------------------------
+SUBROUTINE my_rhomagk(ik, ngp, igpig, wppt, occsvp, apwalm, evecfv, evecsv)
+!--------------------------------------------------------------------------
   USE m_gvectors, ONLY: igfft, ngtot, ngridg
   USE m_gkvectors, ONLY: ngkmax
   USE m_spin, ONLY: jspnfv, ssdph, spinpol, nspinor, ncmag, nspnfv, vqcss
@@ -17,6 +17,7 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
   !
   IMPLICIT NONE 
   ! arguments
+  integer :: ik ! added by ffr
   INTEGER, intent(in) :: ngp(nspnfv), igpig(ngkmax,nspnfv)
   REAL(8), intent(in) :: wppt, occsvp(nstsv)
   COMPLEX(8), intent(in) :: apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv)
@@ -32,6 +33,10 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
   LOGICAL :: done(nstfv,nspnfv)
   ! ALLOCATABLE arrays
   COMPLEX(8), ALLOCATABLE :: wfmt1(:,:,:),wfmt2(:),wfmt3(:,:),wfir(:,:)
+
+  write(*,*)
+  write(*,*) '<div> ENTER my_rhomagk ik = ', ik
+  write(*,*)
 
   !----------------------------------------------!
   !     muffin-tin density and magnetisation     !
@@ -159,11 +164,12 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
         wfir(ifg,1) = evecfv(igp,j,1)
       ENDDO 
     ENDIF 
-    
+    write(*,*) 'sum wfir before Fourier transform = ', sum(wfir)
     ! Fourier transform wavefunction to real-space
     DO ispn = 1,nspinor
       CALL zfftifc(3,ngridg,1,wfir(:,ispn))
     ENDDO 
+    write(*,*) 'sum wfir after Fourier transform = ', sum(wfir)
     ! add to density and magnetisation
     IF( spinpol ) THEN 
       ! spin-polarised
@@ -181,6 +187,11 @@ SUBROUTINE my_rhomagk(ngp,igpig,wppt,occsvp,apwalm,evecfv,evecsv)
   ENDDO ! nstsv
 
   DEALLOCATE(wfir)
+
+  write(*,*)
+  write(*,*) '</div> EXIT my_rhomagk ik = ', ik
+  write(*,*)
+
   RETURN 
 
 CONTAINS 

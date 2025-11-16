@@ -51,7 +51,7 @@ SUBROUTINE my_rhomag()
   ! eigenvectors (wavefunctions are used and read in this loop only)
   DO ik=1,nkpt
     ! get the eigenvectors from file
-    CALL my_getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik),evecfv)
+    CALL getevecfv(filext, ik, vkl(:,ik), vgkl(:,:,:,ik),evecfv)
     CALL getevecsv(filext, ik, vkl(:,ik), evecsv)
     ! find the matching coefficients
     ! ffr: do they depend on evecfv ? apwfr ? try debug this first in ElkDFTWrapper
@@ -61,11 +61,14 @@ SUBROUTINE my_rhomag()
     ENDDO 
     ! add to the density and magnetisation
     ! pass apwalm and eigenvectors
-    CALL my_rhomagk( ngk(:,ik), igkig(:,:,ik), wkpt(ik), occsv(:,ik), apwalm, &
+    CALL my_rhomagk( ik, ngk(:,ik), igkig(:,:,ik), wkpt(ik), occsv(:,ik), apwalm, &
                      evecfv, evecsv )
   ENDDO 
   ! matching coefs, eigenvectors are no longer needed
   DEALLOCATE(apwalm, evecfv, evecsv)
+  write(*,*)
+  write(*,*) '>>>>> EARLY RETURN in my_rhomag'
+  RETURN ! DEBUG
 
   ! convert muffin-tin density/magnetisation to spherical harmonics
   CALL rhomagsh()
