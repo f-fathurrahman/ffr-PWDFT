@@ -66,9 +66,10 @@ SUBROUTINE my_rhomag()
   ENDDO 
   ! matching coefs, eigenvectors are no longer needed
   DEALLOCATE(apwalm, evecfv, evecsv)
-  write(*,*)
-  write(*,*) '>>>>> EARLY RETURN in my_rhomag'
-  RETURN ! DEBUG
+  
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag'
+  !RETURN ! DEBUG
 
   ! convert muffin-tin density/magnetisation to spherical harmonics
   CALL rhomagsh()

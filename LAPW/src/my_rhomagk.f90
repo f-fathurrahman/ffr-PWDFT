@@ -164,12 +164,12 @@ SUBROUTINE my_rhomagk(ik, ngp, igpig, wppt, occsvp, apwalm, evecfv, evecsv)
         wfir(ifg,1) = evecfv(igp,j,1)
       ENDDO 
     ENDIF 
-    write(*,*) 'sum wfir before Fourier transform = ', sum(wfir)
+    !write(*,*) 'sum wfir before Fourier transform = ', sum(wfir)
     ! Fourier transform wavefunction to real-space
     DO ispn = 1,nspinor
       CALL zfftifc(3,ngridg,1,wfir(:,ispn))
     ENDDO 
-    write(*,*) 'sum wfir after Fourier transform = ', sum(wfir)
+    !write(*,*) 'sum wfir after Fourier transform = ', sum(wfir)
     ! add to density and magnetisation
     IF( spinpol ) THEN 
       ! spin-polarised
