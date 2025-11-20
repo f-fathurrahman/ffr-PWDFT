@@ -29,7 +29,8 @@ SUBROUTINE my_rhomag()
   ! rho, muffin tin
   DO ias = 1,natmtot
     is = idxis(ias)
-    rhomt(1:npcmt(is),ias) = 0.d0
+    !rhomt(1:npcmt(is),ias) = 0.d0 ! XXX only 1:npcmt ? only coarse mesh?
+    rhomt(:,ias) = 0.d0 ! XXX debug
   ENDDO 
   !
   ! interstitial
@@ -39,7 +40,8 @@ SUBROUTINE my_rhomag()
   DO idm = 1,ndmag
     DO ias = 1,natmtot
       is = idxis(ias)
-      magmt(1:npcmt(is),ias,idm) = 0.d0
+      !magmt(1:npcmt(is),ias,idm) = 0.d0
+      magmt(:,ias,idm) = 0.d0
     ENDDO
     ! interstitial
     magir(:,idm) = 0.d0
@@ -66,22 +68,38 @@ SUBROUTINE my_rhomag()
   ENDDO 
   ! matching coefs, eigenvectors are no longer needed
   DEALLOCATE(apwalm, evecfv, evecsv)
-  
+
   !write(*,*)
   !write(*,*) '>>>>> EARLY RETURN in my_rhomag'
   !RETURN ! DEBUG
-
+  
   ! convert muffin-tin density/magnetisation to spherical harmonics
   CALL rhomagsh()
+
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after rhomagsh'
+  !RETURN ! DEBUG
 
   ! symmetrise the density
   CALL symrf(nrcmt,nrcmti,npcmt,npmtmax,rhomt,rhoir)
 
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after symrf'
+  !RETURN ! DEBUG
+
   ! convert the density from a coarse to a fine radial mesh
   CALL rfmtctof(rhomt)
 
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after rfmtctof'
+  !RETURN ! DEBUG
+
   ! symmetrise the magnetisation
-  IF(spinpol) CALL symrvf(.true.,ncmag,nrcmt,nrcmti,npcmt,npmtmax,magmt,magir)
+  IF(spinpol) CALL my_symrvf(.true.,ncmag,nrcmt,nrcmti,npcmt,npmtmax,magmt,magir)
+
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after symrvf'
+  !RETURN ! DEBUG
 
   ! convert the magnetisation from a coarse to a fine radial mesh
   DO idm=1,ndmag
@@ -91,11 +109,21 @@ SUBROUTINE my_rhomag()
   ! add the core density and magnetisation to the total
   CALL rhocore()
 
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after rhocore'
+  !RETURN ! DEBUG
+
   ! calculate the charges
   CALL charge()
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after charge'
+  !RETURN ! DEBUG
 
   ! normalise the density
   CALL rhonorm()
+  write(*,*)
+  write(*,*) '>>>>> EARLY RETURN in my_rhomag after rhonorm'
+  RETURN ! DEBUG
 
   ! calculate the moments
   IF(spinpol) CALL moment()
