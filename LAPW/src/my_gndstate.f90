@@ -38,10 +38,13 @@ subroutine my_gndstate_setup_mixing()
 
   ! initialise the mixer
   iscl = 0
-  CALL mixpack(.true.,n,v)
+  CALL mixpack(.true.,n,v) ! here some global variables are put into v
   CALL mixerifc(mixtype,n,v,dv,nwork,work)
 
   write(*,*) 'EXIT my_gndstate_setup_mixing'
+
+  ! no need deallocate v and work (they are still used)
+  ! v and work will be deallocated at the end of gndstate call.
 
   return
 
@@ -112,6 +115,7 @@ SUBROUTINE my_gndstate(maxscl_in)
   CALL genvsig() 
 
   call my_gndstate_setup_mixing()
+  ! after this, some potentials will be written to mixer array v
 
   ! set the stop signal to .false.
   tstop = .false.

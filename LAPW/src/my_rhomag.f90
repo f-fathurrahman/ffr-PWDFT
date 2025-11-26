@@ -121,9 +121,9 @@ SUBROUTINE my_rhomag()
 
   ! normalise the density
   CALL rhonorm()
-  write(*,*)
-  write(*,*) '>>>>> EARLY RETURN in my_rhomag after rhonorm'
-  RETURN ! DEBUG
+  !write(*,*)
+  !write(*,*) '>>>>> EARLY RETURN in my_rhomag after rhonorm'
+  !RETURN ! DEBUG
 
   ! calculate the moments
   IF(spinpol) CALL moment()
