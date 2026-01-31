@@ -34,6 +34,7 @@ m_bse.f90 \
 m_timing.f90 \
 m_constants.f90 \
 m_misc.f90 \
+m_respfunc_perturb.f90 \
 modmain.f90 \
 moddftu.f90 \
 modulr.f90 \
@@ -205,6 +206,16 @@ tm2pol.f90   tm2todm.f90  tm3pol.f90   tm3todm.f90 \
 info_apwlo.f90 info_crystal.f90 info_muffin_tins.f90 \
 info_symmetry.f90 info_gvectors.f90 \
 plot3d.f90 plotpt3d.f90 rfplot.f90 \
+genpmat.f90 genpmatk.f90 \
+init2.f90 fyukawa.f90 fyukawa0.f90 wigner3jf.f90 \
+dmtotm2.f90 dmtotm3.f90 \
+zbessela.f90 zbesselb.f90 writegclq.f90 gengclq.f90 gengvc.f90 findnjcmax.f90 \
+r3vo.f90 writefsm.f90 writeftm.f90 \
+gencfrc.f90 writeqpts.f90 putpmat.f90 hrmdmat.f90 findlambdadu.f90 energyfdu.f90 readalphadu.f90 \
+writepmat.f90 dielectric.f90 getoccsv.f90 getpmat.f90 readfermi.f90 \
+readstate.f90 \
+writetm2du.f90 writetm3du.f90 writedftu.f90 pottm2.f90 pottm3.f90 \
+wigner6j.f90 \
 my_rdiracint.f90 my_rhoinit.f90 \
 my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90  my_zpotcoul.f90 \
 my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
@@ -255,7 +266,7 @@ lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
 main:	$(OBJ)
-	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) $(LIB_LIBXC) $(LIB_SYS)
+	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIBS)
 
 clean:
 	rm -f *.o *.mod liblapwdft.a liblapwdft.so

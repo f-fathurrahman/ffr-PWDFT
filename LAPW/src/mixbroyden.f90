@@ -24,8 +24,7 @@ real(8) c(msd),beta(msd,msd),gamma(msd)
 real(8) work(msd)
 
 ! external functions
-real(8) dnrm2
-external dnrm2
+real(8), external :: dnrm2
 
 if (n.lt.1) then
   write(*,*)

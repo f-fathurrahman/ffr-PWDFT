@@ -57,9 +57,8 @@ SUBROUTINE energy
   COMPLEX(8), ALLOCATABLE :: evecsv(:,:),kmat(:,:),c(:,:)
 
   ! external functions
-  REAL(8) rfinp
-  COMPLEX(8) zdotc
-  external rfinp,zdotc
+  REAL(8), external :: rfinp
+  COMPLEX(8), external :: zdotc
   
   ! coupling constant of the external field (g_e/4c)
   cb=gfacte/(4.d0*solsc)

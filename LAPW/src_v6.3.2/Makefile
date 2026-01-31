@@ -177,7 +177,72 @@ force.f90 forcek.f90 symveca.f90 \
 fsmbfield.f90 addbfsm.f90 addbfsmu.f90 \
 plot3d.f90 plotpt3d.f90 rfplot.f90 \
 gendmftm.f90 checkfsm.f90 straingkq.f90 \
-initialize_elk.f90
+initialize_elk.f90 \
+dielectric.f90 \
+writepmat.f90 \
+findprimcell.f90 \
+genfspecies.f90 \
+eulerrot.f90 \
+genspecies.f90 \
+numlist.f90 \
+rotdmat.f90 \
+gentimes.f90 \
+readafieldt.f90 \
+plotpt1d.f90 \
+genkpakq.f90 \
+readstate.f90 \
+gendmatmt.f90 \
+genvmatmt.f90 \
+writedftu.f90 \
+writetm3du.f90 \
+writeftm.f90 \
+writefsm.f90 \
+writetm2du.f90 \
+init2.f90 \
+readfermi.f90 \
+r3vo.f90 \
+tm3todm.f90 \
+hrmdmat.f90 \
+tm2todm.f90 \
+gengclq.f90 \
+getoccsv.f90 \
+getpmat.f90 \
+genpmat.f90 \
+massnucl.f90 \
+writespecies.f90 \
+r3mdet.f90 \
+z2mm.f90 \
+z2mmct.f90 \
+gendmat.f90 \
+symdmat.f90 \
+genveedu.f90 \
+readalphadu.f90 \
+ftmfield.f90 \
+pottm3.f90 \
+tm3pol.f90 \
+dmtotm3.f90 \
+dmtotm2.f90 \
+pottm2.f90 \
+tm2pol.f90 \
+writeqpts.f90 \
+findnjcmax.f90 \
+gengvc.f90 \
+gencfrc.f90 \
+writegclq.f90 \
+wigner3jf.f90 \
+putpmat.f90 \
+gendmatk.f90 \
+genfdu.f90 \
+wigner6j.f90 \
+fyukawa.f90 fyukawa0.f90 \
+genpmatk.f90 \
+genfdufr.f90 \
+writeefdu.f90 \
+findlambdadu.f90 \
+energyfdu.f90 \
+zbessela.f90 zbesselb.f90
+
+
 
 SRC_FFR = \
 default_atoms.f90 default_apwlo.f90 default_muffin_tins.f90 \
@@ -244,7 +309,7 @@ lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
 main:	$(OBJ)
-	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIB_LPK) $(LIB_FFT) $(LIB_LIBXC) $(LIB_SYS)
+	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIBS)
 
 clean:
 	rm -f *.o *.mod liblapwdft.a liblapwdft.so

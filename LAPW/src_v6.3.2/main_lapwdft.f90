@@ -2,7 +2,7 @@ PROGRAM lapwdft
   use modmain, only: tasks, ntasks
   integer :: itask, task
 
-  CALL read_input()
+  CALL readinput()
 
   !CALL init0()
   !CALL init1()
