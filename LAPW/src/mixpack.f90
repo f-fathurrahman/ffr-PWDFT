@@ -17,34 +17,34 @@ SUBROUTINE mixpack(tpack,n,v)
   ! local variables
   INTEGER :: idm,ispn,jspn
   INTEGER :: ias,lm1,lm2
-  n=0
+  n = 0
   ! pack the Kohn-Sham potential and magnetic field
-  CALL rfpack(tpack,n,npmt,npmtmax,vsmt,vsir,v)
-  DO idm=1,ndmag
-    CALL rfpack(tpack,n,npcmt,npcmtmax,bsmt(:,:,idm),bsir(:,idm),v)
+  CALL rfpack(tpack, n, npmt, npmtmax, vsmt, vsir, v)
+  DO idm = 1,ndmag
+    CALL rfpack(tpack, n, npcmt, npcmtmax, bsmt(:,:,idm), bsir(:,idm), v)
   ENDDO 
-! pack the DFT+U potential if required
-if (tvmatmt) then
-  do ias=1,natmtot
-    do ispn=1,nspinor
-      do jspn=1,nspinor
-        do lm1=1,lmmaxdm
-          do lm2=1,lmmaxdm
-            n=n+1
-            if (tpack) then
-              v(n)=dble(vmatmt(lm1,ispn,lm2,jspn,ias))
+  ! pack the DFT+U potential if required
+  if (tvmatmt) then
+    do ias=1,natmtot
+      do ispn=1,nspinor
+        do jspn=1,nspinor
+          do lm1=1,lmmaxdm
+            do lm2=1,lmmaxdm
               n=n+1
-              v(n)=aimag(vmatmt(lm1,ispn,lm2,jspn,ias))
-            else
-              vmatmt(lm1,ispn,lm2,jspn,ias)=cmplx(v(n),v(n+1),8)
-              n=n+1
-            end if
+              if (tpack) then
+                v(n)=dble(vmatmt(lm1,ispn,lm2,jspn,ias))
+                n=n+1
+                v(n)=aimag(vmatmt(lm1,ispn,lm2,jspn,ias))
+              else
+                vmatmt(lm1,ispn,lm2,jspn,ias)=cmplx(v(n),v(n+1),8)
+                n=n+1
+              end if
+            end do
           end do
         end do
       end do
     end do
-  end do
-end if
+  end if
 
   RETURN 
 END SUBROUTINE 

@@ -21,8 +21,7 @@ REAL(8) function rfinp(rfmt1,rfir1,rfmt2,rfir2)
   ! local variables
   INTEGER :: is,ias,ir
   ! external functions
-  REAL(8) rfmtinp
-  external rfmtinp
+  REAL(8), external :: rfmtinp
 
   ! interstitial contribution
   rfinp=0.d0

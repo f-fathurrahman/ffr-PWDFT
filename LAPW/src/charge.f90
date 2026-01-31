@@ -10,11 +10,17 @@ SUBROUTINE charge()
   
   ! find the muffin-tin charges
   CALL chargemt()
+  write(*,*) 'chgmttot = ', chgmttot
+  
   ! find the interstitial charge
-  t1=dot_product(rhoir(:),cfunir(:))
-  chgir=t1*omega/dble(ngtot)
+  write(*,*) 'sum(rhoir) = ', sum(rhoir)
+  t1 = dot_product(rhoir(:),cfunir(:))
+  write(*,*) 'for interstitial charge: t1 = ', t1
+  chgir = t1*omega/dble(ngtot)
+  write(*,*) 'chgir = ', chgir
+
   ! total calculated charge
-  chgcalc=chgmttot+chgir
+  chgcalc = chgmttot + chgir
 
   WRITE(*,*) 'calculated total charge', chgcalc
   RETURN 

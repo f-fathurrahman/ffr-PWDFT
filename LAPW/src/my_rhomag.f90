@@ -12,7 +12,7 @@ SUBROUTINE my_rhomag()
   USE m_gkvectors, ONLY: ngkmax, ngk, igkig, vgkc, vgkl, gkc, sfacgk
   USE m_hamiltonian, ONLY: nmatmax
   USE m_misc, ONLY: filext
-  IMPLICIT NONE 
+  IMPLICIT NONE
   ! local variables
   INTEGER :: ik,ispn,idm
   INTEGER :: is,ias,n
@@ -31,7 +31,7 @@ SUBROUTINE my_rhomag()
     is = idxis(ias)
     !rhomt(1:npcmt(is),ias) = 0.d0 ! XXX only 1:npcmt ? only coarse mesh?
     rhomt(:,ias) = 0.d0 ! XXX debug
-  ENDDO 
+  ENDDO
   !
   ! interstitial
   rhoir(:) = 0.d0
@@ -45,7 +45,7 @@ SUBROUTINE my_rhomag()
     ENDDO
     ! interstitial
     magir(:,idm) = 0.d0
-  ENDDO 
+  ENDDO
 
   ALLOCATE( apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv) )
   ALLOCATE( evecfv(nmatmax,nstfv,nspnfv), evecsv(nstsv,nstsv) )
@@ -60,19 +60,19 @@ SUBROUTINE my_rhomag()
     DO ispn = 1,nspnfv
       CALL match( ngk(ispn,ik), vgkc(:,:,ispn,ik), gkc(:,ispn,ik), &
                   sfacgk(:,:,ispn,ik), apwalm(:,:,:,:,ispn))
-    ENDDO 
+    ENDDO
     ! add to the density and magnetisation
     ! pass apwalm and eigenvectors
     CALL my_rhomagk( ik, ngk(:,ik), igkig(:,:,ik), wkpt(ik), occsv(:,ik), apwalm, &
                      evecfv, evecsv )
-  ENDDO 
+  ENDDO
   ! matching coefs, eigenvectors are no longer needed
   DEALLOCATE(apwalm, evecfv, evecsv)
 
   !write(*,*)
   !write(*,*) '>>>>> EARLY RETURN in my_rhomag'
   !RETURN ! DEBUG
-  
+
   ! convert muffin-tin density/magnetisation to spherical harmonics
   CALL rhomagsh()
 
@@ -81,7 +81,11 @@ SUBROUTINE my_rhomag()
   !RETURN ! DEBUG
 
   ! symmetrise the density
+  write(*,*) 'before symrf, sum(rhomt) = ', sum(rhomt)
+  write(*,*) '              sum(rhoir) = ', sum(rhoir)
   CALL symrf(nrcmt,nrcmti,npcmt,npmtmax,rhomt,rhoir)
+  write(*,*) 'after symrf, sum(rhomt) = ', sum(rhomt)
+  write(*,*) '             sum(rhoir) = ', sum(rhoir)
 
   !write(*,*)
   !write(*,*) '>>>>> EARLY RETURN in my_rhomag after symrf'
@@ -104,7 +108,7 @@ SUBROUTINE my_rhomag()
   ! convert the magnetisation from a coarse to a fine radial mesh
   DO idm=1,ndmag
     CALL rfmtctof(magmt(:,:,idm))
-  ENDDO 
+  ENDDO
 
   ! add the core density and magnetisation to the total
   CALL rhocore()
@@ -132,5 +136,5 @@ SUBROUTINE my_rhomag()
   write(*,*) '</div> EXIT my_rhomag'
   write(*,*)
 
-  RETURN 
-END SUBROUTINE 
+  RETURN
+END SUBROUTINE

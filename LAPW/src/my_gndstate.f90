@@ -24,7 +24,7 @@ subroutine my_gndstate_setup_mixing()
   write(*,*) 'EXIT my_gndstate_setup_mixing'
 
   ! size of mixing vector
-  n = npmtmax*natmtot + ngtot
+  n = npmtmax*natmtot + ngtot ! size of mixing vector
   IF( spinpol ) n = n + (npcmtmax*natmtot+ngtot)*ndmag
   write(*,*) 'n = ', n
 
@@ -32,14 +32,14 @@ subroutine my_gndstate_setup_mixing()
   ALLOCATE( v(n) )
 
   ! determine the size of the mixer work array
-  nwork=-1
-  CALL mixerifc(mixtype,n,v,dv,nwork,v)
+  nwork = -1
+  CALL mixerifc(mixtype, n, v, dv, nwork, v)
   ALLOCATE( work(nwork) )
 
   ! initialise the mixer
   iscl = 0
-  CALL mixpack(.true.,n,v) ! here some global variables are put into v
-  CALL mixerifc(mixtype,n,v,dv,nwork,work)
+  CALL mixpack(.true., n, v) ! here some global variables are put into v
+  CALL mixerifc(mixtype, n, v, dv, nwork, work)
 
   write(*,*) 'EXIT my_gndstate_setup_mixing'
 
@@ -54,13 +54,14 @@ end subroutine
 subroutine my_gndstate_do_mixing()
 !---------------------------------
   use m_mixing, only: mixtype
-  use m_my_gndstate
+  use m_my_gndstate, only: work, v ! arrays
+  use m_my_gndstate, only: dv, n, nwork, work ! scalars
   implicit none
   !
   write(*,*) 'mixtype = ', mixtype
   !
   ! pack interstitial and muffin-tin potential and field into one array
-  CALL mixpack(.true.,n,v)
+  CALL mixpack(.true., n, v)
   ! mix in the old potential and field with the new
   CALL mixerifc(mixtype, n, v, dv, nwork, work)
   ! unpack potential and field
@@ -185,13 +186,15 @@ SUBROUTINE my_gndstate(maxscl_in)
 
     ! compute the Kohn-Sham potentials and magnetic fields
     CALL potks(.true.)
+    ! New potential is calculated here
 
     IF( (xcgrad == 3) .and. (c_tb09 /= 0.d0)) THEN 
       WRITE(6,*)
       WRITE(6,'("Tran-Blaha ''09 constant c : ",G18.10)') c_tb09
     ENDIF 
 
-
+    ! Now the potential will be mixed
+    ! XXX Where is the old potential?
     call my_gndstate_do_mixing()
 
 

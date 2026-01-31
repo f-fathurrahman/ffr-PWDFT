@@ -21,6 +21,7 @@ SUBROUTINE init_eigensystems()
   
   ! total number of empty states (M. Meinert)
   nempty = nint(nempty0*max(natmtot,1))
+  write(*,*) 'in init_eigensystem: nempty = ', nempty
   IF( nempty < 1 ) nempty = 1
   
   ! number of first-variational states

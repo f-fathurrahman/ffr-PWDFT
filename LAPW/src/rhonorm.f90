@@ -12,10 +12,14 @@ IMPLICIT NONE
 INTEGER is,ia,ias
 INTEGER nr,nri,ir,i
 REAL(8) t1,t2
-IF(.not.trhonorm) RETURN 
+IF(.not. trhonorm) then
+  write(*,*) 'rho is not normalized'
+  RETURN 
+ENDIF
 ! check error in total charge
 t1=chgcalc/chgtot-1.d0
-IF(abs(t1).gt.epschg) THEN 
+write(*,*) 'Diff charge = ', t1
+IF(abs(t1) > epschg) THEN 
   WRITE(*,*)
   WRITE(*,'("Warning(rhonorm): total charge density incorrect for s.c. &
    &loop ",I5)') iscl
@@ -23,7 +27,7 @@ IF(abs(t1).gt.epschg) THEN
   WRITE(*,'(" Required   : ",G18.10)') chgtot
 ENDIF 
 ! error in average density
-t1=(chgtot-chgcalc)/omega
+t1=(chgtot - chgcalc)/omega
 ! add the constant difference to the density
 t2=t1/y00
 DO ias=1,natmtot
