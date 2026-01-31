@@ -240,7 +240,8 @@ genfdufr.f90 \
 writeefdu.f90 \
 findlambdadu.f90 \
 energyfdu.f90 \
-zbessela.f90 zbesselb.f90
+zbessela.f90 zbesselb.f90 \
+closefiles.f90
 
 
 

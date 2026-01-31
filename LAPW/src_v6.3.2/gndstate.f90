@@ -33,6 +33,9 @@ integer ik,nwork,n
 real(8) dv,etp,de,timetot
 ! allocatable arrays
 real(8), allocatable :: v(:),work(:)
+
+write(*,*) 'Entering gndstate'
+
 ! initialise global variables
 call init0
 call init1
@@ -42,6 +45,9 @@ if (xctype(1).lt.0) call init2
 call straingkq
 if (task.eq.0) trdstate=.false.
 if (task.eq.1) trdstate=.true.
+
+write(*,*) 'Pass here 49 in gndstate'
+
 ! only the MPI master process should write files
 if (mp_mpi) then
 ! write the real and reciprocal lattice vectors to file
