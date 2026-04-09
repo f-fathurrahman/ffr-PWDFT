@@ -41,10 +41,15 @@ modulr.f90 \
 modrdm.f90 \
 modstore.f90 \
 modrandom.f90 \
+modphonon.f90 \
+modpw.f90 \
+modtddft.f90 \
+modvars.f90 \
 oblas_stub.f90 \
 zfftifc_fftw.f90 \
 libxcifc.f90 \
 modxcifc.f90 \
+modfxcifc.f90 \
 read_input.f90 \
 read_species_files.f90 \
 add_lorb_cnd.f90 \
@@ -105,6 +110,13 @@ writelat.f90 writekpts.f90 writegeom.f90 writeiad.f90 writeinfo.f90 \
 potcoul.f90 rfirsm.f90 genbs.f90 genws.f90 potxc.f90 potxc_default.f90 \
 oepmain.f90 gentau.f90 projsbf.f90 rfpack.f90 findband.f90 olprad.f90 hmlrad.f90 \
 rschrodint.f90 \
+eulerrot.f90 \
+genspecies.f90 \
+genfspecies.f90 \
+findprimcell.f90 \
+readspecies.f90 \
+writespecies.f90 \
+massnucl.f90 \
 eveqn.f90 \
 putevalfv.f90 putevalsv.f90 \
 getevecfv.f90 getevecsv.f90 \
@@ -215,8 +227,40 @@ gencfrc.f90 writeqpts.f90 putpmat.f90 hrmdmat.f90 findlambdadu.f90 energyfdu.f90
 writepmat.f90 dielectric.f90 getoccsv.f90 getpmat.f90 readfermi.f90 \
 readstate.f90 \
 writetm2du.f90 writetm3du.f90 writedftu.f90 pottm2.f90 pottm3.f90 \
-wigner6j.f90 \
 my_rdiracint.f90 my_rhoinit.f90 \
+wigner6j.f90 \
+phonon.f90 phdisp.f90 phdos.f90 \
+dynev.f90 dynrtoq.f90 dynqtor.f90 \
+sumrule.f90 readdyn.f90 plotpt1d.f90 \
+phfext.f90 dynsym.f90 dynsymapp.f90 doccupy.f90 gendvsig.f90 dmatch.f90 \
+dyntask.f90 dforcek.f90 dforce.f90 gradzf.f90 \
+zmctm.f90 r3mmt.f90 dpotcoul.f90 zfpack.f90 \
+gradrhomt.f90 gcd.f90 phmixpack.f90 dpotks.f90 \
+dhmlalo.f90 dhmlaa.f90 \
+olpaaq.f90 olpaloq.f90 \
+hmlaloq.f90 hmlaaq.f90 \
+zfmtctof.f90 drhomagsh.f90 putdevecsv.f90 drhomagk.f90 \
+dolpaa.f90  dolpalo.f90   dolpistl.f90 \
+getdevecfv.f90  getdevecsv.f90 \
+putdevecfv.f90 \
+deveqnfv.f90 \
+dhmlrad.f90 \
+gendcfun.f90 \
+gengqvec.f90 \
+gengkqvec.f90 \
+phdelete.f90 \
+writedvs.f90 \
+init4.f90 \
+dhmlistl.f90 \
+dhmllolo.f90 \
+gendwfsv.f90 \
+dpotxc.f90 \
+gengvsmt.f90 \
+genfxcr.f90 \
+zfmtftoc.f90 \
+dwavefmt.f90 \
+zfmtpack.f90 \
+fxc_pwca.f90 genspfxcr.f90 \
 my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90  my_zpotcoul.f90 \
 my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
 my_rbsht.f90 my_rfip.f90 my_rfmtpack.f90 my_rfplot.f90 my_rfsht.f90 \

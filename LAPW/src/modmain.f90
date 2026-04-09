@@ -24,7 +24,7 @@ use m_convergence
 use m_dos_optics_response
 use m_plotting
 use m_oep_hf
-!use m_respfunc_perturb
+use m_respfunc_perturb
 use m_bse
 use m_timing
 use m_constants

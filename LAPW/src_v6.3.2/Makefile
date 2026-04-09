@@ -58,6 +58,7 @@ modrandom.f90 \
 zfftifc_fftw.f90 \
 libxcifc.f90 \
 modxcifc.f90 \
+modfxcifc.f90 \
 readinput.f90 \
 readspecies.f90 \
 addlorbcnd.f90 \
@@ -188,7 +189,6 @@ numlist.f90 \
 rotdmat.f90 \
 gentimes.f90 \
 readafieldt.f90 \
-plotpt1d.f90 \
 genkpakq.f90 \
 readstate.f90 \
 gendmatmt.f90 \
@@ -234,6 +234,38 @@ putpmat.f90 \
 gendmatk.f90 \
 genfdu.f90 \
 wigner6j.f90 \
+phonon.f90 phdisp.f90 phdos.f90 \
+dynev.f90 dynrtoq.f90 dynqtor.f90 \
+sumrule.f90 readdyn.f90 plotpt1d.f90 \
+phfext.f90 dynsym.f90 dynsymapp.f90 doccupy.f90 gendvsig.f90 dmatch.f90 \
+dyntask.f90 dforcek.f90 dforce.f90 gradzf.f90 \
+zmctm.f90 r3mmt.f90 dpotcoul.f90 zfpack.f90 \
+gradrhomt.f90 gcd.f90 phmixpack.f90 dpotks.f90 \
+dhmlalo.f90 dhmlaa.f90 \
+olpaaq.f90 olpaloq.f90 \
+hmlaloq.f90 hmlaaq.f90 \
+zfmtctof.f90 drhomagsh.f90 putdevecsv.f90 drhomagk.f90 \
+dolpaa.f90  dolpalo.f90   dolpistl.f90 \
+getdevecfv.f90  getdevecsv.f90 \
+putdevecfv.f90 \
+deveqnfv.f90 \
+dhmlrad.f90 \
+gendcfun.f90 \
+gengqvec.f90 \
+gengkqvec.f90 \
+phdelete.f90 \
+writedvs.f90 \
+init4.f90 \
+dhmlistl.f90 \
+dhmllolo.f90 \
+gendwfsv.f90 \
+dpotxc.f90 \
+gengvsmt.f90 \
+genfxcr.f90 \
+zfmtftoc.f90 \
+dwavefmt.f90 \
+zfmtpack.f90 \
+fxc_pwca.f90 genspfxcr.f90 \
 fyukawa.f90 fyukawa0.f90 \
 genpmatk.f90 \
 genfdufr.f90 \

@@ -20,6 +20,12 @@ PROGRAM lapwdft
       call writepmat()
     case(121)
       call dielectric()
+    case(205)
+      call phonon()
+    case(210)
+      call phdos()
+    case(220)
+      call phdisp()
     case default
       write(*,*)
       write(*,'("Error(elk): task not defined or not supported: ",I8)') task
