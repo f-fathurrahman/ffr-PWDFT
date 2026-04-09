@@ -20,13 +20,14 @@ do ipph=1,3
   do isph=1,nspecies
     do iaph=1,natoms(isph)
       do iqph=1,nqpt
-! construct the phonon file extension
+        ! construct the phonon file extension
         call phfext(iqph,isph,iaph,ipph,fext)
-! determine if the DYN file with this extension exists
+        ! determine if the DYN file with this extension exists
+        write(*,*) 'In dyntask: fext = ', trim(fext)
         inquire(file='DYN'//trim(fext),exist=exist)
         if (.not.exist) then
           open(fnum,file='DYN'//trim(fext),form='FORMATTED')
-          iasph=idxas(iaph,isph)
+          iasph = idxas(iaph,isph)
           goto 10
         end if
       end do
@@ -45,17 +46,20 @@ write(*,'("Info(dyntask): nothing more to do")')
 !call mpi_bcast(iasph,1,mpi_integer,0,mpicom,ierror)
 !call mpi_bcast(ipph,1,mpi_integer,0,mpicom,ierror)
 
-if (iqph.eq.0) then
-  fext='.OUT'
+if (iqph == 0) then
+  fext = '.OUT'
 else
   call phfext(iqph,isph,iaph,ipph,fext)
-end if
+endif
+
 ! set the q=0 flag
-if (iqph.eq.iq0) then
-  tphq0=.true.
+if(iqph == iq0) then
+  tphq0 = .true.
 else
-  tphq0=.false.
-end if
+  tphq0 = .false.
+endif
+write(*,*) 'Pass here 61 in dyntask'
 return
+
 end subroutine
 

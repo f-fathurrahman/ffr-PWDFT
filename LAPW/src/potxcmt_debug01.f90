@@ -170,7 +170,7 @@ if (spinpol) then
   ! bxcmt is not involved here
   !
   ! call the exchange-correlation interface routine
-  if (xcgrad.le.0) then
+  if (xcgrad <= 0) then
     write(*,*) 'potxcmt: Calling xcifc here ....'
     write(*,*) 'sum rhoup = ', sum(rhoup)
     write(*,*) 'sum rhodn = ', sum(rhodn)
@@ -267,7 +267,7 @@ else
 !--------------------------!
 !     spin-unpolarised     !
 !--------------------------!
-  if (xcgrad.le.0) then
+  if (xcgrad <= 0) then
     call xcifc(xctype_,n=n,tempa=swidth,rho=rho,ex=ex,ec=ec,vx=vx,vc=vc)
   else if (xcgrad == 1) then
     call ggamt_1(tsh,is,n,rhomt_(:,ias),grho,g2rho,g3rho)

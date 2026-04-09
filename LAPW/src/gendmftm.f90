@@ -16,7 +16,7 @@ complex(8), allocatable :: dmat(:,:,:,:)
 ! external functions
 real(8) dznrm2
 external dznrm2
-if (ftmtype.eq.0) return
+if (ftmtype == 0) return
 ! allocate global array
 if (allocated(dmftm)) deallocate(dmftm)
 allocate(dmftm(lmmaxdm,nspinor,lmmaxdm,nspinor,natmtot))
@@ -53,7 +53,7 @@ do i=1,ntmfix
   n=itmfix(4,i)
   k=itmfix(5,i)
   p=itmfix(6,i)
-  if (n.eq.2) then
+  if (n == 2) then
 ! generate the 2-index density matrix
     x=itmfix(7,i)
     y=itmfix(8,i)

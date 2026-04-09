@@ -113,7 +113,7 @@ else
   stop
 end if
 if (xctype(2).ne.0) then
-  if (xctype(2).eq.xctype(3)) then
+  if (xctype(2) == xctype(3)) then
     write(*,*)
     write(*,'("Error(xcifc_libxc): Libxc exchange and correlation &
      &functionals")')
@@ -135,10 +135,10 @@ do k=2,3
 !     LDA functionals     !
 !-------------------------!
 ! set temperature for free energy functional
-      if ((id.eq.XC_LDA_XC_KSDT).or.(id.eq.XC_LDA_XC_GDSMFB)) then
+      if ((id == XC_LDA_XC_KSDT).or.(id == XC_LDA_XC_GDSMFB)) then
         call xc_f90_func_set_ext_params(p,tempa)
       end if
-      if (k.eq.2) then
+      if (k == 2) then
 ! exchange
         if (present(rho)) then
           call xc_f90_lda_exc_vxc(p,n,rho(1),ex(1),vx(1))
@@ -165,7 +165,7 @@ do k=2,3
 !-------------------------!
 !     GGA functionals     !
 !-------------------------!
-      if (k.eq.2) then
+      if (k == 2) then
 ! exchange
         if (present(rho)) then
           call xc_f90_gga_exc_vxc(p,n,rho(1),grho2(1),ex(1),vx(1),dxdgr2(1))
@@ -199,10 +199,10 @@ do k=2,3
 !     meta-GGA functionals     !
 !------------------------------!
 ! set Tran-Blaha '09 constant if required
-      if (id.eq.XC_MGGA_X_TB09) then
+      if (id == XC_MGGA_X_TB09) then
         if (present(c_tb09)) call xc_f90_func_set_ext_params(p,c_tb09)
       end if
-      if (k.eq.2) then
+      if (k == 2) then
 ! exchange
         if (present(rho)) then
           if (present(ex)) then
@@ -284,7 +284,7 @@ do k=2,3
     call xc_f90_func_end(p)
   else
 ! case when id=0
-    if (k.eq.2) then
+    if (k == 2) then
       if (present(ex)) ex(:)=0.d0
       if (present(vx)) vx(:)=0.d0
       if (present(vxup)) vxup(:)=0.d0
@@ -338,7 +338,7 @@ if (present(fxcdd)) fxcdd(:)=0.d0
 ! loop over functional kinds (exchange or correlation)
 do k=2,3
   id=fxctype(k)
-  if (id.le.0) cycle
+  if (id <= 0) cycle
   xcf=xc_f90_family_from_id(id)
 ! initialise functional
   call xc_f90_func_init(p,info,id,nspin)
@@ -407,13 +407,13 @@ do k=2,3
     call xc_f90_func_init(p,info,id,XC_UNPOLARIZED)
     call xc_f90_info_name(info,name)
     fmly=xc_f90_family_from_id(id)
-    if (fmly.eq.XC_FAMILY_HYB_GGA) then
+    if (fmly == XC_FAMILY_HYB_GGA) then
       call xc_f90_hyb_exx_coef(p,hybridc)
       hybrid=.true.
     end if
     call xc_f90_func_end(p)
 ! hybrids should have only correlation part to avoid double-scaling with hybridc
-    if ((fmly.eq.XC_FAMILY_HYB_GGA).and.(k.eq.2)) then
+    if ((fmly == XC_FAMILY_HYB_GGA).and.(k == 2)) then
       write(*,*)
       write(*,'("Error(xcdata_libxc): set only correlation part of xctype for &
        &Libxc hybrids")')
@@ -429,12 +429,12 @@ do k=2,3
       stop
     end if
 ! post-processed gradients required for GGA functionals
-    if (fmly.eq.XC_FAMILY_GGA.or.fmly.eq.XC_FAMILY_HYB_GGA) xcgrad=2
+    if (fmly == XC_FAMILY_GGA.or.fmly == XC_FAMILY_HYB_GGA) xcgrad=2
 ! kinetic energy density required for meta-GGA functionals
-    if (fmly.eq.XC_FAMILY_MGGA) then
+    if (fmly == XC_FAMILY_MGGA) then
       flg=xc_f90_info_flags(info)
       if ((iand(flg,XC_FLAGS_HAVE_VXC).ne.0).and. &
-       (iand(flg,XC_FLAGS_HAVE_EXC).eq.0)) then
+       (iand(flg,XC_FLAGS_HAVE_EXC) == 0)) then
 ! potential-only functional
         xcgrad=3
       else if (iand(flg,XC_FLAGS_HAVE_EXC).ne.0) then
@@ -447,7 +447,7 @@ do k=2,3
         stop
       end if
 ! check if the density laplacian is required
-      if ((xcgrad.eq.4).and.(iand(flg,XC_FLAGS_NEEDS_LAPLACIAN).ne.0)) then
+      if ((xcgrad == 4).and.(iand(flg,XC_FLAGS_NEEDS_LAPLACIAN).ne.0)) then
         write(*,*)
         write(*,'("Error(xcdata_libxc): energy meta-GGAs requiring the density &
          &laplacian are not supported")')
@@ -458,7 +458,7 @@ do k=2,3
   else
     name='none'
   end if
-  if (k.eq.2) then
+  if (k == 2) then
     xcdescr='exchange: '//trim(name)
   else
     xcdescr=trim(xcdescr)//'; correlation: '//trim(name)

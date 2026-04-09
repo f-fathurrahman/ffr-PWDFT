@@ -207,7 +207,7 @@ subroutine my_eveqnsv(ik,ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
                 ispn=1
                 jspn=2
               endif
-              if (l.le.lmaxi) then
+              if (l <= lmaxi) then
                 call zgemm('N','N',nm,nrci,nm,zone,vmatmt(lm,ispn,lm,jspn,ias), &
                  ld,wfmt1(lm,jst),lmmaxi,zone,wfmt4(lm,k),lmmaxi)
               endif

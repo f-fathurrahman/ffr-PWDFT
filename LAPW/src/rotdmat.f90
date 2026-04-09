@@ -65,7 +65,7 @@ do ispn=1,nspinor
   end do
 end do
 ! spin rotation if required
-if (nspinor.eq.2) then
+if (nspinor == 2) then
 ! convert spin rotation matrix to axis-angle form
   call rotaxang(eps,rspn,det,v,th)
 ! find the SU(2) representation of the rotation matrix

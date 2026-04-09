@@ -9,7 +9,7 @@ SUBROUTINE rfirsm(m,rfir)
   REAL(8) :: t0,t1,t2
   ! ALLOCATABLE arrays
   COMPLEX(8), ALLOCATABLE :: zfft(:)
-  IF(m.le.0) RETURN 
+  IF(m <= 0) RETURN 
   ALLOCATE(zfft(ngtot))
   zfft(:)=rfir(:)
   CALL zfftifc(3,ngridg,-1,zfft)

@@ -18,7 +18,7 @@ real(8), optional, intent(in) :: rho(n),rhoup(n),rhodn(n)
 real(8), optional, intent(out) :: fxc(n),fxcuu(n),fxcud(n),fxcdd(n)
 ! allocatable arrays
 real(8), allocatable :: ra(:,:)
-if (n.le.0) then
+if (n <= 0) then
   write(*,*)
   write(*,'("Error(fxcifc): n <= 0 : ",I8)') n
   write(*,*)

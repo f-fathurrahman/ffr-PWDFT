@@ -11,7 +11,7 @@ implicit none
 ! local variables
 integer ik,jk,iv(3),jspn,idm
 integer is,ia,ias,ip
-integer nwork,n,lp,nthd
+integer nwork,n
 ! use Broyden mixing only
 integer, parameter :: mtype=3
 real(8) ddv,a,b
@@ -25,10 +25,10 @@ complex(8), allocatable :: dapwalm(:,:,:,:),dapwalmq(:,:,:,:)
 complex(8), allocatable :: evecfv(:,:,:),devecfv(:,:,:)
 complex(8), allocatable :: evecsv(:,:),devecsv(:,:)
 ! initialise universal variables
-call init0
-call init1
-call init2
-call init4
+call init0()
+call init1()
+call init2()
+call init4()
 ! check k-point grid is commensurate with q-point grid
 iv(:)=mod(ngridk(:),ngridq(:))
 if ((iv(1).ne.0).or.(iv(2).ne.0).or.(iv(3).ne.0)) then
@@ -53,7 +53,7 @@ if (ssdph) then
   stop
 end if
 ! check for zero atoms
-if (natmtot.eq.0) return
+if (natmtot == 0) return
 ! read in the density and potentials
 call readstate
 ! Fourier transform Kohn-Sham potential to G-space
@@ -90,29 +90,48 @@ allocate(dyn(3,natmtot))
 10 continue
 
 call dyntask(80,fext)
+
+write(*,*) 'iqph = ', iqph
 ! if nothing more to do then return
-if (iqph == 0) return
+if (iqph == 0) then
+  write(*,*) 'No more to do: exiting phonon'
+  return
+endif
 
 !if(mp_mpi) then
   write(*,'("Info(phonon): working on ",A)') 'DYN'//trim(fext)
   ! open RMSDDVS.OUT
   open(65,file='RMSDDVS'//trim(fext),form='FORMATTED')
+  write(*,*) 'Pass here 105 in phonon'
 !end if
 
 ! zero the dynamical matrix row
-dyn(:,:)=0.d0
+dyn(:,:) = 0.d0
 ! check to see if mass is considered infinite
-if (spmass(isph).le.0.d0) goto 20
+if(spmass(isph) <= 0.d0) then
+  goto 20
+endif
+
 ! generate the G+k+q-vectors and related quantities
+write(*,*) 'Pass here 116'
 call gengkqvec(iqph)
+
 ! generate the G+q-vectors and related quantities
+write(*,*) 'Pass here 120'
 call gengqvec(iqph)
+
 ! generate the regularised Coulomb Green's function in G+q-space
+write(*,*) 'Pass here 124'
 call gengclgq(.false.,iqph,ngvec,gqc,gclgq)
+
 ! generate the characteristic function derivative
-call gendcfun
+write(*,*) 'Pass here 128'
+call gendcfun()
+
 ! generate the gradient of the Kohn-Sham potential
-call gengvsmt
+write(*,*) 'Pass here 132'
+call gengvsmt()
+
 ! initialise the potential derivative
 drhomt(:,:)=0.d0
 drhoir(:)=0.d0
@@ -120,19 +139,19 @@ if (spinpol) then
   dmagmt(:,:,:)=0.d0
   dmagir(:,:)=0.d0
 end if
-call dpotks
-call gendvsig
+call dpotks()
+call gendvsig()
 ! initialise the mixer
 iscl=0
 call phmixpack(.true.,n,v)
 call mixerifc(mtype,n,v,ddv,nwork,work)
 ! initialise the Fermi energy and occupancy derivatives
-defermi=0.d0
-doccsv(:,:)=0.d0
+defermi = 0.d0
+doccsv(:,:) = 0.d0
 ! begin the self-consistent loop
 do iscl=1,maxscl
 ! compute the Hamiltonian radial integral derivatives
-  call dhmlrad
+  call dhmlrad()
 ! zero the density and magnetisation derivatives
   drhomt(:,:)=0.d0
   drhoir(:)=0.d0

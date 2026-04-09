@@ -146,7 +146,7 @@ SUBROUTINE force
   ENDIF 
 
   ! integral of Kohn-Sham tau-DFT potential with kinetic energy density gradient
-  IF(xcgrad.eq.4) THEN 
+  IF(xcgrad == 4) THEN 
     ALLOCATE(rfmt1(npmtmax,natmtot),rfmt2(npmtmax))
     DO ias=1,natmtot
       is=idxis(ias)
@@ -198,7 +198,7 @@ SUBROUTINE force
   ! zero force on atoms with negative mass
   DO ias=1,natmtot
     is=idxis(ias)
-    IF(spmass(is).le.0.d0) forcetot(:,ias)=0.d0
+    IF(spmass(is) <= 0.d0) forcetot(:,ias)=0.d0
   ENDDO 
 
   ! compute maximum force magnitude over all atoms

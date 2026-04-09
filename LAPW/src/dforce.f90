@@ -106,7 +106,7 @@ do ias=1,natmtot
   nri=nrmti(is)
   np=npmt(is)
 ! remove the gradient part of the Coulomb potential for displaced muffin-tin
-  if (ias.eq.iasph) then
+  if (ias == iasph) then
     call rtozfmt(nr,nri,vclmt(:,iasph),zfmt)
     call gradzfmt(nr,nri,rlmt(:,1,isph),rlmt(:,-1,isph),zfmt,npmtmax,gzfmt)
     dvclmt(1:np,ias)=dvclmt(1:np,ias)+gzfmt(1:np,ipph)
@@ -114,7 +114,7 @@ do ias=1,natmtot
 ! compute the gradient of the Coulomb potential derivative at the nucleus
   call gradzfmt(nr,nri,rlmt(:,1,is),rlmt(:,-1,is),dvclmt(:,ias),npmtmax,gzfmt)
   do i=1,3
-    if ((ias.eq.iasph).and.(i.eq.ipph)) cycle
+    if ((ias == iasph).and.(i == ipph)) cycle
     dyn(i,ias)=spzn(is)*gzfmt(1,i)*y00
   end do
 end do
@@ -138,7 +138,7 @@ do ias=1,natmtot
 ! convert Kohn-Sham potential to complex spherical harmonics
   call rtozfmt(nr,nri,vsmt(:,ias),zfmt)
 ! remove the gradient part from the density derivative for displaced muffin-tin
-  if (ias.eq.iasph) then
+  if (ias == iasph) then
     drhomt(1:np,ias)=drhomt(1:np,ias)+grhomt(1:np,ias,ipph)
   end if
 ! compute the gradient of the density derivative

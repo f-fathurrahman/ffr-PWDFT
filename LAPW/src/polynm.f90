@@ -115,7 +115,7 @@ case(4)
   end select
   return
 end select
-if (np.le.0) then
+if (np <= 0) then
   write(*,*)
   write(*,'("Error(polynm): np <= 0 : ",I8)') np
   write(*,*)
@@ -133,7 +133,7 @@ do i=2,np
   end do
 end do
 ! special case m=0
-if (m.eq.0) then
+if (m == 0) then
   sum=c(1)
   t1=1.d0
   do i=2,np

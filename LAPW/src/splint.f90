@@ -15,7 +15,7 @@ real(8) t0,t1,t2,t3,t4,t5,t6,t7
 ! external functions
 real(8) polynm
 external polynm
-if (n.le.4) then
+if (n <= 4) then
   splint=polynm(-1,n,x,f,x(n))
   return
 end if

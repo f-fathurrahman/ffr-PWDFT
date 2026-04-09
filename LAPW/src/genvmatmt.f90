@@ -141,7 +141,7 @@ do i=1,ndftu
       mg0(:)=mg(:)/dble(nspinor*nm)
     end if
 ! around mean field (AFM) approach
-    if (dftu.eq.2) then
+    if (dftu == 2) then
 ! modify density matrices
       do m1=-l,l
         lm1=idxlm(l,m1)
@@ -215,7 +215,7 @@ do i=1,ndftu
 ! multiply energy by factor 1/2
     engyadu(ia,i)=0.5d0*engyadu(ia,i)
 ! fully localised limit (FLL) approach: double counting corrections
-    if (dftu.eq.1) then
+    if (dftu == 1) then
       if (spinpol) then
 ! spin-polarised
         if (ncmag) then

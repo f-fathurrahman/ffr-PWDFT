@@ -108,7 +108,7 @@ real(8) ln0b, ln0bs, ln0bss
 real(8) zbb, zbbc, zbbs, zbbss
 real(8) fxb, fxbs, fxbss
 ! cutoff
-if((rho .le. 1.0d-16)) then
+if((rho  <=  1.0d-16)) then
    ex = 0.0d0
    ec = 0.0d0
    vx = 0.0d0
@@ -145,7 +145,7 @@ ex = exlda*Hx
 Hc = X + g*(1.0d0 - X)
 ! correlation energy per particle, Ec = Integrate[rho*ec]
 ec = eclda*Hc
-if (pot .eq. 0) return
+if (pot  ==  0) return
 !----------------------------!
 !     exchange potential     !
 !----------------------------!

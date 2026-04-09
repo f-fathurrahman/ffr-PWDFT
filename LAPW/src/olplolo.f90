@@ -19,7 +19,7 @@ SUBROUTINE olplolo(ias,ngp,ld,o)
           lm=idxlm(l,m)
           i=ngp+idxlo(lm,ilo,ias)
           j=ngp+idxlo(lm,jlo,ias)
-          IF(i.le.j) THEN 
+          IF(i <= j) THEN 
             o(i,j)=o(i,j)+ololo(ilo,jlo,ias)
           ENDIF 
         ENDDO 

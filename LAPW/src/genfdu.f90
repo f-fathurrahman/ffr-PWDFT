@@ -49,20 +49,20 @@ e(:)=edu(:,i)
 lambda=lambdadu(i)
 if (inpdftu.lt.4) then
 ! F(0) = U for any l-shell
-  if (inpdftu.eq.1) f(0)=u
+  if (inpdftu == 1) f(0)=u
   select case(l)
   case(0)
 ! s electrons only f(0)=u
-    if (inpdftu.eq.3) then
+    if (inpdftu == 3) then
       f(0)=e(0)
       u=f(0)
     end if
   case(1)
 ! p electrons
-    if (inpdftu.eq.1) then
+    if (inpdftu == 1) then
 ! F(2) = 5.0 * J
       f(2)=5.d0*j
-    else if (inpdftu.eq.3) then
+    else if (inpdftu == 3) then
 ! F(0) = E(0) + J= E(0) + 5/3 * E(1)
       f(0)=e(0)+(5.d0/3.d0)*e(1)
 ! F(2) = 5 * J = 25/3 * E1, Eq. 101
@@ -70,12 +70,12 @@ if (inpdftu.lt.4) then
     end if
   case(2)
 ! d electrons
-    if (inpdftu.eq.1) then
+    if (inpdftu == 1) then
 ! r1 = F(4)/F(2), see PRB 52, R5467 (1995)
       r1=0.625d0
       f(2)=(14.d0*j)/(1.d0+r1)
       f(4)=f(2)*r1
-    else if (inpdftu.eq.3) then
+    else if (inpdftu == 3) then
 ! copy Racah parameters
       v1(1:3)=e(0:2)
 ! transformation matrix from Racah to Slater parameters
@@ -98,14 +98,14 @@ if (inpdftu.lt.4) then
     end if
   case(3)
 ! f electrons
-    if (inpdftu.eq.1) then
+    if (inpdftu == 1) then
 ! r2 = F(6)/F(2), r1 = F(4)/F(2), see PRB 50, 16861 (1994)
       r1=451.d0/675.d0
       r2=1001.d0/2025.d0
       f(2)=6435.d0*j/(286.d0+195.d0*r1+250.d0*r2)
       f(4)=f(2)*r1
       f(6)=f(2)*r2
-    else if (inpdftu.eq.3) then
+    else if (inpdftu == 3) then
 ! F(0) = E(0) + 9/7 * E(1) , Eq. 119, LN Notes 29-12-08
       f(0)=e(0)+(9.d0/7.d0)*e(1)
 ! copy Racah parameters
@@ -143,7 +143,7 @@ else if (inpdftu.ge.4) then
 
 ! calculate radial functions for Slater parameters
   call genfdufr
-  if (inpdftu.eq.5) then
+  if (inpdftu == 5) then
     ufix=udufix(i)
 ! calculate the lambda corresponding to udufix
 ! lambdadu0 is in/out and is initialized to 0 in readinput

@@ -34,21 +34,21 @@ n=ngtot
 if (spinpol) then
   allocate(rhoup(n),rhodn(n))
   allocate(vxup(n),vxdn(n),vcup(n),vcdn(n))
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     allocate(grho(n),gup(n),gdn(n))
     allocate(g2up(n),g2dn(n))
     allocate(g3rho(n),g3up(n),g3dn(n))
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     allocate(g2up(n),g2dn(n))
     allocate(gvup(n,3),gvdn(n,3))
     allocate(gup2(n),gdn2(n),gupdn(n))
     allocate(dxdgu2(n),dxdgd2(n),dxdgud(n))
     allocate(dcdgu2(n),dcdgd2(n),dcdgud(n))
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     allocate(g2up(n),g2dn(n))
     allocate(gvup(n,3),gvdn(n,3))
     allocate(gup2(n),gdn2(n),gupdn(n))
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     allocate(g2up(n),g2dn(n))
     allocate(gvup(n,3),gvdn(n,3))
     allocate(gup2(n),gdn2(n),gupdn(n))
@@ -60,14 +60,14 @@ if (spinpol) then
   end if
 else
   allocate(vx(n),vc(n))
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     allocate(grho(n),g2rho(n),g3rho(n))
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     allocate(g2rho(n),gvrho(n,3),grho2(n))
     allocate(dxdgr2(n),dcdgr2(n))
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     allocate(g2rho(n),gvrho(n,3),grho2(n))
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     allocate(g2rho(n),gvrho(n,3),grho2(n))
     allocate(dxdgr2(n),dcdgr2(n))
     allocate(dxdg2r(n),dcdg2r(n))
@@ -80,7 +80,7 @@ if (spinpol) then
 !------------------------!
   if (ncmag) then
 ! non-collinear
-    if (xcgrad.eq.0) then
+    if (xcgrad == 0) then
 ! LSDA
       do i=1,n
         t0=rhoir_(i)
@@ -106,15 +106,15 @@ if (spinpol) then
       rhodn(i)=0.5d0*(t0-t1)
     end do
   end if
-  if (xcgrad.le.0) then
+  if (xcgrad <= 0) then
     call xcifc(xctype_,n=n,tempa=swidth,rhoup=rhoup,rhodn=rhodn,ex=exir_, &
      ec=ecir_,vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
-  else if (xcgrad.eq.1) then
+  else if (xcgrad == 1) then
     call ggair_sp_1(rhoup,rhodn,grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,grho=grho,gup=gup,gdn=gdn, &
      g2up=g2up,g2dn=g2dn,g3rho=g3rho,g3up=g3up,g3dn=g3dn,ex=exir_,ec=ecir_, &
      vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     call ggair_sp_2a(rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,gup2=gup2,gdn2=gdn2, &
      gupdn=gupdn,ex=exir_,ec=ecir_,vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn, &
@@ -122,13 +122,13 @@ if (spinpol) then
      dcdgud=dcdgud)
     call ggair_sp_2b(g2up,g2dn,gvup,gvdn,vxup,vxdn,vcup,vcdn,dxdgu2,dxdgd2, &
      dxdgud,dcdgu2,dcdgd2,dcdgud)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     call ggair_sp_2a(rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
     call xcifc(xctype_,n=n,c_tb09=c_tb09,rhoup=rhoup,rhodn=rhodn,g2up=g2up, &
      g2dn=g2dn,gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tauir_(:,1), &
      taudn=tauir_(:,2),vxup=vxup,vxdn=vxdn,vcup=vcup,vcdn=vcdn)
     exir_(:)=0.d0; ecir_(:)=0.d0
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     call ggair_sp_2a(rhoup,rhodn,g2up,g2dn,gvup,gvdn,gup2,gdn2,gupdn)
     call xcifc(xctype_,n=n,rhoup=rhoup,rhodn=rhodn,g2up=g2up,g2dn=g2dn, &
      gup2=gup2,gdn2=gdn2,gupdn=gupdn,tauup=tauir_(:,1),taudn=tauir_(:,2), &
@@ -176,24 +176,24 @@ else
 !--------------------------!
 !     spin-unpolarised     !
 !--------------------------!
-  if (xcgrad.le.0) then
+  if (xcgrad <= 0) then
     call xcifc(xctype_,n=n,tempa=swidth,rho=rhoir_,ex=exir_,ec=ecir_,vx=vx, &
      vc=vc)
-  else if (xcgrad.eq.1) then
+  else if (xcgrad == 1) then
     call ggair_1(rhoir_,grho,g2rho,g3rho)
     call xcifc(xctype_,n=n,rho=rhoir_,grho=grho,g2rho=g2rho,g3rho=g3rho, &
      ex=exir_,ec=ecir_,vx=vx,vc=vc)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     call ggair_2a(rhoir_,g2rho,gvrho,grho2)
     call xcifc(xctype_,n=n,rho=rhoir_,grho2=grho2,ex=exir_,ec=ecir_,vx=vx, &
      vc=vc,dxdgr2=dxdgr2,dcdgr2=dcdgr2)
     call ggair_2b(g2rho,gvrho,vx,vc,dxdgr2,dcdgr2)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     call ggair_2a(rhoir_,g2rho,gvrho,grho2)
     call xcifc(xctype_,n=n,c_tb09=c_tb09,rho=rhoir_,g2rho=g2rho,grho2=grho2, &
      tau=tauir_,vx=vx,vc=vc)
     exir_(:)=0.d0; ecir_(:)=0.d0
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     call ggair_2a(rhoir_,g2rho,gvrho,grho2)
     call xcifc(xctype_,n=n,rho=rhoir_,g2rho=g2rho,grho2=grho2,tau=tauir_, &
      ex=exir_,ec=ecir_,vx=vx,vc=vc,dxdgr2=dxdgr2,dcdgr2=dcdgr2,dxdg2r=dxdg2r, &
@@ -214,29 +214,29 @@ else
 end if
 if (spinpol) then
   deallocate(rhoup,rhodn,vxup,vxdn,vcup,vcdn)
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     deallocate(grho,gup,gdn,g2up,g2dn,g3rho,g3up,g3dn)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     deallocate(g2up,g2dn)
     deallocate(gvup,gvdn)
     deallocate(gup2,gdn2,gupdn)
     deallocate(dxdgu2,dxdgd2,dxdgud)
     deallocate(dcdgu2,dcdgd2,dcdgud)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     deallocate(g2up,g2dn)
     deallocate(gvup,gvdn)
     deallocate(gup2,gdn2,gupdn)
   end if
 else
   deallocate(vx,vc)
-  if (xcgrad.eq.1) then
+  if (xcgrad == 1) then
     deallocate(grho,g2rho,g3rho)
-  else if (xcgrad.eq.2) then
+  else if (xcgrad == 2) then
     deallocate(g2rho,gvrho,grho2)
     deallocate(dxdgr2,dcdgr2)
-  else if (xcgrad.eq.3) then
+  else if (xcgrad == 3) then
     deallocate(g2rho,gvrho,grho2)
-  else if (xcgrad.eq.4) then
+  else if (xcgrad == 4) then
     deallocate(g2rho,gvrho,grho2)
     deallocate(dxdgr2,dcdgr2,dxdg2r,dcdg2r)
     deallocate(wx,wc)

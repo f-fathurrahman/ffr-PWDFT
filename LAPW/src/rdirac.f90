@@ -36,7 +36,7 @@ real(8) g1(nr),f1(nr),fr(nr)
 ! external functions
 real(8) splint
 external splint
-if (k.le.0) then
+if (k <= 0) then
   write(*,*)
   write(*,'("Error(rdirac): k <= 0 : ",I8)') k
   write(*,*)
@@ -48,15 +48,15 @@ if (k.gt.n) then
   write(*,*)
   stop
 end if
-if ((k.eq.n).and.(l.ne.k-1)) then
+if ((k == n).and.(l.ne.k-1)) then
   write(*,*)
   write(*,'("Error(rdirac): incompatible n, k and l : ",3I8)') n,k,l
   write(*,*)
   stop
 end if
-if (k.eq.l) then
+if (k == l) then
   kpa=k
-else if (k.eq.l+1) then
+else if (k == l+1) then
   kpa=-k
 else
   write(*,*)
@@ -84,7 +84,7 @@ do it=1,maxit
   end if
   if (it.gt.1) then
     if ((nnd.ne.0).or.(nndp.ne.0)) then
-      if (nnd*nndp.le.0) then
+      if (nnd*nndp <= 0) then
         de=de*0.5d0
       else
         de=de*1.1d0

@@ -76,7 +76,7 @@ do l=1,noptcomp
       do jst=1,nstsv
         z1=pmat(ist,jst,i)*conjg(pmat(ist,jst,j))
         eji=evalsv(jst,jk)-evalsv(ist,jk)
-        if ((evalsv(ist,jk).le.efermi).and.(evalsv(jst,jk).gt.efermi)) then
+        if ((evalsv(ist,jk) <= efermi).and.(evalsv(jst,jk).gt.efermi)) then
 ! scissor correction
           if (scissor.ne.0.d0) then
             t1=(eji+scissor)/eji
@@ -90,8 +90,8 @@ do l=1,noptcomp
         end if
 ! add to the plasma frequency
         if (intraband) then
-          if (i.eq.j) then
-            if (ist.eq.jst) then
+          if (i == j) then
+            if (ist == jst) then
               x=(evalsv(ist,jk)-efermi)/swidth
               wplas=wplas+wkptnr*dble(z1)*sdelta(stype,x)/swidth
             end if
@@ -105,7 +105,7 @@ do l=1,noptcomp
   sigma(:)=z1*sigma(:)
 ! intraband contribution
   if (intraband) then
-    if (i.eq.j) then
+    if (i == j) then
       wplas=sqrt(occmax*abs(wplas)*fourpi/omega)
 ! write the plasma frequency to file
       write(fname,'("PLASMA_",2I1,".OUT")') i,j
@@ -134,7 +134,7 @@ do l=1,noptcomp
   write(fname,'("EPSILON_",2I1,".OUT")') i,j
   open(50,file=trim(fname),form='FORMATTED')
   t1=0.d0
-  if (i.eq.j) t1=1.d0
+  if (i == j) t1=1.d0
   do iw=1,nwplot
     t2=t1-fourpi*aimag(sigma(iw)/(w(iw)+eta))
     write(50,'(2G18.10)') w(iw),t2

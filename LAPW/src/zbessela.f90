@@ -71,9 +71,9 @@ if (x.lt.xmin) then
 end if
 ! recurse up
 a(0)=xi*(sinh(x))
-if (lmax.eq.0) return
+if (lmax == 0) return
 a(1)=xi*(a(0)-cosh(x))
-if (lmax.eq.1) return
+if (lmax == 1) return
 a0=a(0)
 a1=a(1)
 do l=2,lmax

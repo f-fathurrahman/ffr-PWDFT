@@ -26,7 +26,7 @@ real(8) rn,t1,t2
 ! external functions
 real(8) radnucl
 external radnucl
-if (zn.eq.0.d0) then
+if (zn == 0.d0) then
   vn(:)=0.d0
   return
 end if

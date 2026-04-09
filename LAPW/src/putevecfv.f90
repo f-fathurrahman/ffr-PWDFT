@@ -23,7 +23,7 @@ do i=1,2
   close(122)
   exit
 10 continue
-  if (i.eq.2) then
+  if (i == 2) then
     write(*,*)
     write(*,'("Error(putevecfv): unable to write to ",A)') trim(fname)
     write(*,*)

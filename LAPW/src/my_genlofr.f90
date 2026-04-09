@@ -105,7 +105,7 @@ SUBROUTINE my_genlofr()
         !
         ! subtract linear combination of previous local-orbitals with same l
         DO jlo=1,ilo-1
-          IF(lorbl(jlo,is).eq.l) THEN 
+          IF(lorbl(jlo,is) == l) THEN 
             fr(1:nr) = p0s(1:nr,ilo)*p0s(1:nr,jlo)
             t1 = -splint(nr,rlmt(:,1,is),fr)
             CALL daxpy(nr,t1,p0s(:,jlo),1,p0s(:,ilo),1)

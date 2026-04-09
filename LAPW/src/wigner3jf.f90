@@ -42,7 +42,7 @@ if ((j12.lt.0).or.(j22.lt.0).or.(j32.lt.0).or.(abs(m12).gt.j12).or. &
   write(*,*)
   stop
 end if
-if ((j12.eq.0).and.(j22.eq.0).and.(j32.eq.0)) then
+if ((j12 == 0).and.(j22 == 0).and.(j32 == 0)) then
   wigner3jf=1.d0
   return
 end if

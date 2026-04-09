@@ -60,18 +60,18 @@ data f2 / &
    221643095476699771875.d0,   1678343852714360832000.d0,  &
   8200794532637891559375.d0,  63777066403145711616000.d0 /
 ! fast return if possible
-if (n.eq.0) then
+if (n == 0) then
   factnm=1.d0
   return
 end if
-if (m.eq.1) then
-  if ((n.ge.1).and.(n.le.24)) then
+if (m == 1) then
+  if ((n.ge.1).and.(n <= 24)) then
     factnm=f1(n)
     return
   end if
 end if
-if (m.eq.2) then
-  if ((n.ge.1).and.(n.le.38)) then
+if (m == 2) then
+  if ((n.ge.1).and.(n <= 38)) then
     factnm=f2(n)
     return
   end if
@@ -82,7 +82,7 @@ if (n.lt.0) then
   write(*,*)
   stop
 end if
-if (m.le.0) then
+if (m <= 0) then
   write(*,*)
   write(*,'("Error(factnm): m <= 0 : ",I8)') m
   write(*,*)
@@ -94,14 +94,14 @@ if (n.gt.150) then
   write(*,*)
   stop
 end if
-if (m.eq.1) then
+if (m == 1) then
   factnm=f1(24)
   do i=25,n
     factnm=factnm*dble(i)
   end do
 else
   j=n/m
-  if (mod(n,m).eq.0) j=j-1
+  if (mod(n,m) == 0) j=j-1
   factnm=dble(n)
   do i=1,j
     factnm=factnm*dble(n-i*m)

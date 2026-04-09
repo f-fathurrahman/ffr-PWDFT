@@ -53,7 +53,7 @@ do l=0,lmax
       do k=0,min(l+m1,l-m2)
         if (((l+m1-k).ge.0).and.((l-m2-k).ge.0).and.((m2-m1+k).ge.0)) then
           j=2*(l-k)+m1-m2
-          if (j.eq.0) then
+          if (j == 0) then
             t1=1.d0
           else
             t1=cb**j

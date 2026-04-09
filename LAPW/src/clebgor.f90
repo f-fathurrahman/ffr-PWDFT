@@ -36,7 +36,7 @@ if ((j1.lt.0).or.(j2.lt.0).or.(j3.lt.0).or.(abs(m1).gt.j1).or.(abs(m2).gt.j2) &
   write(*,*)
   stop
 end if
-if ((j1.eq.0).and.(j2.eq.0).and.(j3.eq.0)) then
+if ((j1 == 0).and.(j2 == 0).and.(j3 == 0)) then
   clebgor=1.d0
   return
 end if

@@ -14,7 +14,7 @@ complex(8) z1
 ! allocatable arrays
 complex(8), allocatable :: tm2(:,:),tm3(:)
 complex(8), allocatable :: dmat(:,:,:,:)
-if (ftmtype.le.0) return
+if (ftmtype <= 0) return
 if (mod(iscl,ftmstep).ne.1) return
 allocate(tm2(-lmmaxdm:lmmaxdm,-1:1),tm3(-lmmaxdm:lmmaxdm))
 allocate(dmat(lmmaxdm,nspinor,lmmaxdm,nspinor))
@@ -28,7 +28,7 @@ do i=1,ntmfix
   n=itmfix(4,i)
   k=itmfix(5,i)
   p=itmfix(6,i)
-  if (n.eq.2) then
+  if (n == 2) then
     x=itmfix(7,i)
     y=itmfix(8,i)
 ! decompose density matrix in 2-index tensor moment components

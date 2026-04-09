@@ -1,17 +1,14 @@
 PROGRAM lapwdft
-  use modmain, only: tasks, ntasks
-  integer :: itask, task
+  use modmain, only: tasks, ntasks, task
+  integer :: itask
 
   CALL read_input()
 
-  !CALL init0()
-  !CALL init1()
-  !CALL info_lattice()
-  !CALL info_apwlo()
+  write(*,*) 'tasks = ', tasks
 
   ! perform the tasks
   do itask = 1,ntasks
-    task = tasks(itask)
+    task = tasks(itask) ! this will set global variable task
     !
     select case(task)
     case(0,1)

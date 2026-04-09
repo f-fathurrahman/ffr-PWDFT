@@ -26,9 +26,9 @@ do i=1,4
     do ig=1,ngrf
       do jg=1,ngrf
         iv(:)=ivg(:,ig)-ivg(:,jg)
-        if ((iv(1).ge.intgv(1,1)).and.(iv(1).le.intgv(2,1)).and. &
-            (iv(2).ge.intgv(1,2)).and.(iv(2).le.intgv(2,2)).and. &
-            (iv(3).ge.intgv(1,3)).and.(iv(3).le.intgv(2,3))) then
+        if ((iv(1).ge.intgv(1,1)).and.(iv(1) <= intgv(2,1)).and. &
+            (iv(2).ge.intgv(1,2)).and.(iv(2) <= intgv(2,2)).and. &
+            (iv(3).ge.intgv(1,3)).and.(iv(3) <= intgv(2,3))) then
           kg=ivgig(iv(1),iv(2),iv(3))
           z1=fxcg(kg)
           fxc(ig,i,jg,j)=z1

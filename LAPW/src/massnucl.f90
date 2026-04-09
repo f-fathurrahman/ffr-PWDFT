@@ -45,7 +45,7 @@ real(8), parameter :: mu=931.49410242d0
 real(8) za,n,a,b
 za=abs(z)
 ! approximate nuclear mass number
-if (za.le.1.d0) then
+if (za <= 1.d0) then
   a=1.d0
 else
   a=abs(c2*za**2+c1*za+c0)

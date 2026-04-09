@@ -63,7 +63,7 @@ do i1=0,ngrkf-1
       do i=1,nbph
         t1=(wp(i)-wmin)/dw+1.d0
         iw=nint(t1)
-        if ((iw.ge.1).and.(iw.le.nwplot)) then
+        if ((iw.ge.1).and.(iw <= nwplot)) then
           gw(iw)=gw(iw)+1.d0
         end if
       end do

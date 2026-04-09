@@ -39,19 +39,19 @@ ias=idxas(ia,is)
 ! calculate the Clebsch-Gordon coefficients
 t1=sqrt(dble(l+m+1)/dble(2*l+1))
 t2=sqrt(dble(l-m)/dble(2*l+1))
-if (k.eq.l+1) then
+if (k == l+1) then
   c1=t1
   c2=t2
 else
   c1=t2
   c2=-t1
 end if
-if (abs(m).le.l) then
+if (abs(m) <= l) then
   lm1=idxlm(l,m)
 else
   lm1=0
 end if
-if (abs(m+1).le.l) then
+if (abs(m+1) <= l) then
   lm2=idxlm(l,m+1)
 else
   lm2=0
@@ -59,9 +59,9 @@ end if
 nr=nrmt(is)
 nri=nrmti(is)
 ! zero the wavefunction
-if (lrstp.eq.1) then
+if (lrstp == 1) then
   wfcr(1:npmt(is),:)=0.d0
-else if (lrstp.eq.lradstp) then
+else if (lrstp == lradstp) then
   wfcr(1:npcmt(is),:)=0.d0
 else
   write(*,*)
@@ -107,7 +107,7 @@ end do
 !     outer part of muffin-tin     !
 !----------------------------------!
 10 continue
-if (lrstp.eq.1) then
+if (lrstp == 1) then
   i=lmmaxi*nrmti(is)
 else
   i=lmmaxi*nrcmti(is)

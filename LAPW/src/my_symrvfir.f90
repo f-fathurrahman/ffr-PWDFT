@@ -54,7 +54,7 @@ subroutine my_symrvfir(tspin,tnc,rvfir)
     do ig=1,ngvec
       ifg=igfft(ig)
       ! multiply the transpose of the inverse symmetry matrix with the G-vector
-      if (lspl.eq.1) then
+      if (lspl == 1) then
         jfg=ifg
       else
         i1=ivg(1,ig); i2=ivg(2,ig); i3=ivg(3,ig)
@@ -71,7 +71,7 @@ subroutine my_symrvfir(tspin,tnc,rvfir)
         z1=cmplx(cos(t1),sin(t1),8)
       end if
       ! translation, spatial rotation and global spin rotation
-      if (lspn.eq.1) then
+      if (lspn == 1) then
         ! global spin symmetry is the identity
         zfft2(jfg,:)=zfft2(jfg,:)+z1*zfft1(ifg,:)
       else

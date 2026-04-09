@@ -32,7 +32,7 @@ do ilo=1,nlorb(is)
         do io=1,apword(l3,is)
           z1=0.d0
           do l2=0,lmaxo
-            if (mod(l1+l2+l3,2).eq.0) then
+            if (mod(l1+l2+l3,2) == 0) then
               do m2=-l2,l2
                 lm2=idxlm(l2,m2)
                 z1=z1+gntyyy(lm2,lm3,lm1)*dhloa(lm2,io,l3,ilo,ias)
@@ -52,7 +52,7 @@ do ilo=1,nlorb(is)
         end do
       end do
     end do
-    if (ias.eq.iasph) then
+    if (ias == iasph) then
       lm3=0
       do l3=0,lmaxapw
         do m3=-l3,l3
@@ -60,7 +60,7 @@ do ilo=1,nlorb(is)
           do io=1,apword(l3,is)
             z1=0.d0
             do l2=0,lmaxo
-              if (mod(l1+l2+l3,2).eq.0) then
+              if (mod(l1+l2+l3,2) == 0) then
                 do m2=-l2,l2
                   lm2=idxlm(l2,m2)
                   z1=z1+gntyry(lm2,lm3,lm1)*hloa(lm2,io,l3,ilo,ias)

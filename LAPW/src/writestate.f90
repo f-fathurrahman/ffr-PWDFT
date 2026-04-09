@@ -110,7 +110,7 @@ if (spinpol) then
   end if
 end if
 ! write the tau-DFT exchange-correlation potential
-if (xcgrad.eq.4) then
+if (xcgrad == 4) then
   do ias=1,natmtot
     is=idxis(ias)
     call rfmtpack(.false.,nrmt(is),nrmti(is),wxcmt(:,ias),rfmt(:,:,ias))

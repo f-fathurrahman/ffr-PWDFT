@@ -19,7 +19,7 @@ character(256) symb,name
 ! allocatable arrays
 real(8), allocatable :: r(:),rho(:),vr(:),rwf(:,:,:)
 read(fnum,*,err=20) nz
-if (nz.le.0) then
+if (nz <= 0) then
   write(*,*)
   write(*,'("Error(genspecies): atomic number negative : ",I8)') nz
   write(*,*)
@@ -31,7 +31,7 @@ read(fnum,*,err=20) mass
 mass=mass*amu
 read(fnum,*,err=20) rm
 read(fnum,*,err=20) nst
-if ((nst.le.0).or.(nst.gt.maxstsp)) then
+if ((nst <= 0).or.(nst.gt.maxstsp)) then
   write(*,*)
   write(*,'("Error(genspecies): nst out of range : ",I8)') nst
   write(*,'(" for species ",A)') trim(name)

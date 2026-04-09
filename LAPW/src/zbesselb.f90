@@ -62,9 +62,9 @@ if (x.lt.1.d-7) then
 end if
 ! recurse up
 b(0)=-xi*exp(-x)
-if (lmax.eq.0) return
+if (lmax == 0) return
 b(1)=b(0)*(1.d0+xi)
-if (lmax.eq.1) return
+if (lmax == 1) return
 b0=b(0)
 b1=b(1)
 do l=2,lmax

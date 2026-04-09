@@ -63,7 +63,7 @@ integer i1,i2,i3,i
 integer isym,ip,jp
 real(8) v1(3),v2(3),v3(3),v4(3)
 real(8) b(3,3),t1
-if ((ngridp(1).le.0).or.(ngridp(2).le.0).or.(ngridp(3).le.0)) then
+if ((ngridp(1) <= 0).or.(ngridp(2) <= 0).or.(ngridp(3) <= 0)) then
   write(*,*)
   write(*,'("Error(genppts): invalid ngridp : ",3I8)') ngridp
   write(*,*)

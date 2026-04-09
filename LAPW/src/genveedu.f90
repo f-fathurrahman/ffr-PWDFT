@@ -51,7 +51,7 @@ do m1=-l,l
           sum2=0.d0
           do q=-k,k
             t1=gaunt(l,k,l,m1,q,m2)*gaunt(l,k,l,m3,-q,m4)
-            if (mod(q,2).eq.0) then
+            if (mod(q,2) == 0) then
               sum2=sum2+t1
             else
               sum2=sum2-t1

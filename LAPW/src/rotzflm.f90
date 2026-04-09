@@ -55,7 +55,7 @@ if (lmin.gt.lmax) then
   write(*,*)
   stop
 end if
-if (n.eq.0) return
+if (n == 0) return
 if (n.lt.0) then
   write(*,*)
   write(*,'("Error(rotzflm): n < 0 : ",I8)') n

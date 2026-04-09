@@ -55,7 +55,7 @@ if (np.lt.nv) then
   stop
 end if
 ! special case of 1 vertex
-if (nv.eq.1) then
+if (nv == 1) then
   dv(1)=0.d0
   dp(:)=0.d0
   do i=1,np
@@ -83,7 +83,7 @@ k=0
 do i=1,nv-1
   t1=dble(n)*seg(i)/dt
   m=nint(t1)
-  if ((m.gt.n).or.(i.eq.(nv-1))) m=n
+  if ((m.gt.n).or.(i == (nv-1))) m=n
   do j=1,m+1
     k=k+1
     f=dble(j-1)/dble(m+1)

@@ -43,7 +43,7 @@ SUBROUTINE symrfir(rfir)
     DO ig=1,ngvec
       ifg=igfft(ig)
   ! multiply the transpose of the inverse symmetry matrix with the G-vector
-      IF(lspl.eq.1) THEN 
+      IF(lspl == 1) THEN 
         jfg=ifg
       else
         i1=ivg(1,ig); i2=ivg(2,ig); i3=ivg(3,ig)

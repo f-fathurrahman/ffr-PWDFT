@@ -28,7 +28,7 @@ complex(8), allocatable :: a2(:,:),b2(:,:)
 is=idxis(ias)
 lmo=lmoapw(is)
 allocate(a1(lmo,ngpq),b1(lmo,ngp))
-if (ias.eq.iasph) then
+if (ias == iasph) then
   allocate(a2(lmo,ngpq),b2(lmo,ngp))
 end if
 t0=0.5d0*rmt(is)**2
@@ -47,7 +47,7 @@ do l1=0,lmaxapw
           do jo=1,apword(l3,is)
             z1=0.d0
             do l2=0,lmaxo
-              if (mod(l1+l2+l3,2).eq.0) then
+              if (mod(l1+l2+l3,2) == 0) then
                 do m2=-l2,l2
                   lm2=idxlm(l2,m2)
                   z1=z1+gntyyy(lm2,lm3,lm1)*dhaa(lm2,jo,l3,io,l1,ias)
@@ -60,7 +60,7 @@ do l1=0,lmaxapw
           end do
         end do
       end do
-      if (ias.eq.iasph) then
+      if (ias == iasph) then
         b2(i,:)=0.d0
         lm3=0
         do l3=0,lmaxapw
@@ -69,7 +69,7 @@ do l1=0,lmaxapw
             do jo=1,apword(l3,is)
               z1=0.d0
               do l2=0,lmaxo
-                if (mod(l1+l2+l3,2).eq.0) then
+                if (mod(l1+l2+l3,2) == 0) then
                   do m2=-l2,l2
                     lm2=idxlm(l2,m2)
                     z1=z1+gntyry(lm2,lm3,lm1)*haa(lm2,jo,l3,io,l1,ias)
@@ -97,7 +97,7 @@ do l1=0,lmaxapw
 end do
 call zmctm(lmo,ngpq,ngp,a1,b1,ld,dh)
 deallocate(a1,b1)
-if (ias.eq.iasph) then
+if (ias == iasph) then
   call zmctm(lmo,ngpq,ngp,a2,b2,ld,dh)
   deallocate(a2,b2)
 end if

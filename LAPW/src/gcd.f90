@@ -23,7 +23,7 @@ implicit none
 integer, intent(in) :: x,y
 ! local variables
 integer a,b,c
-if ((x.le.0).or.(y.le.0)) then
+if ((x <= 0).or.(y <= 0)) then
   write(*,*)
   write(*,'("Error(gcd): x <= 0 or y <= 0 : ",2I8)') x,y
   write(*,*)

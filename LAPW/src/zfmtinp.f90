@@ -31,7 +31,7 @@ COMPLEX(8) FUNCTION zfmtinp(nr,nri,wr,zfmt1,zfmt2)
 
   ! compute the dot-products for each radial point
   i=1
-  IF(lmaxi.eq.1) THEN 
+  IF(lmaxi == 1) THEN 
     DO ir=1,nri
       z1=conjg(zfmt1(i))*zfmt2(i) &
         +conjg(zfmt1(i+1))*zfmt2(i+1) &

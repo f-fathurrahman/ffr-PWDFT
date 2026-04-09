@@ -39,7 +39,7 @@ do l1=0,lmaxapw
           do jo=1,apword(l3,is)
             z1=0.d0
             do l2=0,lmaxo
-              if (mod(l1+l2+l3,2).eq.0) then
+              if (mod(l1+l2+l3,2) == 0) then
                 do m2=-l2,l2
                   lm2=idxlm(l2,m2)
                   z1=z1+gntyry(lm2,lm3,lm1)*haa(lm2,jo,l3,io,l1,ias)

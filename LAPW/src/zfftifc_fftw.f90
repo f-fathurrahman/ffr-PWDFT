@@ -21,7 +21,7 @@ call dfftw_execute(plan)
 !$OMP CRITICAL(zfftifc_)
 call dfftw_destroy_plan(plan)
 !$OMP END CRITICAL(zfftifc_)
-if (sgn.eq.-1) then
+if (sgn == -1) then
   p=product(n(:))
   t1=1.d0/dble(p)
   call zdscal(p,t1,z,1)
@@ -41,7 +41,7 @@ integer p
 integer(8) plan
 real(8) t1
 !$OMP CRITICAL(rzfftifc_)
-if (sgn.eq.-1) then
+if (sgn == -1) then
   call dfftw_plan_dft_r2c(plan,nd,n,r,z,FFTW_ESTIMATE)
 else
   call dfftw_plan_dft_c2r(plan,nd,n,z,r,FFTW_ESTIMATE)
@@ -51,7 +51,7 @@ call dfftw_execute(plan)
 !$OMP CRITICAL(rzfftifc_)
 call dfftw_destroy_plan(plan)
 !$OMP END CRITICAL(rzfftifc_)
-if (sgn.eq.-1) then
+if (sgn == -1) then
   p=product(n(:))
   t1=1.d0/dble(p)
   p=p/n(1)

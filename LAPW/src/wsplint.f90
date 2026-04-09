@@ -16,7 +16,7 @@ real(8) f(9)
 ! external functions
 real(8) splint
 external splint
-if (n.le.9) then
+if (n <= 9) then
   do i=1,n
     f(:)=0.d0
     f(i)=1.d0

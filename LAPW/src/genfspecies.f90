@@ -44,7 +44,7 @@ do in=1,maxstsp
       occ(ist)=t2
       if (t2.gt.epsocc) nmax=in
       t1=t1-t2
-      if (ist.eq.maxstsp) then
+      if (ist == maxstsp) then
         if (t1.gt.epsocc) then
           write(*,*)
           write(*,'("Error(genfspecies): too many states for fractional &

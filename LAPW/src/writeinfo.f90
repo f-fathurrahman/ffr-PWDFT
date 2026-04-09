@@ -158,11 +158,11 @@ if (fsmtype.ne.0) then
     write(fnum,'("  only moment direction is fixed")')
   end if
 end if
-if ((abs(fsmtype).eq.1).or.(abs(fsmtype).eq.3)) then
+if ((abs(fsmtype) == 1).or.(abs(fsmtype) == 3)) then
   write(fnum,'("  fixing total moment to (Cartesian) :")')
   write(fnum,'("  ",3G18.10)') momfix
 end if
-if ((abs(fsmtype).eq.2).or.(abs(fsmtype).eq.3)) then
+if ((abs(fsmtype) == 2).or.(abs(fsmtype) == 3)) then
   write(fnum,'("  fixing local muffin-tin moments to (Cartesian) :")')
   do is=1,nspecies
     write(fnum,'("  species : ",I4," (",A,")")') is,trim(spsymb(is))
@@ -209,11 +209,11 @@ if (autokpt) then
 end if
 write(fnum,'("k-point grid : ",3I6)') ngridk
 write(fnum,'("k-point offset : ",3G18.10)') vkloff
-if (reducek.eq.0) then
+if (reducek == 0) then
   write(fnum,'("k-point set is not reduced")')
-else if (reducek.eq.1) then
+else if (reducek == 1) then
   write(fnum,'("k-point set is reduced with full crystal symmetry group")')
-else if (reducek.eq.2) then
+else if (reducek == 2) then
   write(fnum,'("k-point set is reduced with symmorphic symmetries only")')
 else
   write(*,*)
@@ -235,7 +235,7 @@ case(-2)
 case(-1)
   write(fnum,'(" using average radius")')
 case(1:)
-  if (isgkmax.le.nspecies) then
+  if (isgkmax <= nspecies) then
     write(fnum,'(" using radius of species ",I4," (",A,")")') isgkmax, &
      trim(spsymb(isgkmax))
   else
@@ -281,13 +281,13 @@ if (tefvit) then
    &eigenvalue equation")')
 end if
 write(fnum,*)
-if (task.eq.5) then
+if (task == 5) then
   write(fnum,'("Hartree-Fock calculation using Kohn-Sham states")')
   if (hybrid) then
     write(fnum,'(" hybrid functional, coefficient : ",G18.10)') hybridc
   end if
 end if
-if (xctype(1).eq.100) then
+if (xctype(1) == 100) then
   write(fnum,'("Using Libxc version ",I2.2,".",I2.2,".",I2.2)') libxcv(:)
 end if
 if (xctype(1).lt.0) then
@@ -299,23 +299,23 @@ else
   write(fnum,'("Exchange-correlation functional : ",3I6)') xctype(:)
   write(fnum,'(" ",A)') trim(xcdescr)
 end if
-if (xcgrad.eq.0) then
+if (xcgrad == 0) then
   write(fnum,'(" Local density approximation (LDA)")')
-else if ((xcgrad.eq.1).or.(xcgrad.eq.2)) then
+else if ((xcgrad == 1).or.(xcgrad == 2)) then
   write(fnum,'(" Generalised gradient approximation (GGA)")')
-else if (xcgrad.eq.3) then
+else if (xcgrad == 3) then
   write(fnum,'(" meta-GGA; using kinetic energy density")')
 end if
 if (dftu.ne.0) then
   write(fnum,*)
   write(fnum,'("DFT+U calculation")')
-  if (dftu.eq.1) then
+  if (dftu == 1) then
     write(fnum,'(" fully localised limit (FLL)")')
     write(fnum,'(" see Phys. Rev. B 52, R5467 (1995)")')
-  else if (dftu.eq.2) then
+  else if (dftu == 2) then
     write(fnum,'(" around mean field (AMF)")')
     write(fnum,'(" see Phys. Rev. B 49, 14211 (1994)")')
-  else if (dftu.eq.3) then
+  else if (dftu == 3) then
     write(fnum,'(" interpolation between FLL and AMF")')
     write(fnum,'(" see Phys. Rev. B 67, 153106 (2003)")')
   else
@@ -327,31 +327,31 @@ if (dftu.ne.0) then
   do i=1,ndftu
     is=idftu(1,i)
     l=idftu(2,i)
-    if (inpdftu.eq.1) then
+    if (inpdftu == 1) then
       write(fnum,'(" species : ",I4," (",A,")",", l = ",I2,", U = ",F12.8, &
        &", J = ",F12.8)') is,trim(spsymb(is)),l,ujdu(1,i),ujdu(2,i)
-    else if (inpdftu.eq.2) then
+    else if (inpdftu == 2) then
       write(fnum,'(" species : ",I4," (",A,")",", l = ",I2)') is, &
        trim(spsymb(is)),l
       write(fnum,'(" Slater integrals are provided as input")')
       do k=0,2*l,2
         write(fnum,'(" F^(",I1,") = ",F12.8)') k,fdu(k,i)
       end do
-    else if (inpdftu.eq.3) then
+    else if (inpdftu == 3) then
       write(fnum,'(" species : ",I4," (",A,")",", l = ",I2)') is, &
        trim(spsymb(is)),l
       write(fnum,'(" Racah parameters are provided as input")')
       do k=0,l
         write(fnum,'(" E^(",I1,") = ",F12.8)') k,edu(k,i)
       end do
-    else if (inpdftu.eq.4) then
+    else if (inpdftu == 4) then
       write(fnum,'(" species : ",I4," (",A,")",", l = ",I2)') is, &
        trim(spsymb(is)),l
       write(fnum,'(" Slater integrals are calculated by means of Yukawa &
        &potential")')
       write(fnum,'(" Yukawa potential screening length (a.u^-1) : ",F12.8)') &
        lambdadu(i)
-    else if(inpdftu.eq.5) then
+    else if(inpdftu == 5) then
       write(fnum,'(" species : ",I4," (",A,")",", l = ",I2)') is, &
        trim(spsymb(is)),l
       write(fnum,'(" Slater integrals are calculated by means of Yukawa &
@@ -361,14 +361,14 @@ if (dftu.ne.0) then
     end if
   end do
 end if
-if (task.eq.300) then
+if (task == 300) then
   write(fnum,*)
   write(fnum,'("RDMFT calculation")')
   write(fnum,'(" see arXiv:0801.3787v1 [cond-mat.mtrl-sci]")')
   write(fnum,'(" RDMFT exchange-correlation type : ",I4)') rdmxctype
-  if (rdmxctype.eq.1) then
+  if (rdmxctype == 1) then
     write(fnum,'("  Hartree-Fock functional")')
-  else if (rdmxctype.eq.2) then
+  else if (rdmxctype == 2) then
     write(fnum,'("  Power functional, exponent : ",G18.10)') rdmalpha
   end if
 end if

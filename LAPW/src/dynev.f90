@@ -24,7 +24,7 @@ do is=1,nspecies
       j=0
       do js=1,nspecies
 ! mass factor
-        if ((spmass(is).le.0.d0).or.(spmass(js).le.0.d0)) then
+        if ((spmass(is) <= 0.d0).or.(spmass(js) <= 0.d0)) then
 ! infinite mass
           t1=0.d0
         else
@@ -33,7 +33,7 @@ do is=1,nspecies
         do ja=1,natoms(js)
           do jp=1,3
             j=j+1
-            if (i.le.j) then
+            if (i <= j) then
 ! use Hermitian average of dynamical matrix
               ev(i,j)=0.5d0*t1*(dynp(i,j)+conjg(dynp(j,i)))
             end if

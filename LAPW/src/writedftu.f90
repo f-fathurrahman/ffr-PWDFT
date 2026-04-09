@@ -10,7 +10,7 @@ implicit none
 ! local variables
 integer ispn,jspn,is,ia,ias
 integer i,k,l,m1,m2,lm1,lm2
-if (dftu.eq.0) return
+if (dftu == 0) return
 ! machine readable density matrix file
 open(50,file='DMATMT'//trim(filext),form='FORMATTED')
 do i=1,ndftu
@@ -64,7 +64,7 @@ do i=1,ndftu
 end do
 close(50)
 ! machine readable alpha parameters
-if ((dftu.eq.3).and.(.not.readadu)) then
+if ((dftu == 3).and.(.not.readadu)) then
   open(50,file='ALPHADU'//trim(filext),form='FORMATTED')
   do i=1,ndftu
     is=idftu(1,i)

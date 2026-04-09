@@ -21,7 +21,7 @@ call timesec(ts0)
 ! check if the system is an isolated molecule
 if (molecule) ngridq(:)=1
 ! store the point group symmetries for reducing the q-point set
-if (reduceq.eq.0) then
+if (reduceq == 0) then
   nsymqpt=1
   symqpt(:,:,1)=symlat(:,:,1)
 else
@@ -37,20 +37,20 @@ else
     end if
   end do
 end if
-if (any(task.eq.[105,180,185,320,330,331])) then
+if (any(task == [105,180,185,320,330,331])) then
 ! equal k- and q-point grids for nesting function, BSE and linear-reposnse TDDFT
   ngridq(:)=ngridk(:)
-else if ((xctype(1).lt.0).or.(any(task.eq.[5,300,600,620,630]))) then
+else if ((xctype(1).lt.0).or.(any(task == [5,300,600,620,630]))) then
 ! allow the q-point grid to be smaller than the k-point grid for OEP,
 ! Hartree-Fock, RDMFT and GW
-  if ((ngridq(1).le.0).or.(ngridq(2).le.0).or.(ngridq(3).le.0)) then
+  if ((ngridq(1) <= 0).or.(ngridq(2) <= 0).or.(ngridq(3) <= 0)) then
     ngridq(:)=ngridk(:)
   end if
 else
   ngridq(:)=abs(ngridq(:))
 end if
 ! check that the q-point and k-point grids are commensurate for some tasks
-if ((xctype(1).lt.0).or.(any(task.eq.[5,205,240,241,300,600,620,630]))) then
+if ((xctype(1).lt.0).or.(any(task == [5,205,240,241,300,600,620,630]))) then
   iv(:)=mod(ngridk(:),ngridq(:))
   if ((iv(1).ne.0).or.(iv(2).ne.0).or.(iv(3).ne.0)) then
     write(*,*)
@@ -109,14 +109,14 @@ call findnjcmax
 !--------------------------------------------------------!
 !     OEP, Hartree-Fock, RDMFT, BSE and GW variables     !
 !--------------------------------------------------------!
-if ((xctype(1).lt.0).or.(any(task.eq.[5,180,185,188,205,300,320,330,331,600, &
+if ((xctype(1).lt.0).or.(any(task == [5,180,185,188,205,300,320,330,331,600, &
  620,630]))) then
 ! determine the regularised Coulomb Green's function for small q
   call gengclq
 ! output the Coulomb Green's function to GCLQ.OUT
   call writegclq
 end if
-if (task.eq.300) then
+if (task == 300) then
   if (allocated(vclmat)) deallocate(vclmat)
   allocate(vclmat(nstsv,nstsv,nkpt))
   if (allocated(dkdc)) deallocate(dkdc)

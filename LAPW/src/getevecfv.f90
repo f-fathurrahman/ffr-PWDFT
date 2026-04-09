@@ -61,7 +61,7 @@ do i=1,2
   read(122,rec=ik,err=10) vkl_,nmatmax_,nstfv_,nspnfv_,evecfv
   exit
 10 continue
-  if (i.eq.2) then
+  if (i == 2) then
     write(*,*)
     write(*,'("Error(getevecfv): unable to read from ",A)') trim(fname)
     write(*,*)

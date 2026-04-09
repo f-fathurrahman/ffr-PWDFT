@@ -36,7 +36,7 @@ real(8), parameter :: br_si=0.529177210903d-10
 real(8) za,a,a13,a23,a43
 za=abs(z)
 ! approximate nuclear mass number
-if (za.le.1.d0) then
+if (za <= 1.d0) then
   a=1.d0
 else
   a=c2*za**2+c1*za+c0

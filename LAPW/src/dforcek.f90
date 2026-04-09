@@ -195,7 +195,7 @@ do jspn=1,nspnfv
         do i=1,n
           ig=ijg(i,j)
           t1=vgc(l,ig)
-          if (ias.eq.iasph) then
+          if (ias == iasph) then
             z1=-ffacg(ig,is)*conjg(sfacg(ig,ias))
             dz1=vgc(ipph,ig)*cmplx(aimag(z1),-dble(z1),8)
           else

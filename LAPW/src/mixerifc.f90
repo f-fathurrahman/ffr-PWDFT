@@ -16,21 +16,21 @@ real(8), intent(inout) :: work(*)
 select case(mtype)
 case(0)
 ! linear mixing
-  if (nwork.le.0) then
+  if (nwork <= 0) then
     nwork=n
     return
   end if
   call mixlinear(iscl,amixpm(1),n,v,work,dv)
 case(1)
 ! adaptive linear mixing
-  if (nwork.le.0) then
+  if (nwork <= 0) then
     nwork=3*n
     return
   end if
   call mixadapt(iscl,amixpm(1),amixpm(2),n,v,work,work(n+1),work(2*n+1),dv)
 case(3)
 ! Broyden mixing
-  if (nwork.le.0) then
+  if (nwork <= 0) then
     nwork=(4+2*mixsdb)*n+mixsdb**2
     return
   end if

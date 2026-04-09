@@ -72,11 +72,11 @@ evecsv(:,:)=0.d0
 !     muffin-tin part     !
 !-------------------------!
 allocate(wfmt1(npcmtmax,nstfv))
-if (xcgrad.eq.4) allocate(gwfmt(npcmtmax,3,nstfv))
+if (xcgrad == 4) allocate(gwfmt(npcmtmax,3,nstfv))
 
 allocate(wfmt2(npcmtmax),wfmt3(npcmtmax),wfmt4(npcmtmax,nsc))
 if (spinorb) allocate(zlflm(lmmaxo,3))
-if (tafield.or.(xcgrad.eq.4)) allocate(gzfmt(npcmtmax,3))
+if (tafield.or.(xcgrad == 4)) allocate(gzfmt(npcmtmax,3))
 ! begin loop over atoms
 do ias=1,natmtot
   is=idxis(ias)
@@ -147,17 +147,17 @@ do ias=1,natmtot
           nm=2*l+1
           lm=idxlm(l,-l)
           do k=1,nsc
-            if (k.eq.1) then
+            if (k == 1) then
               ispn=1
               jspn=1
-            else if (k.eq.2) then
+            else if (k == 2) then
               ispn=2
               jspn=2
             else
               ispn=1
               jspn=2
             end if
-            if (l.le.lmaxi) then
+            if (l <= lmaxi) then
               call zgemm('N','N',nm,nrci,nm,zone,vmatmt(lm,ispn,lm,jspn,ias), &
                ld,wfmt1(lm,jst),lmmaxi,zone,wfmt4(lm,k),lmmaxi)
             end if
@@ -194,7 +194,7 @@ do ias=1,natmtot
       end do
     end if
 ! off-diagonal block
-    if (nsc.eq.3) then
+    if (nsc == 3) then
       do ist=1,nstfv
         z1=zfmtinp(nrc,nrci,wrcmt(:,is),wfmt1(:,ist),wfmt4(:,3))
         evecsv(ist,j)=evecsv(ist,j)+z1
@@ -204,7 +204,7 @@ do ias=1,natmtot
   end do
 
 ! apply tau-DFT non-multiplicative potential if required
-  if (xcgrad.eq.4) then
+  if (xcgrad == 4) then
     do ist=1,nstfv
       call gradzfmt(nrc,nrci,rlcmt(:,1,is),rlcmt(:,-1,is),wfmt1(:,ist), &
        npcmtmax,gwfmt(:,:,ist))
@@ -234,16 +234,16 @@ do ias=1,natmtot
 end do
 deallocate(wfmt2,wfmt3,wfmt4)
 if (spinorb) deallocate(zlflm)
-if (tafield.or.(xcgrad.eq.4)) deallocate(gzfmt)
+if (tafield.or.(xcgrad == 4)) deallocate(gzfmt)
 
 deallocate(wfmt1)
-if (xcgrad.eq.4) deallocate(gwfmt)
+if (xcgrad == 4) deallocate(gwfmt)
 !---------------------------!
 !     interstitial part     !
 !---------------------------!
-if (spinpol.or.tafield.or.(xcgrad.eq.4)) then
+if (spinpol.or.tafield.or.(xcgrad == 4)) then
   if (socz) nsc=2
-  if (xcgrad.eq.4) allocate(gwfgp(ngkmax,nstfv))
+  if (xcgrad == 4) allocate(gwfgp(ngkmax,nstfv))
 
   allocate(wfir1(ngtot),wfir2(ngtot),wfgp(ngkmax,nsc))
 ! begin loop over states
@@ -301,7 +301,7 @@ if (spinpol.or.tafield.or.(xcgrad.eq.4)) then
       end do
     end if
 ! off-diagonal block
-    if (nsc.eq.3) then
+    if (nsc == 3) then
       do ist=1,nstfv
         evecsv(ist,j)=evecsv(ist,j)+zdotc(ngp,evecfv(:,ist),1,wfgp(:,3),1)
       end do
@@ -309,7 +309,7 @@ if (spinpol.or.tafield.or.(xcgrad.eq.4)) then
 ! end loop over states
   end do
 ! apply tau-DFT non-multiplicative potential if required
-  if (xcgrad.eq.4) then
+  if (xcgrad == 4) then
     do k=1,3
 ! determine the gradient of the wavefunctions
       do ist=1,nstfv
@@ -344,7 +344,7 @@ if (spinpol.or.tafield.or.(xcgrad.eq.4)) then
   end if
   deallocate(wfir1,wfir2,wfgp)
 
-  if (xcgrad.eq.4) deallocate(gwfgp)
+  if (xcgrad == 4) deallocate(gwfgp)
 end if
 ! add the diagonal first-variational part
 i=0

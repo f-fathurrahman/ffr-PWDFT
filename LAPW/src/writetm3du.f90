@@ -36,7 +36,7 @@ if (.not.spinpol) then
   write(*,*)
   stop
 end if
-if (iscl.le.1) then
+if (iscl <= 1) then
   write(fnum,*)
   write(fnum,'("Tensor moment decomposition of density matrix and Hartree-Fock &
    &energy")')
@@ -96,7 +96,7 @@ do i=1,ndftu
           call tm3pol(l,k,p,r,w2,tm3p)
 ! write square of tensor modulus; Hartree and exchange energy; and polarisation
           write(fnum,'("  k = ",I2,", p = ",I2,", r = ",I2)') k,p,r
-          if ((k+p+r).eq.0) then
+          if ((k+p+r) == 0) then
 ! for k,p,r = 0 save reference polarisation
             tm3p0=tm3p
 ! for k,p,r = 0 do not write out the polarisation

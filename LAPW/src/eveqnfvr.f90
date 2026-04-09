@@ -67,7 +67,7 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
           idx(i)=idxlo(idxlm(l,-m),ilo,jas)
           IF(ia.ne.ja) THEN 
   ! sign of parity and conjugation operators
-            IF(mod(l+m,2).eq.0) THEN 
+            IF(mod(l+m,2) == 0) THEN 
               s(i)=1
             ELSE 
               s(i)=-1
@@ -82,13 +82,13 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
             ENDIF 
           ELSE 
   ! if ia = ja THEN  use real function when l even and imaginary when l is odd
-            IF(mod(m,2).eq.0) THEN 
+            IF(mod(m,2) == 0) THEN 
               s(i)=1
             ELSE 
               s(i)=-1
             ENDIF 
   ! new function should be real if symmetric or imaginary if antisymmetric
-            IF(mod(l,2).eq.0) THEN 
+            IF(mod(l,2) == 0) THEN 
   ! l even
               IF(m.ge.0) THEN 
                 tr(i)=.true.

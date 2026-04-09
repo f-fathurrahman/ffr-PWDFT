@@ -26,7 +26,7 @@ integer i
 ! external functions
 real(8) factnm
 external factnm
-if (d.eq.1) then
+if (d == 1) then
   factr=factnm(n,1)
   return
 end if
@@ -48,7 +48,7 @@ if (n.lt.d) then
     factr=factr*dble(i)
   end do
   factr=1.d0/factr
-else if (n.eq.d) then
+else if (n == d) then
   factr=1.d0
 else
   factr=dble(d+1)

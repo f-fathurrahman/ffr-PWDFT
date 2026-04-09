@@ -36,7 +36,7 @@ real(8), parameter :: thrd=1.d0/3.d0, thrd2=2.d0/3.d0, thrd4=4.d0/3.d0
 real(8), parameter :: g=-0.1423d0,b1=1.0529d0,b2=0.3334d0
 real(8), parameter :: a=0.0311d0,b=-0.048d0,c=0.0020d0,d=-0.0116d0
 real(8) p1,p2,r,rs,t1
-if (n.le.0) then
+if (n <= 0) then
   write(*,*)
   write(*,'("Error(xc_pzca): invalid n : ",I8)') n
   write(*,*)

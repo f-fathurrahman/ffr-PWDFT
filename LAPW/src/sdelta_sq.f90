@@ -22,7 +22,7 @@ real(8) function sdelta_sq(x)
 implicit none
 ! arguments
 real(8), intent(in) :: x
-if (abs(x).le.0.5d0) then
+if (abs(x) <= 0.5d0) then
   sdelta_sq=1.d0
 else
   sdelta_sq=0.d0

@@ -14,9 +14,9 @@ real(8), intent(out) :: d
 ! local variables
 integer i
 real(8) t0,t1
-if (n.le.0) return
+if (n <= 0) return
 ! initialise mixer
-if (iscl.le.0) then
+if (iscl <= 0) then
   mu(:)=nu(:)
   d=1.d0
   return

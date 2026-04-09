@@ -20,7 +20,7 @@ do i=1,2
   read(140,rec=ik,err=10) vkl_,nstsv_,kmat
   exit
 10 continue
-  if (i.eq.2) then
+  if (i == 2) then
     write(*,*)
     write(*,'("Error(getkmat): unable to read from KMAT.OUT")')
     write(*,*)

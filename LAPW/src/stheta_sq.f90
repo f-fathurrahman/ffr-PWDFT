@@ -24,7 +24,7 @@ real(8) function stheta_sq(x)
 implicit none
 ! arguments
 real(8), intent(in) :: x
-if (x.le.-0.5d0) then
+if (x <= -0.5d0) then
   stheta_sq=0.d0
   return
 end if

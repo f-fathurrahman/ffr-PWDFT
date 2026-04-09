@@ -40,7 +40,7 @@ if (msd.lt.2) then
 end if
 
 ! initialise mixer
-if (iscl.le.0) then
+if (iscl <= 0) then
   call dcopy(n,nu,1,mu(:,1),1)
   call dcopy(n,nu,1,mu(:,2),1)
   f(:,1)=0.d0
@@ -84,7 +84,7 @@ end do
 
 ! invert beta
 call dgetrf(m,m,beta,msd,ipiv,info)
-if (info.eq.0) call dgetri(m,beta,msd,ipiv,work,m,info)
+if (info == 0) call dgetri(m,beta,msd,ipiv,work,m,info)
 if (info.ne.0) then
   write(*,*)
   write(*,'("Error(mixbroyden): could not invert matrix")')

@@ -48,7 +48,7 @@ do j1=0,ngridq(1)-1
           n=n+1
         end if
       end do
-      if (n.eq.0) then
+      if (n == 0) then
         write(*,*)
         write(*,'("Error(dynqtor): vector ",3G18.10)') v1
         write(*,'(" cannot be mapped to reduced q-point set")')

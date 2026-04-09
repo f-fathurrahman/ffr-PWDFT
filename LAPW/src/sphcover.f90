@@ -10,7 +10,7 @@ SUBROUTINE sphcover(n,tp)
   INTEGER k
   REAL(8), parameter :: pi=3.1415926535897932385d0
   REAL(8) z,dz,p,dp
-  IF(n.le.0) THEN 
+  IF(n <= 0) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(sphcover): n <= 0 : ",I8)') n
     WRITE(*,*)

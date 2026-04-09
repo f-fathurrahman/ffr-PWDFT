@@ -62,7 +62,7 @@ do ip=1,2
     call rschrodint(sol,l,et,nr,r,vr,nn,p0,p1,q0,q1)
     t=p0(nr)
     if (ie.gt.1) then
-      if (t*tp.le.0.d0) then
+      if (t*tp <= 0.d0) then
         if (abs(de).lt.eps) then
           if (fb) goto 10
           ft=.true.
@@ -86,7 +86,7 @@ do ip=1,2
     call rschrodint(sol,l,eb,nr,r,vr,nn,p0,p1,q0,q1)
     t=p1(nr)
     if (ie.gt.1) then
-      if (t*tp.le.0.d0) then
+      if (t*tp <= 0.d0) then
         if (abs(de).lt.eps) then
           if (ft) goto 10
           fb=.true.

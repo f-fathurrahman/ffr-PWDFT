@@ -49,9 +49,9 @@ real(8), intent(out) :: d
 ! local variables
 integer i
 real(8) t1
-if (n.le.0) return
+if (n <= 0) return
 ! initialise mixer
-if (iscl.le.0) then
+if (iscl <= 0) then
   call dcopy(n,nu,1,mu,1)
   f(:)=0.d0
   beta(:)=beta0

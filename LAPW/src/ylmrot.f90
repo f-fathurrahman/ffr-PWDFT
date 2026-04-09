@@ -49,7 +49,7 @@ end if
 ! generate the rotation matrix about the y-axis
 call ylmroty(ang(2),lmax,ld,dy)
 ! apply inversion if required
-if (p.eq.-1) then
+if (p == -1) then
   do l=1,lmax,2
     lm1=l**2+1
     lm2=lm1+2*l

@@ -54,7 +54,7 @@ SUBROUTINE eveqnss(ngp,igpig,apwalm,evalfv,evecfv,evalsvp,evecsv)
     zq=cmplx(cos(t1),sin(t1),8)
     ! compute the first-variational wavefunctions
     DO ispn=1,nspnfv
-      IF(ispn.eq.2) zq=conjg(zq)
+      IF(ispn == 2) zq=conjg(zq)
       DO ist=1,nstfv
         CALL wavefmt(lradstp,ias,ngp(ispn),apwalm(:,:,:,ias,ispn), &
          evecfv(:,ist,ispn),wfmt1(:,ist,ispn))

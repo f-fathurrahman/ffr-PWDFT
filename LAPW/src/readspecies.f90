@@ -26,14 +26,14 @@ do is=1,nspecies
   read(50,*) spzn(is)
   read(50,*) spmass(is)
   read(50,*) rminsp(is),rmt(is),rmaxsp(is),nrmt(is)
-  if (rminsp(is).le.0.d0) then
+  if (rminsp(is) <= 0.d0) then
     write(*,*)
     write(*,'("Error(readspecies): rminsp <= 0 : ",G18.10)') rminsp(is)
     write(*,'(" for species ",I4)') is
     write(*,*)
     stop
   end if
-  if (rmt(is).le.rminsp(is)) then
+  if (rmt(is) <= rminsp(is)) then
     write(*,*)
     write(*,'("Error(readspecies): rmt <= rminsp : ",2G18.10)') rmt(is), &
      rminsp(is)
@@ -60,7 +60,7 @@ do is=1,nspecies
 ! reduce the minimum radial mesh point by the same factor
   rminsp(is)=rminsp(is)/nrmtscf
   read(50,*) nstsp(is)
-  if ((nstsp(is).le.0).or.(nstsp(is).gt.maxstsp)) then
+  if ((nstsp(is) <= 0).or.(nstsp(is).gt.maxstsp)) then
     write(*,*)
     write(*,'("Error(readspecies): nstsp out of range : ",I8)') nstsp(is)
     write(*,'(" for species ",I4)') is
@@ -103,7 +103,7 @@ do is=1,nspecies
     end if
   end do
   read(50,*) apword(0,is)
-  if (apword(0,is).le.0) then
+  if (apword(0,is) <= 0) then
     write(*,*)
     write(*,'("Error(readspecies): apword <= 0 : ",I8)') apword(0,is)
     write(*,'(" for species ",I4)') is
@@ -163,7 +163,7 @@ do is=1,nspecies
       stop
     end if
     apword(lx,is)=io
-    if (apword(lx,is).le.0) then
+    if (apword(lx,is) <= 0) then
       write(*,*)
       write(*,'("Error(readspecies): apword <= 0 : ",I8)') apword(lx,is)
       write(*,'(" for species ",I4)') is
@@ -288,7 +288,7 @@ do is=1,nspecies
     end do
     ilo=nlorb(is)
     do i=1,nxlo
-      if (ilo.eq.maxlorb) exit
+      if (ilo == maxlorb) exit
       l=lx+i
       if (l.gt.lmaxo) exit
       ilo=ilo+1

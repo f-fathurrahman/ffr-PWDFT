@@ -22,7 +22,7 @@ integer i
 real(8) sum,dx
 ! automatic arrays
 real(8) cf(3,n)
-if (n.le.0) then
+if (n <= 0) then
   write(*,*)
   write(*,'("Error(fderiv): invalid number of points : ",I8)') n
   write(*,*)

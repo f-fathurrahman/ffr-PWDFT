@@ -110,7 +110,7 @@ real(8), optional, intent(out) :: wc(n),wcup(n),wcdn(n)
 real(8) kappa,mu,beta
 ! allocatable arrays
 real(8), allocatable :: ra(:,:)
-if (n.le.0) then
+if (n <= 0) then
   write(*,*)
   write(*,'("Error(xcifc): n <= 0 : ",I8)') n
   write(*,*)
@@ -189,14 +189,14 @@ case(5)
 case(20,21,22)
 ! original PBE kappa
   kappa=0.804d0
-  if (xctype(1).eq.21) then
+  if (xctype(1) == 21) then
 ! Zhang-Yang kappa
     kappa=1.245d0
   end if
 ! original PBE mu and beta
   mu=0.2195149727645171d0
   beta=0.06672455060314922d0
-  if (xctype(1).eq.22) then
+  if (xctype(1) == 22) then
 ! PBEsol parameters
     mu=10.d0/81.d0
     beta=0.046d0
@@ -318,7 +318,7 @@ case default
   stop
 end select
 ! set exchange potential to zero for EXX
-if (xctype(1).le.-2) then
+if (xctype(1) <= -2) then
   if (present(vx)) vx(:)=0.d0
   if (present(vxup)) vxup(:)=0.d0
   if (present(vxdn)) vxdn(:)=0.d0

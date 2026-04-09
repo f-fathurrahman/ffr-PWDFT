@@ -40,7 +40,7 @@ integer n,ir,i
 real(8) fr(nr)
 i=1
 ! inner part of muffin-tin
-if (lmaxi.eq.1) then
+if (lmaxi == 1) then
   do ir=1,nri
     fr(ir)=rfmt1(i)*rfmt2(i) &
           +rfmt1(i+1)*rfmt2(i+1) &

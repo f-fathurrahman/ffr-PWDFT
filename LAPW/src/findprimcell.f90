@@ -40,7 +40,7 @@ end do
 is=1
 do js=1,nspecies
 ! if a species has only one atom the cell must be primitive
-  if (natoms(js).eq.1) return
+  if (natoms(js) == 1) return
   if (natoms(js).lt.natoms(is)) is=js
 end do
 n=27*natoms(is)
@@ -82,7 +82,7 @@ do ia=1,natoms(is)
     end do
   end do
 end do
-if (n.eq.0) then
+if (n == 0) then
   write(*,*)
   write(*,'("Error(findprimcell): cannot find any lattice vectors")')
   write(*,*)

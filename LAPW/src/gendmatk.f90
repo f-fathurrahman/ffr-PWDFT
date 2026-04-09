@@ -95,7 +95,7 @@ do j=1,nstsv
           do m2=-l,l
             lm2=idxlm(l,m2)
             if (tlmdg.and.(lm1.ne.lm2)) cycle
-            if (l.le.lmaxi) then
+            if (l <= lmaxi) then
               i1=lm1; i2=lm2
               do irc=1,nrci
                 z1=wfmt2(i1,ispn)*conjg(wfmt2(i2,jspn))

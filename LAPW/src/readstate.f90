@@ -112,7 +112,7 @@ else
 end if
 read(40) dftu_
 read(40) lmmaxdm_
-if ((version_(1).gt.5).or.((version_(1).eq.5).and.(version_(2).ge.1))) then
+if ((version_(1).gt.5).or.((version_(1) == 5).and.(version_(2).ge.1))) then
   read(40) xcgrad_
 else
   xcgrad_=0
@@ -168,7 +168,7 @@ vsir(:)=rfir_(mapir(:))
 if (spinpol_) then
 ! component map for spin-polarised case
   mapidm(:)=0
-  if (ndmag.eq.ndmag_) then
+  if (ndmag == ndmag_) then
     do idm=1,ndmag
       mapidm(idm)=idm
     end do
@@ -213,8 +213,8 @@ if (spinpol_) then
     deallocate(bfsmcmt_)
   end if
 end if
-if (xcgrad.eq.4) then
-  if (xcgrad_.eq.4) then
+if (xcgrad == 4) then
+  if (xcgrad_ == 4) then
     read(40) rfmt_,rfir_
     call rgfmt(wxcmt)
     wxcir(:)=rfir_(mapir(:))
@@ -232,9 +232,9 @@ if (((dftu.ne.0).and.(dftu_.ne.0)).or. &
   read(40) vmatmt_
   lmmax=min(lmmaxdm,lmmaxdm_)
   vmatmt(:,:,:,:,:)=0.d0
-  if (nspinor.eq.nspinor_) then
+  if (nspinor == nspinor_) then
     vmatmt(1:lmmax,:,1:lmmax,:,:)=vmatmt_(1:lmmax,:,1:lmmax,:,:)
-  else if ((nspinor.eq.1).and.(nspinor_.eq.2)) then
+  else if ((nspinor == 1).and.(nspinor_ == 2)) then
     vmatmt(1:lmmax,1,1:lmmax,1,:)=0.5d0*(vmatmt_(1:lmmax,1,1:lmmax,1,:) &
      +vmatmt_(1:lmmax,2,1:lmmax,2,:))
   else
@@ -249,9 +249,9 @@ if ((ftmtype.ne.0).and.(ftmtype_.ne.0)) then
   read(40) vmftm_
   lmmax=min(lmmaxdm,lmmaxdm_)
   vmftm_(:,:,:,:,:)=0.d0
-  if (nspinor.eq.nspinor_) then
+  if (nspinor == nspinor_) then
     vmftm(1:lmmax,:,1:lmmax,:,:)=vmftm_(1:lmmax,:,1:lmmax,:,:)
-  else if ((nspinor.eq.1).and.(nspinor_.eq.2)) then
+  else if ((nspinor == 1).and.(nspinor_ == 2)) then
     vmftm(1:lmmax,1,1:lmmax,1,:)=0.5d0*(vmftm_(1:lmmax,1,1:lmmax,1,:) &
      +vmftm_(1:lmmax,2,1:lmmax,2,:))
   else
@@ -290,7 +290,7 @@ implicit none
 real(8), intent(out) :: rvfmt(npmtmax,natmtot,ndmag)
 do idm=1,ndmag
   jdm=mapidm(idm)
-  if (jdm.eq.0) then
+  if (jdm == 0) then
     rvfmt(:,:,idm)=0.d0
     cycle
   end if
@@ -314,7 +314,7 @@ implicit none
 real(8), intent(out) :: rvfcmt(npcmtmax,natmtot,ndmag)
 do idm=1,ndmag
   jdm=mapidm(idm)
-  if (jdm.eq.0) then
+  if (jdm == 0) then
     rvfcmt(:,:,idm)=0.d0
     cycle
   end if
@@ -338,7 +338,7 @@ implicit none
 real(8), intent(out) :: rvfir(ngtot,ndmag)
 do idm=1,ndmag
   jdm=mapidm(idm)
-  if (jdm.eq.0) then
+  if (jdm == 0) then
     rvfir(:,idm)=0.d0
     cycle
   end if

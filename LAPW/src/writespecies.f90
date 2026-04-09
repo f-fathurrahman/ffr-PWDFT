@@ -32,7 +32,7 @@ end do
 do ist=1,nst
   if (core(ist)) then
     do jst=1,nst
-      if ((n(ist).eq.n(jst)).and.(l(ist).eq.l(jst))) core(jst)=.true.
+      if ((n(ist) == n(jst)).and.(l(ist) == l(jst))) core(jst)=.true.
     end do
   end if
 end do
@@ -45,7 +45,7 @@ nlo=lmax+1
 lorb(:)=.false.
 do ist=1,nst
   if (.not.core(ist)) then
-    if ((l(ist).eq.0).or.(l(ist).lt.k(ist))) then
+    if ((l(ist) == 0).or.(l(ist).lt.k(ist))) then
       if ((eval(ist).lt.esccut).or.(l(ist).ge.2)) then
         lorb(ist)=.true.
         nlo=nlo+1

@@ -15,7 +15,7 @@ PURE SUBROUTINE sphcrd(v,r,tp)
     t1=v(3)/r
     IF(t1.ge.1.d0) THEN 
       tp(1)=0.d0
-    ELSEIF(t1.le.-1.d0) THEN 
+    ELSEIF(t1 <= -1.d0) THEN 
       tp(1)=3.1415926535897932385d0
     else
       tp(1)=acos(t1)

@@ -15,14 +15,17 @@ integer l1,l2,l3,m1,m2,m3
 integer lm1,lm2,lm3
 real(8) vl(3),vc(3)
 ! external functions
-real(8) gaunt
-external gaunt
+real(8), external :: gaunt
+
+write(*,*)
+write(*,*) '--- Enter init4, task = ', task
+write(*,*)
 
 !---------------------------!
 !     H+k-vector arrays     !
 !---------------------------!
-if (any(task.eq.[135,170,171,172,173])) then
-  if (task.eq.135) hkmax=0.5d0*gmaxvr-epslat
+if (any(task == [135,170,171,172,173])) then
+  if (task == 135) hkmax=0.5d0*gmaxvr-epslat
   call findngkmax(nkpt,vkc,nspnfv,vqcss,ngvec,vgc,hkmax,nhkmax)
 ! allocate the H+k-vector arrays
   if (allocated(nhk)) deallocate(nhk)
@@ -44,7 +47,7 @@ if (any(task.eq.[135,170,171,172,173])) then
       vc(:)=vkc(:,ik)
 ! spin-spiral case
       if (spinsprl) then
-        if (jspn.eq.1) then
+        if (jspn == 1) then
           vl(:)=vl(:)+0.5d0*vqlss(:)
           vc(:)=vc(:)+0.5d0*vqcss(:)
         else
@@ -72,7 +75,8 @@ end if
 !-----------------------------!
 !     G+k+q-vector arrays     !
 !-----------------------------!
-if (task.eq.205) then
+if (task == 205) then
+  write(*,*) '--- Allocate G+k+q-vector'
   if (allocated(vkql)) deallocate(vkql)
   allocate(vkql(3,nkptnr))
   if (allocated(vkqc)) deallocate(vkqc)
@@ -94,7 +98,7 @@ end if
 !---------------------------!
 !     G+q-vector arrays     !
 !---------------------------!
-if (task.eq.205) then
+if (task == 205) then
   if (allocated(vgqc)) deallocate(vgqc)
   allocate(vgqc(3,ngtot))
   if (allocated(gqc)) deallocate(gqc)
@@ -118,7 +122,7 @@ end if
 !-----------------------------------------------------------------!
 !     phonon density functional perturbation theory variables     !
 !-----------------------------------------------------------------!
-if (task.eq.205) then
+if (task == 205) then
   if (allocated(drhomt)) deallocate(drhomt)
   allocate(drhomt(npmtmax,natmtot))
   if (allocated(drhoir)) deallocate(drhoir)

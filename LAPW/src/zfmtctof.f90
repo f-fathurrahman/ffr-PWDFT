@@ -18,7 +18,7 @@ integer i,nthd
 ! allocatable arrays
 real(8), allocatable :: fi1(:),fi2(:),fo1(:),fo2(:)
 complex(8), allocatable :: zfmt1(:)
-if (lradstp.eq.1) return
+if (lradstp == 1) return
 
 allocate(fi1(nrcmtmax),fi2(nrcmtmax))
 allocate(fo1(nrmtmax),fo2(nrmtmax))

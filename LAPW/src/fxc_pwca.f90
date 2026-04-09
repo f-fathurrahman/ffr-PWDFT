@@ -33,7 +33,7 @@ real(8) deu,d2eu,ded,d2ed,d2eud,ex
 real(8) ec0,dec0,d2ec0,ec1,dec1,d2ec1
 real(8) ac,dac,d2ac,a2,dt1,d2t1,dt2,d2t2
 real(8) t1,t2,t3,t4,t5,t6,t7,t8
-if (n.le.0) then
+if (n <= 0) then
   write(*,*)
   write(*,'("Error(xc_pwca): invalid n : ",I8)') n
   write(*,*)

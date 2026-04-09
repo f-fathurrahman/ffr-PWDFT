@@ -28,7 +28,7 @@ WRITE(fnum,'(" exchange-correlation",T30,": ",F22.12)') engyx + engyc
 if (dftu.ne.0) then
   write(fnum,'(" DFT+U",T30,": ",F22.12)') engydu
 end if
-IF(stype.eq.3) THEN 
+IF(stype == 3) THEN 
   WRITE(fnum,'(" electron entropic",T30,": ",F22.12)') engyts
 ENDIF 
 WRITE(fnum,'(" total energy",T30,": ",F22.12)') engytot

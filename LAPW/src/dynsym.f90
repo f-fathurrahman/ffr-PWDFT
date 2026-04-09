@@ -32,7 +32,7 @@ do isym=1,nsymcrys
     n=n+1
   end if
 end do
-if (n.eq.0) then
+if (n == 0) then
   write(*,*)
   write(*,'("Error(dynsym): no symmetries leave vpl invariant")')
   write(*,*)

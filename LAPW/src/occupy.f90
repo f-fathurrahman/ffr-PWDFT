@@ -123,7 +123,7 @@ SUBROUTINE occupy()
     e1=1.d8
     DO ist=1,nstsv
       t1=evalsv(ist,ik)
-      IF(t1.le.efermi) THEN 
+      IF(t1 <= efermi) THEN 
         IF(t1.gt.e0) e0=t1
       else
         IF(t1.lt.e1) e1=t1

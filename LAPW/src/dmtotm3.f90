@@ -83,7 +83,7 @@ if (r.gt.(k+p)) then
 end if
 ! calculate the 3-index tensor moment; see Eqs. (23), (26), (27) in article
 g=k+p+r
-if (mod(g,2).eq.0) then
+if (mod(g,2) == 0) then
   z1=1.d0/wigner3j(k,p,r,0,0,0)
 else
   t1=sqrt(factr(g+1,g-2*k)/(factnm(g-2*p,1)*factnm(g-2*r,1)))

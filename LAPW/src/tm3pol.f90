@@ -33,11 +33,11 @@ real(8) nlk,t1
 real(8) wigner3j,factnm,factr
 external wigner3j,factnm,factr
 g=k+p+r
-if (g.eq.0) then
+if (g == 0) then
   t1=sqrt(w2)
   tm3p=t1*(dble(2*(2*l+1))-t1)
 else
-  if (mod(g,2).eq.0) then
+  if (mod(g,2) == 0) then
     t1=wigner3j(k,p,r,0,0,0)
   else
     t1=sqrt(factnm(g-2*p,1)*factnm(g-2*r,1)*factr(g-2*k,g+1))

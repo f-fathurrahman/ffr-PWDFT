@@ -336,13 +336,13 @@ end if
 10 continue
 read(50,*,end=30) block
 ! check for a comment
-if ((scan(trim(block),'!').eq.1).or.(scan(trim(block),'#').eq.1)) goto 10
+if ((scan(trim(block),'!') == 1).or.(scan(trim(block),'#') == 1)) goto 10
 select case(trim(block))
 case('tasks')
   do i=1,maxtasks
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') then
-      if (i.eq.1) then
+    if (trim(str) == '') then
+      if (i == 1) then
         write(*,*)
         write(*,'("Error(readinput): no tasks to perform")')
         write(*,*)
@@ -372,7 +372,7 @@ case('fspecies')
 ! generate fractional species files
   do is=1,maxspecies
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') goto 10
+    if (trim(str) == '') goto 10
     read(str,*,iostat=ios) zn,symb
     if (zn.gt.-1.d0+epsocc) then
       write(*,*)
@@ -400,7 +400,7 @@ case('scale3')
   read(50,*,err=20) sc3
 case('epslat')
   read(50,*,err=20) epslat
-  if (epslat.le.0.d0) then
+  if (epslat <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): epslat <= 0 : ",G18.10)') epslat
     write(*,*)
@@ -414,7 +414,7 @@ case('autokpt')
   read(50,*,err=20) autokpt
 case('radkpt')
   read(50,*,err=20) radkpt
-  if (radkpt.le.0.d0) then
+  if (radkpt <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): radkpt <= 0 : ",G18.10)') radkpt
     write(*,*)
@@ -422,7 +422,7 @@ case('radkpt')
   end if
 case('ngridk')
   read(50,*,err=20) ngridk(:)
-  if ((ngridk(1).le.0).or.(ngridk(2).le.0).or.(ngridk(3).le.0)) then
+  if ((ngridk(1) <= 0).or.(ngridk(2) <= 0).or.(ngridk(3) <= 0)) then
     write(*,*)
     write(*,'("Error(readinput): invalid ngridk : ",3I8)') ngridk
     write(*,*)
@@ -435,7 +435,7 @@ case('reducek')
   read(50,*,err=20) reducek
 case('ngridq')
   read(50,*,err=20) ngridq(:)
-  if ((ngridq(1).le.0).or.(ngridq(2).le.0).or.(ngridq(3).le.0)) then
+  if ((ngridq(1) <= 0).or.(ngridq(2) <= 0).or.(ngridq(3) <= 0)) then
     write(*,*)
     write(*,'("Error(readinput): invalid ngridq : ",3I8)') ngridq
     write(*,*)
@@ -445,7 +445,7 @@ case('reduceq')
   read(50,*,err=20) reduceq
 case('rgkmax')
   read(50,*,err=20) rgkmax
-  if (rgkmax.le.0.d0) then
+  if (rgkmax <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): rgkmax <= 0 : ",G18.10)') rgkmax
     write(*,*)
@@ -527,7 +527,7 @@ case('autoswidth')
   read(50,*,err=20) autoswidth
 case('mstar')
   read(50,*,err=20) mstar
-  if (mstar.le.0.d0) then
+  if (mstar <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): mstar <= 0 : ",G18.10)') mstar
     write(*,*)
@@ -535,7 +535,7 @@ case('mstar')
   end if
 case('epsocc')
   read(50,*,err=20) epsocc
-  if (epsocc.le.0.d0) then
+  if (epsocc <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): epsocc <= 0 : ",G18.10)') epsocc
     write(*,*)
@@ -543,7 +543,7 @@ case('epsocc')
   end if
 case('epschg')
   read(50,*,err=20) epschg
-  if (epschg.le.0.d0) then
+  if (epschg <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): epschg <= 0 : ",G18.10)') epschg
     write(*,*)
@@ -551,7 +551,7 @@ case('epschg')
   end if
 case('nempty','nempty0')
   read(50,*,err=20) nempty0
-  if (nempty0.le.0.d0) then
+  if (nempty0 <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): nempty <= 0 : ",G18.10)') nempty0
     write(*,*)
@@ -560,9 +560,9 @@ case('nempty','nempty0')
 case('mixtype')
   read(50,*,err=20) mixtype
 case('amixpm','beta0','betamax')
-  if (trim(block).eq.'amixpm') then
+  if (trim(block) == 'amixpm') then
     read(50,*,err=20) amixpm(:)
-  else if (trim(block).eq.'beta0') then
+  else if (trim(block) == 'beta0') then
     read(50,*,err=20) amixpm(1)
   else
     read(50,*,err=20) amixpm(2)
@@ -623,7 +623,7 @@ case('molecule')
   read(50,*,err=20) molecule
 case('atoms')
   read(50,*,err=20) nspecies
-  if (nspecies.le.0) then
+  if (nspecies <= 0) then
     write(*,*)
     write(*,'("Error(readinput): nspecies <= 0 : ",I8)') nspecies
     write(*,*)
@@ -640,7 +640,7 @@ case('atoms')
     read(50,*,err=20) spfname(is)
     spfname(is)=adjustl(spfname(is))
     read(50,*,err=20) natoms(is)
-    if (natoms(is).le.0) then
+    if (natoms(is) <= 0) then
       write(*,*)
       write(*,'("Error(readinput): natoms <= 0 : ",I8)') natoms(is)
       write(*,'(" for species ",I4)') is
@@ -742,7 +742,7 @@ case('atpopt')
   read(50,*,err=20) atpopt
 case('maxatpstp','maxatmstp')
   read(50,*,err=20) maxatpstp
-  if (maxatpstp.le.0) then
+  if (maxatpstp <= 0) then
     write(*,*)
     write(*,'("Error(readinput): maxatpstp <= 0 : ",I8)') maxatpstp
     write(*,*)
@@ -752,7 +752,7 @@ case('tau0atp','tau0atm')
   read(50,*,err=20) tau0atp
 case('deltast')
   read(50,*,err=20) deltast
-  if (deltast.le.0.d0) then
+  if (deltast <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): deltast <= 0 : ",G18.10)') deltast
     write(*,*)
@@ -762,7 +762,7 @@ case('latvopt')
   read(50,*,err=20) latvopt
 case('maxlatvstp')
   read(50,*,err=20) maxlatvstp
-  if (maxlatvstp.le.0) then
+  if (maxlatvstp <= 0) then
     write(*,*)
     write(*,'("Error(readinput): maxlatvstp <= 0 : ",I8)') maxlatvstp
     write(*,*)
@@ -776,7 +776,7 @@ case('nstfsp')
   write(*,'("Info(readinput): variable ''nstfsp'' is no longer used")')
 case('lradstp')
   read(50,*,err=20) lradstp
-  if (lradstp.le.0) then
+  if (lradstp <= 0) then
     write(*,*)
     write(*,'("Error(readinput): lradstp <= 0 : ",I8)') lradstp
     write(*,*)
@@ -793,8 +793,8 @@ case('scissor')
 case('optcomp')
   do i=1,27
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') then
-      if (i.eq.1) then
+    if (trim(str) == '') then
+      if (i == 1) then
         write(*,*)
         write(*,'("Error(readinput): empty optical component list")')
         write(*,*)
@@ -835,7 +835,7 @@ case('deband')
   write(*,'("Info(readinput): variable ''deband'' is no longer used")')
 case('epsband')
   read(50,*,err=20) epsband
-  if (epsband.le.0.d0) then
+  if (epsband <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): epsband <= 0 : ",G18.10)') epsband
     write(*,*)
@@ -843,7 +843,7 @@ case('epsband')
   end if
 case('demaxbnd')
   read(50,*,err=20) demaxbnd
-  if (demaxbnd.le.0.d0) then
+  if (demaxbnd <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): demaxbnd <= 0 : ",G18.10)') demaxbnd
     write(*,*)
@@ -874,7 +874,7 @@ case('momfix')
 case('mommtfix')
   do ias=1,maxspecies*maxatoms
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') goto 10
+    if (trim(str) == '') goto 10
     read(str,*,iostat=ios) is,ia,mommtfix(:,ia,is)
     if (ios.ne.0) then
       write(*,*)
@@ -918,7 +918,7 @@ case('symtype')
   end if
 case('deltaph')
   read(50,*,err=20) deltaph
-  if (deltaph.le.0.d0) then
+  if (deltaph <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): deltaph <= 0 : ",G18.10)') deltaph
     write(*,*)
@@ -926,7 +926,7 @@ case('deltaph')
   end if
 case('phwrite')
   read(50,*,err=20) nphwrt
-  if (nphwrt.le.0) then
+  if (nphwrt <= 0) then
     write(*,*)
     write(*,'("Error(readinput): nphwrt <= 0 : ",I8)') nphwrt
     write(*,*)
@@ -943,7 +943,7 @@ case('notes')
   notelns=0
   do
     read(50,'(A80)') str
-    if (trim(str).eq.'') goto 10
+    if (trim(str) == '') goto 10
     notelns=notelns+1
     call addstr(notes)
   end do
@@ -972,8 +972,8 @@ case('tauoep')
 case('kstlist')
   do i=1,maxkst
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') then
-      if (i.eq.1) then
+    if (trim(str) == '') then
+      if (i == 1) then
         write(*,*)
         write(*,'("Error(readinput): empty k-point and state list")')
         write(*,*)
@@ -1021,7 +1021,7 @@ case('DFT+U','dft+u','lda+u')
   read(50,*,err=20) dftu,inpdftu
   do i=1,maxdftu
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') then
+    if (trim(str) == '') then
       ndftu=i-1
       goto 10
     end if
@@ -1049,7 +1049,7 @@ case('DFT+U','dft+u','lda+u')
       write(*,*)
       stop
     end if
-    if ((is.le.0).or.(is.ge.maxspecies)) then
+    if ((is <= 0).or.(is.ge.maxspecies)) then
       write(*,*)
       write(*,'("Error(readinput): invalid species number in dft+u block : ", &
        &I8)') is
@@ -1070,7 +1070,7 @@ case('DFT+U','dft+u','lda+u')
     end if
 ! check for repeated entries
     do j=1,i-1
-      if ((is.eq.idftu(1,j)).and.(l.eq.idftu(2,j))) then
+      if ((is == idftu(1,j)).and.(l == idftu(2,j))) then
         write(*,*)
         write(*,'("Error(readinput): repeated entry in DFT+U block")')
         write(*,*)
@@ -1126,7 +1126,7 @@ case('taurdmc')
   end if
 case('rdmalpha')
   read(50,*,err=20) rdmalpha
-  if ((rdmalpha.le.0.d0).or.(rdmalpha.ge.1.d0)) then
+  if ((rdmalpha <= 0.d0).or.(rdmalpha.ge.1.d0)) then
     write(*,*)
     write(*,'("Error(readinput): rdmalpha not in (0,1) : ",G18.10)') rdmalpha
     write(*,*)
@@ -1172,7 +1172,7 @@ case('maxitefv','maxseqit')
   end if
 case('befvit','bseqit')
   read(50,*,err=20) befvit
-  if (befvit.le.0.d0) then
+  if (befvit <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): befvit <= 0 : ",G18.10)') befvit
     write(*,*)
@@ -1259,8 +1259,8 @@ case('ncbse')
 case('istxbse')
   do i=1,maxxbse
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') then
-      if (i.eq.1) then
+    if (trim(str) == '') then
+      if (i == 1) then
         write(*,*)
         write(*,'("Error(readinput): empty BSE extra valence state list")')
         write(*,*)
@@ -1285,8 +1285,8 @@ case('istxbse')
 case('jstxbse')
   do i=1,maxxbse
     read(50,'(A256)',err=20) str
-    if (trim(str).eq.'') then
-      if (i.eq.1) then
+    if (trim(str) == '') then
+      if (i == 1) then
         write(*,*)
         write(*,'("Error(readinput): empty BSE extra conduction state list")')
         write(*,*)
@@ -1365,7 +1365,7 @@ case('rndavec')
   read(50,*,err=20) rndavec
 !case('emaxbdg')
 !  read(50,*,err=20) emaxbdg
-!  if (emaxbdg.le.0.d0) then
+!  if (emaxbdg <= 0.d0) then
 !    write(*,*)
 !    write(*,'("Error(readinput): emaxbdg <= 0 : ",G18.10)') emaxbdg
 !    write(*,*)
@@ -1380,7 +1380,7 @@ case('c_tb09')
 case('lowq','highq','vhighq','uhighq')
   read(50,*,err=20) lv
   if (lv) then
-    if (trim(block).eq.'lowq') then
+    if (trim(block) == 'lowq') then
       rgkmax=6.5d0
       gmaxvr=10.d0
       lmaxapw=7
@@ -1397,7 +1397,7 @@ case('lowq','highq','vhighq','uhighq')
       autolinengy=.true.
       gmaxrf=2.5d0
       lradstp=5
-    else if (trim(block).eq.'highq') then
+    else if (trim(block) == 'highq') then
 ! parameter set for high quality calculation
       rgkmax=max(rgkmax,8.d0)
       gmaxvr=max(gmaxvr,16.d0)
@@ -1416,7 +1416,7 @@ case('lowq','highq','vhighq','uhighq')
       epsforce=min(epsforce,1.d-4)
       autolinengy=.true.
       gmaxrf=max(gmaxrf,4.d0)
-    else if (trim(block).eq.'vhighq') then
+    else if (trim(block) == 'vhighq') then
 ! parameter set for very high quality calculation
       rgkmax=max(rgkmax,9.d0)
       gmaxvr=max(gmaxvr,18.d0)
@@ -1475,7 +1475,7 @@ case('lowq','highq','vhighq','uhighq')
       write(*,'(" epsforce : ",G18.10)') epsforce
       write(*,'(" autolinengy : ",L1)') autolinengy
       write(*,'(" gmaxrf : ",G18.10)') gmaxrf
-      if (trim(block).eq.'lowq') then
+      if (trim(block) == 'lowq') then
         write(*,'(" lradstp : ",I4)') lradstp
       end if
     end if
@@ -1490,7 +1490,7 @@ case('hmaxvr')
   end if
 case('hkmax')
   read(50,*,err=20) hkmax
-  if (hkmax.le.0.d0) then
+  if (hkmax <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): hkmax <= 0 : ",G18.10)') hkmax
     write(*,*)
@@ -1531,7 +1531,7 @@ case('lmaxdos')
   end if
 case('epsdev')
   read(50,*,err=20) epsdev
-  if (epsdev.le.0.d0) then
+  if (epsdev <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): epsdev <= 0 : ",G18.10)') epsdev
     write(*,*)
@@ -1553,7 +1553,7 @@ case('ftmtype')
   read(50,*,err=20) ftmtype
 case('tmomfix')
   read(50,*,err=20) ntmfix
-  if (ntmfix.le.0) then
+  if (ntmfix <= 0) then
     write(*,*)
     write(*,'("Error(readinput): ntmfix <= 0 : ",I8)') ntmfix
     write(*,*)
@@ -1567,7 +1567,7 @@ case('tmomfix')
   allocate(rtmfix(3,3,2,ntmfix))
   do i=1,ntmfix
     read(50,*,err=20) is,ia,l,n
-    if ((is.le.0).or.(ia.le.0).or.(l.lt.0).or.((n.ne.2).and.(n.ne.3))) then
+    if ((is <= 0).or.(ia <= 0).or.(l.lt.0).or.((n.ne.2).and.(n.ne.3))) then
       write(*,*)
       write(*,'("Error(readinput): invalid is, ia, l or n in tmomfix block : ",&
        &4I8)') is,ia,l,n
@@ -1633,7 +1633,7 @@ case('tstime')
   end if
 case('dtimes')
   read(50,*,err=20) dtimes
-  if (dtimes.le.0.d0) then
+  if (dtimes <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): dtimes <= 0 : ",G18.10)') dtimes
     write(*,*)
@@ -1723,7 +1723,7 @@ case('ssxc','rstsf')
   read(50,*,err=20) ssxc
 case('tempk')
   read(50,*,err=20) tempk
-  if (tempk.le.0.d0) then
+  if (tempk <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): tempk <= 0 : ",G18.10)') tempk
     write(*,*)
@@ -1773,7 +1773,7 @@ case('evtype')
 !  read(50,*,err=20) actype
 !case('npole')
 !  read(50,*,err=20) npole
-!  if (npole.le.0) then
+!  if (npole <= 0) then
 !    write(*,*)
 !    write(*,'("Error(readinput): npole <= 0 : ",I8)') npole
 !    write(*,*)
@@ -1781,7 +1781,7 @@ case('evtype')
 !  end if
 !case('nspade')
 !  read(50,*,err=20) nspade
-!  if (nspade.le.0) then
+!  if (nspade <= 0) then
 !    write(*,*)
 !    write(*,'("Error(readinput): nspade <= 0 : ",I8)') nspade
 !    write(*,*)
@@ -1870,7 +1870,7 @@ case('taudft')
   read(50,*,err=20) taudft
 case('t0tdlr')
   read(50,*,err=20) t0tdlr
-  if (t0tdlr.le.0.d0) then
+  if (t0tdlr <= 0.d0) then
     write(*,*)
     write(*,'("Error(readinput): t0tdlr <= 0 : ",G18.10)') t0tdlr
     write(*,*)
@@ -1905,7 +1905,7 @@ case('ntsbackup')
 !  nxlwin=0
 !  do
 !    read(50,'(A256)',err=20) str
-!    if (trim(str).eq.'') goto 10
+!    if (trim(str) == '') goto 10
 !    nxlwin=nxlwin+1
 !    call addstr(xlwin)
 !  end do
@@ -1993,7 +1993,7 @@ if (rndbfcmt.gt.0.d0) then
   end do
 end if
 ! set fxctype to fxctype if required
-if (fxctype(1).eq.-1) fxctype(:)=xctype(:)
+if (fxctype(1) == -1) fxctype(:)=xctype(:)
 ! find primitive cell if required
 if (primcell) call findprimcell
 ! scale the ultracell vectors if required

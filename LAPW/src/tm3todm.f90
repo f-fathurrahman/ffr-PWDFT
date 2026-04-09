@@ -71,7 +71,7 @@ do x=-k,k
   do y=-p,p
     t1=dble((-1)**(x+y-k-p))
     g=k+p+r
-    if (mod(g,2).eq.0) then
+    if (mod(g,2) == 0) then
       z1=t1*wigner3j(k,p,r,0,0,0)
     else
       t1=t1*sqrt(factr(g-2*k,g+1)*factnm(g-2*p,1)*factnm(g-2*r,1))

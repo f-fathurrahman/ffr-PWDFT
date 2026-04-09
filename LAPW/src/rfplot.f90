@@ -81,7 +81,7 @@ SUBROUTINE rfip(ip)
                 !
                 IF(rsp(ir,is) >= r) THEN 
                   !
-                  IF(ir.le.3) THEN 
+                  IF(ir <= 3) THEN 
                     ir0=1
                   ELSEIF(ir.gt.nr-2) THEN 
                     ir0=nr-3

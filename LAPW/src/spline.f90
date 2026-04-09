@@ -13,24 +13,24 @@ REAL(8), intent(out) :: cf(3,n)
 INTEGER i
 REAL(8) x0,x1,x2,x3,y0,y1,y2,y3
 REAL(8) t0,t1,t2,t3,t4,t5,t6,t7
-IF(n.le.0) THEN 
+IF(n <= 0) THEN 
   WRITE(*,*)
   WRITE(*,'("Error(spline): n <= 0 : ",I8)') n
   WRITE(*,*)
   stop
 ENDIF 
-IF(n.eq.1) THEN 
+IF(n == 1) THEN 
   cf(:,1)=0.d0
   RETURN 
 ENDIF 
-IF(n.eq.2) THEN 
+IF(n == 2) THEN 
   cf(1,1)=(f(2)-f(1))/(x(2)-x(1))
   cf(2:3,1)=0.d0
   cf(1,2)=cf(1,1)
   cf(2:3,2)=0.d0
   RETURN 
 ENDIF 
-IF(n.eq.3) THEN 
+IF(n == 3) THEN 
   x0=x(1)
   x1=x(2)-x0; x2=x(3)-x0
   y0=f(1)
@@ -68,7 +68,7 @@ cf(1,1)=t1; cf(2,1)=t2; cf(3,1)=t7
 cf(1,2)=t1+2.d0*t2*x1+3.d0*t7*t4
 cf(2,2)=t2+3.d0*t7*x1
 cf(3,2)=t7
-IF(n.eq.4) THEN 
+IF(n == 4) THEN 
   cf(1,3)=t1+2.d0*t2*x2+3.d0*t7*t5
   cf(2,3)=t2+3.d0*t7*x2
   cf(3,3)=t7

@@ -60,7 +60,7 @@ SUBROUTINE genylmv(lmax,v,ylm)
     lm3=(l-1)**2+1
     lm4=lm2+1
     ylm(lm1)=-st*sqrt(dble(2*l+1)/dble(2*l))*z1*ylm(lm2)
-    IF(mod(l,2).eq.0) THEN 
+    IF(mod(l,2) == 0) THEN 
       ylm(lm4)=conjg(ylm(lm1))
     ELSE 
       ylm(lm4)=-conjg(ylm(lm1))
@@ -68,7 +68,7 @@ SUBROUTINE genylmv(lmax,v,ylm)
     lm1=lm1-1
     ylm(lm1)=ct*sqrt(dble(2*l+1))*ylm(lm2)
     lm4=lm4+1
-    IF(mod(l-1,2).eq.0) THEN 
+    IF(mod(l-1,2) == 0) THEN 
       ylm(lm4)=conjg(ylm(lm1))
     ELSE 
       ylm(lm4)=-conjg(ylm(lm1))
@@ -83,7 +83,7 @@ SUBROUTINE genylmv(lmax,v,ylm)
       t3=1.d0/sqrt(dble((l-m)*(l+m)))
       t4=t2*sqrt(dble((l-m-1)*(l+m-1)))
       ylm(lm1)=t3*(t1*ylm(lm2)-t4*ylm(lm3))
-      IF(mod(m,2).eq.0) THEN 
+      IF(mod(m,2) == 0) THEN 
         ylm(lm4)=conjg(ylm(lm1))
       ELSE 
         ylm(lm4)=-conjg(ylm(lm1))

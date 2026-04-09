@@ -27,11 +27,11 @@ implicit none
 ! local variables
 integer is,ia,ias
 real(8) v1(3),v2(3),t1
-if ((.not.spinpol).or.(fsmtype.eq.0)) return
+if ((.not.spinpol).or.(fsmtype == 0)) return
 ! fixed spin direction not valid for collinear magnetism
 if ((.not.ncmag).and.(fsmtype.lt.0)) return
 ! determine the global effective field
-if ((abs(fsmtype).eq.1).or.(abs(fsmtype).eq.3)) then
+if ((abs(fsmtype) == 1).or.(abs(fsmtype) == 3)) then
   if (ncmag) then
     v1(:)=momtot(:)
   else
@@ -48,7 +48,7 @@ if ((abs(fsmtype).eq.1).or.(abs(fsmtype).eq.3)) then
 ! for fixed direction calculations (Y. Kvashnin and LN)
   if (fsmtype.lt.0) call r3vo(momfix,bfsmc)
 end if
-if ((abs(fsmtype).eq.2).or.(abs(fsmtype).eq.3)) then
+if ((abs(fsmtype) == 2).or.(abs(fsmtype) == 3)) then
 ! determine the muffin-tin fields for fixed local moments
   do is=1,nspecies
     do ia=1,natoms(is)

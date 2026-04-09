@@ -89,7 +89,7 @@ COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv)
       CALL zhemv('U',nmatp,zone,h,nmatp,evecfv(:,ist),1,zzero,hv(:,ist),1)
       ! estimate the eigenvalue
       t1=dble(zdotc(nmatp,evecfv(:,ist),1,hv(:,ist),1))
-      IF((iscl.le.1).and.(it.eq.1)) THEN 
+      IF((iscl <= 1).and.(it == 1)) THEN 
         evalfv(ist)=t1
       ELSE 
         evalfv(ist)=(1.d0-befvit)*evalfv(ist)+befvit*t1

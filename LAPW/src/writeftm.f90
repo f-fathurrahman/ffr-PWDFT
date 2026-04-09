@@ -26,7 +26,7 @@ do i=1,ntmfix
   write(50,*)
   write(50,'("Species : ",I4," (",A,"), atom : ",I4)') is,trim(spsymb(is)),ia
   write(50,'(" l = ",I2,", n = ",I2)') l,n
-  if (n.eq.2) then
+  if (n == 2) then
     x=itmfix(7,i)
     y=itmfix(8,i)
     write(50,'(" k = ",I2,", p = ",I2,", x = ",I2,", y = ",I2)') k,p,x,y

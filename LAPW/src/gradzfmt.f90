@@ -128,9 +128,9 @@ do l=0,lmaxi
     lm1=lm1+1
     j=1
     do i=-1,1
-      if (i.eq.0) j=3
-      if (i.eq.1) j=2
-      if ((l+1.le.lmaxi).and.(abs(m+i).le.l+1)) then
+      if (i == 0) j=3
+      if (i == 1) j=2
+      if ((l+1 <= lmaxi).and.(abs(m+i) <= l+1)) then
 ! index to (l,m) is l*(l+1)+m+1, therefore index to (l+1,m+i) is
         lm2=(l+1)*(l+2)+(m+i)+1
         t3=t1*clebgor(l,1,l+1,m,i,m+i)
@@ -140,7 +140,7 @@ do l=0,lmaxi
           i1=i1+lmmaxi; i2=i2+lmmaxi
         end do
       end if
-      if (abs(m+i).le.l-1) then
+      if (abs(m+i) <= l-1) then
 ! index to (l-1,m+i)
         lm2=(l-1)*l+(m+i)+1
         t3=t2*clebgor(l,1,l-1,m,i,m+i)
@@ -166,9 +166,9 @@ do l=0,lmaxo
     lm1=lm1+1
     j=1
     do i=-1,1
-      if (i.eq.0) j=3
-      if (i.eq.1) j=2
-      if ((l+1.le.lmaxo).and.(abs(m+i).le.l+1)) then
+      if (i == 0) j=3
+      if (i == 1) j=2
+      if ((l+1 <= lmaxo).and.(abs(m+i) <= l+1)) then
         lm2=(l+1)*(l+2)+(m+i)+1
         t3=t1*clebgor(l,1,l+1,m,i,m+i)
         i1=npi+lm1; i2=npi+lm2
@@ -177,7 +177,7 @@ do l=0,lmaxo
           i1=i1+lmmaxo; i2=i2+lmmaxo
         end do
       end if
-      if (abs(m+i).le.l-1) then
+      if (abs(m+i) <= l-1) then
         lm2=(l-1)*l+(m+i)+1
         t3=t2*clebgor(l,1,l-1,m,i,m+i)
         i1=npi+lm1; i2=npi+lm2

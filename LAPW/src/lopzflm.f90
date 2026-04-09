@@ -41,7 +41,7 @@ lm=0
 do l=0,lmax
   do m=-l,l
     lm=lm+1
-    if (m.eq.-l) then
+    if (m == -l) then
       zlflm(lm,1)=0.d0
       zlflm(lm,2)=0.d0
     end if

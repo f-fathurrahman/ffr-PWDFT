@@ -122,7 +122,7 @@ SUBROUTINE energy
   !-------------------------!
   !     exchange energy     !
   !-------------------------!
-  IF((xctype(1).lt.0).or.(task.eq.5)) THEN 
+  IF((xctype(1).lt.0).or.(task == 5)) THEN 
     ! exact exchange for OEP-EXX or Hartree-Fock on last self-consistent loop
     IF(tlast) THEN 
       CALL exxengy()
@@ -194,7 +194,7 @@ SUBROUTINE energy
   CALL energykncr()
 
   ! total electron kinetic energy
-  IF(task.eq.5) THEN 
+  IF(task == 5) THEN 
     ! Hartree-Fock case
     engykn=engykncr
     ! kinetic energy from valence states
@@ -224,7 +224,7 @@ SUBROUTINE energy
       sum=sum+rfinp(magmt(:,:,idm),magir(:,idm),rfmt,bsir(:,idm))
     ENDDO 
     ! remove integral of w_xc times tau for generalised Kohn-Sham meta-GGA
-    IF(xcgrad.eq.4) THEN 
+    IF(xcgrad == 4) THEN 
       DO ispn=1,nspinor
         DO ias=1,natmtot
           is=idxis(ias)
@@ -252,7 +252,7 @@ SUBROUTINE energy
   entrpy=0.d0
   engyts=0.d0
   ! non-zero only for the Fermi-Dirac smearing function
-  IF(stype.eq.3) THEN 
+  IF(stype == 3) THEN 
     sum=0.d0
     DO ik=1,nkpt
       DO ist=1,nstsv

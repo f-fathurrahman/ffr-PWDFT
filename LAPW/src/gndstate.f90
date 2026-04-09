@@ -44,8 +44,8 @@ call init1
 if (xctype(1).lt.0) call init2
 ! apply strain to the G, k, G+k and q-vectors if required
 call straingkq
-if (task.eq.0) trdstate=.false.
-if (task.eq.1) trdstate=.true.
+if (task == 0) trdstate=.false.
+if (task == 1) trdstate=.true.
 ! only the MPI master process should write files
 if (mp_mpi) then
 ! write the real and reciprocal lattice vectors to file
@@ -211,7 +211,7 @@ do iscl=1,maxscl
 ! compute the Kohn-Sham potentials and magnetic fields
   call potks(.true.)
   if (mp_mpi) then
-    if ((xcgrad.eq.3).and.(c_tb09.ne.0.d0)) then
+    if ((xcgrad == 3).and.(c_tb09.ne.0.d0)) then
       write(60,*)
       write(60,'("Tran-Blaha ''09 constant c : ",G18.10)') c_tb09
     end if
@@ -282,7 +282,7 @@ do iscl=1,maxscl
     end if
 ! write STATE.OUT file if required
     if (nwrite.ge.1) then
-      if (mod(iscl,nwrite).eq.0) then
+      if (mod(iscl,nwrite) == 0) then
         call writestate
         write(60,*)
         write(60,'("Wrote STATE.OUT")')

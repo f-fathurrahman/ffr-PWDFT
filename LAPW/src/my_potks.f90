@@ -19,7 +19,7 @@ SUBROUTINE my_potks(txc)
   CALL my_potcoul()
 
   ! meta-GGA variables if required
-  IF((xcgrad.eq.3).or.(xcgrad.eq.4)) THEN 
+  IF((xcgrad == 3).or.(xcgrad == 4)) THEN 
     ! generate the kinetic energy density
     CALL gentau()
     ! compute the Tran-Blaha '09 constant if required

@@ -30,7 +30,7 @@ do jlo=1,nlorb(is)
         i=ngpq+idxlo(lm1,ilo,ias)
         z1=0.d0
         do l2=0,lmaxo
-          if (mod(l1+l2+l3,2).eq.0) then
+          if (mod(l1+l2+l3,2) == 0) then
             do m2=-l2,l2
               lm2=idxlm(l2,m2)
               z1=z1+gntyyy(lm2,lm3,lm1)*dhlolo(lm2,jlo,ilo,ias)

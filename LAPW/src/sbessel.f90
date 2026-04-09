@@ -42,9 +42,9 @@ SUBROUTINE sbessel(lmax,x,jl)
   sx=sin(x)
   cx=cos(x)
   jl(0)=sx*xi
-  IF(lmax.eq.0) RETURN 
+  IF(lmax == 0) RETURN 
   jl(1)=(jl(0)-cx)*xi
-  IF(lmax.eq.1) RETURN 
+  IF(lmax == 1) RETURN 
   ! for x < lmax recurse down
   IF(x.lt.lmax) THEN 
   ! start from truly random numbers

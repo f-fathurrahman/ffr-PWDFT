@@ -211,7 +211,7 @@ SUBROUTINE zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, &
     ! store the nuclear potential without the self-term for the phonon dynamical
     ! matrix calculation
     !IF(tphdyn) THEN 
-    !  IF(ias.eq.iasph) zvnmt(1:np(is))=zhmt(1:np(is))
+    !  IF(ias == iasph) zvnmt(1:np(is))=zhmt(1:np(is))
     !ENDIF 
   
   ENDDO 

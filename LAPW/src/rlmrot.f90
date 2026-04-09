@@ -80,7 +80,7 @@ do l=0,lmax
   lm0=lmi(0)
   d(lm0,lm0)=dy(lm0,lm0)
   do m1=1,l
-    if (mod(m1,2).eq.0) then
+    if (mod(m1,2) == 0) then
       s1=1.d0
     else
       s1=-1.d0
@@ -92,7 +92,7 @@ do l=0,lmax
     d(lmi(-m1),lm0)=-t1*sa(m1)
     d(lm0,lmi(-m1))=t2*sg(m1)
     do m2=1,l
-      if (mod(m2,2).eq.0) then
+      if (mod(m2,2) == 0) then
         s2=1.d0
       else
         s2=-1.d0
@@ -113,7 +113,7 @@ do l=0,lmax
   end do
 end do
 ! apply inversion if required
-if (p.eq.-1) then
+if (p == -1) then
   do l=1,lmax,2
     lm1=l**2+1
     lm2=lm1+2*l

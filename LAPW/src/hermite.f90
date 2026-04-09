@@ -45,11 +45,11 @@ if (abs(x).gt.1.d15) then
   write(*,*)
   stop
 end if
-if (n.eq.0) then
+if (n == 0) then
   hermite=1.d0
   return
 end if
-if (n.eq.1) then
+if (n == 1) then
   hermite=2.d0*x
   return
 end if

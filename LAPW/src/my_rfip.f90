@@ -54,7 +54,7 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
                   !write(*,*) 'inside the muffin tin'
                   !write(*,'(1x,A,ES18.10)') 'r = ', r
                   !
-                  IF(ir .le. 3) THEN 
+                  IF(ir  <=  3) THEN 
                     ir0 = 1
                   ELSEIF(ir .gt. nr-2) THEN 
                     ir0 = nr - 3

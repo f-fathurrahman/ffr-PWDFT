@@ -27,12 +27,12 @@ is=idxis(ias)
 ldi=2*lmmaxi
 ldo=2*lmmaxo
 iro=nrmti(is)+lrstp
-if (lrstp.eq.1) then
+if (lrstp == 1) then
   nrc=nrmt(is)
   nrci=nrmti(is)
   npc=npmt(is)
   npci=npmti(is)
-else if (lrstp.eq.lradstp) then
+else if (lrstp == lradstp) then
   nrc=nrcmt(is)
   nrci=nrcmti(is)
   npc=npcmt(is)
@@ -56,17 +56,17 @@ do l=0,lmaxo
     i=npci+lm
     do io=1,apword(l,is)
       z1=zdotu(ngpq,devecfv,1,apwalmq(:,io,lm,ias),1)
-      if (ias.eq.iasph) then
+      if (ias == iasph) then
         z1=z1+zdotu(ngp,evecfv,1,dapwalm(:,io,lm),1)
       end if
       if (abs(dble(z1)).gt.1.d-14) then
-        if (l.le.lmaxi) then
+        if (l <= lmaxi) then
           call daxpy(nrci,dble(z1),apwfr(1,1,io,l,ias),lrstp,dwfmt(1,lm),ldi)
         end if
         call daxpy(nrco,dble(z1),apwfr(iro,1,io,l,ias),lrstp,dwfmt(1,i),ldo)
       end if
       if (abs(aimag(z1)).gt.1.d-14) then
-        if (l.le.lmaxi) then
+        if (l <= lmaxi) then
           call daxpy(nrci,aimag(z1),apwfr(1,1,io,l,ias),lrstp,dwfmt(2,lm),ldi)
         end if
         call daxpy(nrco,aimag(z1),apwfr(iro,1,io,l,ias),lrstp,dwfmt(2,i),ldo)
@@ -84,13 +84,13 @@ do ilo=1,nlorb(is)
     i=npci+lm
     z1=devecfv(ngpq+idxlo(lm,ilo,ias))
     if (abs(dble(z1)).gt.1.d-14) then
-      if (l.le.lmaxi) then
+      if (l <= lmaxi) then
         call daxpy(nrci,dble(z1),lofr(1,1,ilo,ias),lrstp,dwfmt(1,lm),ldi)
       end if
       call daxpy(nrco,dble(z1),lofr(iro,1,ilo,ias),lrstp,dwfmt(1,i),ldo)
     end if
     if (abs(aimag(z1)).gt.1.d-14) then
-      if (l.le.lmaxi) then
+      if (l <= lmaxi) then
         call daxpy(nrci,aimag(z1),lofr(1,1,ilo,ias),lrstp,dwfmt(2,lm),ldi)
       end if
       call daxpy(nrco,aimag(z1),lofr(iro,1,ilo,ias),lrstp,dwfmt(2,i),ldo)

@@ -38,7 +38,7 @@ real(8) wigner3j,wigner6j,factnm,factr
 external wigner3j,wigner6j,factnm,factr
 l=idftu(2,i)
 g=k1+p+r
-if (mod(g,2).eq.0) then
+if (mod(g,2) == 0) then
   t1=wigner3j(k1,p,r,0,0,0)
 else
   t1=sqrt(factr(g-2*k1,g+1)*factnm(g-2*p,1)*factnm(g-2*r,1))
@@ -51,8 +51,8 @@ vx=0.d0
 do k=0,2*l,2
   t1=0.5d0*(dble(2*l+1)*nlk*wigner3j(l,k,l,0,0,0))**2
   t2=0.5d0*dble((2*k1+1)*(-1)**k1)*wigner6j(l,l,k1,l,l,k)*t3
-  if (k.eq.k1) then
-    if (p.eq.0) vh=t1*fdu(k1,i)
+  if (k == k1) then
+    if (p == 0) vh=t1*fdu(k1,i)
   end if
   vx=vx-t1*t2*fdu(k,i)
 end do

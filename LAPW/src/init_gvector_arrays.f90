@@ -18,7 +18,7 @@ SUBROUTINE init_gvector_arrays()
   !     G-vector arrays     !
   !-------------------------!
   ! determine gkmax from rgkmax
-  IF (nspecies.eq.0) isgkmax=-2
+  IF (nspecies == 0) isgkmax=-2
   select case(isgkmax)
   case(:-4)
     write(*,*) 'Use largest muffin-tin radius'

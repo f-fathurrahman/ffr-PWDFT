@@ -24,7 +24,7 @@ do i=1,2
   read(150,rec=ik,err=10) vkl_,nstsv_,pmat
   exit
 10 continue
-  if (i.eq.2) then
+  if (i == 2) then
     write(*,*)
     write(*,'("Error(getpmat): unable to read from PMAT.OUT")')
     write(*,*)

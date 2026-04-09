@@ -39,7 +39,7 @@ do is=1,nspecies
       vclmt(i+1,ias)=vclmt(i+1,ias)+elm(-1)*r
       vclmt(i+2,ias)=vclmt(i+2,ias)+elm(0)*r
       vclmt(i+3,ias)=vclmt(i+3,ias)+elm(1)*r
-      if (ir.le.nri) then
+      if (ir <= nri) then
         i=i+lmmaxi
       else
         i=i+lmmaxo

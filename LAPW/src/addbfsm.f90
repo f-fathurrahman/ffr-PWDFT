@@ -10,7 +10,7 @@ implicit none
 integer idm,is,ias,npc
 real(8) t1
 ! add the global fixed spin moment B-field to the Kohn-Sham field
-if ((abs(fsmtype).eq.1).or.(abs(fsmtype).eq.3)) then
+if ((abs(fsmtype) == 1).or.(abs(fsmtype) == 3)) then
   do idm=1,ndmag
     t1=bfsmc(idm)
     do ias=1,natmtot
@@ -22,7 +22,7 @@ if ((abs(fsmtype).eq.1).or.(abs(fsmtype).eq.3)) then
   end do
 end if
 ! add the muffin-tin fields
-if ((abs(fsmtype).eq.2).or.(abs(fsmtype).eq.3)) then
+if ((abs(fsmtype) == 2).or.(abs(fsmtype) == 3)) then
   do idm=1,ndmag
     do ias=1,natmtot
       is=idxis(ias)

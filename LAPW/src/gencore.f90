@@ -54,7 +54,7 @@ SUBROUTINE gencore()
         vr(1:nr)=vr(1:nr)*y00
         ! spin-up and -down potentials for polarised core
         IF(spincore) THEN 
-          IF(ispn.eq.1) THEN 
+          IF(ispn == 1) THEN 
             vr(1:nr)=vr(1:nr)+br(1:nr)
           else
             vr(1:nr)=vr(1:nr)-br(1:nr)
@@ -74,7 +74,7 @@ SUBROUTINE gencore()
              vr,eval(ist),rwfcr(:,1,ist,ias),rwfcr(:,2,ist,ias))
             IF( spincore ) THEN 
               ! use the spin-averaged eigenvalue for the polarised core
-              IF(ispn.eq.1) THEN 
+              IF(ispn == 1) THEN 
                 evalcr(ist,ias)=eval(ist)
               else
                 evalcr(ist,ias)=0.5d0*(evalcr(ist,ias)+eval(ist))

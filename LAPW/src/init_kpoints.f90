@@ -51,7 +51,7 @@ SUBROUTINE init_kpoints()
     ENDDO 
   ENDIF 
 
-  if (any(task.eq.[20,21,22,23])) then
+  if (any(task == [20,21,22,23])) then
     ! generate k-points along a path for band structure plots
     ! XXX Disabled
     WRITE(*,*) 'task = ', task
@@ -71,7 +71,7 @@ SUBROUTINE init_kpoints()
     ENDIF 
     ! set up the default k-point box
     kptboxl(:,0) = vkloff(:)/dble(ngridk(:))
-    IF(task.eq.102) kptboxl(:,0)=0.d0
+    IF(task == 102) kptboxl(:,0)=0.d0
     !
     kptboxl(:,1) = kptboxl(:,0)
     kptboxl(:,2) = kptboxl(:,0)
