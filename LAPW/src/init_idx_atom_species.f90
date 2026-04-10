@@ -2,6 +2,7 @@
 SUBROUTINE init_idx_atom_species()
 !---------------------------------
   USE m_atoms, ONLY: nspecies, idxas, idxis, idxia, natmmax, natmtot, natoms
+  use modphonon, ONLY: nbph
   IMPLICIT NONE 
   INTEGER :: is, ia, ias
 
@@ -27,7 +28,7 @@ SUBROUTINE init_idx_atom_species()
   natmtot = ias
   
   ! number of phonon branches
-  !nbph = 3*natmtot
+  nbph = 3*natmtot
   
   ! write to VARIABLES.OUT
   !call writevars('nspecies',iv=nspecies)
