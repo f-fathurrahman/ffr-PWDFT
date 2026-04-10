@@ -50,12 +50,12 @@ real(8) sum,t1,t2
 real(8) triangle,factnm,factr
 external triangle,factnm,factr
 wigner6j=0.d0
-if ((abs(j1-j2).gt.j3).or.((j1+j2).lt.j3)) return
-if ((abs(j1-k2).gt.k3).or.((j1+k2).lt.k3)) return
-if ((abs(k1-j2).gt.k3).or.((k1+j2).lt.k3)) return
-if ((abs(k1-k2).gt.j3).or.((k1+k2).lt.j3)) return
-if ((abs(j1).gt.50).or.(abs(j2).gt.50).or.(abs(j3).gt.50).or. &
-    (abs(k1).gt.50).or.(abs(k2).gt.50).or.(abs(k3).gt.50)) then
+if ((abs(j1-j2) > j3).or.((j1+j2) < j3)) return
+if ((abs(j1-k2) > k3).or.((j1+k2) < k3)) return
+if ((abs(k1-j2) > k3).or.((k1+j2) < k3)) return
+if ((abs(k1-k2) > j3).or.((k1+k2) < j3)) return
+if ((abs(j1) > 50).or.(abs(j2) > 50).or.(abs(j3) > 50).or. &
+    (abs(k1) > 50).or.(abs(k2) > 50).or.(abs(k3) > 50)) then
   write(*,*)
   write(*,'("Error(wigner6j): arguments out of range :")')
   write(*,'(" j1, j2, j3 = ",3I8)') j1,j2,j3

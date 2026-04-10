@@ -33,13 +33,13 @@ real(8), intent(out) :: a(0:lmax)
 ! local variables
 integer l
 real(8) xi,a0,a1,at,t1,t2,xmin
-if ((lmax.lt.0).or.(lmax.gt.50)) then
+if ((lmax < 0).or.(lmax > 50)) then
   write(*,*)
   write(*,'("Error(zbessela): lmax out of range : ",I8)') lmax
   write(*,*)
   stop
 end if
-if ((x.lt.0.d0).or.(x.gt.1.d8)) then
+if ((x < 0.d0).or.(x > 1.d8)) then
   write(*,*)
   write(*,'("Error(zbessela): x out of range : ",G18.10)') x
   write(*,*)
@@ -58,7 +58,7 @@ select case (lmax)
    xmin=1.d0
 end select
 ! treat x << 1
-if (x.lt.xmin) then
+if (x < xmin) then
   a(0)=1.d0
   t1=1.d0
   t2=1.d0

@@ -26,7 +26,7 @@ do i1=-1,0
     do i3=-1,0
       v3(:)=v2(:)+dble(i3)*bvec(:,3)
       t2=v3(1)**2+v3(2)**2+v3(3)**2
-      if (t2.lt.t1+eps) then
+      if (t2 < t1+eps) then
         j1=i1; j2=i2; j3=i3
         t1=t2
       end if

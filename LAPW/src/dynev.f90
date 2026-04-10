@@ -46,7 +46,7 @@ end do
 ! find the eigenvalues and eigenvectors of the dynamical matrix
 call eveqnz(nbph,nbph,ev,w)
 do i=1,nbph
-  if (w(i).ge.0.d0) then
+  if (w(i) >= 0.d0) then
     w(i)=sqrt(w(i))
   else
     w(i)=-sqrt(abs(w(i)))

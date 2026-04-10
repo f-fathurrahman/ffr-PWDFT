@@ -26,14 +26,14 @@ real(8) kf,s,u,v,rs,z,g
 real(8) ks,ksg,t,uu,vv,ww
 do i=1,n
   r=rho(i)
-  if (r.gt.1.d-12) then
+  if (r > 1.d-12) then
     grho_=grho(i)
     g2rho_=g2rho(i)
     g3rho_=g3rho(i)
 ! check gradients are within range
-    if (grho_.gt.gmax) grho_=gmax
-    if (abs(g2rho_).gt.g2max) g2rho_=sign(g2max,g2rho_)
-    if (abs(g3rho_).gt.g3max) g3rho_=sign(g3max,g3rho_)
+    if (grho_ > gmax) grho_=gmax
+    if (abs(g2rho_) > g2max) g2rho_=sign(g2max,g2rho_)
+    if (abs(g3rho_) > g3max) g3rho_=sign(g3max,g3rho_)
     kf=(r*3.d0*pi**2)**thrd
     s=grho_/(2.d0*kf*r)
     u=g3rho_/((r**2)*(2.d0*kf)**3)

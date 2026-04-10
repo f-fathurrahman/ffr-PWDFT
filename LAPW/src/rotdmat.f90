@@ -29,7 +29,7 @@ allocate(dm(ld,nspinor,ld,nspinor))
 allocate(c(lmmax,lmmax),d(lmmax,lmmax))
 ! find the determinant of the spatial rotation matrix
 det=r3mdet(rspl)
-if (det.gt.0.d0) then
+if (det > 0.d0) then
   p=1
 else
   p=-1

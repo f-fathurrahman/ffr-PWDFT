@@ -57,7 +57,7 @@ integer lmi(-lmax:lmax)
 real(8) ca(lmax),sa(lmax)
 real(8) cg(lmax),sg(lmax)
 real(8) dy(ld,ld)
-if (lmax.lt.0) then
+if (lmax < 0) then
   write(*,*)
   write(*,'("Error(rlmrot): lmax < 0 : ",I8)') lmax
   write(*,*)

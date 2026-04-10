@@ -42,7 +42,7 @@ if (k <= 0) then
   write(*,*)
   stop
 end if
-if (k.gt.n) then
+if (k > n) then
   write(*,*)
   write(*,'("Error(rdirac): incompatible n and k : ",2I8)') n,k
   write(*,*)
@@ -64,7 +64,7 @@ else
   write(*,*)
   stop
 end if
-if (nr.lt.4) then
+if (nr < 4) then
   write(*,*)
   write(*,'("Error(rdirac): nr < 4 : ",I8)') nr
   write(*,*)
@@ -77,12 +77,12 @@ do it=1,maxit
   call rdiracint(sol,kpa,eval,nr,r,vr,nn,g0,g1,f0,f1)
 ! check the number of nodes
   nnd=nn-(n-l-1)
-  if (nnd.gt.0) then
+  if (nnd > 0) then
     eval=eval-de
   else
     eval=eval+de
   end if
-  if (it.gt.1) then
+  if (it > 1) then
     if ((nnd.ne.0).or.(nndp.ne.0)) then
       if (nnd*nndp <= 0) then
         de=de*0.5d0
@@ -92,7 +92,7 @@ do it=1,maxit
     end if
   end if
   nndp=nnd
-  if (de.lt.eps*(abs(eval)+1.d0)) goto 20
+  if (de < eps*(abs(eval)+1.d0)) goto 20
 end do
 write(*,*)
 write(*,'("Warning(rdirac): maximum iterations exceeded")')
@@ -101,13 +101,13 @@ write(*,'("Warning(rdirac): maximum iterations exceeded")')
 ! major component
 irm=nr
 do ir=2,nr
-  if ((g0(ir-1)*g0(ir).lt.0.d0).or.(g1(ir-1)*g1(ir).lt.0.d0)) irm=ir
+  if ((g0(ir-1)*g0(ir) < 0.d0).or.(g1(ir-1)*g1(ir) < 0.d0)) irm=ir
 end do
 g0(irm:nr)=0.d0
 ! minor component
 irm=nr
 do ir=2,nr
-  if ((f0(ir-1)*f0(ir).lt.0.d0).or.(f1(ir-1)*f1(ir).lt.0.d0)) irm=ir
+  if ((f0(ir-1)*f0(ir) < 0.d0).or.(f1(ir-1)*f1(ir) < 0.d0)) irm=ir
 end do
 f0(irm:nr)=0.d0
 ! normalise
@@ -116,7 +116,7 @@ do ir=1,nr
 end do
 t1=splint(nr,r,fr)
 t1=sqrt(abs(t1))
-if (t1.gt.0.d0) then
+if (t1 > 0.d0) then
   t1=1.d0/t1
 else
   write(*,*)

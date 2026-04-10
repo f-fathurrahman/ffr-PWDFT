@@ -42,10 +42,10 @@ do in=1,maxstsp
       l(ist)=il
       k(ist)=ik
       occ(ist)=t2
-      if (t2.gt.epsocc) nmax=in
+      if (t2 > epsocc) nmax=in
       t1=t1-t2
       if (ist == maxstsp) then
-        if (t1.gt.epsocc) then
+        if (t1 > epsocc) then
           write(*,*)
           write(*,'("Error(genfspecies): too many states for fractional &
            &species ",A)') trim(symb)
@@ -84,24 +84,24 @@ do it=1,nit
   call atom(sol,.true.,zn,maxstsp,n,l,k,occ,3,0,nr,r,eval,rho,vr,rwf)
 ! check for spurious eigenvalues
   do ist=2,maxstsp
-    if (eval(ist).lt.eval(1)) eval(ist)=1.d6
+    if (eval(ist) < eval(1)) eval(ist)=1.d6
   end do
 ! recompute the effective infinity
   do ir=nr,1,-1
-    if (rho(ir).gt.1.d-20) then
+    if (rho(ir) > 1.d-20) then
       rmax=1.75d0*r(ir)
       exit
     end if
   end do
 ! estimate the muffin-tin radius
   do ir=nr,1,-1
-    if (rho(ir).gt.2.d-2) then
+    if (rho(ir) > 2.d-2) then
       rm=r(ir)
       exit
     end if
   end do
-  if (rm.lt.1.d0) rm=1.d0
-  if (rm.gt.3.2d0) rm=3.2d0
+  if (rm < 1.d0) rm=1.d0
+  if (rm > 3.2d0) rm=3.2d0
 ! sort the eigenvalues
   call sortidx(maxstsp,eval,idx)
 ! recompute the occupancies
@@ -131,7 +131,7 @@ eval(:)=rv(idx(:))
 ! find the number of occupied states
 nst=0
 do ist=1,maxstsp
-  if (occ(ist).lt.epsocc) then
+  if (occ(ist) < epsocc) then
     nst=ist
     exit
   end if

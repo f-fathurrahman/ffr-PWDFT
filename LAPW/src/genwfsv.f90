@@ -78,7 +78,7 @@ SUBROUTINE genwfsv(tsh,tgp,nst,idx,ngdg,igf,ngp,igpig,apwalm,evecfv,evecsv, &
           DO ist=1,nstfv
             i=i+1
             z1=evecsv(i,k)
-            IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
+            IF(abs(dble(z1))+abs(aimag(z1)) > epsocc) THEN 
               IF(ssdph) z1=z1*zq(ispn)
               IF(.not.done(ist,jspn)) THEN 
                 IF(tsh) THEN 
@@ -131,7 +131,7 @@ SUBROUTINE genwfsv(tsh,tgp,nst,idx,ngdg,igf,ngp,igpig,apwalm,evecfv,evecsv, &
         DO ist=1,nstfv
           i=i+1
           z1=evecsv(i,k)
-          IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
+          IF(abs(dble(z1))+abs(aimag(z1)) > epsocc) THEN 
             IF(tgp) THEN 
               ! wavefunction in G+p-space
               CALL zaxpy(ngp(jspn),z1,evecfv(:,ist,jspn),1,wfir(:,ispn,j),1)

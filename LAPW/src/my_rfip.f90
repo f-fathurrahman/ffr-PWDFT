@@ -56,7 +56,7 @@ SUBROUTINE my_rfip(ip, np, vpl, rfmt1, zfft, fp)
                   !
                   IF(ir  <=  3) THEN 
                     ir0 = 1
-                  ELSEIF(ir .gt. nr-2) THEN 
+                  ELSEIF(ir  >  nr-2) THEN 
                     ir0 = nr - 3
                   ELSE 
                     ir0 = ir - 2

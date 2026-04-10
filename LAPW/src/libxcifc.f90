@@ -125,7 +125,7 @@ end if
 ! loop over functional kinds (exchange or correlation)
 do k=2,3
   id=xctype(k)
-  if (id.gt.0) then
+  if (id > 0) then
     xcf=xc_f90_family_from_id(id)
 ! initialise functional
     call xc_f90_func_init(p,info,id,nspin)
@@ -403,7 +403,7 @@ xcgrad=0
 hybrid=.false.
 do k=2,3
   id=xctype(k)
-  if (id.gt.0) then
+  if (id > 0) then
     call xc_f90_func_init(p,info,id,XC_UNPOLARIZED)
     call xc_f90_info_name(info,name)
     fmly=xc_f90_family_from_id(id)

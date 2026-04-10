@@ -86,7 +86,7 @@ SUBROUTINE writesym
       i=0
       DO ja=1,natoms(is)
         IF(eqatoms(ia,ja,is)) THEN 
-          IF((i.gt.0).and.(mod(i,20) == 0)) WRITE(50,*)
+          IF((i > 0).and.(mod(i,20) == 0)) WRITE(50,*)
           WRITE(50,'(I4)',advance='NO') ja
           i=i+1
         ENDIF 

@@ -75,7 +75,7 @@ do ir=2,nr
   t3=2.d0+t1*(e-vr(ir))
   t4=t2/(t3*r(ir)**2)+vr(ir)-e
   ir0=ir-3
-  if (ir0.lt.1) ir0=1
+  if (ir0 < 1) ir0=1
   p1(ir)=poly3(r(ir0),p1(ir0),r(ir))
   q1(ir)=poly3(r(ir0),q1(ir0),r(ir))
 ! integrate to find wavefunction
@@ -91,8 +91,8 @@ do ir=2,nr
   p1(ir)=t3*q0(ir)+p0(ir)*ri
   q1(ir)=t4*p0(ir)-q0(ir)*ri
 ! check for overflow
-  if ((abs(p0(ir)).gt.1.d100).or.(abs(p1(ir)).gt.1.d100).or. &
-      (abs(q0(ir)).gt.1.d100).or.(abs(q1(ir)).gt.1.d100)) then
+  if ((abs(p0(ir)) > 1.d100).or.(abs(p1(ir)) > 1.d100).or. &
+      (abs(q0(ir)) > 1.d100).or.(abs(q1(ir)) > 1.d100)) then
     p0(ir:nr)=p0(ir)
     p1(ir:nr)=p1(ir)
     q0(ir:nr)=q0(ir)
@@ -100,7 +100,7 @@ do ir=2,nr
     return
   end if
 ! check for node
-  if (p0(ir-1)*p0(ir).lt.0.d0) nn=nn+1
+  if (p0(ir-1)*p0(ir) < 0.d0) nn=nn+1
 end do
 return
 

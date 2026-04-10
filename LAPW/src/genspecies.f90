@@ -31,7 +31,7 @@ read(fnum,*,err=20) mass
 mass=mass*amu
 read(fnum,*,err=20) rm
 read(fnum,*,err=20) nst
-if ((nst <= 0).or.(nst.gt.maxstsp)) then
+if ((nst <= 0).or.(nst > maxstsp)) then
   write(*,*)
   write(*,'("Error(genspecies): nst out of range : ",I8)') nst
   write(*,'(" for species ",A)') trim(name)
@@ -78,7 +78,7 @@ do it=1,2
   call atom(sol,.true.,zn,nst,n,l,k,occ,3,0,nr,r,eval,rho,vr,rwf)
 ! recompute the effective infinity
   do ir=nr,1,-1
-    if (rho(ir).gt.1.d-20) then
+    if (rho(ir) > 1.d-20) then
       rmax=1.75d0*r(ir)
       exit
     end if

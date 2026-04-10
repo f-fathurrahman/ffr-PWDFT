@@ -40,7 +40,7 @@ end if
 if (any(task == [105,180,185,320,330,331])) then
 ! equal k- and q-point grids for nesting function, BSE and linear-reposnse TDDFT
   ngridq(:)=ngridk(:)
-else if ((xctype(1).lt.0).or.(any(task == [5,300,600,620,630]))) then
+else if ((xctype(1) < 0).or.(any(task == [5,300,600,620,630]))) then
 ! allow the q-point grid to be smaller than the k-point grid for OEP,
 ! Hartree-Fock, RDMFT and GW
   if ((ngridq(1) <= 0).or.(ngridq(2) <= 0).or.(ngridq(3) <= 0)) then
@@ -50,7 +50,7 @@ else
   ngridq(:)=abs(ngridq(:))
 end if
 ! check that the q-point and k-point grids are commensurate for some tasks
-if ((xctype(1).lt.0).or.(any(task == [5,205,240,241,300,600,620,630]))) then
+if ((xctype(1) < 0).or.(any(task == [5,205,240,241,300,600,620,630]))) then
   iv(:)=mod(ngridk(:),ngridq(:))
   if ((iv(1).ne.0).or.(iv(2).ne.0).or.(iv(3).ne.0)) then
     write(*,*)
@@ -87,7 +87,7 @@ call writeqpts
 ! find the index for q = 0
 do iq0=1,nqpt
   t1=sum(abs(vql(:,iq0)))
-  if (t1.lt.epslat) goto 10
+  if (t1 < epslat) goto 10
 end do
 write(*,*)
 write(*,'("Error(init2): q = 0 not in q-point set")')
@@ -109,7 +109,7 @@ call findnjcmax
 !--------------------------------------------------------!
 !     OEP, Hartree-Fock, RDMFT, BSE and GW variables     !
 !--------------------------------------------------------!
-if ((xctype(1).lt.0).or.(any(task == [5,180,185,188,205,300,320,330,331,600, &
+if ((xctype(1) < 0).or.(any(task == [5,180,185,188,205,300,320,330,331,600, &
  620,630]))) then
 ! determine the regularised Coulomb Green's function for small q
   call gengclq

@@ -12,7 +12,7 @@ integer is,ia,ig
 integer nppt,ik,igk
 integer jspn,iq
 real(8) ta(3,3),tb(3,3),vc(3)
-if ((istrain.lt.1).or.(istrain.gt.nstrain)) return
+if ((istrain < 1).or.(istrain > nstrain)) return
 ! compute the strained lattice vectors
 avec(:,:)=avec_(:,:)+deltast*strain(:,:,istrain)
 ! generate the strained reciprocal lattice vectors and unit cell volume
@@ -53,7 +53,7 @@ do ik=1,nkptnr
   call r3mv(tb,vc,vkc(:,ik))
 end do
 ! apply the transformation to G+k-vectors and recalculate dependent variables
-if (xctype(1).lt.0) then
+if (xctype(1) < 0) then
   nppt=nkptnr
 else
   nppt=nkpt
@@ -71,7 +71,7 @@ do ik=1,nppt
   end do
 end do
 ! apply the transformation to the q-vectors if required
-if (xctype(1).lt.0) then
+if (xctype(1) < 0) then
   do iq=1,nqptnr
     vc(:)=vqc(:,iq)
     call r3mv(tb,vc,vqc(:,iq))

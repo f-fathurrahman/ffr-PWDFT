@@ -57,16 +57,16 @@ real(8) det
 det=rot(1,2)*rot(2,3)*rot(3,1)-rot(1,3)*rot(2,2)*rot(3,1) &
    +rot(1,3)*rot(2,1)*rot(3,2)-rot(1,1)*rot(2,3)*rot(3,2) &
    +rot(1,1)*rot(2,2)*rot(3,3)-rot(1,2)*rot(2,1)*rot(3,3)
-if ((det.lt.1.d0-eps).or.(det.gt.1.d0+eps)) then
+if ((det < 1.d0-eps).or.(det > 1.d0+eps)) then
   write(*,*)
   write(*,'("Error(roteuler): matrix improper or not unitary")')
   write(*,'(" Determinant : ",G18.10)') det
   write(*,*)
   stop
 end if
-if ((abs(rot(3,1)).gt.eps).or.(abs(rot(3,2)).gt.eps)) then
+if ((abs(rot(3,1)) > eps).or.(abs(rot(3,2)) > eps)) then
   ang(1)=atan2(rot(3,2),rot(3,1))
-  if (abs(rot(3,1)).gt.abs(rot(3,2))) then
+  if (abs(rot(3,1)) > abs(rot(3,2))) then
     ang(2)=atan2(rot(3,1)/cos(ang(1)),rot(3,3))
   else
     ang(2)=atan2(rot(3,2)/sin(ang(1)),rot(3,3))
@@ -74,7 +74,7 @@ if ((abs(rot(3,1)).gt.eps).or.(abs(rot(3,2)).gt.eps)) then
   ang(3)=atan2(rot(2,3),-rot(1,3))
 else
   ang(1)=atan2(rot(1,2),rot(1,1))
-  if (rot(3,3).gt.0.d0) then
+  if (rot(3,3) > 0.d0) then
     ang(2)=0.d0
     ang(3)=0.d0
   else

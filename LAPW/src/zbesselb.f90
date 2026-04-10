@@ -35,13 +35,13 @@ real(8), intent(out) :: b(0:lmax)
 ! local variables
 integer l
 real(8) xi,b0,b1,bt,t3,t4
-if ((lmax.lt.0).or.(lmax.gt.50)) then
+if ((lmax < 0).or.(lmax > 50)) then
   write(*,*)
   write(*,'("Error(zbesselb): lmax out of range : ",I8)') lmax
   write(*,*)
   stop
 end if
-if ((x.lt.0.d0).or.(x.gt.1.d8)) then
+if ((x < 0.d0).or.(x > 1.d8)) then
   write(*,*)
   write(*,'("Error(zbesselb): x out of range : ",G18.10)') x
   write(*,*)
@@ -49,7 +49,7 @@ if ((x.lt.0.d0).or.(x.gt.1.d8)) then
 end if
 xi=1.d0/x
 ! treat x << 1
-if (x.lt.1.d-7) then
+if (x < 1.d-7) then
   b(0)=-xi
   t3=-1.d0
   t4=xi

@@ -96,7 +96,7 @@ do ik=1,nkptnr
 ! count and index occupied states
   nst=0
   do ist3=1,nstsv
-    if (evalsv(ist3,jk).lt.efermi) then
+    if (evalsv(ist3,jk) < efermi) then
       nst=nst+1
       idx(nst)=ist3
     end if
@@ -138,7 +138,7 @@ do ik=1,nkptnr
       end do
     end do
     do ist2=1,nstsv
-      if (evalsv(ist2,ikp).gt.efermi) then
+      if (evalsv(ist2,ikp) > efermi) then
 ! calculate the Coulomb potential
         call genzvclmt(nrcmt,nrcmti,nrcmtmax,rlcmt,wprcmt,npcmtmax, &
          zrhomt1(:,:,ist2),zvclmt)
@@ -149,7 +149,7 @@ do ik=1,nkptnr
 !     valence-valence-valence contribution     !
 !----------------------------------------------!
         do ist1=1,nstsv
-          if (evalsv(ist1,ikp).lt.efermi) then
+          if (evalsv(ist1,ikp) < efermi) then
             z1=zfinp(zrhomt1(:,:,ist1),zrhoir1(:,ist1),zvclmt,zvclir)
             vclvv(ist1,ist2)=vclvv(ist1,ist2)-wqptnr*z1
           end if
@@ -221,7 +221,7 @@ do is=1,nspecies
             end if
           end do
           do ist2=1,nstsv
-            if (evalsv(ist2,ikp).gt.efermi) then
+            if (evalsv(ist2,ikp) > efermi) then
 ! calculate the Coulomb potential
               call zpotclmt(nrc,nrci,nrcmtmax,rlcmt(:,:,is),wprcmt(:,:,is), &
                zrhomt1(:,ias,ist2),zvclmt)
@@ -229,7 +229,7 @@ do is=1,nspecies
 !     valence-core-valence contribution     !
 !-------------------------------------------!
               do ist1=1,nstsv
-                if (evalsv(ist1,ikp).lt.efermi) then
+                if (evalsv(ist1,ikp) < efermi) then
                   z1=zfmtinp(nrc,nrci,wrcmt(:,is),zrhomt1(:,ias,ist1),zvclmt)
                   vclvv(ist1,ist2)=vclvv(ist1,ist2)-z1
                 end if

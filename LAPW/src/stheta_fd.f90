@@ -20,11 +20,11 @@ real(8) function stheta_fd(x)
 implicit none
 ! arguments
 real(8), intent(in) :: x
-if (x.gt.50.d0) then
+if (x > 50.d0) then
   stheta_fd=1.d0
   return
 end if
-if (x.lt.-50.d0) then
+if (x < -50.d0) then
   stheta_fd=0.d0
   return
 end if

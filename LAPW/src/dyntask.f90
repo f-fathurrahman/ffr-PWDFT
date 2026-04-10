@@ -58,7 +58,6 @@ if(iqph == iq0) then
 else
   tphq0 = .false.
 endif
-write(*,*) 'Pass here 61 in dyntask'
 return
 
 end subroutine

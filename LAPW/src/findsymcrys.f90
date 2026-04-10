@@ -50,7 +50,7 @@ SUBROUTINE findsymcrys()
   ! find the smallest set of atoms
   is=1
   DO js=1,nspecies
-    IF(natoms(js).lt.natoms(is)) is=js
+    IF(natoms(js) < natoms(is)) is=js
   ENDDO 
 
   IF((tshift).and.(natmtot > 0)) THEN 
@@ -87,7 +87,7 @@ SUBROUTINE findsymcrys()
       ENDIF 
       DO i=1,n
         t1=abs(vtl(1,i)-v1(1))+abs(vtl(2,i)-v1(2))+abs(vtl(3,i)-v1(3))
-        IF(t1.lt.epslat) goto 10
+        IF(t1 < epslat) goto 10
       ENDDO 
       n=n+1
       vtl(:,n)=v1(:)
@@ -192,7 +192,7 @@ ENDDO
 ! set flag for zero translation vector
 DO isym=1,nsymcrys
   t1=abs(vtlsymc(1,isym))+abs(vtlsymc(2,isym))+abs(vtlsymc(3,isym))
-  IF(t1.lt.epslat) THEN 
+  IF(t1 < epslat) THEN 
     tv0symc(isym)=.true.
   else
     tv0symc(isym)=.false.

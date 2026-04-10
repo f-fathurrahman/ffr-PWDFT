@@ -39,23 +39,23 @@ real(8) sum,t1
 ! external functions
 real(8) factnm,hermite,erf
 external factnm,hermite,erf
-if (n.lt.0) then
+if (n < 0) then
   write(*,*)
   write(*,'("Error(stheta_mp): n < 0 : ",I8)') n
   write(*,*)
   stop
 end if
-if (n.gt.10) then
+if (n > 10) then
   write(*,*)
   write(*,'("Error(stheta_mp): n out of range : ",I8)') n
   write(*,*)
   stop
 end if
-if (x.lt.-12.d0) then
+if (x < -12.d0) then
   stheta_mp=0.d0
   return
 end if
-if (x.gt.12.d0) then
+if (x > 12.d0) then
   stheta_mp=1.d0
   return
 end if

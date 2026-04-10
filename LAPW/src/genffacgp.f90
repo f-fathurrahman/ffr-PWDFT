@@ -13,7 +13,7 @@ SUBROUTINE genffacgp(is,gpc,ffacgp)
   REAL(8) t1,t2
   t1=fourpi/omega
   DO ig=1,ngtot
-    IF(gpc(ig).gt.epslat) THEN 
+    IF(gpc(ig) > epslat) THEN 
       t2=gpc(ig)*rmt(is)
       ffacgp(ig)=t1*(sin(t2)-t2*cos(t2))/(gpc(ig)**3)
     else

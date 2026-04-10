@@ -42,7 +42,7 @@ do i=n,1,-1
   j=idx(i)
   ik=(j-1)/nstsv+1
   ist=mod(j-1,nstsv)+1
-  if (evalsv(ist,ik).lt.efermi) then
+  if (evalsv(ist,ik) < efermi) then
     m=i
     e=evalsv(ist,ik)
     goto 10
@@ -54,7 +54,7 @@ do i=m,1,-1
   j=idx(i)
   ik=(j-1)/nstsv+1
   ist=mod(j-1,nstsv)+1
-  if ((e-evalsv(ist,ik)).gt.eps) goto 20
+  if ((e-evalsv(ist,ik)) > eps) goto 20
   e=evalsv(ist,ik)
 end do
 20 continue

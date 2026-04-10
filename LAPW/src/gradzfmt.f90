@@ -119,7 +119,7 @@ gzfmt(1:np,:)=0.d0
 lm1=0
 do l=0,lmaxi
   t1=sqrt(dble(l+1)/dble(2*l+3))
-  if (l.gt.0) then
+  if (l > 0) then
     t2=-sqrt(dble(l)/dble(2*l-1))
   else
     t2=0.d0
@@ -157,7 +157,7 @@ end do
 lm1=0
 do l=0,lmaxo
   t1=sqrt(dble(l+1)/dble(2*l+3))
-  if (l.gt.0) then
+  if (l > 0) then
     t2=-sqrt(dble(l)/dble(2*l-1))
   else
     t2=0.d0

@@ -37,7 +37,7 @@ if (dftu.ne.0) then
 ! flag the muffin-tin potential matrices which are non-zero
   do i=1,ndftu
     is=idftu(1,i)
-    if (is.gt.nspecies) then
+    if (is > nspecies) then
       write(*,*)
       write(*,'("Error(init0): invalid species number : ",I8)') is
       write(*,*)

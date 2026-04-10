@@ -44,7 +44,7 @@ do i=1,ndftu
 ! normalise radial functions
     fr(1:nr)=p0(1:nr)**2
     t1=splint(nr,rlmt(:,1,is),fr)
-    if (t1.lt.1.d-20) then
+    if (t1 < 1.d-20) then
       write(*,*)
       write(*,'("Error(genfdufr): degenerate APW radial functions")')
       write(*,'(" for species ",I4)') is

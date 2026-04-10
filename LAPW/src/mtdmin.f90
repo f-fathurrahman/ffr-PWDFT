@@ -35,7 +35,7 @@ SUBROUTINE mtdmin(is,js,dmin)
                          +(v2(2)-atposc(2,la,ls))**2 &
                          +(v2(3)-atposc(3,la,ls))**2)
                   t3=t2-t1
-                  IF(t3.lt.dmin-epslat) THEN 
+                  IF(t3 < dmin-epslat) THEN 
                     is=ks
                     js=ls
                     dmin=t3

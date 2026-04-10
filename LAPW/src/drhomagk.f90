@@ -30,7 +30,7 @@ complex(8), allocatable :: dwfmt(:,:,:,:),dwfir(:,:,:)
 ! count and index the occupied states
 nst=0
 do ist=1,nstsv
-  if (abs(occsvp(ist)).gt.epsocc) then
+  if (abs(occsvp(ist)) > epsocc) then
     nst=nst+1
     idx(nst)=ist
   end if

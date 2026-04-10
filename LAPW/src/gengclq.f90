@@ -70,7 +70,7 @@ do iq=1,nqpt
           t1=dble(i3)*d(3)
           v3(:)=v2(:)+t1*bvec(:,3)
           t2=v3(1)**2+v3(2)**2+v3(3)**2
-          if (t2.gt.1.d-14) sum=sum+1.d0/t2
+          if (t2 > 1.d-14) sum=sum+1.d0/t2
         end do
       end do
     end do

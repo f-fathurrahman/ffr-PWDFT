@@ -64,7 +64,7 @@ do i=1,n
   rup=rhoup(i); rdn=rhodn(i)
 ! total density
   r=rup+rdn
-  if ((rup.ge.0.d0).and.(rdn.ge.0.d0).and.(r.gt.1.d-12)) then
+  if ((rup >= 0.d0).and.(rdn >= 0.d0).and.(r > 1.d-12)) then
 ! exchange energy density and potential
 ! spin-up
     r2=2.d0*rup

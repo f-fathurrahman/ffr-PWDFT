@@ -14,7 +14,7 @@ SUBROUTINE genylmv(lmax,v,ylm)
   REAL(8) r,st,ct,sp,cp
   REAL(8) t1,t2,t3,t4
   COMPLEX(8) z1
-  IF((lmax.lt.0).or.(lmax.gt.50)) THEN 
+  IF((lmax < 0).or.(lmax > 50)) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(genylmv): lmax out of range : ",I8)') lmax
     WRITE(*,*)

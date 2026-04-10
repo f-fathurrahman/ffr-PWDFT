@@ -29,7 +29,7 @@ SUBROUTINE init_spin_variables()
       STOP 
     ENDIF 
     !
-    IF( xctype(1) .lt. 0 ) THEN 
+    IF( xctype(1)  <  0 ) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(init0): spin-spirals do not work with the OEP method")')
       WRITE(*,*)

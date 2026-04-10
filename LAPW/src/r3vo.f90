@@ -11,7 +11,7 @@ real(8), intent(inout) :: y(3)
 ! local variables
 real(8) t1,t2
 t1=x(1)**2+x(2)**2+x(3)**2
-if (t1.lt.1.d-8) return
+if (t1 < 1.d-8) return
 t2=(x(1)*y(1)+x(2)*y(2)+x(3)*y(3))/t1
 y(:)=y(:)-t2*x(:)
 return

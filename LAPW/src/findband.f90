@@ -56,14 +56,14 @@ do ip=1,2
   de=de0
   do ie=1,maxstp
     et=et+de
-    if (e.lt.0.d0) then
-      if (et.gt.e+demax) exit
+    if (e < 0.d0) then
+      if (et > e+demax) exit
     end if
     call rschrodint(sol,l,et,nr,r,vr,nn,p0,p1,q0,q1)
     t=p0(nr)
-    if (ie.gt.1) then
+    if (ie > 1) then
       if (t*tp <= 0.d0) then
-        if (abs(de).lt.eps) then
+        if (abs(de) < eps) then
           if (fb) goto 10
           ft=.true.
           eb=et+5.d0*abs(de0)
@@ -82,12 +82,12 @@ do ip=1,2
   de=-de0
   do ie=1,maxstp
     eb=eb+de
-    if (eb.lt.e-demax) return
+    if (eb < e-demax) return
     call rschrodint(sol,l,eb,nr,r,vr,nn,p0,p1,q0,q1)
     t=p1(nr)
-    if (ie.gt.1) then
+    if (ie > 1) then
       if (t*tp <= 0.d0) then
-        if (abs(de).lt.eps) then
+        if (abs(de) < eps) then
           if (ft) goto 10
           fb=.true.
           et=eb-5.d0*abs(de0)

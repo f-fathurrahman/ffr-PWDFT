@@ -45,13 +45,13 @@ do l=0,lmax
       zlflm(lm,1)=0.d0
       zlflm(lm,2)=0.d0
     end if
-    if (m.lt.l) then
+    if (m < l) then
       t1=0.5d0*sqrt(dble((l-m)*(l+m+1)))
       z1=t1*zflm(lm)
       zlflm(lm+1,1)=z1
       zlflm(lm+1,2)=cmplx(aimag(z1),-dble(z1),8)
     end if
-    if (m.gt.-l) then
+    if (m > -l) then
       t1=0.5d0*sqrt(dble((l+m)*(l-m+1)))
       z1=t1*zflm(lm)
       zlflm(lm-1,1)=zlflm(lm-1,1)+z1

@@ -46,7 +46,7 @@ character(256) fname
 logical done(ngkmax)
 ! allocatable arrays
 complex(8), allocatable :: evecfv_(:,:)
-if (ikp.gt.0) then
+if (ikp > 0) then
   ik=ikp
 else
 ! find the equivalent k-point number and crystal symmetry element
@@ -71,7 +71,7 @@ do i=1,2
 end do
 !$OMP END CRITICAL(u122)
 t1=abs(vkl(1,ik)-vkl_(1))+abs(vkl(2,ik)-vkl_(2))+abs(vkl(3,ik)-vkl_(3))
-if (t1.gt.epslat) then
+if (t1 > epslat) then
   write(*,*)
   write(*,'("Error(getevecfv): differing vectors for k-point ",I8)') ik
   write(*,'(" current    : ",3G18.10)') vkl(:,ik)
@@ -104,9 +104,9 @@ if (nspnfv.ne.nspnfv_) then
   stop
 end if
 ! if p = k then return
-if (ikp.gt.0) return
+if (ikp > 0) return
 t1=abs(vpl(1)-vkl(1,ik))+abs(vpl(2)-vkl(2,ik))+abs(vpl(3)-vkl(3,ik))
-if (t1.lt.epslat) return
+if (t1 < epslat) return
 ! allocate temporary eigenvector array
 allocate(evecfv_(nmatmax,nstfv))
 ! index to spatial rotation in lattice point group
@@ -146,7 +146,7 @@ do jspn=1,nspnfv
       t1=abs(v(1)-vgpl(1,igp,jspn)) &
         +abs(v(2)-vgpl(2,igp,jspn)) &
         +abs(v(3)-vgpl(3,igp,jspn))
-      if (t1.lt.epslat) then
+      if (t1 < epslat) then
         evecfv(igp,:,jspn)=evecfv_(igk,:)
         done(igp)=.true.
         exit
@@ -163,7 +163,7 @@ end do
 !---------------------------------------------------------!
 !     translate and rotate local-orbital coefficients     !
 !---------------------------------------------------------!
-if (nlotot.gt.0) then
+if (nlotot > 0) then
 ! rotate k-point by inverse symmetry matrix
   call r3mtv(si,vkl(:,ik),v)
 ! loop over the first-variational spins

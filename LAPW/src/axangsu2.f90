@@ -29,7 +29,7 @@ complex(8), intent(out) :: su2(2,2)
 real(8) x,y,z,cs,sn,t1
 x=v(1); y=v(2); z=v(3)
 t1=sqrt(x**2+y**2+z**2)
-if (t1.lt.1.d-8) then
+if (t1 < 1.d-8) then
   write(*,*)
   write(*,'("Error(axangsu2): zero length axis vector")')
   write(*,*)

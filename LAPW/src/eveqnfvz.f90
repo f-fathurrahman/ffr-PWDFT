@@ -33,7 +33,7 @@ SUBROUTINE eveqnfvz(nmatp,h,o,evalfv,evecfv)
     WRITE(*,*)
     WRITE(*,'("Error(eveqnfvz): diagonalisation failed")')
     WRITE(*,'(" ZHEGVX RETURN ed INFO = ",I8)') info
-    IF(info.gt.nmatp) THEN 
+    IF(info > nmatp) THEN 
       i=info-nmatp
       WRITE(*,'(" The leading minor of the overlap matrix of order ",I8)') i
       WRITE(*,'("  is not positive definite")')

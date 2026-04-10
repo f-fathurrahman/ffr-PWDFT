@@ -48,7 +48,7 @@ call match(ngk(1,ikp),vgkc(:,:,1,ikp),gkc(:,1,ikp),sfacgk(:,:,1,ikp),apwalm)
 ! count and index the occupied states
 nst1=0
 do ist=1,nstsv
-  if (evalsv(ist,ikp).lt.efermi) then
+  if (evalsv(ist,ikp) < efermi) then
     nst1=nst1+1
     idx(nst1)=ist
   end if
@@ -96,7 +96,7 @@ do ik=1,nkptnr
 ! count and index the occupied states
   nst2=0
   do jst=1,nstsv
-    if (evalsv(jst,jk).lt.efermi) then
+    if (evalsv(jst,jk) < efermi) then
       nst2=nst2+1
       idx(nst2)=jst
     end if

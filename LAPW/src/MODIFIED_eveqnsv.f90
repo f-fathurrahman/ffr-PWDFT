@@ -192,7 +192,7 @@ SUBROUTINE eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
       ENDDO 
   
       ! lower diagonal block
-      IF(nsc.ge.2) THEN 
+      IF(nsc >= 2) THEN 
         j=jst+nstfv
         DO ist=1,jst
           i=ist+nstfv
@@ -302,7 +302,7 @@ SUBROUTINE eveqnsv(ngp,igpig,vgpc,apwalm,evalfv,evecfv,evalsvp,evecsv)
         evecsv(ist,jst)=evecsv(ist,jst)+zdotc(ngp,evecfv(:,ist),1,wfgp,1)
       ENDDO 
   ! lower diagonal block
-      IF(nsc.ge.2) THEN 
+      IF(nsc >= 2) THEN 
         j=jst+nstfv
         DO ist=1,jst
           i=ist+nstfv

@@ -26,7 +26,7 @@ COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv)
   n2=2*nmatp
   ns=2*nstfv
 
-  IF(iscl.ge.2) THEN 
+  IF(iscl >= 2) THEN 
   ! read in the eigenvalues/vectors from file
     CALL getevalfv(filext,0,vpl,evalfv)
     CALL getevecfv(filext,0,vpl,vgpl,evecfv)
@@ -80,7 +80,7 @@ COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv)
       CALL zhemv('U',nmatp,zone,o,nmatp,evecfv(:,ist),1,zzero,ov(:,ist),1)
       ! normalise the eigenvector
       t1=dble(zdotc(nmatp,evecfv(:,ist),1,ov(:,ist),1))
-      IF(t1.gt.0.d0) THEN 
+      IF(t1 > 0.d0) THEN 
         t1=1.d0/sqrt(t1)
         CALL dscal(n2,t1,evecfv(:,ist),1)
         CALL dscal(n2,t1,ov(:,ist),1)
@@ -101,9 +101,9 @@ COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv)
       CALL zhemv('U',nmatp,zone,o,nmatp,u(:,ist),1,zzero,ou(:,ist),1)
       ! compute the overlap of the residual with itself
       t1=dble(zdotc(nmatp,u(:,ist),1,ou(:,ist),1))
-      IF(t1.gt.rmax) rmax=t1
+      IF(t1 > rmax) rmax=t1
        ! normalise the residual
-      IF(t1.gt.0.d0) THEN 
+      IF(t1 > 0.d0) THEN 
         t1=1.d0/sqrt(t1)
         CALL dscal(n2,t1,u(:,ist),1)
         CALL dscal(n2,t1,ou(:,ist),1)
@@ -146,7 +146,7 @@ COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv)
     
     ! check for convergence
     rmax=sqrt(abs(rmax)/dble(nmatp))
-    IF((it.ge.minitefv).and.(rmax.lt.epsefvit)) exit
+    IF((it >= minitefv).and.(rmax < epsefvit)) exit
     ! end iteration loop
   ENDDO 
   DEALLOCATE(w,rwork,h,o,hv,ov)

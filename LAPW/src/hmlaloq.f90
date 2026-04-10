@@ -37,7 +37,7 @@ do ilo=1,nlorb(is)
               end do
             end if
           end do
-          if (abs(dble(z1))+abs(aimag(z1)).gt.1.d-14) then
+          if (abs(dble(z1))+abs(aimag(z1)) > 1.d-14) then
             j=ngp+idxlo(lm1,ilo,ias)
             do i=1,ngpq
               hq(i,j)=hq(i,j)+conjg(z1*apwalmq(i,io,lm3))

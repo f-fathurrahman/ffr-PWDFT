@@ -43,7 +43,7 @@ do ik=1,nkpt
      ld,dmatk)
     do ist=1,nstsv
       wo=wkpt(ik)*occsv(ist,ik)
-      if (wo.lt.epsocc) cycle
+      if (wo < epsocc) cycle
       dmat(:,:,:,:,ias)=dmat(:,:,:,:,ias)+wo*dmatk(:,:,:,:,ist)
     end do
   end do

@@ -42,13 +42,13 @@ real(8) vl(3),vc(3)
 real(8) dt,f,t1
 ! alloctable arrays
 real(8), allocatable :: seg(:)
-if (nv.lt.1) then
+if (nv < 1) then
   write(*,*)
   write(*,'("Error(plotpt1d): nv < 1 : ",I8)') nv
   write(*,*)
   stop
 end if
-if (np.lt.nv) then
+if (np < nv) then
   write(*,*)
   write(*,'("Error(plotpt1d): np < nv : ",2I8)') np,nv
   write(*,*)
@@ -83,7 +83,7 @@ k=0
 do i=1,nv-1
   t1=dble(n)*seg(i)/dt
   m=nint(t1)
-  if ((m.gt.n).or.(i == (nv-1))) m=n
+  if ((m > n).or.(i == (nv-1))) m=n
   do j=1,m+1
     k=k+1
     f=dble(j-1)/dble(m+1)

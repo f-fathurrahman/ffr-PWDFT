@@ -51,7 +51,7 @@ real(8) f,fold,lambdaold,dl,tol
 real(8) fyukawa,fyukawa0
 external fyukawa,fyukawa0
 ! small U limit
-if (ufix.lt.umin) then
+if (ufix < umin) then
   lambda=lambdamax
   write(*,'("Info(findlambdadu): lambda set to lambdamax (",G18.10,")")') &
    lambdamax
@@ -65,26 +65,26 @@ fold=1.d0
 tol=1.d-1
 nit=0
 do it=1,maxit
-  if (lambda.lt.lambdamin) then
+  if (lambda < lambdamin) then
 ! unscreened Slater parameters
     f=fyukawa0(is,l,0)-ufix
   else
 ! screened Slater parameters
     f=fyukawa(is,l,0,lambda)-ufix
   end if
-  if ((f*fold).lt.0) dl=-0.5d0*dl
+  if ((f*fold) < 0) dl=-0.5d0*dl
   lambdaold=lambda
   lambda=lambda+dl
   fold=f
   nit=nit+1
-  if (abs(f).lt.tol) goto 10
+  if (abs(f) < tol) goto 10
 end do
 10 continue
 ! use the found value of lambda to continue the search with secant algorithm and
 ! higher accuracy
 tol=1.d-6
 ! calculate F^(0)-ufix at lambdaold value
-if (lambdaold.lt.lambdamin) then
+if (lambdaold < lambdamin) then
 ! unscreened Slater parameters
   fold=fyukawa0(is,l,0)-ufix
 else
@@ -94,7 +94,7 @@ end if
 ! start secant algorithm
 do it=1,maxit
 ! calculate F^(0)-ufix
-  if (lambda.lt.lambdamin) then
+  if (lambda < lambdamin) then
 ! unscreened Slater parameters
     f=fyukawa0(is,l,0)-ufix
   else
@@ -102,7 +102,7 @@ do it=1,maxit
     f=fyukawa(is,l,0,lambda)-ufix
   end if
 ! if requested tolerance has been reached exit the loop
-  if (abs(f).lt.tol) goto 20
+  if (abs(f) < tol) goto 20
 ! update lambda with secant algorithm and roll values
   dl=-f*((lambda-lambdaold)/(f-fold))
   lambdaold=lambda
@@ -111,7 +111,7 @@ do it=1,maxit
   nit=nit+1
 end do
 20 continue
-if (nit.ge.maxit) then
+if (nit >= maxit) then
   write(*,*)
   write(*,'("Error(findlambdadu): max number of iterations to obtain lambda &
    &reached")')

@@ -72,10 +72,10 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
             ELSE 
               s(i)=-1
             ENDIF 
-            IF(ia.lt.ja) THEN 
+            IF(ia < ja) THEN 
   ! if ia < ja use the real part of the sum of matrix elements
               tr(i)=.true.
-            ELSEIF(ia.gt.ja) THEN 
+            ELSEIF(ia > ja) THEN 
   ! if ia > ja use the imaginary part of the difference of matrix elements
               s(i)=-s(i)
               tr(i)=.false.
@@ -90,7 +90,7 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
   ! new function should be real if symmetric or imaginary if antisymmetric
             IF(mod(l,2) == 0) THEN 
   ! l even
-              IF(m.ge.0) THEN 
+              IF(m >= 0) THEN 
                 tr(i)=.true.
               ELSE 
                 s(i)=-s(i)
@@ -98,7 +98,7 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
               ENDIF 
             ELSE 
               ! l odd
-              IF(m.ge.0) THEN 
+              IF(m >= 0) THEN 
                 tr(i)=.false.
               ELSE 
                 s(i)=-s(i)
@@ -161,11 +161,11 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
         rh(k1)=dble(h(k1))+s(m1)*dble(h(k2))+s(l1)*(dble(h(k3))+s(m1)*dble(h(k4)))
       ELSE 
         t2=aimag(h(k2))
-        IF(l1.gt.m2) t2=-t2
+        IF(l1 > m2) t2=-t2
         t3=aimag(h(k3))
-        IF(l2.gt.m1) t3=-t3
+        IF(l2 > m1) t3=-t3
         t4=aimag(h(k4))
-        IF(l2.gt.m2) t4=-t4
+        IF(l2 > m2) t4=-t4
         rh(k1)=aimag(h(k1))+s(m1)*t2+s(l1)*(t3+s(m1)*t4)
         IF(.not.tr(l1)) rh(k1)=-rh(k1)
       ENDIF 
@@ -208,11 +208,11 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
         ro(k1)=dble(o(k1))+s(m1)*dble(o(k2))+s(l1)*(dble(o(k3))+s(m1)*dble(o(k4)))
       ELSE 
         t2=aimag(o(k2))
-        IF(l1.gt.m2) t2=-t2
+        IF(l1 > m2) t2=-t2
         t3=aimag(o(k3))
-        IF(l2.gt.m1) t3=-t3
+        IF(l2 > m1) t3=-t3
         t4=aimag(o(k4))
-        IF(l2.gt.m2) t4=-t4
+        IF(l2 > m2) t4=-t4
         ro(k1)=aimag(o(k1))+s(m1)*t2+s(l1)*(t3+s(m1)*t4)
         IF(.not.tr(l1)) ro(k1)=-ro(k1)
       ENDIF 
@@ -232,7 +232,7 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
     WRITE(*,*)
     WRITE(*,'("Error(eveqnfvr): diagonalisation failed")')
     WRITE(*,'(" DSYGVX RETURN ed INFO = ",I8)') info
-    IF(info.gt.nmatp) THEN 
+    IF(info > nmatp) THEN 
       i=info-nmatp
       WRITE(*,'(" The leading minor of the overlap matrix of order ",I8)') i
       WRITE(*,'("  is not positive definite")')

@@ -58,7 +58,7 @@ do is=1,nspecies
 ! map lattice coordinates to [-0.5,0.5) and write as Cartesian coordinates
       v1(:)=atposl(:,ia,is)
       do i=1,3
-        if (v1(i).gt.0.5d0) v1(i)=v1(i)-1.d0
+        if (v1(i) > 0.5d0) v1(i)=v1(i)-1.d0
       end do
       call r3mv(avec,v1,v2)
     else

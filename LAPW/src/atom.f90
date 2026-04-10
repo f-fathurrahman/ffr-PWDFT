@@ -173,9 +173,9 @@ SUBROUTINE atom(sol,ptnucl,zn,nst,n,l,k,occ,xctype,xcgrad,nr,r,eval,rho,vr,rwf)
     ENDDO 
     dv=sqrt(sum)/dble(nr)
     
-    IF(iscl.gt.2) THEN 
+    IF(iscl > 2) THEN 
       ! reduce beta if change in potential is diverging
-      IF(dv.gt.dvp) beta=beta*0.8d0
+      IF(dv > dvp) beta=beta*0.8d0
       beta=max(beta,0.01d0)
     ENDIF 
     
@@ -189,7 +189,7 @@ SUBROUTINE atom(sol,ptnucl,zn,nst,n,l,k,occ,xctype,xcgrad,nr,r,eval,rho,vr,rwf)
     ENDDO 
     
     ! check for convergence
-    IF((iscl.gt.2).and.(dv.lt.eps)) then
+    IF((iscl > 2).and.(dv < eps)) then
       write(*,*) 'Converged at iscl = ', iscl
       write(*,'(1x,A,ES18.10)') 'dv = ', dv
       goto 10

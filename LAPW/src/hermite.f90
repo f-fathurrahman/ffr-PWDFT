@@ -27,19 +27,19 @@ real(8), intent(in) :: x
 ! local variables
 integer i
 real(8) h1,h2,ht
-if (n.lt.0) then
+if (n < 0) then
   write(*,*)
   write(*,'("Error(hermite): n < 0 : ",I8)') n
   write(*,*)
   stop
 end if
-if (n.gt.20) then
+if (n > 20) then
   write(*,*)
   write(*,'("Error(hermite): n out of range : ",I8)') n
   write(*,*)
   stop
 end if
-if (abs(x).gt.1.d15) then
+if (abs(x) > 1.d15) then
   write(*,*)
   write(*,'("Error(hermite): x out of range : ",G18.10)') x
   write(*,*)

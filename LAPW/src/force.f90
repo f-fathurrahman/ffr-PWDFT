@@ -205,7 +205,7 @@ SUBROUTINE force
   forcemax=0.d0
   DO ias=1,natmtot
     t1=sqrt(forcetot(1,ias)**2+forcetot(2,ias)**2+forcetot(3,ias)**2)
-    IF(t1.gt.forcemax) forcemax=t1
+    IF(t1 > forcemax) forcemax=t1
   ENDDO 
   DEALLOCATE(grfmt)
 

@@ -10,7 +10,7 @@ real(8) f(4),t1,t2
 ! external functions
 real(8) polynm
 external polynm
-if (n.lt.4) then
+if (n < 4) then
   write(*,*)
   write(*,'("Error(wsplintp): n < 4 : ",I8)') n
   write(*,*)

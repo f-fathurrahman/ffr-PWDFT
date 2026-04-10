@@ -43,20 +43,20 @@ real(8) ang(3),angi(3)
 complex(8), parameter :: zzero=(0.d0,0.d0),zone=(1.d0,0.d0)
 ! automatic arrays
 complex(8) d(lmmax,lmmax)
-if (lmin.lt.0) then
+if (lmin < 0) then
   write(*,*)
   write(*,'("Error(rotzflm): lmin < 0 : ",I8)') lmin
   write(*,*)
   stop
 end if
-if (lmin.gt.lmax) then
+if (lmin > lmax) then
   write(*,*)
   write(*,'("Error(rotzflm): lmin > lmax : ",2I8)') lmin,lmax
   write(*,*)
   stop
 end if
 if (n == 0) return
-if (n.lt.0) then
+if (n < 0) then
   write(*,*)
   write(*,'("Error(rotzflm): n < 0 : ",I8)') n
   write(*,*)
@@ -68,7 +68,7 @@ det=rot(1,2)*rot(2,3)*rot(3,1)-rot(1,3)*rot(2,2)*rot(3,1) &
    +rot(1,1)*rot(2,2)*rot(3,3)-rot(1,2)*rot(2,1)*rot(3,3)
 ! make the rotation proper
 p=1
-if (det.lt.0.d0) p=-1
+if (det < 0.d0) p=-1
 rotp(:,:)=dble(p)*rot(:,:)
 ! compute the Euler angles of the rotation matrix
 call roteuler(rotp,ang)

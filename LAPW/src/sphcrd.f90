@@ -11,16 +11,16 @@ PURE SUBROUTINE sphcrd(v,r,tp)
   REAL(8), parameter :: eps=1.d-14
   REAL(8) t1
   r=sqrt(v(1)**2+v(2)**2+v(3)**2)
-  IF(r.gt.eps) THEN 
+  IF(r > eps) THEN 
     t1=v(3)/r
-    IF(t1.ge.1.d0) THEN 
+    IF(t1 >= 1.d0) THEN 
       tp(1)=0.d0
     ELSEIF(t1 <= -1.d0) THEN 
       tp(1)=3.1415926535897932385d0
     else
       tp(1)=acos(t1)
     ENDIF 
-    IF((abs(v(1)).gt.eps).or.(abs(v(2)).gt.eps)) THEN 
+    IF((abs(v(1)) > eps).or.(abs(v(2)) > eps)) THEN 
       tp(2)=atan2(v(2),v(1))
     else
       tp(2)=0.d0

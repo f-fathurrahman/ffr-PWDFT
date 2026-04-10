@@ -22,7 +22,7 @@ logical core(maxstsp),lorb(maxstsp)
 real(8), parameter :: e0=0.15d0
 ! find which states belong to core
 do ist=1,nst
-  if (eval(ist).lt.ecvcut) then
+  if (eval(ist) < ecvcut) then
     core(ist)=.true.
   else
     core(ist)=.false.
@@ -45,8 +45,8 @@ nlo=lmax+1
 lorb(:)=.false.
 do ist=1,nst
   if (.not.core(ist)) then
-    if ((l(ist) == 0).or.(l(ist).lt.k(ist))) then
-      if ((eval(ist).lt.esccut).or.(l(ist).ge.2)) then
+    if ((l(ist) == 0).or.(l(ist) < k(ist))) then
+      if ((eval(ist) < esccut).or.(l(ist) >= 2)) then
         lorb(ist)=.true.
         nlo=nlo+1
       end if

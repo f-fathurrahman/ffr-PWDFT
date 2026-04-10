@@ -53,7 +53,7 @@ do i=1,n
   rup=rhoup(i); rdn=rhodn(i)
 ! total density
   r=rup+rdn
-  if ((rup.ge.0.d0).and.(rdn.ge.0.d0).and.(r.gt.1.d-12)) then
+  if ((rup >= 0.d0).and.(rdn >= 0.d0).and.(r > 1.d-12)) then
 ! Wigner-Seitz radius in atomic units (a0=1)
     rs=(3.d0/(4.d0*pi*r))**(1.d0/3.d0)
     x=rup/r

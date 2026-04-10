@@ -122,7 +122,7 @@ SUBROUTINE energy
   !-------------------------!
   !     exchange energy     !
   !-------------------------!
-  IF((xctype(1).lt.0).or.(task == 5)) THEN 
+  IF((xctype(1) < 0).or.(task == 5)) THEN 
     ! exact exchange for OEP-EXX or Hartree-Fock on last self-consistent loop
     IF(tlast) THEN 
       CALL exxengy()
@@ -257,7 +257,7 @@ SUBROUTINE energy
     DO ik=1,nkpt
       DO ist=1,nstsv
         f=occsv(ist,ik)/occmax
-        IF((f.gt.0.d0).and.(f.lt.1.d0)) THEN 
+        IF((f > 0.d0).and.(f < 1.d0)) THEN 
           sum = sum + wkpt(ik)*(f*log(f)+(1.d0-f)*log(1.d0-f))
         ENDIF 
       ENDDO 

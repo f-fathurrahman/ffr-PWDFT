@@ -51,7 +51,7 @@ if (iscl <= 1) then
   write(fnum,'("  Ex = exchange energy term")')
   write(fnum,'("  Pol = polarisation of density matrix")')
 end if
-if (iscl.ge.1) then
+if (iscl >= 1) then
   write(fnum,*)
   write(fnum,'("+--------------------+")')
   write(fnum,'("| Loop number : ",I4," |")') iscl

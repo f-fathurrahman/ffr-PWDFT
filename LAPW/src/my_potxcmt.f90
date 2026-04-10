@@ -254,7 +254,7 @@ SUBROUTINE my_potxcmt(tsh,ias,xctype_,rhomt_,magmt_,taumt_,exmt_,ecmt_,vxcmt_, &
         t3=0.5d0*(t1-t2)
         ! |m| = rhoup - rhodn
         t4=rhoup(i)-rhodn(i)
-        IF(abs(t4).gt.1.d-8) t4=t3/t4
+        IF(abs(t4) > 1.d-8) t4=t3/t4
         bxc(i,1:3)=mag(i,1:3)*t4
       ENDDO 
     ELSE 

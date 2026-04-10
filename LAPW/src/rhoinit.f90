@@ -39,7 +39,7 @@ SUBROUTINE rhoinit()
     DO ig=1,ngvec
       t1=gc(ig)
       ! spherical bessel function j_0(x) times the atomic density tail
-      IF(t1.gt.epslat) THEN 
+      IF(t1 > epslat) THEN 
         t2=1.d0/t1
         DO ir=nr,nrs
           x=t1*rsp(ir,is)
@@ -127,7 +127,7 @@ SUBROUTINE rhoinit()
   DO ir=1,ngtot
     rhoir(ir)=dble(zfft(ir))+t1
     ! make sure that the density is always positive
-    IF(rhoir(ir).lt.1.d-10) rhoir(ir)=1.d-10
+    IF(rhoir(ir) < 1.d-10) rhoir(ir)=1.d-10
   ENDDO 
   DEALLOCATE(zfft)
     

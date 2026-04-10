@@ -15,7 +15,7 @@ SUBROUTINE init_Gk_vectors()
   !     G+k-vectors     !
   !---------------------!
   
-  IF( (xctype(1) .lt. 0) .or. ( any(task==[5,10,205,300,600,620,630])) ) THEN 
+  IF( (xctype(1)  <  0) .or. ( any(task==[5,10,205,300,600,620,630])) ) THEN 
     nppt = nkptnr
   ELSE 
     nppt = nkpt

@@ -41,7 +41,7 @@ is=1
 do js=1,nspecies
 ! if a species has only one atom the cell must be primitive
   if (natoms(js) == 1) return
-  if (natoms(js).lt.natoms(is)) is=js
+  if (natoms(js) < natoms(is)) is=js
 end do
 n=27*natoms(is)
 allocate(dp(n),vp(3,n))
@@ -56,7 +56,7 @@ do ia=1,natoms(is)
       do i3=-1,1
         v2(3)=v1(3)+dble(i3)
         t1=abs(v2(1))+abs(v2(2))+abs(v2(3))
-        if (t1.lt.epslat) goto 20
+        if (t1 < epslat) goto 20
 ! check if vector v2 leaves conventional cell invariant
         do js=1,nspecies
           do ja=1,natoms(js)
@@ -66,7 +66,7 @@ do ia=1,natoms(is)
 ! check both positions and magnetic fields are the same
               t1=sum(abs(atposl(:,ka,js)-v3(:)))
               t2=sum(abs(bfcmt0(:,ja,js)-bfcmt0(:,ka,js)))
-              if ((t1.lt.epslat).and.(t2.lt.epslat)) goto 10
+              if ((t1 < epslat).and.(t2 < epslat)) goto 10
             end do
 ! atom ja has no equivalent under translation by v2
             goto 20
@@ -92,7 +92,7 @@ end if
 j=1
 t1=1.d8
 do i=1,n
-  if (dp(i).lt.t1+epslat) then
+  if (dp(i) < t1+epslat) then
     j=i
     t1=dp(i)
   end if
@@ -104,8 +104,8 @@ t1=1.d8
 do i=1,n
   call r3cross(avec(:,1),vp(:,i),v1)
   t2=sqrt(v1(1)**2+v1(2)**2+v1(3)**2)
-  if (t2.gt.epslat) then
-    if (dp(i).lt.t1+epslat) then
+  if (t2 > epslat) then
+    if (dp(i) < t1+epslat) then
       j=i
       t1=dp(i)
     end if
@@ -118,8 +118,8 @@ j=1
 t1=1.d8
 do i=1,n
   t2=dot_product(vp(:,i),v1(:))
-  if (abs(t2).gt.epslat) then
-    if (dp(i).lt.t1+epslat) then
+  if (abs(t2) > epslat) then
+    if (dp(i) < t1+epslat) then
       j=i
       t1=dp(i)
     end if
@@ -135,7 +135,7 @@ do is=1,nspecies
     call r3frac(epslat,v1)
     do ja=1,na
       t1=sum(abs(atposl(:,ja,is)-v1(:)))
-      if (t1.lt.epslat) goto 30
+      if (t1 < epslat) goto 30
     end do
     na=na+1
     atposl(:,na,is)=v1(:)

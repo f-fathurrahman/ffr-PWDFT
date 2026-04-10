@@ -21,7 +21,7 @@ ngtc=ngdc(1)*ngdc(2)*ngdc(3)
 ! find the number of vectors with G < 2*gkmax
 ngvc=ngvec
 do ig=2,ngvec
-  if (gc(ig).gt.t0) then
+  if (gc(ig) > t0) then
     ngvc=ig-1
     exit
   end if
@@ -33,17 +33,17 @@ do ig=1,ngtc
   i1=ivg(1,ig)
   i2=ivg(2,ig)
   i3=ivg(3,ig)
-  if (i1.ge.0) then
+  if (i1 >= 0) then
     j1=i1
   else
     j1=ngdc(1)+i1
   end if
-  if (i2.ge.0) then
+  if (i2 >= 0) then
     j2=i2
   else
     j2=ngdc(2)+i2
   end if
-  if (i3.ge.0) then
+  if (i3 >= 0) then
     j3=i3
   else
     j3=ngdc(3)+i3

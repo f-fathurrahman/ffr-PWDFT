@@ -27,7 +27,7 @@ do isym=1,nsymcrys
   s(:,:)=dble(symlat(:,:,lspl))
   call r3mtv(s,v1,v2)
   t1=abs(v1(1)-v2(1))+abs(v1(2)-v2(2))+abs(v1(3)-v2(3))
-  if (t1.lt.epslat) then
+  if (t1 < epslat) then
     call dynsymapp(isym,v1,dynp,dyns)
     n=n+1
   end if

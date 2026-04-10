@@ -109,7 +109,7 @@ do i=1,ndftu
   nm=2*l+1
 ! calculate u, v and the Coulomb matrix elements
   call genveedu(i,u,j,vee)
-  if ((abs(u).lt.1.d-10).and.(abs(j).lt.1.d-10)) cycle
+  if ((abs(u) < 1.d-10).and.(abs(j) < 1.d-10)) cycle
 ! begin loop over atoms
   do ia=1,natoms(is)
     ias=idxas(ia,is)
@@ -178,7 +178,7 @@ do i=1,ndftu
         mg2=0.d0
       end if
       sum2=n*(1.d0-0.5d0*n/dble(nm))-0.5d0*mg2/dble(nm)
-      if (abs(sum2).gt.1.d-14) then
+      if (abs(sum2) > 1.d-14) then
         alphadu(ia,i)=sum1/sum2
       else
         alphadu(ia,i)=0.d0

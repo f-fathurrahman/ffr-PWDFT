@@ -43,7 +43,7 @@ end do
 wmax=wmax+(wmax-wmin)*0.1d0
 wmin=wmin-(wmax-wmin)*0.1d0
 wd=wmax-wmin
-if (wd.lt.1.d-8) wd=1.d0
+if (wd < 1.d-8) wd=1.d0
 dw=wd/dble(nwplot)
 ! generate energy grid
 do iw=1,nwplot
@@ -63,7 +63,7 @@ do i1=0,ngrkf-1
       do i=1,nbph
         t1=(wp(i)-wmin)/dw+1.d0
         iw=nint(t1)
-        if ((iw.ge.1).and.(iw <= nwplot)) then
+        if ((iw >= 1).and.(iw <= nwplot)) then
           gw(iw)=gw(iw)+1.d0
         end if
       end do
@@ -73,7 +73,7 @@ end do
 t1=1.d0/(dw*dble(ngrkf)**3)
 gw(:)=t1*gw(:)
 ! smooth phonon DOS if required
-if (nswplot.gt.0) call fsmooth(nswplot,nwplot,gw)
+if (nswplot > 0) call fsmooth(nswplot,nwplot,gw)
 ! write phonon DOS to file
 open(50,file='PHDOS.OUT',form='FORMATTED')
 do iw=1,nwplot
@@ -109,7 +109,7 @@ write(50,'("Vibrational energy vs. temperature :")')
 do i=1,ntemp
   do iw=1,nwplot
     t1=w(iw)/(2.d0*kboltz*temp(i))
-    if (t1.gt.0.d0) then
+    if (t1 > 0.d0) then
       f(iw)=gw(iw)*w(iw)*cosh(t1)/sinh(t1)
     else
       f(iw)=0.d0
@@ -126,7 +126,7 @@ write(50,'("Free energy vs. temperature :")')
 do i=1,ntemp
   do iw=1,nwplot
     t1=2.d0*sinh(w(iw)/(2.d0*kboltz*temp(i)))
-    if (t1.gt.0.d0) then
+    if (t1 > 0.d0) then
       f(iw)=gw(iw)*log(t1)
     else
       f(iw)=0.d0
@@ -151,7 +151,7 @@ do i=1,ntemp
   do iw=1,nwplot
     t1=w(iw)/(kboltz*temp(i))
     t2=exp(t1)-1.d0
-    if (abs(t2).gt.1.d-14) then
+    if (abs(t2) > 1.d-14) then
       f(iw)=gw(iw)*(t1**2)*(t2+1.d0)/t2**2
     else
       f(iw)=0.d0

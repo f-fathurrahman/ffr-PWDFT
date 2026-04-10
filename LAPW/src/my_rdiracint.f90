@@ -17,7 +17,7 @@ SUBROUTINE my_rdiracint(sol, kpa, e, nr, r, vr, nn, g0, g1, f0, f1)
   real(8), parameter :: rsc=1.d100
   real(8) :: ci,e0,t1,t2,t3,t4
   
-  if (nr.lt.4) then
+  if (nr < 4) then
     write(*,*)
     write(*,'("Error(rdiracint): nr < 4 : ",I8)') nr
     write(*,*)
@@ -65,8 +65,8 @@ SUBROUTINE my_rdiracint(sol, kpa, e, nr, r, vr, nn, g0, g1, f0, f1)
     g1(ir) = t3*f0(ir)-t2*g0(ir)
     f1(ir) = t4*g0(ir)+t2*f0(ir)
     ! check for overflow
-    if ((abs(g0(ir)).gt.rsc).or.(abs(g1(ir)).gt.rsc).or. &
-        (abs(f0(ir)).gt.rsc).or.(abs(f1(ir)).gt.rsc)) then
+    if ((abs(g0(ir)) > rsc).or.(abs(g1(ir)) > rsc).or. &
+        (abs(f0(ir)) > rsc).or.(abs(f1(ir)) > rsc)) then
       ! set the remaining points and return
       g0(ir:nr)=g0(ir)
       g1(ir:nr)=g1(ir)
@@ -75,7 +75,7 @@ SUBROUTINE my_rdiracint(sol, kpa, e, nr, r, vr, nn, g0, g1, f0, f1)
       return
     end if
     ! check for node
-    if (g0(ir-1)*g0(ir).lt.0.d0) nn=nn+1
+    if (g0(ir-1)*g0(ir) < 0.d0) nn=nn+1
   end do
 return
 

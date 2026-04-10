@@ -47,7 +47,7 @@ j=ujdu(2,i)
 f(:)=fdu(:,i)
 e(:)=edu(:,i)
 lambda=lambdadu(i)
-if (inpdftu.lt.4) then
+if (inpdftu < 4) then
 ! F(0) = U for any l-shell
   if (inpdftu == 1) f(0)=u
   select case(l)
@@ -134,7 +134,7 @@ if (inpdftu.lt.4) then
     write(*,*)
     stop
   end select
-else if (inpdftu.ge.4) then
+else if (inpdftu >= 4) then
 ! define energies for Slater parameters
   call energyfdu
 
@@ -151,7 +151,7 @@ else if (inpdftu.ge.4) then
   end if
   do q=0,l
     k=2*q
-    if (lambda.lt.1.d-2) then
+    if (lambda < 1.d-2) then
 ! unscreened Slater parameters
       f(k)=fyukawa0(is,l,k)
     else

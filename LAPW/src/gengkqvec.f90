@@ -14,17 +14,13 @@ integer ik,jspn
 real(8) vl(3),vc(3)
 ! loop over non-reduced k-point set
 do ik=1,nkptnr
-  write(*,*) 'ik = ', ik, ' nkptnr = ', nkptnr
-  write(*,*) 'shape vkql = ', shape(vkql)
-  write(*,*) 'shape vkqc = ', shape(vkqc)
   ! k+q-vectors in lattice and Cartesian coordinates
   vkql(:,ik)=vkl(:,ik)+vql(:,iq)
   vkqc(:,ik)=vkc(:,ik)+vqc(:,iq)
   do jspn=1,nspnfv
-    write(*,*) 'jspn = ', jspn
     vl(:)=vkql(:,ik)
     vc(:)=vkqc(:,ik)
-! spin-spiral case
+    ! spin-spiral case
     if (spinsprl) then
       if (jspn == 1) then
         vl(:)=vl(:)+0.5d0*vqlss(:)

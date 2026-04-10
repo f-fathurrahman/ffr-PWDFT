@@ -22,7 +22,7 @@ integer i,i1,i2
 real(8) c1,c2,t0,t1,t2
 l=lsp(ist,is)
 k=ksp(ist,is)
-if (((k.ne.l+1).and.(k.ne.l)).or.(m.lt.-k).or.(m.gt.k-1)) then
+if (((k.ne.l+1).and.(k.ne.l)).or.(m < -k).or.(m > k-1)) then
   write(*,*)
   write(*,'("Error(wavefcr): mismatched l, k or m : ",3I4)') l,k,m
   write(*,'(" for species ",I4)') is
@@ -31,7 +31,7 @@ if (((k.ne.l+1).and.(k.ne.l)).or.(m.lt.-k).or.(m.gt.k-1)) then
   write(*,*)
   stop
 end if
-if (l.gt.lmaxo) then
+if (l > lmaxo) then
   wfcr(:,:)=0.d0
   return
 end if
@@ -72,7 +72,7 @@ end if
 !----------------------------------!
 !     inner part of muffin-tin     !
 !----------------------------------!
-if (l.gt.lmaxi) goto 10
+if (l > lmaxi) goto 10
 if (tsh) then
   i1=lm1
   i2=lm2
@@ -83,19 +83,19 @@ do ir=1,nri,lrstp
 ! major component of radial wavefunction
   t0=rwfcr(ir,1,ist,ias)*rlmt(ir,-1,is)
   if (tsh) then
-    if (lm1.gt.0) wfcr(i1,1)=t0*c1
-    if (lm2.gt.0) wfcr(i2,2)=t0*c2
+    if (lm1 > 0) wfcr(i1,1)=t0*c1
+    if (lm2 > 0) wfcr(i2,2)=t0*c2
     i1=i1+lmmaxi
     i2=i2+lmmaxi
   else
     t1=t0*c1
     t2=t0*c2
-    if (lm1.gt.0) then
+    if (lm1 > 0) then
       do lm=1,lmmaxi
         wfcr(i+lm,1)=t1*zbshti(lm,lm1)
       end do
     end if
-    if (lm2.gt.0) then
+    if (lm2 > 0) then
       do lm=1,lmmaxi
         wfcr(i+lm,2)=t2*zbshti(lm,lm2)
       end do
@@ -119,19 +119,19 @@ end if
 do ir=nri+lrstp,nr,lrstp
   t0=rwfcr(ir,1,ist,ias)*rlmt(ir,-1,is)
   if (tsh) then
-    if (lm1.gt.0) wfcr(i1,1)=t0*c1
-    if (lm2.gt.0) wfcr(i2,2)=t0*c2
+    if (lm1 > 0) wfcr(i1,1)=t0*c1
+    if (lm2 > 0) wfcr(i2,2)=t0*c2
     i1=i1+lmmaxo
     i2=i2+lmmaxo
   else
     t1=t0*c1
     t2=t0*c2
-    if (lm1.gt.0) then
+    if (lm1 > 0) then
       do lm=1,lmmaxo
         wfcr(i+lm,1)=t1*zbshto(lm,lm1)
       end do
     end if
-    if (lm2.gt.0) then
+    if (lm2 > 0) then
       do lm=1,lmmaxo
         wfcr(i+lm,2)=t2*zbshto(lm,lm2)
       end do

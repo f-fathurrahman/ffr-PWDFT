@@ -82,7 +82,7 @@ if(spinpol) then
 endif
 
 ! open RESIDUAL.OUT
-if( xctype(1) .lt. 0) then
+if( xctype(1)  <  0) then
   open(69,file='RESIDUAL'//trim(filext),form='FORMATTED')
 endif
 
@@ -251,7 +251,7 @@ do iscl=1,maxscl
   call genvsig()
   
   ! reduce the external magnetic fields if required
-  if (reducebf.lt.1.d0) then
+  if (reducebf < 1.d0) then
     bfieldc(:)=bfieldc(:)*reducebf
     bfcmt(:,:,:)=bfcmt(:,:,:)*reducebf
   endif
@@ -333,14 +333,14 @@ do iscl=1,maxscl
     write(66,'(G18.10)') de
     flush(66)
     !
-    if ((dv.lt.epspot).and.(de.lt.epsengy)) then
+    if ((dv < epspot).and.(de < epsengy)) then
       write(60,*)
       write(60,'("Convergence targets achieved")')
       tlast=.true.
     endif
   endif
   ! average the current and previous total energies and store
-  if (iscl.gt.1) then
+  if (iscl > 1) then
     etp=0.75d0*engytot+0.25d0*etp
   else
     etp=engytot
@@ -373,7 +373,7 @@ write(60,'("+------------------------------+")')
 write(60,'("| Self-consistent loop stopped |")')
 write(60,'("+------------------------------+")')
 ! write density and potentials to file only if maxscl > 1
-if (maxscl .gt. 1) then
+if (maxscl  >  1) then
   call writestate()
   write(60,*)
   write(60,'("Wrote STATE.OUT")')

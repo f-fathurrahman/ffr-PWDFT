@@ -33,7 +33,7 @@ call getevecsv(filext,ik,vkl(:,ik),evecsv)
 ! count and index the occupied states
 nst=0
 do ist=1,nstsv
-  if (abs(occsv(ist,ik)).lt.epsocc) cycle
+  if (abs(occsv(ist,ik)) < epsocc) cycle
   nst=nst+1
   idx(nst)=ist
 end do

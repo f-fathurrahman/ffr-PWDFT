@@ -78,7 +78,7 @@ do ias=1,natmtot
 ! unit vector m/|m|
       magu(1,i)=0.d0
       magu(2,i)=0.d0
-      if (mag(i,1).gt.0.d0) then
+      if (mag(i,1) > 0.d0) then
         magu(3,i)=1.d0
       else
         magu(3,i)=-1.d0
@@ -129,7 +129,7 @@ else
     rhodn(ir)=0.5d0*(rhoir(ir)-magm(ir))
     magu(1,ir)=0.d0
     magu(2,ir)=0.d0
-    if (magir(ir,1).gt.0.d0) then
+    if (magir(ir,1) > 0.d0) then
       magu(3,ir)=1.d0
     else
       magu(3,ir)=-1.d0
@@ -171,7 +171,7 @@ do i=1,n
   fxc(i,1,3)=t1*magu(2,i)
   fxc(i,1,4)=t1*magu(3,i)
 ! spin-spin
-  if (magm(i).gt.1.d-14) then
+  if (magm(i) > 1.d-14) then
     t1=bxcp(i)/magm(i)
   else
     t1=0.d0

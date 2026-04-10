@@ -28,13 +28,13 @@ logical done(nstfv,nspnfv)
 real(8) fr1(nrcmtmax),fr2(nrcmtmax)
 ! allocatable arrays
 complex(8), allocatable :: wfmt1(:,:,:),wfmt2(:,:)
-if (lmin.lt.0) then
+if (lmin < 0) then
   write(*,*)
   write(*,'("Error(gendmatk): lmin < 0 : ",I8)') lmin
   write(*,*)
   stop
 end if
-if (lmax.gt.lmaxo) then
+if (lmax > lmaxo) then
   write(*,*)
   write(*,'("Error(gendmatk): lmax > lmaxo : ",2I8)') lmax,lmaxo
   write(*,*)
@@ -71,7 +71,7 @@ do j=1,nstsv
         i=i+1
         z1=evecsv(i,j)
         if (ssdph) z1=z1*zq(ispn)
-        if (abs(dble(z1))+abs(aimag(z1)).gt.epsocc) then
+        if (abs(dble(z1))+abs(aimag(z1)) > epsocc) then
           if (.not.done(ist,jspn)) then
             call wavefmt(lradstp,ias,ngp(jspn),apwalm(:,:,:,ias,jspn), &
              evecfv(:,ist,jspn),wfmt1(:,ist,jspn))

@@ -41,19 +41,19 @@ if (n == 0) then
   sdelta_mp=exp(-x**2)/sqpi
   return
 end if
-if (n.lt.0) then
+if (n < 0) then
   write(*,*)
   write(*,'("Error(sdelta_mp): n < 0 : ",I8)') n
   write(*,*)
   stop
 end if
-if (n.gt.10) then
+if (n > 10) then
   write(*,*)
   write(*,'("Error(sdelta_mp): n out of range : ",I8)') n
   write(*,*)
   stop
 end if
-if (abs(x).gt.12.d0) then
+if (abs(x) > 12.d0) then
   sdelta_mp=0.d0
   return
 end if

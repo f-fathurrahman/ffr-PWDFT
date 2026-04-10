@@ -14,9 +14,14 @@ real(8) wmin,wmax
 real(8), allocatable :: wp(:,:)
 complex(8), allocatable :: dynq(:,:,:),dynr(:,:,:)
 complex(8), allocatable :: dynp(:,:),ev(:,:)
+
+write(*,*)
+write(*,*) 'ENTER phdisp'
+write(*,*)
+
 ! initialise universal variables
-call init0
-call init2
+call init0()
+call init2()
 allocate(wp(nbph,npp1d))
 allocate(dynq(nbph,nbph,nqpt))
 allocate(dynr(nbph,nbph,nqptnr))

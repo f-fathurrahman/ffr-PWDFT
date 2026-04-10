@@ -22,8 +22,8 @@ real(8), parameter :: c1=0.28209479177387814347d0
 ! external functions
 real(8) wigner3j,factnm,factr
 external wigner3j,factnm,factr
-if ((l1.lt.0).or.(l2.lt.0).or.(l3.lt.0).or.(abs(m1).gt.l1).or.(abs(m2).gt.l2) &
- .or.(abs(m3).gt.l3)) then
+if ((l1 < 0).or.(l2 < 0).or.(l3 < 0).or.(abs(m1) > l1).or.(abs(m2) > l2) &
+ .or.(abs(m3) > l3)) then
   write(*,*)
   write(*,'("Error(gaunt): non-physical arguments :")')
   write(*,'("l1 = ",I8," l2 = ",I8," l3 = ",I8)') l1,l2,l3
@@ -31,7 +31,7 @@ if ((l1.lt.0).or.(l2.lt.0).or.(l3.lt.0).or.(abs(m1).gt.l1).or.(abs(m2).gt.l2) &
   write(*,*)
   stop
 end if
-if ((l1.gt.50).or.(l2.gt.50).or.(l3.gt.50)) then
+if ((l1 > 50).or.(l2 > 50).or.(l3 > 50)) then
   write(*,*)
   write(*,'("Error(gaunt): angular momenta out of range : ",3I8)') l1,l2,l3
   write(*,*)
@@ -44,7 +44,7 @@ end if
 j1=l2-l1+l3
 j2=l1-l2+l3
 j3=l1+l2-l3
-if ((j1.lt.0).or.(j2.lt.0).or.(j3.lt.0)) then
+if ((j1 < 0).or.(j2 < 0).or.(j3 < 0)) then
   gaunt=0.d0
   return
 end if

@@ -244,7 +244,7 @@ SUBROUTINE my_rhoinit()
   DO ir=1,ngtot
     rhoir(ir)=dble(zfft(ir))+t1
     ! make sure that the density is always positive
-    IF(rhoir(ir).lt.1.d-10) rhoir(ir)=1.d-10
+    IF(rhoir(ir) < 1.d-10) rhoir(ir)=1.d-10
   ENDDO 
   DEALLOCATE(zfft)
     

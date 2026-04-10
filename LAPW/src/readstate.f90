@@ -50,7 +50,7 @@ if (ios.ne.0) then
   stop
 end if
 read(40) version_
-if (version_(1).lt.2) then
+if (version_(1) < 2) then
   write(*,*)
   write(*,'("Error(readstate): unable to read STATE.OUT from versions earlier &
    &than 2.0.0")')
@@ -105,14 +105,14 @@ if ((spinpol_).and.(ndmag_.ne.1).and.(ndmag_.ne.3)) then
 end if
 read(40) nspinor_
 read(40) fsmtype_
-if ((version_(1).gt.2).or.(version_(2).ge.3)) then
+if ((version_(1) > 2).or.(version_(2) >= 3)) then
   read(40) ftmtype_
 else
   ftmtype_=0
 end if
 read(40) dftu_
 read(40) lmmaxdm_
-if ((version_(1).gt.5).or.((version_(1) == 5).and.(version_(2).ge.1))) then
+if ((version_(1) > 5).or.((version_(1) == 5).and.(version_(2) >= 1))) then
   read(40) xcgrad_
 else
   xcgrad_=0
@@ -155,7 +155,7 @@ read(40) rfmt_,rfir_
 call rgfmt(vxcmt)
 vxcir(:)=rfir_(mapir(:))
 ! read the Kohn-Sham effective potential, regrid and pack
-if ((version_(1).gt.2).or.(version_(2).ge.2)) then
+if ((version_(1) > 2).or.(version_(2) >= 2)) then
   read(40) rfmt_,rfir_
 else
   allocate(vsig_(ngvec_))
@@ -196,7 +196,7 @@ if (spinpol_) then
     if (fsmtype.ne.0) bfsmcmt(:,:)=bfsmcmt_(:,:)
 ! make sure that the constraining fields are perpendicular to the fixed moments
 ! for fixed direction calculations (Y. Kvashnin and LN)
-    if (fsmtype.lt.0) then
+    if (fsmtype < 0) then
       if (ncmag) then
         call r3vo(momfix,bfsmc)
         do is=1,nspecies

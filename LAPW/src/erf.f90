@@ -43,28 +43,28 @@ real(8), parameter :: &
  s(4)=(/ 9.41537750555460d+01,  1.87114811799590d+02, &
          9.90191814623914d+01,  1.80124575948747d+01 /)
 ax=abs(x)
-if (ax.lt.0.5d0) then
+if (ax < 0.5d0) then
   t=x**2
   top=((((a(1)*t+a(2))*t+a(3))*t+a(4))*t+a(5))+1.d0
   bot=((b(1)*t+b(2))*t+b(3))*t+1.d0
   erf=x*(top/bot)
   return
 end if
-if (ax.lt.4.d0) then
+if (ax < 4.d0) then
   top=((((((p(1)*ax+p(2))*ax+p(3))*ax+p(4))*ax+p(5))*ax+p(6))*ax+p(7))*ax+p(8)
   bot=((((((q(1)*ax+q(2))*ax+q(3))*ax+q(4))*ax+q(5))*ax+q(6))*ax+q(7))*ax+q(8)
   erf=0.5d0+(0.5d0-exp(-x**2)*top/bot)
-  if (x.lt.0.d0) erf=-erf
+  if (x < 0.d0) erf=-erf
   return
 end if
-if (ax.lt.5.8d0) then
+if (ax < 5.8d0) then
   x2=x**2
   t=1.d0/x2
   top=(((r(1)*t+r(2))*t+r(3))*t+r(4))*t+r(5)
   bot=(((s(1)*t+s(2))*t+s(3))*t+s(4))*t+1.d0
   erf=(c-top/(x2*bot))/ax
   erf=0.5d0+(0.5d0-exp(-x2)*erf)
-  if (x.lt.0.d0) erf=-erf
+  if (x < 0.d0) erf=-erf
   return
 end if
 erf=sign(1.d0,x)

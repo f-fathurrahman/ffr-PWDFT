@@ -62,9 +62,9 @@ d=0.d0
 do i=1,n
   t1=nu(i)-mu(i)
   d=d+t1**2
-  if (t1*f(i).ge.0.d0) then
+  if (t1*f(i) >= 0.d0) then
     beta(i)=beta(i)+beta0
-    if (beta(i).gt.betamax) beta(i)=betamax
+    if (beta(i) > betamax) beta(i)=betamax
   else
     beta(i)=0.5d0*(beta(i)+beta0)
   end if

@@ -92,7 +92,7 @@ do i3=0,ngridp(3)-1
       v1(1)=dble(i1)/dble(ngridp(1))
       call r3mv(b,v1,v2)
       v2(:)=v2(:)+boxl(:,0)
-      if (nsym.gt.1) then
+      if (nsym > 1) then
 ! determine if this point is equivalent to one already in the set
         do isym=1,nsym
           v3(:)=sym(1,:,isym)*v2(1)+sym(2,:,isym)*v2(2)+sym(3,:,isym)*v2(3)
@@ -101,7 +101,7 @@ do i3=0,ngridp(3)-1
             v4(:)=vpl(:,i)
             call r3frac(epslat,v4)
             t1=abs(v4(1)-v3(1))+abs(v4(2)-v3(2))+abs(v4(3)-v3(3))
-            if (t1.lt.epslat) then
+            if (t1 < epslat) then
 ! equivalent p-point found so add to existing weight
               ipvip(i1,i2,i3)=i
               wppt(i)=wppt(i)+wpptnr

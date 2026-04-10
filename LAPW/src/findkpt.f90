@@ -27,7 +27,7 @@ do isym=1,nsymcrys
        +symlat(3,:,lspl)*vpl(3)
   call r3frac(epslat,v2)
   t1=abs(v1(1)-v2(1))+abs(v1(2)-v2(2))+abs(v1(3)-v2(3))
-  if (t1.lt.epslat) return
+  if (t1 < epslat) return
 end do
 write(*,*)
 write(*,'("Error(findkpt): equivalent k-point not in set")')

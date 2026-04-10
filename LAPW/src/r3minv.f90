@@ -25,7 +25,7 @@ real(8), intent(out) :: b(3,3)
 real(8) t1
 t1=a(1,2)*a(2,3)*a(3,1)-a(1,3)*a(2,2)*a(3,1)+a(1,3)*a(2,1)*a(3,2) &
   -a(1,1)*a(2,3)*a(3,2)+a(1,1)*a(2,2)*a(3,3)-a(1,2)*a(2,1)*a(3,3)
-if (abs(t1).lt.1.d-40) then
+if (abs(t1) < 1.d-40) then
   write(*,*)
   write(*,'("Error(r3minv): singular matrix")')
   write(*,*)

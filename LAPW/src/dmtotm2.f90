@@ -36,31 +36,31 @@ real(8) nlk,nsp,t1,t2,t3
 ! external functions
 real(8) wigner3j,wigner3jf,factnm,factr
 external wigner3j,wigner3jf,factnm,factr
-if (l.lt.0) then
+if (l < 0) then
   write(*,*)
   write(*,'("Error(dmtotm2): l < 0 : ",I8)') l
   write(*,*)
   stop
 end if
-if ((nspinor.lt.1).or.(nspinor.gt.2)) then
+if ((nspinor < 1).or.(nspinor > 2)) then
   write(*,*)
   write(*,'("Error(dmtotm2): nspinor should be 1 or 2 : ",I8)') nspinor
   write(*,*)
   stop
 end if
-if (k.lt.0) then
+if (k < 0) then
   write(*,*)
   write(*,'("Error(dmtotm2): k < 0 : ",I8)') k
   write(*,*)
   stop
 end if
-if (k.gt.2*l) then
+if (k > 2*l) then
   write(*,*)
   write(*,'("Error(dmtotm2): k > 2*l : ",2I8)') k,2*l
   write(*,*)
   stop
 end if
-if ((p.lt.0).or.(p.gt.1)) then
+if ((p < 0).or.(p > 1)) then
   write(*,*)
   write(*,'("Error(dmtotm2): p should be 0 or 1 : ",I8)') p
   write(*,*)
@@ -76,7 +76,7 @@ do x=-k,k
     do ispn=1,nspinor
       do jspn=1,nspinor
         t2=t1*wigner3jf(1,2*p,1,2*jspn-3,2*y,3-2*ispn)
-        if (abs(t2).gt.1.d-10) then
+        if (abs(t2) > 1.d-10) then
           lm1=l**2
           do m1=-l,l
             lm1=lm1+1

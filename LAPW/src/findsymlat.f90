@@ -40,27 +40,27 @@ SUBROUTINE findsymlat()
     CALL r3mm(c,s,sgs)
     DO j=1,3
       DO i=1,3
-        IF(abs(sgs(i,j)-g(i,j)).gt.epslat) goto 10
+        IF(abs(sgs(i,j)-g(i,j)) > epslat) goto 10
       ENDDO 
     ENDDO 
   ! check invariance of spin-spiral q-vector if required
     IF(spinsprl) THEN 
       CALL r3mtv(s,vqlss,v)
       t1=abs(vqlss(1)-v(1))+abs(vqlss(2)-v(2))+abs(vqlss(3)-v(3))
-      IF(t1.gt.epslat) goto 10
+      IF(t1 > epslat) goto 10
     ENDIF 
   ! check invariance of electric field if required
     IF(tefield) THEN 
       CALL r3mv(s,efieldl,v)
       t1=abs(efieldl(1)-v(1))+abs(efieldl(2)-v(2))+abs(efieldl(3)-v(3))
-      IF(t1.gt.epslat) goto 10
+      IF(t1 > epslat) goto 10
     ENDIF 
     
     ! check invariance of A-field if required
     IF(tafield) THEN 
       CALL r3mv(s,afieldl,v)
       t1=abs(afieldl(1)-v(1))+abs(afieldl(2)-v(2))+abs(afieldl(3)-v(3))
-      IF(t1.gt.epslat) goto 10
+      IF(t1 > epslat) goto 10
     ENDIF 
     
     nsymlat=nsymlat+1

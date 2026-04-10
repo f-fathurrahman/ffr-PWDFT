@@ -15,7 +15,7 @@ do is=1,nspecies
 ! number of radial mesh points to nuclear radius
   nrnucl(is)=1
   do ir=1,nrmt(is)
-    if (rsp(ir,is).gt.rnucl(is)) then
+    if (rsp(ir,is) > rnucl(is)) then
       nrnucl(is)=ir
       exit
     end if
@@ -23,7 +23,7 @@ do is=1,nspecies
 ! number of coarse radial mesh points to nuclear radius
   nrcnucl(is)=1
   do irc=1,nrcmt(is)
-    if (rcmt(irc,is).gt.rnucl(is)) then
+    if (rcmt(irc,is) > rnucl(is)) then
       nrcnucl(is)=irc
       exit
     end if

@@ -21,8 +21,8 @@ de1=-1.d6
 do ik=1,nkptnr
   do ist=1,nstsv
     de=devalsv(ist,ik)
-    if (de.lt.de0) de0=de
-    if (de.gt.de1) de1=de
+    if (de < de0) de0=de
+    if (de > de1) de1=de
   end do
 end do
 t1=1.d0/swidth
@@ -38,12 +38,12 @@ do it=1,maxit
       dchg=dchg+wkptnr*doccsv(ist,ik)
     end do
   end do
-  if (dchg.lt.0.d0) then
+  if (dchg < 0.d0) then
     de0=defermi
   else
     de1=defermi
   end if
-  if ((de1-de0).lt.1.d-12) goto 10
+  if ((de1-de0) < 1.d-12) goto 10
 end do
 write(*,*)
 write(*,'("Warning(doccupy): could not find Fermi energy derivative")')

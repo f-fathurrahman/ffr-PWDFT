@@ -15,6 +15,12 @@ integer iq,is,js,ia,ja
 integer ip,jp,i,j
 real(8) a,b
 character(256) fext
+
+write(*,*)
+write(*,*) 'ENTER readdyn: '
+write(*,*) 'nbph = ', nbph
+write(*,*) 'nqpt = ', nqpt
+
 do iq=1,nqpt
   i=0
   do is=1,nspecies

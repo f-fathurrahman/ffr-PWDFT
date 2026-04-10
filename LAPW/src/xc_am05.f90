@@ -43,14 +43,14 @@ real(8) r,kf,s,v,u
 real(8) grho_,g2rho_,g3rho_
 do i=1,n
   r=rho(i)
-  if (r.gt.1.d-12) then
+  if (r > 1.d-12) then
     grho_=grho(i)
     g2rho_=g2rho(i)
     g3rho_=g3rho(i)
 ! check gradients are within range
-    if (grho_.gt.gmax) grho_=gmax
-    if (abs(g2rho_).gt.g2max) g2rho_=sign(g2max,g2rho_)
-    if (abs(g3rho_).gt.g3max) g3rho_=sign(g3max,g3rho_)
+    if (grho_ > gmax) grho_=gmax
+    if (abs(g2rho_) > g2max) g2rho_=sign(g2max,g2rho_)
+    if (abs(g3rho_) > g3max) g3rho_=sign(g3max,g3rho_)
 ! exchange energy density and potential
     kf=(r*3.d0*pi**2)**(1.d0/3.d0)
     s=grho_/(2.d0*kf*r)
@@ -302,13 +302,13 @@ real(8), intent(out) :: val
 real(8) e,t,p
 integer i
 ! if z too low, go with the first term of the power expansion, z
-if (z.lt.1.d-20) then
+if (z < 1.d-20) then
   val=z
   return
 end if
 e=exp(1.d0)
 ! inital guess
-if (abs(z+1.d0/e).gt.1.45d0) then
+if (abs(z+1.d0/e) > 1.45d0) then
 ! asymptotic expansion at 0 and Inf
   val=log(z)
   val=val-log(val)
@@ -326,7 +326,7 @@ do i=1,10
     t=0.d0
    end if
    val=val-t
-   if (abs(t).lt.(2.48d0*1.d-14)*(1.d0+abs(val))) return
+   if (abs(t) < (2.48d0*1.d-14)*(1.d0+abs(val))) return
 end do
 ! this should never happen!
 write(*,*)

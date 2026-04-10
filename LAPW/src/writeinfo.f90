@@ -40,12 +40,12 @@ write(fnum,'("Date (YYYY-MM-DD) : ",A4,"-",A2,"-",A2)') dat(1:4),dat(5:6), &
 write(fnum,'("Time (hh:mm:ss)   : ",A2,":",A2,":",A2)') tim(1:2),tim(3:4), &
  tim(5:6)
 
-!if (np_mpi.gt.1) then
+!if (np_mpi > 1) then
 !  write(fnum,*)
 !  write(fnum,'("Using MPI, number of processes : ",I8)') np_mpi
 !end if
 
-if (notelns.gt.0) then
+if (notelns > 0) then
   write(fnum,*)
   write(fnum,'("Notes :")')
   do i=1,notelns
@@ -154,7 +154,7 @@ if (spinsprl) then
 end if
 if (fsmtype.ne.0) then
   write(fnum,'(" fixed spin moment (FSM) calculation, type : ",I4)') fsmtype
-  if (fsmtype.lt.0) then
+  if (fsmtype < 0) then
     write(fnum,'("  only moment direction is fixed")')
   end if
 end if
@@ -290,7 +290,7 @@ end if
 if (xctype(1) == 100) then
   write(fnum,'("Using Libxc version ",I2.2,".",I2.2,".",I2.2)') libxcv(:)
 end if
-if (xctype(1).lt.0) then
+if (xctype(1) < 0) then
   write(fnum,'("Optimised effective potential (OEP) and exact exchange (EXX)")')
   write(fnum,'(" Phys. Rev. B 53, 7024 (1996)")')
   write(fnum,'("Correlation functional : ",3I6)') abs(xctype(1)),xctype(2:3)

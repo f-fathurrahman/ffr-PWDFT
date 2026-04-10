@@ -26,13 +26,13 @@ real(8) work(msd)
 ! external functions
 real(8), external :: dnrm2
 
-if (n.lt.1) then
+if (n < 1) then
   write(*,*)
   write(*,'("Error(mixbroyden): n < 1 : ",I8)') n
   write(*,*)
   stop
 end if
-if (msd.lt.2) then
+if (msd < 2) then
   write(*,*)
   write(*,'("Error(mixbroyden): msd < 2 : ",I8)') msd
   write(*,*)
@@ -63,7 +63,7 @@ d=sum(f(:,kc)**2)
 d=sqrt(d/dble(n))
 df(:,jc)=f(:,kc)-f(:,kp)
 t1=dnrm2(n,df(:,jc),1)
-if (t1.gt.1.d-8) t1=1.d0/t1
+if (t1 > 1.d-8) t1=1.d0/t1
 call dscal(n,t1,df(:,jc),1)
 u(:,jc)=alpha*df(:,jc)+t1*(mu(:,kp)-mu(:,kc))
 

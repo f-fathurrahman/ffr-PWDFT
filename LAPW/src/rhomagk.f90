@@ -77,7 +77,7 @@ SUBROUTINE rhomagk(ngp,igpig,lock,wppt,occsvp,apwalm,evecfv,evecsv)
           DO ist=1,nstfv
             i=i+1
             z1=evecsv(i,j)
-            IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
+            IF(abs(dble(z1))+abs(aimag(z1)) > epsocc) THEN 
               IF(ssdph) z1=z1*zq(ispn)
               IF(.not.done(ist,jspn)) THEN 
                 CALL wavefmt(lradstp,ias,ngp(jspn),apwalm(:,:,:,ias,jspn), &
@@ -129,7 +129,7 @@ SUBROUTINE rhomagk(ngp,igpig,lock,wppt,occsvp,apwalm,evecfv,evecsv)
   ALLOCATE(wfir(ngtot,nspinor))
   DO j=1,nstsv
     wo=occsvp(j)
-    IF(abs(wo).lt.epsocc) cycle
+    IF(abs(wo) < epsocc) cycle
     wo=wo*wppt/omega
     wfir(:,:)=0.d0
     !
@@ -141,7 +141,7 @@ SUBROUTINE rhomagk(ngp,igpig,lock,wppt,occsvp,apwalm,evecfv,evecsv)
         DO ist=1,nstfv
           i=i+1
           z1=evecsv(i,j)
-          IF(abs(dble(z1))+abs(aimag(z1)).gt.epsocc) THEN 
+          IF(abs(dble(z1))+abs(aimag(z1)) > epsocc) THEN 
             DO igp=1,ngp(jspn)
               ifg=igfft(igpig(igp,jspn))
               wfir(ifg,ispn)=wfir(ifg,ispn)+z1*evecfv(igp,ist,jspn)

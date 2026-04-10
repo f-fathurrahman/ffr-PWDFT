@@ -13,7 +13,7 @@ SUBROUTINE genrlmv(lmax,v,rlm)
   REAL(8), parameter :: sqtwo=1.4142135623730950488d0
   ! automatic arrays
   COMPLEX(8) ylm((lmax+1)**2)
-  IF((lmax.lt.0).or.(lmax.gt.50)) THEN 
+  IF((lmax < 0).or.(lmax > 50)) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(genrlmv): lmax out of range : ",I8)') lmax
     WRITE(*,*)

@@ -238,7 +238,7 @@ if (spinpol) then
       t3 = 0.5d0*(t1 - t2)
       ! |m| = rhoup - rhodn
       t4 = rhoup(i)-rhodn(i)
-      if (abs(t4) .gt. 1.d-8) t4=t3/t4
+      if (abs(t4)  >  1.d-8) t4=t3/t4
       bxc(i,1:3) = mag(i,1:3)*t4
     end do
   else

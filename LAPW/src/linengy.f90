@@ -49,7 +49,7 @@ SUBROUTINE linengy()
             ! check if previous radial functions have same default energies
             DO jo=1,io-1
               IF(apwve(jo,l,is)) THEN 
-                IF(abs(apwe0(io,l,is)-apwe0(jo,l,is)).lt.1.d-4) THEN 
+                IF(abs(apwe0(io,l,is)-apwe0(jo,l,is)) < 1.d-4) THEN 
                   apwe(io,l,ias)=apwe(jo,l,ias)
                   GOTO 10
                 ENDIF 

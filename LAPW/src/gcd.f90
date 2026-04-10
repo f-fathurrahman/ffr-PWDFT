@@ -29,7 +29,7 @@ if ((x <= 0).or.(y <= 0)) then
   write(*,*)
   stop
 end if
-if (x.ge.y) then
+if (x >= y) then
   a=x
   b=y
 else
@@ -40,7 +40,7 @@ end if
 c=mod(a,b)
 a=b
 b=c
-if (c.gt.0) goto 10
+if (c > 0) goto 10
 gcd=a
 return
 end function

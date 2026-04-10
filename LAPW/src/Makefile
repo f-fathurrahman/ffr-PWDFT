@@ -287,7 +287,8 @@ my_rhomag.f90 my_rhomagk.f90 \
 my_wavefmt.f90 \
 my_getevecfv.f90 \
 my_energy.f90 \
-my_gndstate.f90
+my_gndstate.f90 \
+my_phonon.f90
 
 
 OBJ = $(SRC:.f90=.o)

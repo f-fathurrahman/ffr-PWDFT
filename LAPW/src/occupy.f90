@@ -27,18 +27,18 @@ SUBROUTINE occupy()
   external sdelta,stheta
 
   ! determine the smearing width automatically if required
-  IF((autoswidth).and.(iscl.gt.1)) CALL findswidth
+  IF((autoswidth).and.(iscl > 1)) CALL findswidth
   ! find minimum and maximum eigenvalues
   e0=evalsv(1,1)
   e1=e0
   DO ik=1,nkpt
     DO ist=1,nstsv
       e=evalsv(ist,ik)
-      IF(e.lt.e0) e0=e
-      IF(e.gt.e1) e1=e
+      IF(e < e0) e0=e
+      IF(e > e1) e1=e
     ENDDO 
   ENDDO 
-  IF(e0.lt.e0min) THEN 
+  IF(e0 < e0min) THEN 
     WRITE(*,*)
     WRITE(*,'("Warning(occupy): minimum eigenvalue less than minimum &
      &linearisation energy : ",2G18.10)') e0,e0min
@@ -52,7 +52,7 @@ SUBROUTINE occupy()
     DO ik=1,nkpt
       DO ist=1,nstsv
         e=evalsv(ist,ik)
-        IF(e.lt.e0min) THEN 
+        IF(e < e0min) THEN 
           occsv(ist,ik)=0.d0
         else
           x=(efermi-e)*t1
@@ -61,12 +61,12 @@ SUBROUTINE occupy()
         ENDIF 
       ENDDO 
     ENDDO 
-    IF(chg.lt.chgval) THEN 
+    IF(chg < chgval) THEN 
       e0=efermi
     else
       e1=efermi
     ENDIF 
-    IF((e1-e0).lt.1.d-12) goto 10
+    IF((e1-e0) < 1.d-12) goto 10
   ENDDO 
   WRITE(*,*)
   WRITE(*,'("Warning(occupy): could not find Fermi energy")')
@@ -79,7 +79,7 @@ SUBROUTINE occupy()
       x=(evalsv(ist,ik)-efermi)*t1
       fermidos=fermidos+wkpt(ik)*sdelta(stype,x)*t1
     ENDDO 
-    IF(abs(occsv(nstsv,ik)).gt.epsocc) THEN 
+    IF(abs(occsv(nstsv,ik)) > epsocc) THEN 
       WRITE(*,*)
       WRITE(*,'("Warning(occupy): not enough empty states for k-point ",I6)') ik
       WRITE(*,'(" and s.c. loop ",I5)') iscl
@@ -97,13 +97,13 @@ SUBROUTINE occupy()
   DO ist=1,nstsv
     DO ik=1,nkpt
       e=evalsv(ist,ik)
-      IF(e.lt.efermi) THEN 
-        IF(e.gt.e0) THEN 
+      IF(e < efermi) THEN 
+        IF(e > e0) THEN 
           e0=e
           ikgap(1)=ik
         ENDIF 
       else
-        IF(e.lt.e1) THEN 
+        IF(e < e1) THEN 
           e1=e
           ikgap(2)=ik
         ENDIF 
@@ -124,13 +124,13 @@ SUBROUTINE occupy()
     DO ist=1,nstsv
       t1=evalsv(ist,ik)
       IF(t1 <= efermi) THEN 
-        IF(t1.gt.e0) e0=t1
+        IF(t1 > e0) e0=t1
       else
-        IF(t1.lt.e1) e1=t1
+        IF(t1 < e1) e1=t1
       ENDIF 
     ENDDO 
     t1=e1-e0
-    IF(t1.lt.e) THEN 
+    IF(t1 < e) THEN 
       e=t1
       ikgap(3)=ik
     ENDIF 

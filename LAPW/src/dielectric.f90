@@ -76,7 +76,7 @@ do l=1,noptcomp
       do jst=1,nstsv
         z1=pmat(ist,jst,i)*conjg(pmat(ist,jst,j))
         eji=evalsv(jst,jk)-evalsv(ist,jk)
-        if ((evalsv(ist,jk) <= efermi).and.(evalsv(jst,jk).gt.efermi)) then
+        if ((evalsv(ist,jk) <= efermi).and.(evalsv(jst,jk) > efermi)) then
 ! scissor correction
           if (scissor.ne.0.d0) then
             t1=(eji+scissor)/eji
@@ -84,7 +84,7 @@ do l=1,noptcomp
             eji=eji+scissor
           end if
         end if
-        if (abs(eji).gt.1.d-8) then
+        if (abs(eji) > 1.d-8) then
           t1=occsv(ist,jk)*(1.d0-occsv(jst,jk)/occmax)/eji
           sigma(:)=sigma(:)+t1*(z1/(w(:)-eji+eta)+conjg(z1)/(w(:)+eji+eta))
         end if

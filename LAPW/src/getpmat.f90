@@ -34,7 +34,7 @@ do i=1,2
 end do
 !$OMP END CRITICAL(u150)
 t1=abs(vkl(1,ik)-vkl_(1))+abs(vkl(2,ik)-vkl_(2))+abs(vkl(3,ik)-vkl_(3))
-if (t1.gt.epslat) then
+if (t1 > epslat) then
   write(*,*)
   write(*,'("Error(getpmat): differing vectors for k-point ",I8)') ik
   write(*,'(" current  : ",3G18.10)') vkl(:,ik)
@@ -52,7 +52,7 @@ if (nstsv.ne.nstsv_) then
 end if
 ! if p = k then return
 t1=abs(vpl(1)-vkl(1,ik))+abs(vpl(2)-vkl(2,ik))+abs(vpl(3)-vkl(3,ik))
-if (t1.lt.epslat) return
+if (t1 < epslat) return
 ! rotate the matrix elements from the reduced to non-reduced k-point
 sc(:,:)=symlatc(:,:,lsplsymc(isym))
 do ist=1,nstsv

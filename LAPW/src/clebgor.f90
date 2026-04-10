@@ -27,8 +27,8 @@ integer, intent(in) :: m1,m2,m3
 ! external functions
 real(8) wigner3j
 external wigner3j
-if ((j1.lt.0).or.(j2.lt.0).or.(j3.lt.0).or.(abs(m1).gt.j1).or.(abs(m2).gt.j2) &
- .or.(abs(m2).gt.j2).or.(abs(m3).gt.j3)) then
+if ((j1 < 0).or.(j2 < 0).or.(j3 < 0).or.(abs(m1) > j1).or.(abs(m2) > j2) &
+ .or.(abs(m2) > j2).or.(abs(m3) > j3)) then
   write(*,*)
   write(*,'("Error(clebgor): non-physical arguments :")')
   write(*,'("j1 = ",I8," j2 = ",I8," j3 = ",I8)') j1,j2,j3
@@ -40,13 +40,13 @@ if ((j1 == 0).and.(j2 == 0).and.(j3 == 0)) then
   clebgor=1.d0
   return
 end if
-if ((j1.gt.50).or.(j2.gt.50).or.(j3.gt.50)) then
+if ((j1 > 50).or.(j2 > 50).or.(j3 > 50)) then
   write(*,*)
   write(*,'("Error(clebgor): angular momenta out of range : ",3I8)') j1,j2,j3
   write(*,*)
   stop
 end if
-if ((m1+m2-m3.ne.0).or.(j2+j3.lt.j1).or.(j1+j3.lt.j2).or.(j1+j2.lt.j3)) then
+if ((m1+m2-m3.ne.0).or.(j2+j3 < j1).or.(j1+j3 < j2).or.(j1+j2 < j3)) then
   clebgor=0.d0
   return
 end if

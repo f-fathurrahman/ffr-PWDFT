@@ -40,7 +40,7 @@ integer lm1,lm2,n
 real(8) t1
 ! automatic arrays
 real(8) dy(ld,ld)
-if (lmax.lt.0) then
+if (lmax < 0) then
   write(*,*)
   write(*,'("Error(ylmrot): lmax < 0 : ",I8)') lmax
   write(*,*)

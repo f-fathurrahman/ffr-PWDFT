@@ -121,7 +121,7 @@ if (np <= 0) then
   write(*,*)
   stop
 end if
-if (m.ge.np) then
+if (m >= np) then
   polynm=0.d0
   return
 end if
@@ -151,7 +151,7 @@ do j=1,np-1
     c(k)=c(k)+(x0-xa(k-j+1))*c(k+1)
   end do
 end do
-if (m.gt.0) then
+if (m > 0) then
 ! take the m th derivative
   do j=1,m
     do i=m+1,np

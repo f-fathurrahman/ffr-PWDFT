@@ -18,7 +18,7 @@ SUBROUTINE plot3d(fnum,nf,rfmt,rfir)
   REAL(8) v1(3)
   ! ALLOCATABLE arrays
   REAL(8), ALLOCATABLE :: vpl(:,:),fp(:,:)
-  IF((nf.lt.1).or.(nf.gt.4)) THEN 
+  IF((nf < 1).or.(nf > 4)) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(plot3d): invalid number of functions : ",I8)') nf
     WRITE(*,*)

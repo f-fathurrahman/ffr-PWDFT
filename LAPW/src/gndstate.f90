@@ -41,7 +41,7 @@ mp_mpi = .true.
 call init0
 call init1
 ! initialise q-vector-dependent variables if required
-if (xctype(1).lt.0) call init2
+if (xctype(1) < 0) call init2
 ! apply strain to the G, k, G+k and q-vectors if required
 call straingkq
 if (task == 0) trdstate=.false.
@@ -81,7 +81,7 @@ if (mp_mpi) then
 ! open MOMENTM.OUT
   if (spinpol) open(68,file='MOMENTM'//trim(filext),form='FORMATTED')
 ! open RESIDUAL.OUT
-  if (xctype(1).lt.0) open(69,file='RESIDUAL'//trim(filext),form='FORMATTED')
+  if (xctype(1) < 0) open(69,file='RESIDUAL'//trim(filext),form='FORMATTED')
 ! write out general information to INFO.OUT
   call writeinfo(60)
   write(60,*)
@@ -139,7 +139,7 @@ do iscl=1,maxscl
     write(60,'("| Loop number : ",I4," |")') iscl
     write(60,'("+--------------------+")')
   end if
-  if (iscl.ge.maxscl) then
+  if (iscl >= maxscl) then
     if (mp_mpi) then
       write(60,*)
       write(60,'("Reached self-consistent loops maximum")')
@@ -221,7 +221,7 @@ do iscl=1,maxscl
 ! mix in the old potential and field with the new
   call mixerifc(mixtype,n,v,dv,nwork,work)
 ! make sure every MPI process has a numerically identical potential
-  !if (np_mpi.gt.1) then
+  !if (np_mpi > 1) then
   !  call mpi_bcast(v,n,mpi_double_precision,0,mpicom,ierror)
   !end if
 ! unpack potential and field
@@ -232,7 +232,7 @@ do iscl=1,maxscl
 ! Fourier transform Kohn-Sham potential to G-space
   call genvsig
 ! reduce the external magnetic fields if required
-  if (reducebf.lt.1.d0) then
+  if (reducebf < 1.d0) then
     bfieldc(:)=bfieldc(:)*reducebf
     bfcmt(:,:,:)=bfcmt(:,:,:)*reducebf
   end if
@@ -281,7 +281,7 @@ do iscl=1,maxscl
       close(50,status='DELETE')
     end if
 ! write STATE.OUT file if required
-    if (nwrite.ge.1) then
+    if (nwrite >= 1) then
       if (mod(iscl,nwrite) == 0) then
         call writestate
         write(60,*)
@@ -289,7 +289,7 @@ do iscl=1,maxscl
       end if
     end if
 ! write OEP residual
-    if (xctype(1).lt.0) then
+    if (xctype(1) < 0) then
       write(60,*)
       write(60,'("Magnitude of OEP residual : ",G18.10)') resoep
       write(69,'(G18.10)') resoep
@@ -299,7 +299,7 @@ do iscl=1,maxscl
 ! exit self-consistent loop if required
   if (tlast) goto 10
 ! check for convergence
-  if (iscl.ge.2) then
+  if (iscl >= 2) then
     if (mp_mpi) then
       write(60,*)
       write(60,'("RMS change in Kohn-Sham potential (target) : ",G18.10," (",&
@@ -314,7 +314,7 @@ do iscl=1,maxscl
       write(66,'(G18.10)') de
       flush(66)
     end if
-    if ((dv.lt.epspot).and.(de.lt.epsengy)) then
+    if ((dv < epspot).and.(de < epsengy)) then
       if (mp_mpi) then
         write(60,*)
         write(60,'("Convergence targets achieved")')
@@ -323,7 +323,7 @@ do iscl=1,maxscl
     end if
   end if
 ! average the current and previous total energies and store
-  if (iscl.gt.1) then
+  if (iscl > 1) then
     etp=0.75d0*engytot+0.25d0*etp
   else
     etp=engytot
@@ -360,7 +360,7 @@ if (mp_mpi) then
   write(60,'("| Self-consistent loop stopped |")')
   write(60,'("+------------------------------+")')
 ! write density and potentials to file only if maxscl > 1
-  if (maxscl.gt.1) then
+  if (maxscl > 1) then
     call writestate
     write(60,*)
     write(60,'("Wrote STATE.OUT")')
@@ -423,7 +423,7 @@ if (mp_mpi) then
 ! close TMDFTU.OUT file
   if (tmwrite) close(67)
 ! close the RESIDUAL.OUT file
-  if (xctype(1).lt.0) close(69)
+  if (xctype(1) < 0) close(69)
 end if
 deallocate(v,work)
 

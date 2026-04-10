@@ -30,7 +30,7 @@ do i=1,2
 end do
 !$OMP END CRITICAL(u140)
 t1=abs(vkl(1,ik)-vkl_(1))+abs(vkl(2,ik)-vkl_(2))+abs(vkl(3,ik)-vkl_(3))
-if (t1.gt.epslat) then
+if (t1 > epslat) then
   write(*,*)
   write(*,'("Error(getkmat): differing vectors for k-point ",I8)') ik
   write(*,'(" current  : ",3G18.10)') vkl(:,ik)

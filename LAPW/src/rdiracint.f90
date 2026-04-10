@@ -43,7 +43,7 @@ integer ir,ir0
 ! rescaling limit
 real(8), parameter :: rsc=1.d100
 real(8) ci,e0,t1,t2,t3,t4
-if (nr.lt.4) then
+if (nr < 4) then
   write(*,*)
   write(*,'("Error(rdiracint): nr < 4 : ",I8)') nr
   write(*,*)
@@ -71,7 +71,7 @@ do ir=2,nr
   t3=ci*(t1-vr(ir))
   t4=ci*(vr(ir)-e)
   ir0=ir-3
-  if (ir0.lt.1) ir0=1
+  if (ir0 < 1) ir0=1
   g1(ir)=poly3(r(ir0),g1(ir0),r(ir))
   f1(ir)=poly3(r(ir0),f1(ir0),r(ir))
 ! integrate to find wavefunction
@@ -87,8 +87,8 @@ do ir=2,nr
   g1(ir)=t3*f0(ir)-t2*g0(ir)
   f1(ir)=t4*g0(ir)+t2*f0(ir)
 ! check for overflow
-  if ((abs(g0(ir)).gt.rsc).or.(abs(g1(ir)).gt.rsc).or. &
-      (abs(f0(ir)).gt.rsc).or.(abs(f1(ir)).gt.rsc)) then
+  if ((abs(g0(ir)) > rsc).or.(abs(g1(ir)) > rsc).or. &
+      (abs(f0(ir)) > rsc).or.(abs(f1(ir)) > rsc)) then
 ! set the remaining points and return
     g0(ir:nr)=g0(ir)
     g1(ir:nr)=g1(ir)
@@ -97,7 +97,7 @@ do ir=2,nr
     return
   end if
 ! check for node
-  if (g0(ir-1)*g0(ir).lt.0.d0) nn=nn+1
+  if (g0(ir-1)*g0(ir) < 0.d0) nn=nn+1
 end do
 return
 

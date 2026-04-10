@@ -55,7 +55,7 @@ do is=1,nspecies
             i=i+1
             z1=devecsv(i,k)
 !***** check if tq0 is needed here
-            if (abs(dble(z1))+abs(aimag(z1)).gt.epsocc) then
+            if (abs(dble(z1))+abs(aimag(z1)) > epsocc) then
               if (.not.done(ist)) then
                 if (tsh) then
                   call wavefmt(lradstp,ias,ngp(jspn),apwalmq(:,:,:,ias,jspn), &
@@ -70,7 +70,7 @@ do is=1,nspecies
               call zaxpy(npc,z1,wfmt1(:,ist),1,dwfmt(:,ias,ispn,j),1)
             end if
             z1=evecsv(i,k)
-            if (abs(dble(z1))+abs(aimag(z1)).gt.epsocc) then
+            if (abs(dble(z1))+abs(aimag(z1)) > epsocc) then
               if (.not.ddone(ist)) then
                 if (tsh) then
                   call dwavefmt(lradstp,ias,ngp(jspn),ngpq(jspn), &
@@ -117,7 +117,7 @@ do j=1,nst
       do ist=1,nstfv
         i=i+1
         z1=devecsv(i,k)
-        if (abs(dble(z1))+abs(aimag(z1)).gt.epsocc) then
+        if (abs(dble(z1))+abs(aimag(z1)) > epsocc) then
           if (tgp) then
             do igp=1,ngp(jspn)
               dwfir(igp,ispn,j)=dwfir(igp,ispn,j)+z1*evecfv(igp,ist,jspn)
@@ -131,7 +131,7 @@ do j=1,nst
           end if
         end if
         z1=evecsv(i,k)
-        if (abs(dble(z1))+abs(aimag(z1)).gt.epsocc) then
+        if (abs(dble(z1))+abs(aimag(z1)) > epsocc) then
           if (tgp) then
             do igp=1,ngpq(jspn)
               dwfir(igp,ispn,j)=dwfir(igp,ispn,j)+z1*devecfv(igp,ist,jspn)

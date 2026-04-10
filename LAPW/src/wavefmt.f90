@@ -88,13 +88,13 @@ do l=0,lmaxo
     i=npci+lm
     do io=1,apword(l,is)
       z1=zdotu(ngp,evecfv,1,apwalm(:,io,lm),1)
-      if (abs(dble(z1)).gt.1.d-14) then
+      if (abs(dble(z1)) > 1.d-14) then
         if (l <= lmaxi) then
           call daxpy(nrci,dble(z1),apwfr(1,1,io,l,ias),lrstp,wfmt(1,lm),ldi)
         end if
         call daxpy(nrco,dble(z1),apwfr(iro,1,io,l,ias),lrstp,wfmt(1,i),ldo)
       end if
-      if (abs(aimag(z1)).gt.1.d-14) then
+      if (abs(aimag(z1)) > 1.d-14) then
         if (l <= lmaxi) then
           call daxpy(nrci,aimag(z1),apwfr(1,1,io,l,ias),lrstp,wfmt(2,lm),ldi)
         end if
@@ -112,13 +112,13 @@ do ilo=1,nlorb(is)
     lm=idxlm(l,m)
     i=npci+lm
     z1=evecfv(ngp+idxlo(lm,ilo,ias))
-    if (abs(dble(z1)).gt.1.d-14) then
+    if (abs(dble(z1)) > 1.d-14) then
       if (l <= lmaxi) then
         call daxpy(nrci,dble(z1),lofr(1,1,ilo,ias),lrstp,wfmt(1,lm),ldi)
       end if
       call daxpy(nrco,dble(z1),lofr(iro,1,ilo,ias),lrstp,wfmt(1,i),ldo)
     end if
-    if (abs(aimag(z1)).gt.1.d-14) then
+    if (abs(aimag(z1)) > 1.d-14) then
       if (l <= lmaxi) then
         call daxpy(nrci,aimag(z1),lofr(1,1,ilo,ias),lrstp,wfmt(2,lm),ldi)
       end if

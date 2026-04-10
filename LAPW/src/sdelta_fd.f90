@@ -22,7 +22,7 @@ implicit none
 real(8), intent(in) :: x
 ! local variables
 real(8) t1
-if (abs(x).gt.50.d0) then
+if (abs(x) > 50.d0) then
   sdelta_fd=0.d0
   return
 end if

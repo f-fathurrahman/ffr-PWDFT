@@ -51,7 +51,7 @@ do l=0,lmax
       lm2=lm2+1
       sum=0.d0
       do k=0,min(l+m1,l-m2)
-        if (((l+m1-k).ge.0).and.((l-m2-k).ge.0).and.((m2-m1+k).ge.0)) then
+        if (((l+m1-k) >= 0).and.((l-m2-k) >= 0).and.((m2-m1+k) >= 0)) then
           j=2*(l-k)+m1-m2
           if (j == 0) then
             t1=1.d0

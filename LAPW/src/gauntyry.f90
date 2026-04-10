@@ -18,14 +18,14 @@ real(8) t1
 ! external functions
 real(8) gaunt
 external gaunt
-if (m2.gt.0) then
+if (m2 > 0) then
   if (mod(m2,2) == 0) then
     t1=c1*(gaunt(l1,l2,l3,m1,m2,m3)+gaunt(l1,l2,l3,m1,-m2,m3))
   else
     t1=c1*(gaunt(l1,l2,l3,m1,m2,m3)-gaunt(l1,l2,l3,m1,-m2,m3))
   end if
   gauntyry=cmplx(t1,0.d0,8)
-else if (m2.lt.0) then
+else if (m2 < 0) then
   if (mod(m2,2) == 0) then
     t1=c1*(gaunt(l1,l2,l3,m1,m2,m3)-gaunt(l1,l2,l3,m1,-m2,m3))
   else

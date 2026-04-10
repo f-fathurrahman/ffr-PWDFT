@@ -43,7 +43,7 @@ do j1=0,ngridq(1)-1
         call r3mtv(s,vql(:,iq),v3)
         call vecfbz(epslat,bvec,v3)
         t1=abs(v2(1)-v3(1))+abs(v2(2)-v3(2))+abs(v2(3)-v3(3))
-        if (t1.lt.epslat) then
+        if (t1 < epslat) then
           call dynsymapp(isym,vql(:,iq),dynq(:,:,iq),dyns)
           n=n+1
         end if

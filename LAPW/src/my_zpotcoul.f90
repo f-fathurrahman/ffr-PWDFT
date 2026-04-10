@@ -96,7 +96,7 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
       ias = idxas(ia,is)
       DO ig = 1,ngp
         jg = igf(ig)
-        IF(gpc(ig) .gt. epslat) THEN 
+        IF(gpc(ig)  >  epslat) THEN 
           z1=zvclir(jg)*sfacgp(ig,ias)/gpc(ig)
           lm=0
           DO l=0,lmaxo
@@ -142,7 +142,7 @@ SUBROUTINE my_zpotcoul(nr,nri,np,npi,ld1,rl,ngdg,igf,ngp,gpc,gclgp,ld2,jlgprmt, 
     ! add the pseudocharge and real interstitial densities in G-space
     DO ig = 1,ngp
       jg = igf(ig)
-      IF(gpc(ig) .gt. epslat) THEN 
+      IF(gpc(ig)  >  epslat) THEN 
         t2 = gpc(ig)*rmt(is)
         t3 = 1.d0/t2**lnpsd
         z1 = t3*zlm(1)*ylmgp(1,ig)

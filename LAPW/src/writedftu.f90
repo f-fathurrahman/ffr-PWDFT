@@ -90,7 +90,7 @@ do i=1,ndftu
   end do
   write(50,'(G18.10," : U")') ujdu(1,i)
   write(50,'(G18.10," : J")') ujdu(2,i)
-  if (inpdftu.ge.4) write(50,'(G18.10," : lambdadu")') lambdadu(i)
+  if (inpdftu >= 4) write(50,'(G18.10," : lambdadu")') lambdadu(i)
 end do
 close(50)
 return

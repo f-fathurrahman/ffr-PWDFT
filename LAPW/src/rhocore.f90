@@ -56,7 +56,7 @@ do ias=1,natmtot
     else
       t1=abs(v(1))
     end if
-    if (t1.gt.1.d-10) v(:)=v(:)/t1
+    if (t1 > 1.d-10) v(:)=v(:)/t1
 ! add the core magnetisation to the total
     i=1
     do ir=1,nri

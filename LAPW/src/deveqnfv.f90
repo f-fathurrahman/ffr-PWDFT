@@ -87,7 +87,7 @@ do ist=1,nstfv
   call zgemv('C',nmq,nmq,zone,h,nmq,x,1,zzero,y,1)
   do i=1,nmq
     t1=evalfv(ist)-w(i)
-    if (abs(t1).gt.epsdev) then
+    if (abs(t1) > epsdev) then
       y(i)=y(i)/t1
     else
       y(i)=0.d0

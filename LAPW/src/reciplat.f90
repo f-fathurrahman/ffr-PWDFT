@@ -41,7 +41,7 @@ call r3cross(avec(:,1),avec(:,2),bvec(:,3))
 t1=avec(1,1)*bvec(1,1)+avec(2,1)*bvec(2,1)+avec(3,1)*bvec(3,1)
 ! unit cell volume
 omega=abs(t1)
-if (omega.lt.1.d-6) then
+if (omega < 1.d-6) then
   write(*,*)
   write(*,'("Error(reciplat) omega too small : ",G18.10)') omega
   write(*,'(" Lattice vectors may be collinear")')

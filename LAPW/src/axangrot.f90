@@ -30,7 +30,7 @@ real(8) xy,xz,yz,cs,sn,t1
 x=v(1); y=v(2); z=v(3)
 t1=sqrt(x**2+y**2+z**2)
 ! if the axis has zero length then assume the identity
-if (t1.lt.1.d-14) then
+if (t1 < 1.d-14) then
   rot(:,:)=0.d0
   rot(1,1)=1.d0
   rot(2,2)=1.d0

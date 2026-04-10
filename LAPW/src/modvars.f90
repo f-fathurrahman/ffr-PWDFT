@@ -42,7 +42,7 @@ if ((present(iva)).or.(present(rva)).or.(present(zva)).or.(present(sva))) then
     write(*,*)
     stop
   else
-    if (nv.lt.0) then
+    if (nv < 0) then
       write(*,*)
       write(*,'("Error(writevars): nv < 0 : ",I8)') nv
       write(*,*)

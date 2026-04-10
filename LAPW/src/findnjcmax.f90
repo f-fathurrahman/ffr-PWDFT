@@ -13,7 +13,7 @@ integer is,n
 njcmax=1
 do is=1,nspecies
   n=(lmaxi+1)*nrcmti(is)+(lmaxo+1)*(nrcmt(is)-nrcmti(is))
-  if (n.gt.njcmax) njcmax=n
+  if (n > njcmax) njcmax=n
 end do
 return
 end subroutine

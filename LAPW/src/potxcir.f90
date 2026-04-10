@@ -158,7 +158,7 @@ if (spinpol) then
 ! determine the exchange-correlation magnetic field
       t3=0.5d0*(t1-t2)
       t4=rhoup(i)-rhodn(i)
-      if (abs(t4).gt.1.d-8) t4=t3/t4
+      if (abs(t4) > 1.d-8) t4=t3/t4
       bxcir_(i,:)=magir_(i,:)*t4
     end do
   else

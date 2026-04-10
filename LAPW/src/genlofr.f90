@@ -100,7 +100,7 @@ SUBROUTINE genlofr()
         fr(1:nr)=p0s(1:nr,ilo)**2
         t1=splint(nr,rlmt(:,1,is),fr)
         t1=abs(t1)
-        IF(t1.lt.1.d-25) goto 10
+        IF(t1 < 1.d-25) goto 10
         t1=1.d0/sqrt(t1)
         CALL dscal(nr,t1,p0s(:,ilo),1)
         CALL dscal(nr,t1,ep0s(:,ilo),1)

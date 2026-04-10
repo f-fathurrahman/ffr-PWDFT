@@ -17,7 +17,7 @@ integer recl,nstsv_
 real(8) vkl_(3),det,v(3),th,t1
 complex(8) su2(2,2),z1,z2
 character(256) fname
-if (ikp.gt.0) then
+if (ikp > 0) then
   ik=ikp
 else
 ! find the equivalent k-point number and symmetry which rotates vkl to vpl
@@ -42,7 +42,7 @@ do i=1,2
 end do
 !$OMP END CRITICAL(u126)
 t1=abs(vkl(1,ik)-vkl_(1))+abs(vkl(2,ik)-vkl_(2))+abs(vkl(3,ik)-vkl_(3))
-if (t1.gt.epslat) then
+if (t1 > epslat) then
   write(*,*)
   write(*,'("Error(getevecsv): differing vectors for k-point ",I8)') ik
   write(*,'(" current    : ",3G18.10)') vkl(:,ik)
@@ -61,7 +61,7 @@ end if
 ! if eigenvectors are spin-unpolarised return
 if (.not.spinpol) return
 ! if p = k then return
-if (ikp.gt.0) return
+if (ikp > 0) return
 ! index to global spin rotation in lattice point group
 lspn=lspnsymc(isym)
 ! if symmetry element is the identity return

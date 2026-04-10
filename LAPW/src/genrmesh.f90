@@ -65,7 +65,7 @@ SUBROUTINE genrmesh()
   ENDDO 
 
 ! determine the fraction of the muffin-tin radius which defines the inner part
-IF(fracinr.lt.0.d0) fracinr=sqrt(dble(lmmaxi)/dble(lmmaxo))
+IF(fracinr < 0.d0) fracinr=sqrt(dble(lmmaxi)/dble(lmmaxo))
 
 ! set up the coarse radial meshes and find the inner part of the muffin-tin
 ! where rho is calculated with lmaxi
@@ -85,7 +85,7 @@ DO is=1,nspecies
   DO ir=1,nrmt(is),lradstp
     irc=irc+1
     rcmt(irc,is)=rsp(ir,is)
-    IF(rsp(ir,is).lt.t1) THEN 
+    IF(rsp(ir,is) < t1) THEN 
       nrmti(is)=ir
       nrcmti(is)=irc
     ENDIF 

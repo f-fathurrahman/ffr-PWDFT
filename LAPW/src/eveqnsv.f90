@@ -185,7 +185,7 @@ do ias=1,natmtot
       evecsv(ist,jst)=evecsv(ist,jst)+z1
     end do
 ! lower diagonal block
-    if (nsc.ge.2) then
+    if (nsc >= 2) then
       j=jst+nstfv
       do ist=1,jst
         i=ist+nstfv
@@ -293,7 +293,7 @@ if (spinpol.or.tafield.or.(xcgrad == 4)) then
       evecsv(ist,jst)=evecsv(ist,jst)+zdotc(ngp,evecfv(:,ist),1,wfgp,1)
     end do
 ! lower diagonal block
-    if (nsc.ge.2) then
+    if (nsc >= 2) then
       j=jst+nstfv
       do ist=1,jst
         i=ist+nstfv

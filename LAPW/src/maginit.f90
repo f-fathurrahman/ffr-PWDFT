@@ -32,7 +32,7 @@ do ias=1,natmtot
   np=npmt(is)
   v(:)=bfcmt(:,ia,is)+bfieldc(:)
   t1=sqrt(v(1)**2+v(2)**2+v(3)**2)
-  if (t1.gt.1.d-8) then
+  if (t1 > 1.d-8) then
     t1=-fmr/t1
     v(:)=t1*v(:)
     if (.not.ncmag) v(1)=v(3)

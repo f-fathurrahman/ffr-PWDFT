@@ -46,7 +46,7 @@ do l1=0,lmaxapw
                 end do
               end if
             end do
-            if (abs(dble(z1))+abs(aimag(z1)).gt.1.d-14) then
+            if (abs(dble(z1))+abs(aimag(z1)) > 1.d-14) then
               call zaxpy(ngp,z1,apwalm(:,jo,lm3),1,b(i,1),lmo)
             end if
           end do

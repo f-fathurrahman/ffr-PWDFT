@@ -18,31 +18,31 @@ real(8) nlk,nsp,t1,t2,t3
 ! external functions
 real(8) wigner3j,wigner3jf,factnm
 external wigner3j,wigner3jf,factnm
-if (l.lt.0) then
+if (l < 0) then
   write(*,*)
   write(*,'("Error(tm2todm): l < 0 : ",I8)') l
   write(*,*)
   stop
 end if
-if ((nspinor.lt.1).or.(nspinor.gt.2)) then
+if ((nspinor < 1).or.(nspinor > 2)) then
   write(*,*)
   write(*,'("Error(tm2todm): nspinor should be 1 or 2 : ",I8)') nspinor
   write(*,*)
   stop
 end if
-if (k.lt.0) then
+if (k < 0) then
   write(*,*)
   write(*,'("Error(tm2todm): k < 0 : ",I8)') k
   write(*,*)
   stop
 end if
-if (k.gt.2*l) then
+if (k > 2*l) then
   write(*,*)
   write(*,'("Error(tm2todm): k > 2*l : ",2I8)') k,2*l
   write(*,*)
   stop
 end if
-if ((p.lt.0).or.(p.gt.1)) then
+if ((p < 0).or.(p > 1)) then
   write(*,*)
   write(*,'("Error(tm2todm): p should be 0 or 1 : ",I8)') p
   write(*,*)

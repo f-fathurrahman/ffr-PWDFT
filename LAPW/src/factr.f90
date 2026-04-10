@@ -30,19 +30,19 @@ if (d == 1) then
   factr=factnm(n,1)
   return
 end if
-if (n.lt.0) then
+if (n < 0) then
   write(*,*)
   write(*,'("Error(factr): n < 0 : ",I8)') n
   write(*,*)
   stop
 end if
-if (d.lt.0) then
+if (d < 0) then
   write(*,*)
   write(*,'("Error(factr): d < 0 : ",I8)') d
   write(*,*)
   stop
 end if
-if (n.lt.d) then
+if (n < d) then
   factr=dble(n+1)
   do i=n+2,d
     factr=factr*dble(i)

@@ -159,7 +159,7 @@ SUBROUTINE my_potxcir(xctype_,rhoir_,magir_,tauir_,exir_,ecir_,vxcir_,bxcir_,wxc
   ! determine the exchange-correlation magnetic field
         t3=0.5d0*(t1-t2)
         t4=rhoup(i)-rhodn(i)
-        IF(abs(t4).gt.1.d-8) t4=t3/t4
+        IF(abs(t4) > 1.d-8) t4=t3/t4
         bxcir_(i,:)=magir_(i,:)*t4
       ENDDO 
     ELSE 

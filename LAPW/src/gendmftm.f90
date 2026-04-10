@@ -27,14 +27,14 @@ allocate(dmat(lmmaxdm,nspinor,lmmaxdm,nspinor))
 dmftm(:,:,:,:,:)=0.d0
 do i=1,ntmfix
   is=itmfix(1,i)
-  if (is.gt.nspecies) then
+  if (is > nspecies) then
     write(*,*)
     write(*,'("Error(gendmftm): invalid species number : ",I8)') is
     write(*,*)
     stop
   end if
   ia=itmfix(2,i)
-  if (ia.gt.natoms(is)) then
+  if (ia > natoms(is)) then
     write(*,*)
     write(*,'("Error(gendmftm): invalid atom number : ",I8)') ia
     write(*,'(" for species ",I4)') is
@@ -43,7 +43,7 @@ do i=1,ntmfix
   end if
   ias=idxas(ia,is)
   l=itmfix(3,i)
-  if (l.gt.lmaxdm) then
+  if (l > lmaxdm) then
     write(*,*)
     write(*,'("Error(gendmftm): l > lmaxdm ",2I8)') l,lmaxdm
     write(*,'(" for species ",I4," and atom ",I4)') is,ia
@@ -57,7 +57,7 @@ do i=1,ntmfix
 ! generate the 2-index density matrix
     x=itmfix(7,i)
     y=itmfix(8,i)
-    if ((abs(x).gt.lmmaxdm).or.(abs(y).gt.1)) then
+    if ((abs(x) > lmmaxdm).or.(abs(y) > 1)) then
       write(*,*)
       write(*,'("Error(gendmftm): invalid x or y : ",2I8)') x,y
       write(*,'(" for tensor moment entry ",I3)') i
@@ -71,7 +71,7 @@ do i=1,ntmfix
 ! generate the 3-index density matrix
     r=itmfix(7,i)
     t=itmfix(8,i)
-    if (abs(t).gt.lmmaxdm) then
+    if (abs(t) > lmmaxdm) then
       write(*,*)
       write(*,'("Error(gendmftm): invalid t : ",I8)') t
       write(*,'(" for tensor moment entry ",I3)') i

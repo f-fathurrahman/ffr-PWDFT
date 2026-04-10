@@ -29,7 +29,7 @@ integer is,ia,ias
 real(8) v1(3),v2(3),t1
 if ((.not.spinpol).or.(fsmtype == 0)) return
 ! fixed spin direction not valid for collinear magnetism
-if ((.not.ncmag).and.(fsmtype.lt.0)) return
+if ((.not.ncmag).and.(fsmtype < 0)) return
 ! determine the global effective field
 if ((abs(fsmtype) == 1).or.(abs(fsmtype) == 3)) then
   if (ncmag) then
@@ -46,7 +46,7 @@ if ((abs(fsmtype) == 1).or.(abs(fsmtype) == 3)) then
   end if
 ! make sure that the constraining field is perpendicular to the fixed moment
 ! for fixed direction calculations (Y. Kvashnin and LN)
-  if (fsmtype.lt.0) call r3vo(momfix,bfsmc)
+  if (fsmtype < 0) call r3vo(momfix,bfsmc)
 end if
 if ((abs(fsmtype) == 2).or.(abs(fsmtype) == 3)) then
 ! determine the muffin-tin fields for fixed local moments
@@ -55,7 +55,7 @@ if ((abs(fsmtype) == 2).or.(abs(fsmtype) == 3)) then
       ias=idxas(ia,is)
 ! if any component is >= 1000 then do not fix the moment
       t1=sum(abs(mommtfix(:,ia,is)))
-      if (t1.ge.1000.d0) cycle
+      if (t1 >= 1000.d0) cycle
       if (ncmag) then
         v1(:)=mommt(:,ias)
       else
@@ -69,7 +69,7 @@ if ((abs(fsmtype) == 2).or.(abs(fsmtype) == 3)) then
         bfsmcmt(1,ias)=bfsmcmt(1,ias)+taufsm*v2(3)
       end if
 ! fixed spin direction
-      if (fsmtype.lt.0) call r3vo(mommtfix(:,ia,is),bfsmcmt(:,ias))
+      if (fsmtype < 0) call r3vo(mommtfix(:,ia,is),bfsmcmt(:,ias))
     end do
   end do
 end if

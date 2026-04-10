@@ -65,18 +65,18 @@ if (n == 0) then
   return
 end if
 if (m == 1) then
-  if ((n.ge.1).and.(n <= 24)) then
+  if ((n >= 1).and.(n <= 24)) then
     factnm=f1(n)
     return
   end if
 end if
 if (m == 2) then
-  if ((n.ge.1).and.(n <= 38)) then
+  if ((n >= 1).and.(n <= 38)) then
     factnm=f2(n)
     return
   end if
 end if
-if (n.lt.0) then
+if (n < 0) then
   write(*,*)
   write(*,'("Error(factnm): n < 0 : ",I8)') n
   write(*,*)
@@ -88,7 +88,7 @@ if (m <= 0) then
   write(*,*)
   stop
 end if
-if (n.gt.150) then
+if (n > 150) then
   write(*,*)
   write(*,'("Error(factnm): n out of range : ",I8)') n
   write(*,*)

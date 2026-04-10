@@ -55,17 +55,17 @@ end if
 ! check for zero atoms
 if (natmtot == 0) return
 ! read in the density and potentials
-call readstate
+call readstate()
 ! Fourier transform Kohn-Sham potential to G-space
-call genvsig
+call genvsig()
 ! read Fermi energy from file
-call readfermi
+call readfermi()
 ! find the new linearisation energies
-call linengy
+call linengy()
 ! generate the APW and local-orbital radial functions and integrals
-call genapwlofr
+call genapwlofr()
 ! generate the spin-orbit coupling radial functions
-call gensocfr
+call gensocfr()
 ! get the eigenvalues and occupancies from file
 do ik=1,nkpt
   call getevalsv(filext,ik,vkl(:,ik),evalsv(:,ik))
@@ -238,7 +238,7 @@ devalsv(:,ik)=devalfv(:,1,ik)
   end do
   
   ! add densities from each process and redistribute
-  !if (np_mpi.gt.1) then
+  !if (np_mpi > 1) then
   !  n=npmtmax*natmtot
   !  !call mpi_allreduce(mpi_in_place,drhomt,n,mpi_double_complex,mpi_sum, &
   !  !mpicom,ierror)
@@ -268,7 +268,7 @@ devalsv(:,ik)=devalfv(:,1,ik)
   call mixerifc(mtype,n,v,ddv,nwork,work)
   
   ! make sure every MPI process has a numerically identical potential
-  !if (np_mpi.gt.1) then
+  !if (np_mpi > 1) then
   !  call mpi_bcast(v,n,mpi_double_precision,0,mpicom,ierror)
   !  call mpi_bcast(ddv,1,mpi_double_precision,0,mpicom,ierror)
   !end if
@@ -290,6 +290,7 @@ devalsv(:,ik)=devalfv(:,1,ik)
   call doccupy()
   ! end the self-consistent loop
 end do
+
 write(*,*)
 write(*,'("Warning(phonon): failed to reach self-consistency after ",I4,&
  &" loops")') maxscl
@@ -315,8 +316,8 @@ call dforce(dyn)
     do ip=1,3
       a=dble(dyn(ip,ias))
       b=aimag(dyn(ip,ias))
-      if (abs(a).lt.1.d-12) a=0.d0
-      if (abs(b).lt.1.d-12) b=0.d0
+      if (abs(a) < 1.d-12) a=0.d0
+      if (abs(b) < 1.d-12) b=0.d0
       write(80,'(2G18.10," : is = ",I4,", ia = ",I4,", ip = ",I4)') a,b,is,ia,ip
     end do
   end do

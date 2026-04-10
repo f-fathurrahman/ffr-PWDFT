@@ -35,7 +35,7 @@ efac=0.75d0*vfac
 ! loop over density points
 do i=1,n
   r=rho(i)
-  if (r.gt.1.d-12) then
+  if (r > 1.d-12) then
     rs=(3.d0/(4.d0*pi*r))**(1.d0/3.d0)
     rsm1=1.0d0/rs
 ! compute energy density

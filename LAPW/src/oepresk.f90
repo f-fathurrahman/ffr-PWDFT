@@ -65,7 +65,7 @@ do is=1,nspecies
 ! pass in m-1/2 to wavefcr
           call wavefcr(.false.,lradstp,is,ia,ist,m,npcmtmax,wfcr)
           do jst=1,nstsv
-            if (evalsv(jst,ik).gt.efermi) then
+            if (evalsv(jst,ik) > efermi) then
               if (spinpol) then
 ! compute the complex density and magnetisation
                 call genzrm(npc,wfcr,wfcr(:,2),wfmt(:,ias,1,jst), &
@@ -110,9 +110,9 @@ if (spinpol) then
   allocate(zvfmt2(npcmtmax,natmtot,ndmag),zvfir2(ngtot,ndmag))
 end if
 do ist=1,nstsv
-  if (evalsv(ist,ik).lt.efermi) then
+  if (evalsv(ist,ik) < efermi) then
     do jst=1,nstsv
-      if (evalsv(jst,ik).gt.efermi) then
+      if (evalsv(jst,ik) > efermi) then
         if (spinpol) then
 ! compute the complex density and magnetisation
           call genzfrm(wfmt(:,:,1,ist),wfmt(:,:,2,ist),wfir(:,1,ist), &
@@ -161,9 +161,9 @@ real(8), intent(out) :: rv(n)
 ! local variables
 real(8) t1
 t1=dble(za)
-if (abs(t1).gt.1.d-12) call daxpy(n,t1,zv,2,rv,1)
+if (abs(t1) > 1.d-12) call daxpy(n,t1,zv,2,rv,1)
 t1=-aimag(za)
-if (abs(t1).gt.1.d-12) call daxpy(n,t1,zv(2),2,rv,1)
+if (abs(t1) > 1.d-12) call daxpy(n,t1,zv(2),2,rv,1)
 return
 end subroutine
 

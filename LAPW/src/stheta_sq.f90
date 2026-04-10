@@ -28,7 +28,7 @@ if (x <= -0.5d0) then
   stheta_sq=0.d0
   return
 end if
-if (x.lt.0.5d0) then
+if (x < 0.5d0) then
   stheta_sq=x+0.5d0
 else
   stheta_sq=1.d0

@@ -39,7 +39,7 @@ else
   t1=zn/(2.d0*rn**3)
   t2=3.d0*rn**2
   do ir=1,nr
-    if (r(ir).lt.rn) then
+    if (r(ir) < rn) then
       vn(ir)=t1*(t2-r(ir)**2)
     else
       vn(ir)=zn/r(ir)

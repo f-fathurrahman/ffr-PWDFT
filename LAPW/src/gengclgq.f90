@@ -19,7 +19,7 @@ if (treg) then
   t1=sqrt(vqc(1,iq)**2+vqc(2,iq)**2+vqc(3,iq)**2)
   do ig=1,ngq
     t2=gqc(ig)
-    if (abs(t1-t2).lt.epslat) then
+    if (abs(t1-t2) < epslat) then
       gclgq(ig)=gclq(iq)
     else
       gclgq(ig)=fourpi/t2**2
@@ -29,7 +29,7 @@ else
 ! no regularisation
   do ig=1,ngq
     t1=gqc(ig)
-    if (t1.gt.epslat) then
+    if (t1 > epslat) then
       gclgq(ig)=fourpi/t1**2
     else
       gclgq(ig)=0.d0

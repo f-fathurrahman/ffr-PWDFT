@@ -16,20 +16,20 @@ SUBROUTINE sbessel(lmax,x,jl)
   REAL(8), parameter :: rsc=1.d150,rsci=1.d0/rsc
   REAL(8) :: xi,sx,cx
   REAL(8) :: j0,j1,jt,t1
-  IF((lmax.lt.0).or.(lmax.gt.50)) THEN 
+  IF((lmax < 0).or.(lmax > 50)) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(sbessel): lmax out of range : ",I8)') lmax
     WRITE(*,*)
     stop
   ENDIF 
-  IF((x.lt.0.d0).or.(x.gt.1.d5)) THEN 
+  IF((x < 0.d0).or.(x > 1.d5)) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(sbessel): x out of range : ",G18.10)') x
     WRITE(*,*)
     stop
   ENDIF 
   ! treat x << 1
-  IF(x.lt.1.d-8) THEN 
+  IF(x < 1.d-8) THEN 
     jl(0)=1.d0
     t1=1.d0
     DO l=1,lmax
@@ -46,7 +46,7 @@ SUBROUTINE sbessel(lmax,x,jl)
   jl(1)=(jl(0)-cx)*xi
   IF(lmax == 1) RETURN 
   ! for x < lmax recurse down
-  IF(x.lt.lmax) THEN 
+  IF(x < lmax) THEN 
   ! start from truly random numbers
     j1=0.6370354636449841609d0*rsci
     j0=0.3532702964695481204d0*rsci
@@ -55,7 +55,7 @@ SUBROUTINE sbessel(lmax,x,jl)
       j0=j1
       j1=jt
   ! check for overflow
-      IF(abs(j1).gt.rsc) THEN 
+      IF(abs(j1) > rsc) THEN 
   ! rescale
         jt=jt*rsci
         j0=j0*rsci
@@ -67,7 +67,7 @@ SUBROUTINE sbessel(lmax,x,jl)
       j0=j1
       j1=jt
   ! check for overflow
-      IF(abs(j1).gt.rsc) THEN 
+      IF(abs(j1) > rsc) THEN 
   ! rescale
         jt=jt*rsci
         j0=j0*rsci

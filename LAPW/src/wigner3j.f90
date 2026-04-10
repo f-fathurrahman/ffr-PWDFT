@@ -39,8 +39,8 @@ real(8) sgn,sum,t1
 real(8) factnm,factr
 external factnm,factr
 ! check input variables
-if ((j1.lt.0).or.(j2.lt.0).or.(j3.lt.0).or.(abs(m1).gt.j1).or.(abs(m2).gt.j2) &
- .or.(abs(m3).gt.j3)) then
+if ((j1 < 0).or.(j2 < 0).or.(j3 < 0).or.(abs(m1) > j1).or.(abs(m2) > j2) &
+ .or.(abs(m3) > j3)) then
   write(*,*)
   write(*,'("Error(wigner3j): invalid arguments :")')
   write(*,'("j1 = ",I8," j2 = ",I8," j3 = ",I8)') j1,j2,j3
@@ -52,7 +52,7 @@ if ((j1 == 0).and.(j2 == 0).and.(j3 == 0)) then
   wigner3j=1.d0
   return
 end if
-if ((j1.gt.50).or.(j2.gt.50).or.(j3.gt.50)) then
+if ((j1 > 50).or.(j2 > 50).or.(j3 > 50)) then
   write(*,*)
   write(*,'("Error(wigner3j): angular momenta out of range : ",3I8)') j1,j2,j3
   write(*,*)
@@ -61,7 +61,7 @@ end if
 l1=j2-j1+j3
 l2=j1-j2+j3
 l3=j1+j2-j3
-if ((m1+m2+m3.ne.0).or.(l1.lt.0).or.(l2.lt.0).or.(l3.lt.0)) then
+if ((m1+m2+m3.ne.0).or.(l1 < 0).or.(l2 < 0).or.(l3 < 0)) then
   wigner3j=0.d0
   return
 end if

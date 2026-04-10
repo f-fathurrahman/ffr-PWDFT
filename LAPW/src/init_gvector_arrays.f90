@@ -59,7 +59,7 @@ SUBROUTINE init_gvector_arrays()
   CALL gengvec()
   
   ! Poisson solver pseudocharge density constant
-  IF(nspecies.gt.0) THEN 
+  IF(nspecies > 0) THEN 
     t1=0.25d0*gmaxvr*maxval(rmt(1:nspecies))
   ELSE 
     t1=0.25d0*gmaxvr*2.d0

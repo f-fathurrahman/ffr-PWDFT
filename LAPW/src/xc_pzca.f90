@@ -48,7 +48,7 @@ p1=t1**thrd
 p2=t1*(9.d0*pi/4.d0)**thrd
 do i=1,n
   r=rho(i)
-  if (r.lt.1.d-12) then
+  if (r < 1.d-12) then
     ex(i)=0.d0
     ec(i)=0.d0
     vx(i)=0.d0
@@ -60,7 +60,7 @@ do i=1,n
   ex(i)=-p2/rs
   vx(i)=thrd4*ex(i)
 ! correlation energy and potential
-  if (rs.ge.1.d0) then
+  if (rs >= 1.d0) then
     t1=sqrt(rs)
     ec(i)=g/(1.d0+b1*t1+b2*rs)
     vc(i)=ec(i)*(1.d0+(7.d0/6.d0)*b1*t1+thrd4*b2*rs)/(1.d0+b1*t1+b2*rs)

@@ -48,7 +48,7 @@ do i=1,n
   rup=rhoup(i); rdn=rhodn(i)
 ! total density
   r=rup+rdn
-  if ((rup.lt.0.d0).or.(rdn.lt.0.d0).or.(r.lt.1.d-20)) then
+  if ((rup < 0.d0).or.(rdn < 0.d0).or.(r < 1.d-20)) then
     fxcuu(i)=0.d0
     fxcud(i)=0.d0
     fxcdd(i)=0.d0

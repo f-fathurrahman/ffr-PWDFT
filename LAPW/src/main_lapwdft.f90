@@ -4,7 +4,7 @@ PROGRAM lapwdft
 
   CALL read_input()
 
-  write(*,*) 'tasks = ', tasks
+  write(*,*) 'tasks = ', tasks(1:ntasks)
 
   ! perform the tasks
   do itask = 1,ntasks
@@ -18,7 +18,9 @@ PROGRAM lapwdft
     case(121)
       call dielectric()
     case(205)
-      call phonon()
+      !call phonon()
+      call my_phonon()
+      write(*,*) 'task = ', task, ' finished'
     case(210)
       call phdos()
     case(220)
