@@ -9,7 +9,7 @@ integer :: i, ia, ias, is, l
 !-------------------------------------------------!
 !     DFT+U and fixed tensor moment variables     !
 !-------------------------------------------------!
-if ((dftu.ne.0).or.(ftmtype.ne.0)) then
+if ((dftu /= 0).or.(ftmtype /= 0)) then
 ! density matrix elements in each muffin-tin
   if (allocated(dmatmt)) deallocate(dmatmt)
   allocate(dmatmt(lmmaxdm,nspinor,lmmaxdm,nspinor,natmtot))
@@ -27,7 +27,7 @@ if ((dftu.ne.0).or.(ftmtype.ne.0)) then
 ! require second-variational eigenvectors
   tevecsv=.true.
 end if
-if (dftu.ne.0) then
+if (dftu /= 0) then
 ! DFT+U energy for each atom
   if (allocated(engyadu)) deallocate(engyadu)
   allocate(engyadu(natmmax,ndftu))
@@ -50,7 +50,7 @@ if (dftu.ne.0) then
     end do
   end do
 end if
-if (ftmtype.ne.0) then
+if (ftmtype /= 0) then
 ! allocate and zero the fixed tensor moment potential array
   if (allocated(vmftm)) deallocate(vmftm)
   allocate(vmftm(lmmaxdm,nspinor,lmmaxdm,nspinor,natmtot))

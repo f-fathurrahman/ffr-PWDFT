@@ -26,7 +26,7 @@ integer m
 m=a(1,1)*(a(2,2)*a(3,3)-a(3,2)*a(2,3)) &
  +a(2,1)*(a(3,2)*a(1,3)-a(1,2)*a(3,3)) &
  +a(3,1)*(a(1,2)*a(2,3)-a(2,2)*a(1,3))
-if ((m.ne.1).and.(m.ne.-1)) then
+if ((m /= 1).and.(m /= -1)) then
   write(*,*)
   write(*,'("Error(i3minv): cannot invert matrix")')
   write(*,'(" Determinant : ",I8)') m

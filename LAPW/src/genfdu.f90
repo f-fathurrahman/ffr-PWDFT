@@ -161,7 +161,7 @@ else if (inpdftu >= 4) then
   end do
 end if
 ! calculate U and J from Slater integrals
-if (inpdftu.ne.1) then
+if (inpdftu /= 1) then
   u=f(0)
   select case(l)
   case(0)

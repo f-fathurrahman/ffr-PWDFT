@@ -86,7 +86,7 @@ IF(spinpol) THEN
   ENDDO 
   WRITE(40) rvfcmt,bsir
 ! write fixed spin moment magnetic fields
-  IF(fsmtype.ne.0) THEN 
+  IF(fsmtype /= 0) THEN 
     WRITE(40) bfsmc
     WRITE(40) bfsmcmt
   ENDIF 

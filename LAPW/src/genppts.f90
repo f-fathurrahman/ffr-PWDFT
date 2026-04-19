@@ -69,7 +69,7 @@ if ((ngridp(1) <= 0).or.(ngridp(2) <= 0).or.(ngridp(3) <= 0)) then
   write(*,*)
   stop
 end if
-if (npptnr.ne.ngridp(1)*ngridp(2)*ngridp(3)) then
+if (npptnr /= ngridp(1)*ngridp(2)*ngridp(3)) then
   write(*,*)
   write(*,'("Error(genppts): mismatched npptnr and ngridp : ",4I8)') npptnr, &
    ngridp

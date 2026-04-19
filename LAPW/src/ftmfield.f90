@@ -15,7 +15,7 @@ complex(8) z1
 complex(8), allocatable :: tm2(:,:),tm3(:)
 complex(8), allocatable :: dmat(:,:,:,:)
 if (ftmtype <= 0) return
-if (mod(iscl,ftmstep).ne.1) return
+if (mod(iscl,ftmstep) /= 1) return
 allocate(tm2(-lmmaxdm:lmmaxdm,-1:1),tm3(-lmmaxdm:lmmaxdm))
 allocate(dmat(lmmaxdm,nspinor,lmmaxdm,nspinor))
 n2=(lmmaxdm*nspinor)**2

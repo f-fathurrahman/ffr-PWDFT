@@ -20,7 +20,7 @@ SUBROUTINE eveqnz(n,ld,a,w)
     ALLOCATE(rwork(3*n),work(lwork))
     ! enable MKL parallelism
     CALL zheev('V','U',n,a,ld,w,work,lwork,rwork,info)
-    IF(info.ne.0) THEN 
+    IF(info /= 0) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(eveqnz): diagonalisation failed")')
       WRITE(*,'(" ZHEEV RETURN ed INFO = ",I8)') info
@@ -36,7 +36,7 @@ SUBROUTINE eveqnz(n,ld,a,w)
     ALLOCATE(iwork(liwork),rwork(lrwork),work(lwork))
     ! enable MKL parallelism
     CALL zheevd('V','U',n,a,ld,w,work,lwork,rwork,lrwork,iwork,liwork,info)
-    IF(info.ne.0) THEN 
+    IF(info /= 0) THEN 
       WRITE(*,*)
       WRITE(*,'("Error(eveqnz): diagonalisation failed")')
       WRITE(*,'(" ZHEEVD RETURN ed INFO = ",I8)') info

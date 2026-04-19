@@ -65,7 +65,7 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
           i=i+1
   ! index to conjugate local-orbital in symmetry equivalent atom
           idx(i)=idxlo(idxlm(l,-m),ilo,jas)
-          IF(ia.ne.ja) THEN 
+          IF(ia /= ja) THEN 
   ! sign of parity and conjugation operators
             IF(mod(l+m,2) == 0) THEN 
               s(i)=1
@@ -228,7 +228,7 @@ SUBROUTINE eveqnfvr(nmatp,ngp,vpc,h,o,evalfv,evecfv)
   CALL dsygvx(1,'V','I','U',nmatp,rh,nmatp,ro,nmatp,vl,vu,1,nstfv,evaltol,m,w, &
    rv,nmatp,work,lwork,iwork,ifail,info)
 
-  IF(info.ne.0) THEN 
+  IF(info /= 0) THEN 
     WRITE(*,*)
     WRITE(*,'("Error(eveqnfvr): diagonalisation failed")')
     WRITE(*,'(" DSYGVX RETURN ed INFO = ",I8)') info

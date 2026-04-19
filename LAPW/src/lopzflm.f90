@@ -57,7 +57,7 @@ do l=0,lmax
       zlflm(lm-1,1)=zlflm(lm-1,1)+z1
       zlflm(lm-1,2)=zlflm(lm-1,2)+cmplx(-aimag(z1),dble(z1),8)
     end if
-    if (m.ne.0) then
+    if (m /= 0) then
       zlflm(lm,3)=dble(m)*zflm(lm)
     else
       zlflm(lm,3)=0.d0

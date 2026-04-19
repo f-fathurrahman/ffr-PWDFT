@@ -69,7 +69,7 @@ do ik=1,nkptnr
 ! check if the q-point is in user-defined set
   iv(:)=iv(:)*ngridq(:)
   do i=1,3
-    if (modulo(iv(i),ngridk(i)).ne.0) goto 10
+    if (modulo(iv(i),ngridk(i)) /= 0) goto 10
   end do
   iv(:)=iv(:)/ngridk(:)
   iq=iqmap(iv(1),iv(2),iv(3))

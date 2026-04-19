@@ -37,7 +37,7 @@ if ((l1 > 50).or.(l2 > 50).or.(l3 > 50)) then
   write(*,*)
   stop
 end if
-if (m1-m2-m3.ne.0) then
+if (m1-m2-m3 /= 0) then
   gaunt=0.d0
   return
 end if
@@ -49,7 +49,7 @@ if ((j1 < 0).or.(j2 < 0).or.(j3 < 0)) then
   return
 end if
 j=l1+l2+l3
-if (mod(j,2).ne.0) then
+if (mod(j,2) /= 0) then
   gaunt=0.d0
   return
 end if
@@ -58,7 +58,7 @@ t1=sqrt(dble((2*l1+1)*(2*l2+1)*(2*l3+1))*factr(j1,j+1)*factnm(j2,1) &
  *factnm(j3,1))
 t1=t1*factr(jh,jh-l1)/(factnm(jh-l2,1)*factnm(jh-l3,1))
 gaunt=t1*c1*wigner3j(l1,l2,l3,-m1,m2,m3)
-if (mod(m1+jh,2).ne.0) gaunt=-gaunt
+if (mod(m1+jh,2) /= 0) gaunt=-gaunt
 return
 end function
 !EOC

@@ -72,7 +72,7 @@ SUBROUTINE genlofr()
         b(:)=0.d0
         b(lorbord(ilo,is))=1.d0
         CALL dgesv(lorbord(ilo,is),1,a,nplorb,ipiv,b,nplorb,info)
-        IF(info.ne.0) goto 10
+        IF(info /= 0) goto 10
         ! generate linear superposition of radial functions
         p0s(:,ilo)=0.d0
         ep0s(:,ilo)=0.d0

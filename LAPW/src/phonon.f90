@@ -31,7 +31,7 @@ call init2()
 call init4()
 ! check k-point grid is commensurate with q-point grid
 iv(:)=mod(ngridk(:),ngridq(:))
-if ((iv(1).ne.0).or.(iv(2).ne.0).or.(iv(3).ne.0)) then
+if ((iv(1) /= 0).or.(iv(2) /= 0).or.(iv(3) /= 0)) then
   write(*,*)
   write(*,'("Error(phonon): k-point grid incommensurate with q-point grid")')
   write(*,'(" ngridk : ",3I6)') ngridk
@@ -169,7 +169,7 @@ do iscl=1,maxscl
   allocate(evecsv(nstsv,nstsv),devecsv(nstsv,nstsv))
   do ik=1,nkptnr
     ! distribute among MPI processes
-    !if (mod(ik-1,np_mpi).ne.lp_mpi) cycle
+    !if (mod(ik-1,np_mpi) /= lp_mpi) cycle
     ! equivalent reduced k-point
     jk=ivkik(ivk(1,ik),ivk(2,ik),ivk(3,ik))
     ! compute the matching coefficients and derivatives

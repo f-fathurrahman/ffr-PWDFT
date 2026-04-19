@@ -104,7 +104,7 @@ if (spinpol) then
   end do
   write(40) rvfcmt,bsir
 ! write fixed spin moment magnetic fields
-  if (fsmtype.ne.0) then
+  if (fsmtype /= 0) then
     write(40) bfsmc
     write(40) bfsmcmt
   end if
@@ -118,11 +118,11 @@ if (xcgrad == 4) then
   write(40) rfmt,wxcir
 end if
 ! write the potential matrix in each muffin-tin
-if ((dftu.ne.0).or.(ftmtype.ne.0)) then
+if ((dftu /= 0).or.(ftmtype /= 0)) then
   write(40) vmatmt
 end if
 ! write the fixed tensor moment potential matrix
-if (ftmtype.ne.0) then
+if (ftmtype /= 0) then
   write(40) vmftm
 end if
 close(40)

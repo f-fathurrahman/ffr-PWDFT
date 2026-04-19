@@ -33,7 +33,7 @@ SUBROUTINE findsymlat()
   ! determinant of matrix
     md=i3mdet(sym)
   ! matrix should be orthogonal
-    IF(abs(md).ne.1) goto 10
+    IF(abs(md) /= 1) goto 10
   ! check invariance of metric tensor
     s(:,:)=dble(sym(:,:))
     CALL r3mtm(s,g,c)

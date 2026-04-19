@@ -20,7 +20,7 @@ real(8), allocatable :: rfmt1(:),rfmt2(:,:)
 real(8) rfint
 external rfint
 ! check that the Tran-Blaha functional is being used (A. Shyichuk)
-if (xctype(2).ne.XC_MGGA_X_TB09) return
+if (xctype(2) /= XC_MGGA_X_TB09) return
 ! if Tran-Blaha constant has been read in return
 if (tc_tb09) return
 ! compute the gradient of the density

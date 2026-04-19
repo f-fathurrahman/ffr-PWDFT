@@ -186,15 +186,15 @@ do iscl=1,maxscl
 ! generate the density and magnetisation
   call rhomag
 ! DFT+U or fixed tensor moment calculation
-  if ((dftu.ne.0).or.(ftmtype.ne.0)) then
+  if ((dftu /= 0).or.(ftmtype /= 0)) then
 ! generate the muffin-tin density matrix used for computing the potential matrix
     call gendmatmt
 ! write the FTM tensor moments to file
-    if (ftmtype.ne.0) call writeftm
+    if (ftmtype /= 0) call writeftm
 ! generate the DFT+U or FTM muffin-tin potential matrices
     call genvmatmt
   end if
-  if (dftu.ne.0) then
+  if (dftu /= 0) then
     if (mp_mpi) then
 ! write the DFT+U matrices to file
       call writedftu
@@ -211,7 +211,7 @@ do iscl=1,maxscl
 ! compute the Kohn-Sham potentials and magnetic fields
   call potks(.true.)
   if (mp_mpi) then
-    if ((xcgrad == 3).and.(c_tb09.ne.0.d0)) then
+    if ((xcgrad == 3).and.(c_tb09 /= 0.d0)) then
       write(60,*)
       write(60,'("Tran-Blaha ''09 constant c : ",G18.10)') c_tb09
     end if
@@ -270,7 +270,7 @@ do iscl=1,maxscl
     write(64,'(G22.12)') bandgap(1)
     flush(64)
 ! output effective fields for fixed spin moment calculations
-    if (fsmtype.ne.0) call writefsm(60)
+    if (fsmtype /= 0) call writefsm(60)
 ! check for WRITE file
     inquire(file='WRITE',exist=exist)
     if (exist) then

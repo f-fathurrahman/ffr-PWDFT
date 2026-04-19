@@ -2,16 +2,16 @@ SUBROUTINE init_kpoints()
   USE m_constants, ONLY: twopi
   USE m_symmetry, ONLY: lsplsymc, lspnsymc, tv0symc, nsymlat, nsymcrys, symlat
   USE m_kpoints, ONLY: ngridk, kptboxl, wkpt, wkptnr, vkl, vkloff, vkc, symkpt, reducek, &
-                 radkpt, nsymkpt, nkptnr, nkpt, ivk, ivkik, ivkiknr, autokpt
+                 radkpt, nsymkpt, nkptnr, nkpt, ivk, ivkik, ivkiknr, autokpt, ndspem, vklem, deltaem
   USE m_misc, ONLY: task
-  USE m_lattice, ONLY: epslat, bvec
+  USE m_lattice, ONLY: epslat, bvec, binv
   USE m_atoms, ONLY: molecule
   USE m_spin, ONLY: spinpol
-  USE m_plotting, ONLY: np3d, vclp3d
+  USE m_plotting
   IMPLICIT NONE 
   LOGICAL :: lsym(48)
-  INTEGER :: isym
-  REAL(8) :: t1
+  INTEGER :: isym, ik, i1, i2, i3
+  REAL(8) :: t1, vc(3), vl(3)
 
   !---------------------!
   !     k-point set     !
@@ -53,16 +53,48 @@ SUBROUTINE init_kpoints()
 
   if (any(task == [20,21,22,23])) then
     ! generate k-points along a path for band structure plots
-    ! XXX Disabled
-    WRITE(*,*) 'task = ', task
-    WRITE(*,*) 'disabled ...'
-    STOP 
+    call plotpt1d(bvec, nvp1d, npp1d, vvlp1d,vplp1d,dvp1d,dpp1d)
+    nkpt = npp1d
+    !
+    if(allocated(vkl)) deallocate(vkl)
+    allocate(vkl(3,nkpt))
+    !
+    if (allocated(vkc)) deallocate(vkc)
+    allocate(vkc(3,nkpt))
+    do ik=1,nkpt
+      vkl(:,ik) = vplp1d(:,ik)
+      call r3mv(bvec, vkl(:,ik), vkc(:,ik))
+    enddo
+    nkptnr = nkpt
   ELSEIF( task == 25 ) THEN 
     ! effective mass calculation
-    ! XXX Disabled
-    WRITE(*,*) 'task = ', task
-    WRITE(*,*) 'disabled ...'
-    STOP 
+    nkpt = (2*ndspem+1)**3
+    !
+    if (allocated(ivk)) deallocate(ivk)
+    allocate(ivk(3,nkpt))
+    !
+    if (allocated(vkl)) deallocate(vkl)
+    allocate(vkl(3,nkpt))
+    !
+    if (allocated(vkc)) deallocate(vkc)
+    allocate(vkc(3,nkpt))
+    ! map vector to [0,1)
+    call r3frac(epslat,vklem)
+    ik = 0
+    do i3 = -ndspem,ndspem
+      do i2 = -ndspem,ndspem
+        do i1 = -ndspem,ndspem
+          ik = ik+1
+          ivk(1,ik) = i1; ivk(2,ik)=i2; ivk(3,ik)=i3
+          vc(1) = dble(i1); vc(2)=dble(i2); vc(3)=dble(i3)
+          vc(:) = vc(:)*deltaem
+          call r3mv(binv,vc,vl)
+          vkl(:,ik) = vklem(:) + vl(:)
+          call r3mv(bvec,vkl(:,ik),vkc(:,ik))
+        enddo
+      enddo
+    enddo
+    nkptnr=nkpt
   ELSE
     ! determine the k-point grid automatically from radkpt if required
     IF( autokpt ) THEN 

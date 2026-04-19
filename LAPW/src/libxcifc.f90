@@ -112,7 +112,7 @@ else
   write(*,*)
   stop
 end if
-if (xctype(2).ne.0) then
+if (xctype(2) /= 0) then
   if (xctype(2) == xctype(3)) then
     write(*,*)
     write(*,'("Error(xcifc_libxc): Libxc exchange and correlation &
@@ -388,7 +388,7 @@ character(256) name
 type(xc_f90_pointer_t) p,info
 ! check version is compatible
 call xc_f90_version(libxcv(1),libxcv(2),libxcv(3))
-if (libxcv(1).ne.4) then
+if (libxcv(1) /= 4) then
   write(*,*)
   write(*,'("Error(xcdata_libxc): incompatible Libxc version : ",I2.2,".",&
    &I3.3,".",I3.3)') libxcv(:)
@@ -421,8 +421,8 @@ do k=2,3
       stop
     end if
 ! functional family
-    if ((fmly.ne.XC_FAMILY_LDA).and.(fmly.ne.XC_FAMILY_GGA).and. &
-     (fmly.ne.XC_FAMILY_HYB_GGA).and.(fmly.ne.XC_FAMILY_MGGA)) then
+    if ((fmly /= XC_FAMILY_LDA).and.(fmly /= XC_FAMILY_GGA).and. &
+     (fmly /= XC_FAMILY_HYB_GGA).and.(fmly /= XC_FAMILY_MGGA)) then
       write(*,*)
       write(*,'("Error(xcdata_libxc): unsupported Libxc family : ",I8)') fmly
       write(*,*)
@@ -433,11 +433,11 @@ do k=2,3
 ! kinetic energy density required for meta-GGA functionals
     if (fmly == XC_FAMILY_MGGA) then
       flg=xc_f90_info_flags(info)
-      if ((iand(flg,XC_FLAGS_HAVE_VXC).ne.0).and. &
+      if ((iand(flg,XC_FLAGS_HAVE_VXC) /= 0).and. &
        (iand(flg,XC_FLAGS_HAVE_EXC) == 0)) then
 ! potential-only functional
         xcgrad=3
-      else if (iand(flg,XC_FLAGS_HAVE_EXC).ne.0) then
+      else if (iand(flg,XC_FLAGS_HAVE_EXC) /= 0) then
 ! energy functional
         xcgrad=4
       else
@@ -447,7 +447,7 @@ do k=2,3
         stop
       end if
 ! check if the density laplacian is required
-      if ((xcgrad == 4).and.(iand(flg,XC_FLAGS_NEEDS_LAPLACIAN).ne.0)) then
+      if ((xcgrad == 4).and.(iand(flg,XC_FLAGS_NEEDS_LAPLACIAN) /= 0)) then
         write(*,*)
         write(*,'("Error(xcdata_libxc): energy meta-GGAs requiring the density &
          &laplacian are not supported")')

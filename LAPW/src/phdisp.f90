@@ -15,10 +15,6 @@ real(8), allocatable :: wp(:,:)
 complex(8), allocatable :: dynq(:,:,:),dynr(:,:,:)
 complex(8), allocatable :: dynp(:,:),ev(:,:)
 
-write(*,*)
-write(*,*) 'ENTER phdisp'
-write(*,*)
-
 ! initialise universal variables
 call init0()
 call init2()

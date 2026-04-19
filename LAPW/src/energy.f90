@@ -159,7 +159,7 @@ SUBROUTINE energy
   !     DFT+U energy     !
   !----------------------!
   engydu=0.d0
-  if (dftu.ne.0) then
+  if (dftu /= 0) then
     do i=1,ndftu
       is=idftu(1,i)
       do ia=1,natoms(is)
@@ -235,7 +235,7 @@ SUBROUTINE energy
       ENDDO 
     ENDIF 
     ! remove fixed tensor moment potential matrix contribution
-    if (ftmtype.ne.0) then
+    if (ftmtype /= 0) then
       n2=(lmmaxdm*nspinor)**2
       do ias=1,natmtot
         z1=zdotc(n2,dmatmt(:,:,:,:,ias),1,vmftm(:,:,:,:,ias),1)
@@ -274,7 +274,7 @@ SUBROUTINE energy
   engytot=engykn+0.5d0*engyvcl+engymad+engyx+engyc+engyts
   
   ! add the DFT+U correction if required
-  if (dftu.ne.0) engytot=engytot+engydu
+  if (dftu /= 0) engytot=engytot+engydu
 
   ! write total energy
   WRITE(*,*) 'total energy', engytot

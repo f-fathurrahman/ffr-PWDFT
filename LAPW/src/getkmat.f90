@@ -38,7 +38,7 @@ if (t1 > epslat) then
   write(*,*)
   stop
 end if
-if (nstsv.ne.nstsv_) then
+if (nstsv /= nstsv_) then
   write(*,*)
   write(*,'("Error(getkmat): differing nstsv for k-point ",I8)') ik
   write(*,'(" current  : ",I8)') nstsv

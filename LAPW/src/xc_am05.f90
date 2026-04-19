@@ -320,7 +320,7 @@ end if
 do i=1,10
   p=exp(val)
   t=val*p-z
-  if (val.ne.-1.d0) then
+  if (val /= -1.d0) then
     t=t/(p*(val+1.d0)-0.5d0*(val+2.d0)*t/(val+1.d0))
    else
     t=0.d0

@@ -62,7 +62,7 @@ end if
 sum=0.5d0*(1.d0-erf(x))
 do i=1,n
   t1=1.d0/(factnm(i,1)*dble(4**i)*sqpi)
-  if (mod(i,2).ne.0) t1=-t1
+  if (mod(i,2) /= 0) t1=-t1
   sum=sum+t1*hermite(2*i-1,x)*exp(-x**2)
 end do
 stheta_mp=1.d0-sum

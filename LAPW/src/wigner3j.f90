@@ -61,7 +61,7 @@ end if
 l1=j2-j1+j3
 l2=j1-j2+j3
 l3=j1+j2-j3
-if ((m1+m2+m3.ne.0).or.(l1 < 0).or.(l2 < 0).or.(l3 < 0)) then
+if ((m1+m2+m3 /= 0).or.(l1 < 0).or.(l2 < 0).or.(l3 < 0)) then
   wigner3j=0.d0
   return
 end if
@@ -69,7 +69,7 @@ n1=j1-m1
 n2=j2+m2
 k1=max(0,n1-l2,n2-l1)
 k2=min(l3,n1,n2)
-if (mod(k1-j1+j2+m3,2).ne.0) then
+if (mod(k1-j1+j2+m3,2) /= 0) then
   sgn=-1.d0
 else
   sgn=1.d0

@@ -18,7 +18,7 @@ do i=1,ndftu
   do ia=1,natoms(is)
     read(50,*)
     read(50,*) is_,ia_,l_
-    if ((is.ne.is_).or.(ia.ne.ia_).or.(l.ne.l_)) then
+    if ((is /= is_).or.(ia /= ia_).or.(l /= l_)) then
       write(*,*)
       write(*,'("Error(readalphadu): differing is, ia or l")')
       write(*,'(" current     : ",3I8)') is,ia,l

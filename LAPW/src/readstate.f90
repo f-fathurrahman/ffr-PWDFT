@@ -43,7 +43,7 @@ complex(8), allocatable :: vsig_(:)
 complex(8), allocatable :: vmatmt_(:,:,:,:,:),vmftm_(:,:,:,:,:)
 open(40,file='STATE'//trim(filext),form='UNFORMATTED',status='OLD', &
  iostat=ios)
-if (ios.ne.0) then
+if (ios /= 0) then
   write(*,*)
   write(*,'("Error(readstate): error opening ",A)') 'STATE'//trim(filext)
   write(*,*)
@@ -57,7 +57,7 @@ if (version_(1) < 2) then
   write(*,*)
   stop
 end if
-if (any(version(:).ne.version_(:))) then
+if (any(version(:) /= version_(:))) then
   write(*,*)
   write(*,'("Warning(readstate): different versions")')
   write(*,'(" current   : ",I3.3,".",I3.3,".",I3.3)') version
@@ -65,7 +65,7 @@ if (any(version(:).ne.version_(:))) then
 end if
 read(40) spinpol_
 read(40) nspecies_
-if (nspecies.ne.nspecies_) then
+if (nspecies /= nspecies_) then
   write(*,*)
   write(*,'("Error(readstate): differing nspecies")')
   write(*,'(" current   : ",I4)') nspecies
@@ -81,7 +81,7 @@ allocate(rsp_(nrmtmax_,nspecies))
 allocate(rcmt_(nrcmtmax_,nspecies))
 do is=1,nspecies
   read(40) natoms_
-  if (natoms(is).ne.natoms_) then
+  if (natoms(is) /= natoms_) then
     write(*,*)
     write(*,'("Error(readstate): differing natoms for species ",I4)') is
     write(*,'(" current   : ",I4)') natoms(is)
@@ -97,7 +97,7 @@ end do
 read(40) ngridg_
 read(40) ngvec_
 read(40) ndmag_
-if ((spinpol_).and.(ndmag_.ne.1).and.(ndmag_.ne.3)) then
+if ((spinpol_).and.(ndmag_ /= 1).and.(ndmag_ /= 3)) then
   write(*,*)
   write(*,'("Error(readstate): invalid ndmag in STATE.OUT : ",I8)') ndmag_
   write(*,*)
@@ -189,11 +189,11 @@ if (spinpol_) then
   call rgvir(bsir)
   deallocate(rvfmt_,rvfir_,rvfcmt_)
 ! read fixed spin moment effective fields
-  if (fsmtype_.ne.0) then
+  if (fsmtype_ /= 0) then
     allocate(bfsmcmt_(3,natmtot))
     read(40) bfsmc
     read(40) bfsmcmt_
-    if (fsmtype.ne.0) bfsmcmt(:,:)=bfsmcmt_(:,:)
+    if (fsmtype /= 0) bfsmcmt(:,:)=bfsmcmt_(:,:)
 ! make sure that the constraining fields are perpendicular to the fixed moments
 ! for fixed direction calculations (Y. Kvashnin and LN)
     if (fsmtype < 0) then
@@ -226,8 +226,8 @@ if (xcgrad == 4) then
 end if
 deallocate(rfmt_,rfir_,rfmt,fi,fo)
 ! read DFT+U potential matrix in each muffin-tin
-if (((dftu.ne.0).and.(dftu_.ne.0)).or. &
-    ((ftmtype.ne.0).and.(ftmtype_.ne.0))) then
+if (((dftu /= 0).and.(dftu_ /= 0)).or. &
+    ((ftmtype /= 0).and.(ftmtype_ /= 0))) then
   allocate(vmatmt_(lmmaxdm_,nspinor_,lmmaxdm_,nspinor_,natmtot))
   read(40) vmatmt_
   lmmax=min(lmmaxdm,lmmaxdm_)
@@ -244,7 +244,7 @@ if (((dftu.ne.0).and.(dftu_.ne.0)).or. &
   deallocate(vmatmt_)
 end if
 ! read fixed tensor moment potential matrix elements
-if ((ftmtype.ne.0).and.(ftmtype_.ne.0)) then
+if ((ftmtype /= 0).and.(ftmtype_ /= 0)) then
   allocate(vmftm_(lmmaxdm_,nspinor_,lmmaxdm_,nspinor_,natmtot))
   read(40) vmftm_
   lmmax=min(lmmaxdm,lmmaxdm_)

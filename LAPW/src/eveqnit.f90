@@ -132,7 +132,7 @@ COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv)
     ENDDO 
   ! solve the generalised eigenvalue problem in the subspace
     CALL zhegv(1,'V','U',ns,hs,ns,os,ns,w,work,lwork,rwork,info)
-    IF(info.ne.0) exit
+    IF(info /= 0) exit
     ! construct the new eigenvectors
     DO ist=1,nstfv
       CALL zgemv('N',nmatp,nstfv,zone,evecfv,nmatmax,hs(1,ist),1,zzero, &

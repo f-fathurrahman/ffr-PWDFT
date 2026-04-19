@@ -26,7 +26,7 @@ do is=1,nspecies
   end do
 end do
 write(fnum,'(" total in muffin-tins",T30,": ",G18.10)') chgmttot
-if (chgexs.ne.0.d0) then
+if (chgexs /= 0.d0) then
   write(fnum,'(" excess",T30,": ",G18.10)') chgexs
 end if
 write(fnum,'(" total calculated charge",T30,": ",G18.10)') chgcalc

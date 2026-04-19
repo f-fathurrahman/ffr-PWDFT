@@ -56,7 +56,7 @@ end if
 jm1=j12+m12
 jm2=j22+m22
 jm3=j32+m32
-if ((mod(jm1,2).ne.0).or.(mod(jm2,2).ne.0).or.(mod(jm3,2).ne.0)) then
+if ((mod(jm1,2) /= 0).or.(mod(jm2,2) /= 0).or.(mod(jm3,2) /= 0)) then
   wigner3jf=0.d0
   return
 end if
@@ -64,15 +64,15 @@ l12=j22-j12+j32
 l22=j12-j22+j32
 l32=j12+j22-j32
 l42=j12+j22+j32
-if ((mod(l12,2).ne.0).or.(mod(l22,2).ne.0).or.(mod(l32,2).ne.0).or. &
- (mod(l42,2).ne.0)) then
+if ((mod(l12,2) /= 0).or.(mod(l22,2) /= 0).or.(mod(l32,2) /= 0).or. &
+ (mod(l42,2) /= 0)) then
   wigner3jf=0.d0
   return
 end if
 l1=l12/2
 l2=l22/2
 l3=l32/2
-if ((m12+m22+m32.ne.0).or.(l1 < 0).or.(l2 < 0).or.(l3 < 0)) then
+if ((m12+m22+m32 /= 0).or.(l1 < 0).or.(l2 < 0).or.(l3 < 0)) then
   wigner3jf=0.d0
   return
 end if
@@ -81,7 +81,7 @@ n2=(j22+m22)/2
 k1=max(0,n1-l2,n2-l1)
 k2=min(l3,n1,n2)
 k=k1+(j22-j12+m32)/2
-if (mod(k,2).ne.0) then
+if (mod(k,2) /= 0) then
   sgn=-1.d0
 else
   sgn=1.d0

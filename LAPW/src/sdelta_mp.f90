@@ -60,7 +60,7 @@ end if
 sum=0.d0
 do i=0,n
   t1=1.d0/(factnm(i,1)*dble(4**i)*sqpi)
-  if (mod(i,2).ne.0) t1=-t1
+  if (mod(i,2) /= 0) t1=-t1
   sum=sum+t1*hermite(2*i,x)*exp(-x**2)
 end do
 sdelta_mp=sum

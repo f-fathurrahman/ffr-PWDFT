@@ -35,7 +35,7 @@ if (t1 > epslat) then
   write(*,*)
   stop
 end if
-if (nmatmax.ne.nmatmax_) then
+if (nmatmax /= nmatmax_) then
   write(*,*)
   write(*,'("Error(getdevecfv): differing nmatmax for k-point ",I8)') ik
   write(*,'(" current : ",I8)') nmatmax
@@ -43,7 +43,7 @@ if (nmatmax.ne.nmatmax_) then
   write(*,*)
   stop
 end if
-if (nstfv.ne.nstfv_) then
+if (nstfv /= nstfv_) then
   write(*,*)
   write(*,'("Error(getdevecfv): differing nstfv for k-point ",I8)') ik
   write(*,'(" current : ",I8)') nstfv
@@ -51,7 +51,7 @@ if (nstfv.ne.nstfv_) then
   write(*,*)
   stop
 end if
-if (nspnfv.ne.nspnfv_) then
+if (nspnfv /= nspnfv_) then
   write(*,*)
   write(*,'("Error(getdevecfv): differing nspnfv for k-point ",I8)') ik
   write(*,'(" current : ",I8)') nspnfv

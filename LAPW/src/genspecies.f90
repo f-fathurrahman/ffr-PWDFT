@@ -48,7 +48,7 @@ do ist=1,nst
 end do
 !if (mp_mpi) then
   write(*,'("Info(genspecies): running Z = ",I4,", (",A,")")') nz,trim(name)
-  if (ne.ne.nz) then
+  if (ne /= nz) then
     write(*,*)
     write(*,'("Warning(genspecies): atom not neutral, electron number : ",&
      &I4)') ne

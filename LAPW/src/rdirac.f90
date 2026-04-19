@@ -48,7 +48,7 @@ if (k > n) then
   write(*,*)
   stop
 end if
-if ((k == n).and.(l.ne.k-1)) then
+if ((k == n).and.(l /= k-1)) then
   write(*,*)
   write(*,'("Error(rdirac): incompatible n, k and l : ",3I8)') n,k,l
   write(*,*)
@@ -83,7 +83,7 @@ do it=1,maxit
     eval=eval+de
   end if
   if (it > 1) then
-    if ((nnd.ne.0).or.(nndp.ne.0)) then
+    if ((nnd /= 0).or.(nndp /= 0)) then
       if (nnd*nndp <= 0) then
         de=de*0.5d0
       else

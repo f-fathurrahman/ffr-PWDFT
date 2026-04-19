@@ -20,14 +20,16 @@ subroutine my_phonon
   complex(8), allocatable :: dapwalm(:,:,:,:),dapwalmq(:,:,:,:)
   complex(8), allocatable :: evecfv(:,:,:),devecfv(:,:,:)
   complex(8), allocatable :: evecsv(:,:),devecsv(:,:)
+  !
   ! initialise universal variables
   call init0()
   call init1()
-  call init2()
-  call init4()
+  call init2() ! needed for q-vectors
+  call init4() ! mainly for DFPT
+  !
   ! check k-point grid is commensurate with q-point grid
-  iv(:)=mod(ngridk(:),ngridq(:))
-  if ((iv(1).ne.0).or.(iv(2).ne.0).or.(iv(3).ne.0)) then
+  iv(:) = mod(ngridk(:), ngridq(:))
+  if ((iv(1) /= 0).or.(iv(2) /= 0).or.(iv(3) /= 0)) then
     write(*,*)
     write(*,'("Error(phonon): k-point grid incommensurate with q-point grid")')
     write(*,'(" ngridk : ",3I6)') ngridk
@@ -35,11 +37,13 @@ subroutine my_phonon
     write(*,*)
     stop
   end if
+  !ffr: why? because of 2nd variational scheme?
   if (spinpol) then
     write(*,*)
     write(*,'("Error(phonon): spin-polarised phonons not yet available")')
     write(*,*)
     stop
+    !
   end if
   ! check spin-spiral de-phasing is not used
   if (ssdph) then
@@ -49,45 +53,59 @@ subroutine my_phonon
     stop
   end if
   ! check for zero atoms
-  if (natmtot == 0) return
+  if (natmtot == 0) then
+    return
+  endif
+  !
   ! read in the density and potentials
   call readstate()
+  !
   ! Fourier transform Kohn-Sham potential to G-space
   call genvsig()
+  !
   ! read Fermi energy from file
   call readfermi()
+  !
   ! find the new linearisation energies
   call linengy()
+  !
   ! generate the APW and local-orbital radial functions and integrals
   call genapwlofr()
+  !
   ! generate the spin-orbit coupling radial functions
   call gensocfr()
+  !
   ! get the eigenvalues and occupancies from file
   do ik=1,nkpt
     call getevalsv(filext,ik,vkl(:,ik),evalsv(:,ik))
     call getoccsv(filext,ik,vkl(:,ik),occsv(:,ik))
   end do
+  !
   ! size of mixing vector (complex array)
-  n=2*(npmtmax*natmtot+ngtot)
-  if (spinpol) n=n+2*(npcmtmax*natmtot+ngtot)*ndmag
-
+  n = 2*(npmtmax*natmtot+ngtot)
+  !ffr: I think spinpol is not yet implemented?
+  if (spinpol) then
+    n = n + 2*(npcmtmax*natmtot+ngtot)*ndmag
+  endif
   ! allocate mixing array
   allocate(v(n))
-
   ! determine the size of the mixer work array
-  nwork=-1
-  call mixerifc(mtype,n,v,ddv,nwork,v)
+  nwork = -1
+  call mixerifc(mtype, n, v, ddv, nwork, v)
   allocate(work(nwork))
-
+  !
   ! allocate dynamical matrix column
   allocate(dyn(3,natmtot))
-
+  !
   ! begin new phonon task
   10 continue
 
-  call dyntask(80,fext)
-
+  call my_dyntask(80, fext)
   write(*,*) 'iqph = ', iqph
+  write(*,*) 'nqpt = ', nqpt
+
+  stop 'stopped here 106'
+
   ! if nothing more to do then return
   if (iqph == 0) then
     write(*,*) 'No more to do: exiting phonon'
@@ -112,7 +130,7 @@ subroutine my_phonon
   call gengqvec(iqph)
 
   ! generate the regularised Coulomb Green's function in G+q-space
-  call gengclgq(.false.,iqph,ngvec,gqc,gclgq)
+  call gengclgq(.false., iqph, ngvec, gqc, gclgq)
 
   ! generate the characteristic function derivative
   call gendcfun()

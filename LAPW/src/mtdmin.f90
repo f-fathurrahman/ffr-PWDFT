@@ -29,8 +29,8 @@ SUBROUTINE mtdmin(is,js,dmin)
             DO ls=1,nspecies
               t1=rmt(ks)+rmt(ls)
               DO la=1,natoms(ls)
-                IF((i1.ne.0).or.(i2.ne.0).or.(i3.ne.0).or.(ks.ne.ls).or. &
-                 (ka.ne.la)) THEN 
+                IF((i1 /= 0).or.(i2 /= 0).or.(i3 /= 0).or.(ks /= ls).or. &
+                 (ka /= la)) THEN 
                   t2=sqrt((v2(1)-atposc(1,la,ls))**2 &
                          +(v2(2)-atposc(2,la,ls))**2 &
                          +(v2(3)-atposc(3,la,ls))**2)

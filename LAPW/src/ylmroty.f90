@@ -59,10 +59,10 @@ do l=0,lmax
             t1=cb**j
           end if
           j=2*k+m2-m1
-          if (j.ne.0) t1=t1*sb**j
+          if (j /= 0) t1=t1*sb**j
           t2=t1/(factnm(k,1)*factnm(l+m1-k,1)*factnm(l-m2-k,1) &
            *factnm(m2-m1+k,1))
-          if (mod(k,2).ne.0) t2=-t2
+          if (mod(k,2) /= 0) t2=-t2
           sum=sum+t2
         end if
       end do

@@ -14,7 +14,7 @@ integer info
 integer ipiv(n)
 real(8) work(n)
 call dgetrf(n,n,a,n,ipiv,info)
-if (info.ne.0) then
+if (info /= 0) then
   write(*,*)
   write(*,'("Error(rminv): unable to invert matrix")')
   write(*,'(" DGETRF returned INFO = ",I8)') info
@@ -22,7 +22,7 @@ if (info.ne.0) then
   stop
 end if
 call dgetri(n,a,n,ipiv,work,n,info)
-if (info.ne.0) then
+if (info /= 0) then
   write(*,*)
   write(*,'("Error(rminv): unable to invert matrix")')
   write(*,'(" DGETRI returned INFO = ",I8)') info

@@ -44,7 +44,7 @@ call olpfv(nmq,ngpq,igpqig,apwalmq,o)
 lwork=2*nmq
 allocate(w(nmq),rwork(3*nmq),work(lwork))
 call zhegv(1,'V','U',nmq,h,nmq,o,nmq,w,work,lwork,rwork,info)
-if (info.ne.0) then
+if (info /= 0) then
   write(*,*)
   write(*,'("Error(deveqnfv): diagonalisation failed")')
   write(*,'(" ZHEGV returned INFO = ",I8)') info

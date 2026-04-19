@@ -25,7 +25,7 @@ ENDIF
 WRITE(fnum,'(" exchange",T30,": ",F22.12)') engyx
 WRITE(fnum,'(" correlation",T30,": ",F22.12)') engyc
 WRITE(fnum,'(" exchange-correlation",T30,": ",F22.12)') engyx + engyc
-if (dftu.ne.0) then
+if (dftu /= 0) then
   write(fnum,'(" DFT+U",T30,": ",F22.12)') engydu
 end if
 IF(stype == 3) THEN 

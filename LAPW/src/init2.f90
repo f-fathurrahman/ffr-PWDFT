@@ -52,7 +52,7 @@ end if
 ! check that the q-point and k-point grids are commensurate for some tasks
 if ((xctype(1) < 0).or.(any(task == [5,205,240,241,300,600,620,630]))) then
   iv(:)=mod(ngridk(:),ngridq(:))
-  if ((iv(1).ne.0).or.(iv(2).ne.0).or.(iv(3).ne.0)) then
+  if ((iv(1) /= 0).or.(iv(2) /= 0).or.(iv(3) /= 0)) then
     write(*,*)
     write(*,'("Error(init2): k-point grid incommensurate with q-point grid")')
     write(*,'(" ngridk : ",3I6)') ngridk

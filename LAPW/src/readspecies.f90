@@ -14,7 +14,7 @@ e0min=0.d0
 do is=1,nspecies
   open(50,file=trim(sppath)//trim(spfname(is)),status='OLD',form='FORMATTED', &
    iostat=ios)
-  if (ios.ne.0) then
+  if (ios /= 0) then
     write(*,*)
     write(*,'("Error(readspecies): error opening species file ",A)') &
      trim(sppath)//trim(spfname(is))

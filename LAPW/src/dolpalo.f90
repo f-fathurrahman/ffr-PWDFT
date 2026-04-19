@@ -16,7 +16,7 @@ complex(8), intent(inout) :: od(ld,*)
 ! local variables
 integer is,ilo,io
 integer l,m,lm,i,j
-if (ias.ne.iasph) return
+if (ias /= iasph) return
 is=idxis(ias)
 do ilo=1,nlorb(is)
   l=lorbl(ilo,is)

@@ -20,14 +20,14 @@ implicit none
 ! local variables
 integer ios
 open(50,file='EFERMI'//trim(filext),form='FORMATTED',status='OLD',iostat=ios)
-if (ios.ne.0) then
+if (ios /= 0) then
   write(*,*)
   write(*,'("Error(readfermi): error opening ",A)') 'EFERMI'//trim(filext)
   write(*,*)
   stop
 end if
 read(50,*,iostat=ios) efermi
-if (ios.ne.0) then
+if (ios /= 0) then
   write(*,*)
   write(*,'("Error(readfermi): error reading Fermi energy from EFERMI.OUT")')
   write(*,*)

@@ -15,7 +15,7 @@ integer i,j,m(3),n(3)
 integer gcd
 external gcd
 do i=1,3
-  if (ivq(i,iq).ne.0) then
+  if (ivq(i,iq) /= 0) then
     j=gcd(ivq(i,iq),ngridq(i))
     m(i)=ivq(i,iq)/j
     n(i)=ngridq(i)/j

@@ -78,7 +78,7 @@ do l=1,noptcomp
         eji=evalsv(jst,jk)-evalsv(ist,jk)
         if ((evalsv(ist,jk) <= efermi).and.(evalsv(jst,jk) > efermi)) then
 ! scissor correction
-          if (scissor.ne.0.d0) then
+          if (scissor /= 0.d0) then
             t1=(eji+scissor)/eji
             z1=z1*t1**2
             eji=eji+scissor

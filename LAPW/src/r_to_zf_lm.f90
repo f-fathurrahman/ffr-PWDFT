@@ -20,7 +20,7 @@ PURE SUBROUTINE r_to_zf_lm(lmax,rflm,zflm)
     DO m=-l,-1
       lm1=lm1+1
       lm2=lm2-1
-      IF(mod(m,2).ne.0) THEN 
+      IF(mod(m,2) /= 0) THEN 
         zflm(lm1)=c1*cmplx(-rflm(lm2),-rflm(lm1),8)
       else
         zflm(lm1)=c1*cmplx(rflm(lm2),-rflm(lm1),8)
@@ -32,7 +32,7 @@ PURE SUBROUTINE r_to_zf_lm(lmax,rflm,zflm)
     DO m=1,l
       lm1=lm1+1
       lm2=lm2-1
-      IF(mod(m,2).ne.0) THEN 
+      IF(mod(m,2) /= 0) THEN 
         zflm(lm1)=c1*cmplx(rflm(lm1),-rflm(lm2),8)
       else
         zflm(lm1)=c1*cmplx(rflm(lm1),rflm(lm2),8)

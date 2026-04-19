@@ -327,7 +327,7 @@ tcden=.false.
 !     read from elk.in     !
 !--------------------------!
 open(50,file='elk.in',status='OLD',form='FORMATTED',iostat=ios)
-if (ios.ne.0) then
+if (ios /= 0) then
   write(*,*)
   write(*,'("Error(readinput): error opening elk.in")')
   write(*,*)
@@ -352,7 +352,7 @@ case('tasks')
       goto 10
     end if
     read(str,*,iostat=ios) tasks(i)
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading tasks")')
       write(*,'("(blank line required after tasks block)")')
@@ -805,7 +805,7 @@ case('optcomp')
     end if
     str=trim(str)//' 1 1'
     read(str,*,iostat=ios) optcomp(:,i)
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading optical component list")')
       write(*,'("(blank line required after optcomp block)")')
@@ -876,7 +876,7 @@ case('mommtfix')
     read(50,'(A256)',err=20) str
     if (trim(str) == '') goto 10
     read(str,*,iostat=ios) is,ia,mommtfix(:,ia,is)
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading muffin-tin fixed spin &
        &moments")')
@@ -983,7 +983,7 @@ case('kstlist')
       goto 10
     end if
     read(str,*,iostat=ios) kstlist(:,i)
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading k-point and state list")')
       write(*,'("(blank line required after kstlist block)")')
@@ -1042,7 +1042,7 @@ case('DFT+U','dft+u','lda+u')
       write(*,*)
       stop
     end select
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading DFT+U parameters")')
       write(*,'("(blank line required after dft+u block)")')
@@ -1270,7 +1270,7 @@ case('istxbse')
       goto 10
     end if
     read(str,*,iostat=ios) istxbse(i)
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading BSE valence state list")')
       write(*,'("(blank line required after istxbse block)")')
@@ -1296,7 +1296,7 @@ case('jstxbse')
       goto 10
     end if
     read(str,*,iostat=ios) jstxbse(i)
-    if (ios.ne.0) then
+    if (ios /= 0) then
       write(*,*)
       write(*,'("Error(readinput): error reading BSE conduction state list")')
       write(*,'("(blank line required after jstxbse block)")')
@@ -1567,7 +1567,7 @@ case('tmomfix')
   allocate(rtmfix(3,3,2,ntmfix))
   do i=1,ntmfix
     read(50,*,err=20) is,ia,l,n
-    if ((is <= 0).or.(ia <= 0).or.(l < 0).or.((n.ne.2).and.(n.ne.3))) then
+    if ((is <= 0).or.(ia <= 0).or.(l < 0).or.((n /= 2).and.(n /= 3))) then
       write(*,*)
       write(*,'("Error(readinput): invalid is, ia, l or n in tmomfix block : ",&
        &4I8)') is,ia,l,n
@@ -1587,7 +1587,7 @@ case('tmomfix')
     read(50,'(A256)',err=20) str
     str=trim(str)//' 0.0 0.0 0.0'
     read(str,*,err=20) p,v1(:),v2(:)
-    if (abs(p).ne.1) then
+    if (abs(p) /= 1) then
       write(*,*)
       write(*,'("Error(readinput): parity should be -1 or 1 in tmomfix &
        &block : ",I8)') p
@@ -1939,7 +1939,7 @@ avec(:,2)=sc2*avec(:,2)
 avec(:,3)=sc3*avec(:,3)
 avec(:,:)=sc*avec(:,:)
 t1=axang(4)
-if (t1.ne.0.d0) then
+if (t1 /= 0.d0) then
   t1=t1*pi/180.d0
   call axangrot(axang(:),t1,rot)
   do i=1,3

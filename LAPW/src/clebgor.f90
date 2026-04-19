@@ -46,12 +46,12 @@ if ((j1 > 50).or.(j2 > 50).or.(j3 > 50)) then
   write(*,*)
   stop
 end if
-if ((m1+m2-m3.ne.0).or.(j2+j3 < j1).or.(j1+j3 < j2).or.(j1+j2 < j3)) then
+if ((m1+m2-m3 /= 0).or.(j2+j3 < j1).or.(j1+j3 < j2).or.(j1+j2 < j3)) then
   clebgor=0.d0
   return
 end if
 clebgor=sqrt(dble(2*j3+1))*wigner3j(j1,j2,j3,m1,m2,-m3)
-if (mod(j1-j2+m3,2).ne.0) clebgor=-clebgor
+if (mod(j1-j2+m3,2) /= 0) clebgor=-clebgor
 return
 end function
 !EOC

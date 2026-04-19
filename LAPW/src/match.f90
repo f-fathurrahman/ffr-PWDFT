@@ -112,7 +112,7 @@ SUBROUTINE match(ngp,vgpc,gpc,sfacgp,apwalm)
         ENDDO 
         ! solve the general complex linear systems
         CALL zgesv(apword(l,is),i,a,apwordmax,ipiv,b,apwordmax,info)
-        IF(info.ne.0) THEN 
+        IF(info /= 0) THEN 
           WRITE(*,*)
           WRITE(*,'("Error(match): could not find APW matching coefficients")')
           WRITE(*,'(" for species ",I4," and atom ",I4)') is,ia

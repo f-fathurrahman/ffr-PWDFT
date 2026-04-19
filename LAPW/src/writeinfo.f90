@@ -152,7 +152,7 @@ if (spinsprl) then
   write(fnum,'("  q-vector length      : ",G18.10)') sqrt(vqcss(1)**2 &
    +vqcss(2)**2+vqcss(3)**2)
 end if
-if (fsmtype.ne.0) then
+if (fsmtype /= 0) then
   write(fnum,'(" fixed spin moment (FSM) calculation, type : ",I4)') fsmtype
   if (fsmtype < 0) then
     write(fnum,'("  only moment direction is fixed")')
@@ -175,7 +175,7 @@ if (tssxc) then
   write(fnum,'(" scaled spin exchange-correlation (SSXC) enabled")')
   write(fnum,'("  scaling factor : ",G18.10)') ssxc
 end if
-if (ftmtype.ne.0) then
+if (ftmtype /= 0) then
   write(fnum,*)
   write(fnum,'(" fixed tensor moment (FTM) calculation, type : ",I4)') ftmtype
 end if
@@ -306,7 +306,7 @@ else if ((xcgrad == 1).or.(xcgrad == 2)) then
 else if (xcgrad == 3) then
   write(fnum,'(" meta-GGA; using kinetic energy density")')
 end if
-if (dftu.ne.0) then
+if (dftu /= 0) then
   write(fnum,*)
   write(fnum,'("DFT+U calculation")')
   if (dftu == 1) then

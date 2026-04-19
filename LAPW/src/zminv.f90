@@ -15,7 +15,7 @@ INTEGER :: ipiv(n)
 COMPLEX(8) work(n)
 
 CALL zgetrf(n,n,a,n,ipiv,info)
-IF(info.ne.0) THEN 
+IF(info /= 0) THEN 
   WRITE(*,*)
   WRITE(*,'("Error(zminv): unable to invert matrix")')
   WRITE(*,'(" ZGETRF RETURN ed INFO = ",I8)') info
@@ -23,7 +23,7 @@ IF(info.ne.0) THEN
   stop
 ENDIF 
 CALL zgetri(n,a,n,ipiv,work,n,info)
-IF(info.ne.0) THEN 
+IF(info /= 0) THEN 
   WRITE(*,*)
   WRITE(*,'("Error(zminv): unable to invert matrix")')
   WRITE(*,'(" ZGETRI RETURN ed INFO = ",I8)') info

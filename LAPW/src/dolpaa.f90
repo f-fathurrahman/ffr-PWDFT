@@ -21,7 +21,7 @@ integer is,lmo,io
 integer l,m,lm,i
 ! allocatable arrays
 complex(8), allocatable :: a(:,:),b(:,:)
-if (ias.ne.iasph) return
+if (ias /= iasph) return
 is=idxis(ias)
 lmo=lmoapw(is)
 allocate(a(lmo,ngpq),b(lmo,ngp))

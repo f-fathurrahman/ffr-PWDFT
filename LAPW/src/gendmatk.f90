@@ -88,13 +88,13 @@ do j=1,nstsv
   end if
   do ispn=1,nspinor
     do jspn=1,nspinor
-      if (tspndg.and.(ispn.ne.jspn)) cycle
+      if (tspndg.and.(ispn /= jspn)) cycle
       do l=lmin,lmax
         do m1=-l,l
           lm1=idxlm(l,m1)
           do m2=-l,l
             lm2=idxlm(l,m2)
-            if (tlmdg.and.(lm1.ne.lm2)) cycle
+            if (tlmdg.and.(lm1 /= lm2)) cycle
             if (l <= lmaxi) then
               i1=lm1; i2=lm2
               do irc=1,nrci

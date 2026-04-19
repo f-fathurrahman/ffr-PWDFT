@@ -22,7 +22,7 @@ integer i,i1,i2
 real(8) c1,c2,t0,t1,t2
 l=lsp(ist,is)
 k=ksp(ist,is)
-if (((k.ne.l+1).and.(k.ne.l)).or.(m < -k).or.(m > k-1)) then
+if (((k /= l+1).and.(k /= l)).or.(m < -k).or.(m > k-1)) then
   write(*,*)
   write(*,'("Error(wavefcr): mismatched l, k or m : ",3I4)') l,k,m
   write(*,'(" for species ",I4)') is
