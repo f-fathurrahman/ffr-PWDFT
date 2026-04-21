@@ -43,6 +43,7 @@ modstore.f90 \
 modrandom.f90 \
 modphonon.f90 \
 modpw.f90 \
+modgw.f90 \
 modtddft.f90 \
 modvars.f90 \
 oblas_stub.f90 \
@@ -240,28 +241,25 @@ dhmlalo.f90 dhmlaa.f90 \
 olpaaq.f90 olpaloq.f90 \
 hmlaloq.f90 hmlaaq.f90 \
 zfmtctof.f90 drhomagsh.f90 putdevecsv.f90 drhomagk.f90 \
-dolpaa.f90  dolpalo.f90   dolpistl.f90 \
-getdevecfv.f90  getdevecsv.f90 \
-putdevecfv.f90 \
-deveqnfv.f90 \
-dhmlrad.f90 \
-gendcfun.f90 \
-gengqvec.f90 \
-gengkqvec.f90 \
-phdelete.f90 \
-writedvs.f90 \
-init4.f90 \
-dhmlistl.f90 \
-dhmllolo.f90 \
-gendwfsv.f90 \
-dpotxc.f90 \
-gengvsmt.f90 \
-genfxcr.f90 \
-zfmtftoc.f90 \
-dwavefmt.f90 \
-zfmtpack.f90 \
+dolpaa.f90  dolpalo.f90 dolpistl.f90 \
+getdevecfv.f90  getdevecsv.f90 putdevecfv.f90 deveqnfv.f90 \
+dhmlrad.f90 gendcfun.f90 gengqvec.f90 gengkqvec.f90 phdelete.f90 \
+writedvs.f90 init4.f90 dhmlistl.f90 dhmllolo.f90 gendwfsv.f90 \
+dpotxc.f90 gengvsmt.f90 genfxcr.f90 zfmtftoc.f90 \
+dwavefmt.f90 zfmtpack.f90 \
 fxc_pwca.f90 genspfxcr.f90 \
-my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90  my_zpotcoul.f90 \
+hartfock.f90 hflocal.f90 genkmat.f90 eveqnhf.f90 genvmatk.f90 zftwfir.f90 \
+genvbmatk.f90 putkmat.f90 zfcmtinp.f90 genvmmtsv.f90 brzint.f90 \
+vclcore.f90 \
+writedos.f90 dos.f90 genlmirep.f90 gensdmat.f90 \
+bandstr.f90 effmass.f90 \
+geomopt.f90 atpstep.f90 latvstep.f90 \
+genstress.f90 genstrain.f90 symmat.f90 \
+tddftlr.f90 tddftsplr.f90 findqpt.f90 gengqrf.f90 \
+genspchi0.f90 genvchi0.f90 genjlgpr.f90 genspfxcg.f90 genwfsvp.f90 \
+init3.f90 zftrf.f90 genvfxc.f90 genvfxcg.f90 \
+genwgw.f90 zftzf.f90 \
+my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90 my_zpotcoul.f90 \
 my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
 my_rbsht.f90 my_rfip.f90 my_rfmtpack.f90 my_rfplot.f90 my_rfsht.f90 \
 my_symrf.f90 my_symrfir.f90  my_symrfmt.f90 \
