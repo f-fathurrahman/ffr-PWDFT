@@ -22,7 +22,7 @@ call mpi_comm_size(mpicom,np_mpi,ierror)
 ! determine the local MPI process number
 call mpi_comm_rank(mpicom,lp_mpi,ierror)
 ! determine if the local process is the master
-if (lp_mpi.eq.0) then
+if (lp_mpi == 0) then
   mp_mpi=.true.
   write(*,*)
   write(*,'("Elk code version ",I1.1,".",I1.1,".",I2.2," started")') version
@@ -73,8 +73,8 @@ do itask=1,ntasks
 ! synchronise MPI processes
   call mpi_barrier(mpicom,ierror)
 ! check if task can be run with MPI
-  if (lp_mpi.gt.0) then
-    if (any(task.eq.[0,1,2,3,5,15,16,28,29,61,62,63,110,120,135,136,162,170, &
+  if (lp_mpi > 0) then
+    if (any(task == [0,1,2,3,5,15,16,28,29,61,62,63,110,120,135,136,162,170, &
      180,185,188,200,201,205,240,241,270,300,320,330,331,350,351,360,371,372, &
      373,440,460,461,600,610,620,630,640,700,701])) then
       continue

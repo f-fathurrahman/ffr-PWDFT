@@ -83,6 +83,7 @@ SUBROUTINE occupy()
       WRITE(*,*)
       WRITE(*,'("Warning(occupy): not enough empty states for k-point ",I6)') ik
       WRITE(*,'(" and s.c. loop ",I5)') iscl
+      write(*,'(1x,A,2I4,2ES18.10)') 'ik, nststv, occsv, epsocc = ', ik, nstsv, abs(occsv(nstsv,ik)), epsocc
     ENDIF 
   ENDDO 
   fermidos=fermidos*occmax

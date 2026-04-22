@@ -15,6 +15,9 @@ real(8), intent(out) :: d
 integer i
 real(8) t0,t1
 if (n <= 0) return
+
+write(*,*) 'Linear mixing: beta = amixpm(1) = ', beta
+
 ! initialise mixer
 if (iscl <= 0) then
   mu(:)=nu(:)

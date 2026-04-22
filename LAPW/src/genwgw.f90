@@ -43,14 +43,14 @@ do iw=intwgw(1),intwgw(2)
   wgw(iw)=dble(iw)*t1
 end do
 n=minval(abs(intwgw(:)))
-if (n.eq.0) then
+if (n == 0) then
   write(*,*)
   write(*,'("Error(genwgw): not enough Matsubara frequencies")')
   write(*,'("Increase wmaxgw")')
   write(*,*)
   stop
 end if
-if (mod(n,2).eq.0) then
+if (mod(n,2) == 0) then
   nwbs=n
   nwfm=n-1
 else

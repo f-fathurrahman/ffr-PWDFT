@@ -19,7 +19,7 @@ real(8) w1,w2,t1,t2
 ! G-vectors for response functions
 ngrf=1
 do ig=2,ngvec
-  if (gc(ig).gt.gmaxrf) then
+  if (gc(ig) > gmaxrf) then
     ngrf=ig-1
     exit
   end if

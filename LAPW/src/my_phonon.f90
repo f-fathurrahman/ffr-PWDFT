@@ -104,7 +104,7 @@ subroutine my_phonon
   write(*,*) 'iqph = ', iqph
   write(*,*) 'nqpt = ', nqpt
 
-  stop 'stopped here 106'
+  !stop 'stopped here 106'
 
   ! if nothing more to do then return
   if (iqph == 0) then

@@ -25,7 +25,7 @@ real(8) fr1(nrcmtmax),fr2(nrcmtmax)
 complex(8) ylm(lmmaxo)
 ! allocatable arrays
 complex(8), allocatable :: zfft(:)
-if ((ngp.lt.1).or.(ngp.gt.ngvc)) then
+if ((ngp.lt.1).or.(ngp > ngvc)) then
   write(*,*)
   write(*,'("Error(zftzf): ngp out of range : ",I8)') ngp
   write(*,*)
@@ -63,7 +63,7 @@ do ig=1,ngp
       i=1
       j=1
 ! inner part of muffin-tin
-      if (lmaxi.eq.1) then
+      if (lmaxi == 1) then
         do irc=1,nrci
           z1=jlgpr(j,is,ig)*zfmt(i,ias)*y00+jlgpr(j+1,is,ig) &
            *(zfmt(i+1,ias)*ylm(2)+zfmt(i+2,ias)*ylm(3)+zfmt(i+3,ias)*ylm(4))

@@ -6,13 +6,13 @@ F77_OPTS = -Wall $(F77_OPTS_NO_WARN)
 
 F90 = gfortran
 F90_OPTS_NO_WARN = -O3 -cpp -fPIC
-#F90_OPTS = -Wall -fallow-argument-mismatch $(F90_OPTS_NO_WARN)
+F90_OPTS = -Wall -fallow-argument-mismatch $(F90_OPTS_NO_WARN)
 # only for gfortran-11
 
 # Debug
 #F90_OPTS = -Wall -fallow-argument-mismatch -fPIC -cpp -g -fbacktrace -ffpe-trap=zero,overflow,underflow -fcheck=bounds
 # Sometimes it is ok to ignore floating point exception?
-F90_OPTS = -Wall -fallow-argument-mismatch -fPIC -cpp -g -fbacktrace -fcheck=bounds
+#F90_OPTS = -Wall -fallow-argument-mismatch -fPIC -cpp -g -fbacktrace -fcheck=bounds
 # also try with -fcheck=all
 
 LIB_LINALG = -lblas -llapack

@@ -259,8 +259,13 @@ tddftlr.f90 tddftsplr.f90 findqpt.f90 gengqrf.f90 \
 genspchi0.f90 genvchi0.f90 genjlgpr.f90 genspfxcg.f90 genwfsvp.f90 \
 init3.f90 zftrf.f90 genvfxc.f90 genvfxcg.f90 \
 genwgw.f90 zftzf.f90 \
+writehmlbse.f90 writeevbse.f90 dielectric_bse.f90 \
+hmlxbse.f90 hmlxbsek.f90 hmldbse.f90 hmldbsek.f90 \
+genidxbse.f90 writeepsinv.f90 zfmtconj.f90 getcfgq.f90 \
 my_potks.f90 my_potks_no_symm.f90 my_potcoul.f90 my_genzvclmt.f90 my_zpotclmt.f90 my_zpotcoul.f90 \
 my_potxc.f90 my_potxcir.f90  my_potxcmt.f90 \
+epsinv.f90 putepsinv.f90 \
+zflmconj.f90 \
 my_rbsht.f90 my_rfip.f90 my_rfmtpack.f90 my_rfplot.f90 my_rfsht.f90 \
 my_symrf.f90 my_symrfir.f90  my_symrfmt.f90 \
 my_symrvf.f90 my_symrvfir.f90  my_symrvfmt.f90 \
