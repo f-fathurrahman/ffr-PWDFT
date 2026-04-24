@@ -1,94 +1,85 @@
+subroutine my_dielectric()
 
-! Copyright (C) 2002-2009 S. Sharma, J. K. Dewhurst and C. Ambrosch-Draxl.
-! This file is distributed under the terms of the GNU General Public License.
-! See the file COPYING for license details.
-
-!BOP
-! !ROUTINE: dielectric
-! !INTERFACE:
-subroutine dielectric
-! !USES:
 use modmain
-! !DESCRIPTION:
-!   Computes the dielectric tensor, optical conductivity and plasma frequency.
-!   The formulae are taken from {\it Physica Scripta} {\bf T109}, 170 (2004).
-!
-! !REVISION HISTORY:
-!   Created November 2005 (SS and JKD)
-!   Added plasma frequency and intraband contribution (S. Lebegue)
-!   Complete rewrite, 2008 (JKD)
-!   Fixed problem with plasma frequency, 2009 (Marty Blaber and JKD)
-!   Parallelised, 2009 (M. Blaber)
-!EOP
-!BOC
+! Computes the dielectric tensor, optical conductivity and plasma frequency.
+! The formulae are taken from {\it Physica Scripta} {\bf T109}, 170 (2004).
 implicit none
+
 ! local variables
-integer ik,jk,ist,jst
-integer iw,i,j,l
-real(8) w1,w2,wplas
-real(8) eji,x,t1,t2
-complex(8) eta,z1
-character(256) fname
+integer :: ik,jk,ist,jst
+integer :: iw,i,j,l
+real(8) :: w1,w2,wplas
+real(8) :: eji,x,t1,t2
+complex(8) :: eta, z1
+character(256) :: fname
+
 ! allocatable arrays
 real(8), allocatable :: w(:)
 complex(8), allocatable :: pmat(:,:,:),sigma(:)
+
 ! external functions
 real(8), external :: sdelta
 
 ! initialise universal variables
-call init0
-call init1
+call init0()
+call init1()
+
 ! read Fermi energy from file
-call readfermi
+call readfermi()
+
 ! get the eigenvalues and occupancies from file
 do ik=1,nkpt
   call getevalsv(filext,ik,vkl(:,ik),evalsv(:,ik))
   call getoccsv(filext,ik,vkl(:,ik),occsv(:,ik))
 end do
+
 ! allocate local arrays
 allocate(w(nwplot))
 allocate(sigma(nwplot))
+
 ! generate energy grid (always non-negative)
-w1=max(wplot(1),0.d0)
-w2=max(wplot(2),w1)
-t1=(w2-w1)/dble(nwplot)
-do iw=1,nwplot
-  w(iw)=w1+t1*dble(iw-1)
+w1 = max(wplot(1),0.d0)
+w2 = max(wplot(2),w1)
+t1 = (w2-w1)/dble(nwplot)
+do iw = 1,nwplot
+  w(iw) = w1 + t1*dble(iw-1)
 end do
+
 ! i divided by the complex relaxation time
-eta=cmplx(0.d0,swidth,8)
+eta = cmplx(0.d0,swidth,8)
+
 ! loop over dielectric tensor components
 do l=1,noptcomp
-  i=optcomp(1,l)
-  j=optcomp(2,l)
-  wplas=0.d0
-  sigma(:)=0.d0
-
+  i = optcomp(1,l)
+  j = optcomp(2,l)
+  wplas = 0.d0
+  sigma(:) = 0.d0
+  !
   allocate(pmat(nstsv,nstsv,3))
   do ik=1,nkptnr
-! equivalent reduced k-point
-    jk=ivkik(ivk(1,ik),ivk(2,ik),ivk(3,ik))
-! read in the momentum matrix elements
+    ! equivalent reduced k-point
+    jk = ivkik(ivk(1,ik),ivk(2,ik),ivk(3,ik))
+    ! read in the momentum matrix elements
     call getpmat(vkl(:,ik),pmat)
-! valance states
+    ! valance states
     do ist=1,nstsv
-! conduction states
+    ! conduction states
       do jst=1,nstsv
-        z1=pmat(ist,jst,i)*conjg(pmat(ist,jst,j))
-        eji=evalsv(jst,jk)-evalsv(ist,jk)
+        z1 = pmat(ist,jst,i)*conjg(pmat(ist,jst,j))
+        eji = evalsv(jst,jk)-evalsv(ist,jk)
         if ((evalsv(ist,jk) <= efermi).and.(evalsv(jst,jk) > efermi)) then
-! scissor correction
+          ! scissor correction
           if (scissor /= 0.d0) then
-            t1=(eji+scissor)/eji
-            z1=z1*t1**2
-            eji=eji+scissor
+            t1 = (eji + scissor)/eji
+            z1 = z1*t1**2
+            eji = eji + scissor
           end if
         end if
         if (abs(eji) > 1.d-8) then
-          t1=occsv(ist,jk)*(1.d0-occsv(jst,jk)/occmax)/eji
-          sigma(:)=sigma(:)+t1*(z1/(w(:)-eji+eta)+conjg(z1)/(w(:)+eji+eta))
+          t1 = occsv(ist,jk)*(1.d0-occsv(jst,jk)/occmax)/eji
+          sigma(:) = sigma(:) + t1*(z1/(w(:) -eji + eta) + conjg(z1)/(w(:) + eji + eta))
         end if
-! add to the plasma frequency
+        ! add to the plasma frequency
         if (intraband) then
           if (i == j) then
             if (ist == jst) then
@@ -103,16 +94,16 @@ do l=1,noptcomp
   deallocate(pmat)
   z1=zi*wkptnr/omega
   sigma(:)=z1*sigma(:)
-! intraband contribution
+  ! intraband contribution
   if (intraband) then
     if (i == j) then
       wplas=sqrt(occmax*abs(wplas)*fourpi/omega)
-! write the plasma frequency to file
+      ! write the plasma frequency to file
       write(fname,'("PLASMA_",2I1,".OUT")') i,j
       open(50,file=trim(fname),form='FORMATTED')
       write(50,'(G18.10," : plasma frequency")') wplas
       close(50)
-! add the intraband contribution to sigma
+      ! add the intraband contribution to sigma
       t1=wplas**2/fourpi
       do iw=1,nwplot
         sigma(iw)=sigma(iw)+t1/(swidth-zi*w(iw))
@@ -130,18 +121,18 @@ do l=1,noptcomp
     write(50,'(2G18.10)') w(iw),aimag(sigma(iw))
   end do
   close(50)
-! write the dielectric function to file
+  ! write the dielectric function to file
   write(fname,'("EPSILON_",2I1,".OUT")') i,j
   open(50,file=trim(fname),form='FORMATTED')
   t1=0.d0
   if (i == j) t1=1.d0
   do iw=1,nwplot
-    t2=t1-fourpi*aimag(sigma(iw)/(w(iw)+eta))
+    t2 = t1 - fourpi*aimag(sigma(iw)/(w(iw)+eta))
     write(50,'(2G18.10)') w(iw),t2
   end do
   write(50,*)
   do iw=1,nwplot
-    t2=fourpi*dble(sigma(iw)/(w(iw)+eta))
+    t2 = fourpi*dble(sigma(iw)/(w(iw)+eta))
     write(50,'(2G18.10)') w(iw),t2
   end do
   close(50)
@@ -149,19 +140,21 @@ do l=1,noptcomp
   !call writetest(121,'optical conductivity',nv=nwplot,tol=1.d-2,zva=sigma)
 ! end loop over tensor components
 end do
+
 write(*,*)
-write(*,'("Info(dielectric):")')
+write(*,'("Info(my_dielectric):")')
 write(*,'(" dielectric tensor written to EPSILON_ij.OUT")')
 write(*,'(" optical conductivity written to SIGMA_ij.OUT")')
 if (intraband) then
   write(*,'(" plasma frequency written to PLASMA_ij.OUT")')
 end if
 write(*,'(" for components")')
+
 do l=1,noptcomp
   write(*,'("  i = ",I1,", j = ",I1)') optcomp(1:2,l)
 end do
+
 deallocate(w,sigma)
 return
-end subroutine
-!EOC
 
+end subroutine

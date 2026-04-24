@@ -292,7 +292,11 @@ my_getevecfv.f90 \
 my_energy.f90 \
 my_gndstate.f90 \
 my_phonon.f90 \
-my_dyntask.f90 my_phfext.f90
+my_dyntask.f90 my_phfext.f90 \
+my_dielectric.f90 \
+my_genpmat.f90 my_genpmatk.f90 my_putpmat.f90 my_writepmat.f90 \
+my_gradzfmt.f90
+
 
 
 OBJ = $(SRC:.f90=.o)

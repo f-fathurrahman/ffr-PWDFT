@@ -11,7 +11,7 @@ complex(8), intent(in) :: zfmt(npmtmax,natmtot),zfir(ngtot)
 complex(8), intent(out) :: gzfmt(npmtmax,natmtot,3),gzfir(ngtot,3)
 ! local variables
 integer is,ias,ld,i
-integer ig,ifg,nthd
+integer ig,ifg
 complex(8) z1
 ! allocatable arrays
 complex(8), allocatable :: zfft(:)
