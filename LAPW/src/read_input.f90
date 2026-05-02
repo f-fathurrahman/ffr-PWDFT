@@ -2001,9 +2001,11 @@ avecu(:,1)=scu1*avecu(:,1)
 avecu(:,2)=scu2*avecu(:,2)
 avecu(:,3)=scu3*avecu(:,3)
 avecu(:,:)=scu*avecu(:,:)
-! read in atomic species data
-call readspecies
 
+! read in atomic species data
+!call readspecies
+call my_readspecies()
+stop 'ffr DEBUG 2008'
 
 write(*,*) 'Finished reading input files'
 
