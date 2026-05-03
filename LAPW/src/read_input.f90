@@ -2005,7 +2005,7 @@ avecu(:,:)=scu*avecu(:,:)
 ! read in atomic species data
 !call readspecies
 call my_readspecies()
-stop 'ffr DEBUG 2008'
+!stop 'ffr DEBUG 2008'
 
 write(*,*) 'Finished reading input files'
 
