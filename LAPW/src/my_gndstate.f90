@@ -21,7 +21,7 @@ subroutine my_gndstate_setup_mixing()
   use m_my_gndstate
   implicit none
 
-  write(*,*) 'EXIT my_gndstate_setup_mixing'
+  write(*,*) 'ENTER my_gndstate_setup_mixing'
 
   ! size of mixing vector
   n = npmtmax*natmtot + ngtot ! size of mixing vector
@@ -99,6 +99,7 @@ SUBROUTINE my_gndstate(maxscl_in)
   integer :: maxscl_in
 
   ! initialise global variables
+  !ffr: disable this in case init0 and init1 called outside of this subroutine
   !CALL init0()
   !CALL init1()
   ! These call will be handled separately, along with read_input()
@@ -138,6 +139,8 @@ SUBROUTINE my_gndstate(maxscl_in)
     WRITE(6,'("| Loop number : ",I4," |")') iscl
     WRITE(6,'("+--------------------+")')
 
+    write(*,*) 'iscl = ', iscl
+    write(*,*) 'maxscl_in = ', maxscl_in
     IF( iscl >= maxscl_in ) THEN 
       WRITE(6,*)
       WRITE(6,'("Reached self-consistent loops maximum")')
@@ -150,10 +153,11 @@ SUBROUTINE my_gndstate(maxscl_in)
     CALL gencore()
   
     ! find the new linearisation energies
-    CALL linengy()
+    CALL my_linengy()
   
     ! write out the linearisation energies
     CALL writelinen()
+    !stop 'ffr stoped here 160'
   
     ! generate the APW and local-orbital radial functions and integrals
     CALL genapwlofr()
@@ -182,7 +186,7 @@ SUBROUTINE my_gndstate(maxscl_in)
     CALL writefermi()
   
     ! generate the density and magnetisation
-    CALL rhomag()
+    CALL my_rhomag()
 
     ! compute the Kohn-Sham potentials and magnetic fields
     CALL potks(.true.)

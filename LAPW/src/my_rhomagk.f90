@@ -34,9 +34,9 @@ SUBROUTINE my_rhomagk(ik, ngp, igpig, wppt, occsvp, apwalm, evecfv, evecsv)
   ! ALLOCATABLE arrays
   COMPLEX(8), ALLOCATABLE :: wfmt1(:,:,:),wfmt2(:),wfmt3(:,:),wfir(:,:)
 
-  write(*,*)
-  write(*,*) '<div> ENTER my_rhomagk ik = ', ik
-  write(*,*)
+  !write(*,*)
+  !write(*,*) '<div> ENTER my_rhomagk ik = ', ik
+  !write(*,*)
 
   !----------------------------------------------!
   !     muffin-tin density and magnetisation     !
@@ -194,9 +194,9 @@ SUBROUTINE my_rhomagk(ik, ngp, igpig, wppt, occsvp, apwalm, evecfv, evecsv)
 
   DEALLOCATE(wfir)
 
-  write(*,*)
-  write(*,*) '</div> EXIT my_rhomagk ik = ', ik
-  write(*,*)
+  !write(*,*)
+  !write(*,*) '</div> EXIT my_rhomagk ik = ', ik
+  !write(*,*)
 
   RETURN
 

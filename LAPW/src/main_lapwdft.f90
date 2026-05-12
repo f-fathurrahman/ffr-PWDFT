@@ -12,7 +12,12 @@ PROGRAM lapwdft
     !
     select case(task)
     case(0,1)
-      call gndstate()
+      !call gndstate()
+      !
+      ! Call these two subroutines before calling my_gndstate
+      CALL init0()
+      CALL init1()
+      call my_gndstate(1) ! need to pass maxscl_in
     case(2,3)
       call geomopt()
     case(5)

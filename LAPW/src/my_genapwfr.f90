@@ -18,8 +18,7 @@ SUBROUTINE my_genapwfr()
   REAL(8) :: p0(nrmtmax,apwordmax),p1(nrmtmax),p1s(apwordmax)
   REAL(8) :: q0(nrmtmax),q1(nrmtmax),ep0(nrmtmax,apwordmax)
   ! external functions
-  REAL(8) splint
-  EXTERNAL splint
+  REAL(8), external :: splint
 
   write(*,*)
   write(*,*) '<div> ENTER my_genapwfr'

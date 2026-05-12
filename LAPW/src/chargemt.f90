@@ -21,7 +21,7 @@ do ias=1,natmtot
   ! integrate to the muffin-tin radius
   t1 = dot_product(wrmt(1:nr,is), fr(1:nr))
   chgmt(ias) = fourpi*y00*t1
-  write(*,'(1x,A,I4,A,F18.10)') 'ias = ', ias, 'chgmt(ias) = ', chgmt(ias)
+  write(*,'(1x,A,I4,A,F18.10)') 'ias = ', ias, ' chgmt(ias) = ', chgmt(ias)
   chgmttot = chgmttot + chgmt(ias)
 enddo
 return
