@@ -33,10 +33,10 @@ SUBROUTINE match(ngp,vgpc,gpc,sfacgp,apwalm)
   REAL(8), ALLOCATABLE :: djl(:,:,:)
   COMPLEX(8), ALLOCATABLE :: ylmgp(:,:),b(:,:)
   ! external functions
-  REAL(8) polynm
-  external polynm
+  REAL(8), external :: polynm
 
   ALLOCATE(djl(0:lmaxapw,apwordmax,ngp),ylmgp(lmmaxapw,ngp))
+  djl(:,:,:) = 0.d0
   IF(apwordmax > 1) ALLOCATE(b(apwordmax,ngp*(2*lmaxapw+1)))
   
   ! compute the spherical harmonics of the G+p-vectors
@@ -78,6 +78,7 @@ SUBROUTINE match(ngp,vgpc,gpc,sfacgp,apwalm)
       t1=gpc(igp)*rmt(is)
       DO io=1,omax
         CALL sbesseldm(io-1,lmaxapw,t1,djl(:,io,igp))
+        !write(*,*) 'sum djl io igp = ', io, igp, sum(djl(:,io,igp))
       ENDDO 
       t1=1.d0
       DO io=2,omax
@@ -85,28 +86,31 @@ SUBROUTINE match(ngp,vgpc,gpc,sfacgp,apwalm)
         djl(:,io,igp)=t1*djl(:,io,igp)
       ENDDO 
     ENDDO 
+    write(*,*) 'sum djl = ', sum(djl)
     ! loop over atoms
     DO ia=1,natoms(is)
-      ias=idxas(ia,is)
+      ias = idxas(ia,is)
       ! begin loop over l
-      DO l=0,lmaxapw
-        z1=t0*zil(l)
+      DO l = 0,lmaxapw
+        z1 = t0*zil(l)
         ! set up matrix of derivatives
-        DO jo=1,apword(l,is)
-          DO io=1,apword(l,is)
-            a(io,jo)=polynm(io-1,npapw,rsp(ir,is),apwfr(ir,1,jo,l,ias),rmt(is))
+        DO jo = 1,apword(l,is)
+          DO io = 1,apword(l,is)
+            a(io,jo) = polynm(io-1,npapw,rsp(ir,is),apwfr(ir,1,jo,l,ias),rmt(is))
+            write(*,'(1x,A,2I4,2F18.10)') 'polynm: ', io, jo, a(io,jo)
           ENDDO 
         ENDDO 
         ! set up target vectors
-        i=0
+        i = 0
         DO igp=1,ngp
-          z2=z1*sfacgp(igp,ias)
-          DO m=-l,l
-            lm=idxlm(l,m)
-            i=i+1
-            z3=z2*conjg(ylmgp(lm,igp))
-            DO io=1,apword(l,is)
-              b(io,i)=djl(l,io,igp)*z3
+          z2 = z1*sfacgp(igp,ias)
+          DO m = -l,l
+            lm = idxlm(l,m)
+            i = i + 1
+            z3 = z2*conjg(ylmgp(lm,igp))
+            DO io = 1,apword(l,is)
+              b(io,i) = djl(l,io,igp)*z3
+              write(*,'(1x,A,2I4,2F18.10)') 'b(io,i): ', io, i, b(io,i)
             ENDDO 
           ENDDO 
         ENDDO 

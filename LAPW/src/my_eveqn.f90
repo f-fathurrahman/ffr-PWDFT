@@ -20,6 +20,7 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv, evecsv )
   COMPLEX(8), intent(out) :: evecfv(nmatmax,nstfv,nspnfv), evecsv(nstsv,nstsv)
   ! local variables
   INTEGER jspn
+  integer :: ia
   ! allocatable arrays
   COMPLEX(8), ALLOCATABLE :: apwalm(:,:,:,:,:)
   ALLOCATE(apwalm(ngkmax,apwordmax,lmmaxapw,natmtot,nspnfv))
@@ -37,6 +38,9 @@ SUBROUTINE my_eveqn( ik, evalfv, evecfv, evecsv )
     ! find the matching coefficients
     CALL match(ngk(jspn,ik),vgkc(:,:,jspn,ik),gkc(:,jspn,ik), &
                sfacgk(:,:,jspn,ik),apwalm(:,:,:,:,jspn))
+    do ia = 1,natmtot
+      write(*,*) 'sum abs apwalm(:,:,:,ia,jspn) = ', sum(abs(apwalm(1:ngk(jspn,ik),:,:,ia,jspn)))
+    enddo
     !
     ! solve the first-variational eigenvalue equation
     !

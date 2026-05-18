@@ -33,10 +33,11 @@ SUBROUTINE my_eveqnfv(nmatp,ngp,igpig,vpc,vgpc,apwalm,evalfv,evecfv)
 
   ! Hamiltonian
   CALL hmlfv(nmatp,ngp,igpig,vgpc,apwalm,h)
+  write(*,*) 'after hmlfv: sum abs hamiltonian: ', sum( abs(h(1:nmatp,1:nmatp)) )
 
   ! overlap
   CALL olpfv(nmatp,ngp,igpig,apwalm,o)
-
+  write(*,*) 'after olpfv: sum abs overlap: ', sum( abs(o(1:nmatp,1:nmatp)) )
   
   !---------------------------------------!
   !     solve the eigenvalue equation     !

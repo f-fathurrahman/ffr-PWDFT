@@ -18,8 +18,7 @@ SUBROUTINE sbesseldm(m,lmax,x,djl)
   ! automatic arrays
   REAL(8) jl(0:lmax+1)
   ! external functions
-  REAL(8) factnm,factr
-  external factnm,factr
+  REAL(8), external :: factnm,factr
 
   IF( (m < 0) .or. (m > maxm)) THEN 
     WRITE(*,*)

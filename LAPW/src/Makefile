@@ -320,6 +320,7 @@ lib:	$(OBJ)
 	ar rcs liblapwdft.a $(OBJ)
 
 main:	$(OBJ)
+	$(F90) -shared -o liblapwdft.so $(OBJ) $(LIBS)
 	$(F90) $(F90_OPTS) main_lapwdft.f90 -o $(EXE) $(OBJ) $(LIBS)
 
 clean:

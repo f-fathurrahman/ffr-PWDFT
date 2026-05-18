@@ -16,11 +16,15 @@ SUBROUTINE olpfv(nmatp,ngp,igpig,apwalm,o)
   DO i=1,nmatp
     o(1:i,i)=0.d0
   ENDDO 
-  
+  o(:,:) = 0.0d0
+  !write(*,*) 'sum o before olpaa: ', sum( abs(o(1:nmatp,1:nmatp)) )
   DO ias=1,natmtot
     CALL olpaa(tefvr,ias,ngp,apwalm(:,:,:,ias),nmatp,o)
+    write(*,*) 'olpaa: ia, sum abs O = ', ias, sum( abs(o(1:nmatp,1:nmatp)) )
   ENDDO 
+  write(*,*) 'Before olpistl, sum abs O: ', sum( abs(o(1:nmatp,1:nmatp)) )
   CALL olpistl(ngp,igpig,nmatp,o)  
+  write(*,*) 'After olpistl, sum abs O: ', sum( abs(o(1:nmatp,1:nmatp)) )
   
   DO ias=1,natmtot
     CALL olpalo(ias,ngp,apwalm(:,:,:,ias),nmatp,o)

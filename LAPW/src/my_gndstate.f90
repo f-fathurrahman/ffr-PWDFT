@@ -166,8 +166,9 @@ SUBROUTINE my_gndstate(maxscl_in)
     CALL gensocfr()
   
     ! generate the first- and second-variational eigenvectors and eigenvalues
-    CALL genevfsv()
-  
+    !CALL genevfsv()
+    CALL my_genevfsv()
+    
     ! find the occupation numbers and Fermi energy
     CALL occupy()
   

@@ -17,11 +17,14 @@ SUBROUTINE hmlfv(nmatp,ngp,igpig,vgpc,apwalm,h)
   DO i=1,nmatp
     h(1:i,i) = 0.d0
   ENDDO 
-  
+  h(:,:) = 0.d0 ! ffr force to zeros
   DO ias=1,natmtot
-    CALL hmlaa(tefvr,ias,ngp,apwalm(:,:,:,ias),nmatp,h)
+    CALL my_hmlaa(tefvr,ias,ngp,apwalm(:,:,:,ias),nmatp,h)
+    write(*,*) 'hmlaa: ia, sum abs H = ', ias, sum( abs(h(1:nmatp,1:nmatp)) )
   ENDDO 
+  write(*,*) 'Before hmlistl, sum abs H: ', sum( abs(h(1:nmatp,1:nmatp)) )
   CALL hmlistl(ngp,igpig,vgpc,nmatp,h)
+  write(*,*) 'After hmlistl, sum abs H: ', sum( abs(h(1:nmatp,1:nmatp)) )
   
   DO ias=1,natmtot
     CALL hmlalo(ias,ngp,apwalm(:,:,:,ias),nmatp,h)

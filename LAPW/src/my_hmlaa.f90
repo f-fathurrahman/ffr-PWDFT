@@ -76,8 +76,8 @@ SUBROUTINE my_hmlaa(thr,ias,ngp,apwalm,ld,h)
       ENDDO 
     ENDDO 
   ENDDO 
-  !write(*,*) 'Before zmctmu: sum(a) = ', sum(a)
-  !write(*,*) 'Before zmctmu: sum(b) = ', sum(b)
+  write(*,*) 'Before zmctmu: sum abs a = ', sum(a)
+  write(*,*) 'Before zmctmu: sum abs b = ', sum(b)
   CALL zmctmu(thr, lmo, ngp, a, b, ld, h)
   DEALLOCATE(a,b)
   RETURN 
